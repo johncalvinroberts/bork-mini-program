@@ -1,0 +1,88 @@
+<style lang="scss">
+  @import "../styles/variables.scss";
+  @import "../styles/mixins.scss";
+  .modal--blur {
+    // transition: all 3s ease;
+  }
+  .modal--mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(#333, 0.2);
+    box-sizing: border-box;
+    padding: $default-padding * 1.5;
+  }
+  .modal--body {
+    transition: transform 0.3s ease;
+    padding: $default-padding;
+    background-color: $white;
+    position:relative;
+    border: 2px solid $black;
+    box-shadow: $normal-shadow;
+    width: 100%;
+  }
+  .modal--title {
+    @include titletext;
+  }
+  .modal--subtitle {
+    @include subtitletext;
+  }
+  .modal--slot-outer {
+    padding: $default-padding / 2 0;
+  }
+  .modal--close{
+    position: absolute;
+    padding: 5rpx;
+    top: 20rpx;
+    right: 20rpx;
+    width: 40rpx;
+    height: 40rpx;
+  }
+</style>
+<template>
+  <view class="modal--blur" style="visibility: {{isOpen ? 'visible' : 'hidden'}};">
+    <view class="container__flex modal--mask" @tap="maskTap" id="modalmask">
+      <view class="modal--body" style="transform: {{isOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)'}};">
+        <image class="modal--close" src="../icons/close.svg" @tap="maskTap"></image>
+        <view class="modal--title">{{title}}</view>
+        <view class="modal--subtitle"wx:if="{{subtitle}}">{{subtitle}}</view>
+        <view class="modal--slot-outer">
+          <slot></slot>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Modal extends wepy.component {
+    props = {
+      title: {
+        type: String
+      },
+      isOpen: {
+        type: Boolean
+      },
+      subtitle: {
+        type: String
+      }
+    }
+
+    methods = {
+      maskTap (e) {
+        if (e.target.id === e.currentTarget.id) {
+          this.$emit('masktap')
+        }
+      }
+    }
+
+    data = {}
+
+    components = {}
+
+    onLoad () {}
+    onShow () {}
+  }
+</script>

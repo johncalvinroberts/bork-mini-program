@@ -1,0 +1,32 @@
+<style lang="scss">
+  @import '../styles/mixins.scss';
+  .registration--title {
+    @include titletext;
+  }
+
+  .registration--subtitle {
+    @include subtitletext;
+  }
+</style>
+<template>
+  <view class="container padbox--default">
+    <view class="registration--title">加入我们</view>
+    <view class="registration--subtitle">欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想</view>
+  </view>
+  <formparent>
+    stufff
+  </formparent>
+</template>
+<script>
+  import wepy from 'wepy'
+  import FormParent from '@/components/form-parent'
+  export default class Registration extends wepy.page {
+    config = {
+      navigationBarTitleText: '注册'
+    }
+    components = {
+      formparent: FormParent
+    }
+    data = {}
+  }
+  </script>

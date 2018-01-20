@@ -1,0 +1,34 @@
+<style lang="scss">
+  @import '../styles/variables.scss';
+</style>
+<template>
+  <view class="loader-container" style="background-color: {{backgroundColor}};">
+    <view class="preloader-outer {{className}}">
+      <!-- <view class="preloader-spinner"> -->
+        <!-- <view class="preloader-second-spinner"></view> -->
+      <!-- </view> -->
+      <view class="preloader-inner"></view>
+      <view class="preloader-text">
+        <slot></slot>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class CustomLoader extends wepy.component {
+    props = {
+      loadingText: {},
+      backgroundColor: {
+        type: String
+      }
+    }
+    onLoad () {
+    }
+    watch = {
+      backgroundColor (...args) {
+        console.log(args)
+      }
+    }
+  }
+</script>

@@ -1,0 +1,62 @@
+<style lang="scss">
+  .optionsheet--outer{
+    width: 100%;
+    z-index: 99;
+    height:100vh;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  .optionsheet--mask{
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .optionsheet--inner{
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    left: auto;
+    width: 100%;
+    background-color: #fff;
+    padding: 20rpx;
+    padding-bottom:0;
+    box-sizing: border-box;
+  }
+</style>
+<template>
+  <view class="optionsheet--outer" @tap="handleTap" style="visibility: {{isOpen ? 'visible' : 'hidden'}};">
+    <view class="optionsheet--mask" id="sheetmask"></view>
+    <view class="optionsheet--inner" style="transform:{{isOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, 100%, 0)'}}; -webkit-transform:{{isOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, 100%, 0)'}};">
+      <slot></slot>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class OptionSheet extends wepy.component {
+    props = {
+      isOpen: {}
+    }
+
+    data={}
+    methods = {
+      handleTap (e) {
+        if (e.target.id === 'sheetmask') {
+          const param = null
+          this.$apply()
+          this.$emit('tapSheet', param)
+        }
+      }
+    }
+  }
+</script>

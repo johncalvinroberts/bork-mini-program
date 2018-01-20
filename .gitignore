@@ -1,0 +1,13 @@
+.DS_Store
+.idea
+node_modules/
+dist/*
+web/*
+npm-debug.log
+package-lock.json
+yarn.lock
+.wepycache
+
+src/secret_keys.js
+
+.wepycache

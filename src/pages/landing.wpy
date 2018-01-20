@@ -1,0 +1,130 @@
+<style lang="scss">
+@import "../styles/variables.scss";
+.landing--profile {
+  position: absolute;
+  bottom: 40rpx;
+  left: 40rpx;
+}
+.landing--banner {
+  width: 120px;
+  height: 120px;
+}
+.landing--register-btn {
+  font-size: 30rpx;
+  margin-bottom: 20rpx;
+}
+.landing--login {
+  opacity: 0.8;
+  width: 100%;
+  text-align: center;
+  font-size: 22rpx;
+  text-decoration: underline;
+  margin-top:25px;
+}
+</style>
+<template>
+  <view class="container__flex">
+    <view class="flex--item__vertical-center padbox--default">
+      <image class="landing--banner" src="../icons/fido_logo_black.png" mode="aspectFit"></image>
+      <view class="flex--parent__horizontal padbox--default">
+        <view class="flex--item__half btn--default__medium" @tap="navToDogs">看dogs</view>
+        <view class="flex--item__half btn--default__medium" @tap="navToCats">看cats</view>
+      </view>
+      <view class="padbox--default" wx:if="{{!isRegistered || !isRescuer}}">
+        <button class="btn--default" @tap="navToRescueRegistration">我要成为rescuer</button>
+      </view>
+    </view>
+    <image class="icon--default landing--profile" @tap="handleProfileBtn" src="../icons/profile.svg" mode="aspectFit"/>
+  </view>
+  <modal :isOpen.sync="registrationModalOpen"
+          :title="modalTitle"
+          :subtitle="modalSubtitle"
+          @masktap.user="toggleModal">
+    <button class="btn--default__medium landing--register-btn" @tap="navToNormalRegistration">我想领养狗adopter</button>
+    <button class="btn--default__medium landing--register-btn" @tap="navToRescueRegistration">我是rescuer</button>
+    <button class="btn--blank landing--login" @tap="navToLogin">登录</button>
+  </modal>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Modal from '@/components/modal'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '正在加载'
+    }
+
+    components = {
+      modal: Modal
+    }
+
+    mixins = []
+
+    data = {
+      isRegistered: false,
+      isRescuer: false,
+      registrationModalOpen: false,
+      sidesliderOpen: false,
+      modalTitle: '你还没有注册😁',
+      modalSubtitle: '你可以成为adopter还是rescuer.'
+    }
+
+    methods = {
+      handleRescueButton () {
+        console.log(this.isRegistered)
+      },
+      handleProfileBtn () {
+        if (!this.isRegistered) {
+          this.registrationModalOpen = !this.registrationModalOpen
+        } else {
+          this.sidesliderOpen = !this.sidesliderOpen
+        }
+      },
+      navToDogs () {
+        console.log('dogs')
+      },
+      navToCats () {
+        console.log('cats')
+      },
+      toggleModal () {
+        this.registrationModalOpen = !this.registrationModalOpen
+      },
+      toggleSlider () {
+        this.sidesliderOpen = !this.sidesliderOpen
+      },
+      navToNormalRegistration () {
+        wepy.navigateTo({url: 'registration'})
+      },
+      navToRescueRegistration () {},
+      navToLogin () {
+        wepy.navigateTo({
+          url: 'login'
+        })
+      }
+    }
+
+    computed = {}
+
+    onLoad () {
+      wepy.setNavigationBarTitle({
+        title: 'fido'
+      })
+      this.isRegistered = this.$parent.globalData.user.isRegistered
+      this.isRescuer = this.$parent.globalData.user.isRescuer
+      this.$apply()
+    }
+    onUnload () {
+      console.log('landing unload')
+    }
+    onShow () {
+      console.log('show')
+    }
+    onHide () {
+      setTimeout(() => {
+        this.sidesliderOpen = false
+        this.registrationModalOpen = false
+      }, 0)
+    }
+  }
+</script>

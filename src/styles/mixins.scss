@@ -1,0 +1,14 @@
+@import './variables.scss';
+
+@mixin titletext {
+  font-size: 40rpx;
+  color: $black;
+  text-align: center;
+  font-weight: 500;
+  padding-bottom:10rpx;
+}
+
+@mixin subtitletext {
+  padding-bottom:10rpx;
+  text-align: center;
+}

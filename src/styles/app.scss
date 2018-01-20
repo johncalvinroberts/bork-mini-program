@@ -1,0 +1,117 @@
+//BASE STYLES
+@import './variables.scss';
+@import './mixins.scss';
+
+view, view:before, view:after,
+text, text:before, text:after,
+image, image:before, image:after,
+scroll-view, scroll-view:before, scroll-view:after,
+movable-area, movable-area:before, movable-area:after,
+cover-view, cover-view:before, cover-view:after,
+icon, icon:before, icon:after,
+rich-text, rich-text:before, rich-text:after,
+progress, progress:before, progress:after,
+button, button:before, button:after,
+checkbox, checkbox:before, checkbox:after,
+form, form:before, form:after,
+input, input:before, input:after,
+label, label:before, label:after,
+picker, picker:before, picker:after,
+picker-view, picker-view:before, picker-view:after,
+radio, radio:before, radio:after,
+slider, slider:before, slider:after,
+switch, switch:before, switch:after,
+textarea, textarea:before, textarea:after,
+navigator, navigator:before, navigator:after,
+audio, audio:before, audio:after,
+video, video:before, video:after {
+  box-sizing: border-box;
+  &::-webkit-scrollbar {
+    /*隐藏滚轮*/
+    width: 0;
+    height: 0;
+    color: transparent;
+    display: none !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+  display: none !important;
+}
+
+page{
+    background: $white;
+    font-size: 28rpx;
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+
+.container, .container__flex, .container__has-footer, .container__has-tabbar {
+  height: 100%;
+  min-height: 100vh;
+}
+
+.padbox--default {
+  padding: $default-padding;
+}
+
+.container__has-footer {
+  padding-bottom: 100px;
+}
+
+.container__has-tabbar{
+  padding-bottom: 55px;
+}
+
+.container__flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.flex--item__vertical-center{
+  width: 100%;
+  text-align: center;
+  margin-top:-55px;
+}
+.flex--parent__horizontal{
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex--item__half{
+  flex: 0 0 45%;
+}
+
+.btn--default, .btn--default__medium {
+  background: $color-primary;
+  color: $black;
+  border-radius: 0;
+  border: 2px solid $black;
+  box-shadow: $chunky-shadow;
+  &:after{
+    display: none;
+  }
+}
+
+.btn--default__medium{
+  border: 2px solid $black;
+  padding: $default-padding;
+  box-shadow: $chunky-shadow;
+  background-color: $white;
+}
+
+.btn--blank {
+  border: 0px;
+  color: $black;
+  &:after{
+    display: none;
+  }
+}
+
+.icon--default {
+  width: 40px;
+  height: 40px;
+}

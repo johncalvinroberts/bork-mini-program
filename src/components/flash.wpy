@@ -1,0 +1,23 @@
+<style lang="scss">
+  .flash--outer{
+    display: block;
+  }
+</style>
+<template></template>
+<script>
+  import wepy from 'wepy'
+  export default class Flash extends wepy.component {
+    data = {}
+    props = {
+
+    }
+    methods = {
+      showMessage (message) {
+        console.log(message)
+      },
+      showError (errorMessage) {
+        console.log(errorMessage)
+      }
+    }
+  }
+</script>

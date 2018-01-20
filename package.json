@@ -1,0 +1,43 @@
+{
+  "name": "offline-merchant-mini",
+  "version": "1.2.8",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "dev": "wepy build --watch",
+    "build": "cross-env NODE_ENV=production wepy build --no-cache",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "leancloud-storage": "^3.5.0",
+    "wepy": "^1.6.0",
+    "wepy-async-function": "^1.4.4",
+    "wepy-com-toast": "^1.0.2",
+    "wepy-plugin-axios": "^0.1.7",
+    "wepy-web": "^1.5.9"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "cross-env": "^5.1.3",
+    "eslint": "^4.15.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-plugin-html": "^4.0.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "wepy-compiler-babel": "^1.5.1",
+    "wepy-compiler-less": "^1.3.10",
+    "wepy-compiler-sass": "^1.3.7",
+    "wepy-eslint": "^1.5.3"
+  }
+}

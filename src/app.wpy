@@ -1,0 +1,33 @@
+<style lang="scss" src='./styles/app.scss'></style>
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+import UserModel from '@/models/usermodel'
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/landing',
+      'pages/login',
+      'pages/registration'
+    ],
+    window: {
+      backgroundTextStyle: 'dark',
+      navigationBarBackgroundColor: '#FFFFFF',
+      navigationBarTitleText: 'fido',
+      navigationBarTextStyle: 'black'
+    }
+  }
+  globalData = {}
+
+  constructor () {
+    super()
+    this.use('requestfix')
+    this.use('promisify')
+  }
+
+  async onLaunch () {
+    this.globalData.user = new UserModel()
+  }
+}
+</script>

@@ -1,0 +1,17 @@
+<style lang="scss">
+  @import '../styles/variables.scss';
+  .form--outer{
+    border-left: $section-border;
+    padding: $default-padding;
+  }
+</style>
+<template>
+  <view class="form--outer">
+    <slot></slot>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class FormParent extends wepy.component {
+  }
+</script>

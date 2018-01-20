@@ -1,0 +1,154 @@
+
+/*==================================================
+  #Configs
+==================================================*/
+$viewport-increment: 1px !default;
+
+/*==================================================
+  #Layouts
+==================================================*/
+
+$gutter: 30px !default;
+$grid-gutter: 30px !default; // can be a %, but nested grids will have smaller margins because of it
+$radius: 0px !default;
+$block-gutter: $grid-gutter / 2;
+
+// Z-index
+$zindex-searchbar: 90 !default;
+$zindex-menu: 100 !default;
+$zindex-detail: 200 !default;
+$zindex-drawer: 300 !default;
+$zindex-drawer-mask: $zindex-drawer - 1;
+$zindex-notification: 400 !default;
+$zindex-notification-mask: $zindex-notification - 1;
+$zindex-modal: 500;
+
+/*==================================================
+  #Colors
+==================================================*/
+
+$color-primary: color('color-primary') !default;
+
+$color-btn-primary: color('color-btn-primary') !default;
+$color-btn-primary-hover: color('color-btn-primary', lighten 10%) !default;
+$color-btn-primary-active: color('color-btn-primary', lighten 15%) !default;
+$color-btn-primary-text: color('color-btn-text') !default;
+
+
+
+// Text colors
+
+$color-text-light-white: #8d8d8d !default;
+$color-text-light-alpha: #bdbdbd !default;
+$color-text-highlight: #bd1515 !default;
+$color-highlight-toggle: #bd1515 !default;
+
+
+
+$color-text: #353a36 !default;
+$color-text-darker: #262626 !default;
+$color-text-lighter: #969aa1 !default;
+$color-bg: #f3f3f3 !default;
+$color-menu-bg: #fff !default;
+$color-menu-text: #000 !default;
+$color-drawer-bg: #fff !default;
+$color-drawer-text: #000 !default;
+
+
+
+// Backgrounds
+$color-text: #353a36 !default;
+$color-text-darker: #262626 !default;
+$color-text-lighter: #969aa1 !default;
+$color-bg: #f3f3f3;
+$color-menu-bg: #fff;
+$color-menu-text: #000;
+$color-drawer-bg: #fff;
+$color-drawer-text: #000;
+$color-text: #cbcbcb !default;
+$color-text-darker: #ffffff !default;
+$color-text-lighter: #999999 !default;
+$color-bg: #2b2b2b;
+$color-menu-bg: #000;
+$color-menu-text: #fff;
+$color-drawer-bg: #000;
+$color-drawer-text: #fff;
+
+$color-primary-alpha: color('color-primary', alpha 0.8) !default;
+$color-menu-bg-var: color('color-menu-bg') !default;
+$color-menu-text-var: color('color-menu-text') !default;
+$color-menu-text-lighter: color('color-menu-text', readable_lighten 40% 'color-menu-bg') !default;
+$color-menu-text-darker: color('color-menu-text', readable_darken 40% 'color-menu-bg') !default;
+
+// Text link colors
+$color-link: $color-text !default;
+
+// Border (or split line) colors
+// $color-border: color('color-text', lighten 90%) !default;
+$color-border: color('color-text', alpha 0.2) !default;
+
+// Utilities colors
+$color-disabled-bg: color('color-bg', darken 10%) !default;
+$color-disabled-text: color('color-text', lighten 50%) !default;
+$color-disabled-border: color('color-bg', darken 10%) !default;
+
+$color-error-text: #d02e2e !default;
+$color-error-bg: #fff6f6 !default;
+$color-success-text: #56ad6a !default;
+$color-success-bg: #ecfef0 !default;
+
+// Nav
+$color-nav-text: $color-link !default;
+$color-nav-text-hover: color('color-link', lighten 40%) !default;
+$color-nav-bg: $color-bg !default;
+
+// Drawer
+$color-drawer-text: $color-text !default;
+$color-drawer-bg: $color-bg !default;
+$color-drawer-border: $color-border !default;
+
+/*==================================================
+  #Fonts
+==================================================*/
+
+$font-weight-light: 200 !default;
+$font-weight-regular: 400 !default;
+$font-weight-bold: 600 !default;
+
+
+$font-size-base:          14px !default;
+$font-size-large:         18px !default;
+$font-size-small:         12px !default;
+
+$font-size-h1:            30px !default;
+$font-size-h2:            24px !default;
+$font-size-h3:            20px !default;
+$font-size-h4:            18px !default;
+$font-size-h5:            14px !default;
+$font-size-h6:            12px !default;
+
+$line-height-base:        (24 / 14) !default;
+$line-height-computed:    24px !default;
+
+/*==================================================
+  #Components
+==================================================*/
+$radius: 0px !default;
+
+$btn-border-radius-base:  $radius !default;
+$btn-border-radius-large: $radius !default;
+$btn-border-radius-small: $radius !default;
+
+
+$font-weight-product-single-title: 300;
+
+$font-weight-product-list-title: normal;
+$font-weight-product-list-price: 300 !default;
+$font-size-product-list-title: 16px !default;
+$font-size-product-list-price: 16px !default;
+$font-size-product-list-compare_at_price: 14px !default;
+
+// global components size
+$footer-menu-height: 56px;
+$header-menu-height: 56px;
+$header-searchbar-height: 97px;

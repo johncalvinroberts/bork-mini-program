@@ -1,0 +1,32 @@
+<style lang="scss">
+  @import '../styles/mixins.scss';
+  .login--title {
+    @include titletext;
+  }
+  .login--subtitle{
+    @include subtitletext;
+  }
+</style>
+<template>
+  <view class="container padbox--default">
+    <view class="login--title">登录</view>
+    <view class="login--subtitle">fido欢迎nin回来👏</view>
+    <formparent>
+      <view class="">stuff here</view>
+    </formparent>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import FormParent from '@/components/form-parent'
+
+  export default class Login extends wepy.page {
+    config = {
+      navigationBarTitleText: '登录'
+    }
+
+    components = {
+      formparent: FormParent
+    }
+  }
+</script>
