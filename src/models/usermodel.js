@@ -33,10 +33,29 @@ export default class UserModel {
     }
     return false
   }
+  get attributes () {
+    return this.data.attributes
+  }
 
   async authorize () {
     const authData = await wepy.getSetting()
-    console.log(authData)
+    if (!authData.authSetting['scope.userInfo']) {
+      try {
+        await wepy.authorize({scope: 'scope.userInfo'})
+      } catch (err) {
+        console.log('fuuuck')
+        console.log(err)
+        return err
+      }
+    }
+    try {
+      const signedInUser = await this.logIn()
+      return signedInUser
+    } catch (err) {
+      console.log('fuuuck')
+      console.log(err)
+      return err
+    }
   }
 
   async logIn () {
@@ -44,10 +63,22 @@ export default class UserModel {
     try {
       const signedInUser = await Lean.User.loginWithWeapp()
       this.data = signedInUser
-      const current = Lean.User.current()
-      console.log(current)
-    } catch (e) {
-      console.error(e)
+      return signedInUser
+    } catch (err) {
+      console.error(err)
+      return err
+    }
+  }
+
+  async requestLocation () {
+    const authData = await wepy.getSetting()
+    if (!authData.authSetting['scope.userLocation']) {
+      try {
+        await wepy.authorize({scope: 'scope.userLocation'})
+      } catch (err) {
+        console.error(err)
+        return err
+      }
     }
   }
 

@@ -11,7 +11,10 @@
 }
 .landing--register-btn {
   font-size: 30rpx;
-  margin-bottom: 20rpx;
+  margin: 20rpx auto;
+  max-width:200px;
+  width:100%;
+  display: block;
 }
 .landing--login {
   opacity: 0.8;
@@ -20,6 +23,9 @@
   font-size: 22rpx;
   text-decoration: underline;
   margin-top:25px;
+}
+.landing--modal-btns{
+  text-align: center;
 }
 </style>
 <template>
@@ -36,12 +42,14 @@
     </view>
     <image class="icon--default landing--profile" @tap="handleProfileBtn" src="../icons/profile.svg" mode="aspectFit"/>
   </view>
-  <modal :isOpen.sync="registrationModalOpen"
+  <modal :isopen.sync="registrationModalOpen"
           :title="modalTitle"
           :subtitle="modalSubtitle"
           @masktap.user="toggleModal">
-    <button class="btn--default__medium landing--register-btn" @tap="navToNormalRegistration">我想领养狗adopter</button>
-    <button class="btn--default__medium landing--register-btn" @tap="navToRescueRegistration">我是rescuer</button>
+    <view class="landing--modal-btns">
+      <button class="btn--default__medium landing--register-btn" @tap="navToNormalRegistration">我想领养狗adopter</button>
+      <button class="btn--default__medium landing--register-btn" @tap="navToRescueRegistration">我是rescuer</button>
+    </view>
     <button class="btn--blank landing--login" @tap="navToLogin">登录</button>
   </modal>
 </template>
@@ -58,8 +66,6 @@
     components = {
       modal: Modal
     }
-
-    mixins = []
 
     data = {
       isRegistered: false,
@@ -118,13 +124,8 @@
       console.log('landing unload')
     }
     onShow () {
-      console.log('show')
-    }
-    onHide () {
-      setTimeout(() => {
-        this.sidesliderOpen = false
-        this.registrationModalOpen = false
-      }, 0)
+      this.sidesliderOpen = false
+      this.registrationModalOpen = false
     }
   }
 </script>

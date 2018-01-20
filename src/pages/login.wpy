@@ -15,9 +15,13 @@
       <view class="">stuff here</view>
     </formparent>
   </view>
+  <view wx:if="{{isRegistered}}">
+    <redirectmodal :message="message"/>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import RedirectModal from '@/components/redirect-modal'
   import FormParent from '@/components/form-parent'
 
   export default class Login extends wepy.page {
@@ -25,8 +29,18 @@
       navigationBarTitleText: '登录'
     }
 
+    data = {
+      message: '你已经登录了'
+    }
+
     components = {
-      formparent: FormParent
+      formparent: FormParent,
+      redirectmodal: RedirectModal
+    }
+    computed = {
+      isRegistered () {
+        return this.$parent.globalData.user.isRegistered
+      }
     }
   }
 </script>

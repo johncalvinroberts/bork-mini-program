@@ -7,9 +7,9 @@ import UserModel from '@/models/usermodel'
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/registration',
       'pages/landing',
-      'pages/login',
-      'pages/registration'
+      'pages/login'
     ],
     window: {
       backgroundTextStyle: 'dark',
@@ -18,7 +18,10 @@ export default class extends wepy.app {
       navigationBarTextStyle: 'black'
     }
   }
-  globalData = {}
+  globalData = {
+    user: {},
+    isWeb: false
+  }
 
   constructor () {
     super()
@@ -28,6 +31,9 @@ export default class extends wepy.app {
 
   async onLaunch () {
     this.globalData.user = new UserModel()
+    if (window && window.wx) {
+      this.globalData.isWeb = true
+    }
   }
 }
 </script>

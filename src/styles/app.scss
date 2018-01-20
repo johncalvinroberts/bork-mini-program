@@ -79,13 +79,15 @@ page{
 .flex--parent__horizontal{
   display: flex;
   justify-content: space-around;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .flex--item__half{
   flex: 0 0 45%;
 }
 
-.btn--default, .btn--default__medium {
+.btn--default, .btn--default__medium, .btn--default__small, .btn--default__dark {
   background: $color-primary;
   color: $black;
   border-radius: 0;
@@ -96,11 +98,30 @@ page{
   }
 }
 
+.btn--default[disabled], .btn--default__medium[disabled], .btn--default__dark[disabled] {
+  opacity: 0.8;
+}
+
 .btn--default__medium{
   border: 2px solid $black;
   padding: $default-padding;
   box-shadow: $chunky-shadow;
   background-color: $white;
+  max-width: 230px;
+  margin: 10px;
+}
+.btn--default__dark {
+  background-color: $black;
+  color: $white;
+  font-size: $font-small;
+  box-shadow: none;
+}
+.btn--default__small {
+  background-color: $black;
+  color: $white;
+  font-size: $font-xs;
+  max-width: 120rpx;
+  box-shadow: none;
 }
 
 .btn--blank {
@@ -111,7 +132,22 @@ page{
   }
 }
 
+
 .icon--default {
   width: 40px;
   height: 40px;
+}
+
+.icon--inline {
+  width:30px;
+  height:30px;
+  vertical-align:middle;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
 }

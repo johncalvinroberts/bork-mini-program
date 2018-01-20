@@ -1,0 +1,48 @@
+<style lang="scss">
+.redirect--title{
+  padding: 10rpx 0;
+  font-size: 30rpx;
+}
+</style>
+<template>
+  <modal :isopen.sync="isChildOpen" :hasClose.sync="hasClose">
+    <view class="redirect--title">
+      {{message}}
+    </view>
+    <button class="btn--default__small pull-right btn-redirect" @tap="redirect">{{linkname}}</button>
+  </modal>
+</template>
+<script>
+  import wepy from 'wepy'
+  import Modal from '@/components/modal'
+
+  export default class RedirectModal extends wepy.component {
+    props = {
+      link: {
+        type: String,
+        default: 'landing'
+      },
+      linkname: {
+        type: String,
+        default: '回到首页'
+      },
+      message: {
+        type: String
+      }
+    }
+
+    data ={
+      isChildOpen: true,
+      hasClose: false
+    }
+
+    components = {
+      modal: Modal
+    }
+    methods = {
+      redirect () {
+        wepy.navigateTo({url: this.link})
+      }
+    }
+  }
+</script>

@@ -22,6 +22,8 @@
     border: 2px solid $black;
     box-shadow: $normal-shadow;
     width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
   }
   .modal--title {
     @include titletext;
@@ -42,11 +44,11 @@
   }
 </style>
 <template>
-  <view class="modal--blur" style="visibility: {{isOpen ? 'visible' : 'hidden'}};">
+  <view class="modal--blur" style="visibility: {{isopen ? 'visible' : 'hidden'}};">
     <view class="container__flex modal--mask" @tap="maskTap" id="modalmask">
-      <view class="modal--body" style="transform: {{isOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)'}};">
-        <image class="modal--close" src="../icons/close.svg" @tap="maskTap"></image>
-        <view class="modal--title">{{title}}</view>
+      <view class="modal--body" style="transform: {{isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)'}};">
+        <image class="modal--close" src="../icons/close.svg" @tap="maskTap" wx:if="{{hasClose}}"></image>
+        <view class="modal--title" wx:if="{{title}}">{{title}}</view>
         <view class="modal--subtitle"wx:if="{{subtitle}}">{{subtitle}}</view>
         <view class="modal--slot-outer">
           <slot></slot>
@@ -60,13 +62,19 @@
   export default class Modal extends wepy.component {
     props = {
       title: {
-        type: String
+        type: String,
+        default: null
       },
-      isOpen: {
+      isopen: {
         type: Boolean
       },
       subtitle: {
-        type: String
+        type: String,
+        default: null
+      },
+      hasClose: {
+        type: Boolean,
+        default: true
       }
     }
 
