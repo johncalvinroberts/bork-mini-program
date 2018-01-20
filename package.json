@@ -1,6 +1,6 @@
 {
-  "name": "offline-merchant-mini",
-  "version": "1.2.8",
+  "name": "fidofinder-mp",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/app.js",
   "scripts": {
