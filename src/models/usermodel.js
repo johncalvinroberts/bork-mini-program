@@ -1,6 +1,7 @@
 import Lean from '@/utils/av-weapp-min'
 import { appId, appKey } from '@/secret_keys'
 import wepy from 'wepy'
+import isEmpty from 'lodash.isempty'
 
 export default class UserModel {
   constructor () {
@@ -21,10 +22,7 @@ export default class UserModel {
   }
 
   get isRegistered () {
-    if (this.data.attributes) {
-      return true
-    }
-    return false
+    return !isEmpty(this.data)
   }
 
   get isRescuer () {
@@ -34,7 +32,7 @@ export default class UserModel {
     return false
   }
   get attributes () {
-    return this.data.attributes
+    return this.data.attributes || null
   }
 
   async authorize () {
@@ -43,27 +41,26 @@ export default class UserModel {
       try {
         await wepy.authorize({scope: 'scope.userInfo'})
       } catch (err) {
-        console.log('fuuuck')
-        console.log(err)
+        console.error(err)
         return err
       }
     }
     try {
-      const signedInUser = await this.logIn()
-      return signedInUser
+      await this.logIn()
+      return this.data
     } catch (err) {
-      console.log('fuuuck')
-      console.log(err)
+      console.error(err)
       return err
     }
   }
 
   async logIn () {
-    // do a shallow login...just track basic stuff of user
     try {
-      const signedInUser = await Lean.User.loginWithWeapp()
-      this.data = signedInUser
-      return signedInUser
+      const loginPromise = Lean.User.loginWithWeapp()
+      const wxPromise = wepy.getUserInfo()
+      const [loginInfo, {userInfo}] = await Promise.all([loginPromise, wxPromise]) // eslint-disable-line no-unused-vars
+      const updatedUser = await Lean.User.current().set(userInfo).save()
+      this.data = updatedUser.toJSON()
     } catch (err) {
       console.error(err)
       return err

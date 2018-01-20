@@ -18,6 +18,28 @@
         <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>
         使用微信登录
       </button>
+      <block wx:if="{{authData}}">
+        <view class="form-item--default">
+          <view class="form-item--label">名字</view>
+          <view class="form-item--input">{{authData.nickName}}</view>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label">地方</view>
+          <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label">微信👌</view>
+          <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx"/>
+        </view>
+        <view class="form-message">
+          最后一步：认证一下你的账号。你需要给救狗人士提供你的微信号，这样子当你遇到喜欢的狗的时候救狗人士可以更方便的联系你
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label__fullwidth">自我介绍</view>
+          <textarea class="form-item--textinput" @input="handlePersonal"/>
+        </view>
+        <button class="btn--default btn--default__fixed">保存</button>
+      </block>
     </formparent>
   </view>
   <view wx:if="{{isRegistered}}">
@@ -38,25 +60,43 @@
     }
     data = {
       message: '你已经注册了',
-      wechatDisabled: false
+      wechatDisabled: false,
+      isRegistered: false,
+      authData: null,
+      wxUsername: {},
+      personalNote: null
     }
     methods = {
       redirectHome () {
         wepy.navigateTo({url: 'landing'})
       },
-      getWeChat () {
-        const user = this.$parent.globalData.user
-        user.authorize()
-          .then(res => console.log(res))
-          .catch(err => console.error(err))
+      handleWx ({detail}) {
+        this.wxUsername = detail.value
+        this.$apply()
+      },
+      handlePersonal ({detail}) {
+        console.log(detail)
+        this.personalNote = detail.value
       }
     }
-    computed = {
-      isRegistered () {
-        return this.$parent.globalData.user.isRegistered
-      }
-    }
+
+    computed = {}
+
     onShow () {
+      this.isRegistered = !this.$parent.globalData.user.isRegistered
+    }
+
+    async getWeChat () {
+      const user = this.$parent.globalData.user
+      try {
+        const authData = await user.authorize()
+        console.log(authData)
+        this.authData = authData
+        this.$apply()
+      } catch (err) {
+        // actually deal with the error maybe lol
+        console.error(err)
+      }
     }
   }
   </script>

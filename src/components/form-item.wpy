@@ -1,0 +1,33 @@
+<style lang="scss">
+@import '../styles/variables.scss';
+
+</style>
+<template>
+  <input wx:if="{{inputtype === 'text'}}" type="text" class="form-item--default" placeholder="{{placeholder}}" @input="setModel"/>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class FormItem extends wepy.component {
+    props = {
+      model: {
+        type: Object,
+        twoWay: true
+      },
+      label: {
+        type: String
+      },
+      placeholder: {
+        type: String
+      },
+      inputtype: {}
+    }
+
+    methods = {
+      setModel (e) {
+        console.log(e)
+        this.model.value = e
+        this.$apply()
+      }
+    }
+  }
+</script>

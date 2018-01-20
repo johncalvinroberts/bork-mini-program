@@ -87,7 +87,7 @@ page{
   flex: 0 0 45%;
 }
 
-.btn--default, .btn--default__medium, .btn--default__small, .btn--default__dark {
+.btn--default, .btn--default__medium, .btn--default__small, .btn--default__dark, .btn--default__fixed {
   background: $color-primary;
   color: $black;
   border-radius: 0;
@@ -98,7 +98,7 @@ page{
   }
 }
 
-.btn--default[disabled], .btn--default__medium[disabled], .btn--default__dark[disabled] {
+.btn--default[disabled], .btn--default__medium[disabled], .btn--default__dark[disabled], .btn--default__fixed[disabled] {
   opacity: 0.8;
 }
 
@@ -110,6 +110,16 @@ page{
   max-width: 230px;
   margin: 10px;
 }
+
+.btn--default__fixed {
+  position: fixed;
+  width: 200px;
+  bottom: 55px;
+  margin: 0 auto;
+  width: 70%;
+  left: 15%;
+}
+
 .btn--default__dark {
   background-color: $black;
   color: $white;
@@ -150,4 +160,47 @@ page{
 
 .pull-left {
   float: left;
+}
+
+.form-item--default{
+  margin: $default-padding 0;
+  .form-item--label, .form-item--label__fullwidth {
+    display: inline-block;
+    color: $black;
+    font-size: $font-small;
+    font-weight: 400;
+    width:20%;
+    text-align: center;
+    vertical-align:middle;
+    height:1.4rem;
+    border-bottom: $section-border;
+  }
+  .form-item--label__fullwidth {
+    width: 100%;
+    text-align:left;
+    margin-bottom: 10rpx;
+  }
+  .form-item--input {
+    display: inline-block;
+    border-left: $section-border;
+    width: 80%;
+    padding:0 5px;
+    vertical-align:middle;
+    line-height:1.4rem;
+    border-bottom: $section-border;
+  }
+  .form-item--textinput {
+    border: $chunky-border;
+    width: auto;
+  }
+}
+
+
+.form-message {
+ background-color: $light-grey;
+ padding: $default-padding / 2;
+ color: $black;
+ text-align: center;
+ margin-top:40rpx;
+ box-shadow: $normal-shadow;
 }

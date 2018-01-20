@@ -3,6 +3,7 @@
   .form--outer{
     border-left: $section-border;
     padding: $default-padding;
+    padding-bottom:200rpx;
   }
 </style>
 <template>
