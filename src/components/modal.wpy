@@ -13,6 +13,7 @@
     background-color: rgba(#333, 0.2);
     box-sizing: border-box;
     padding: $default-padding * 1.5;
+    z-index: 199;
   }
   .modal--body {
     transition: transform 0.3s ease;
@@ -24,6 +25,7 @@
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    z-index:200;
   }
   .modal--title {
     @include titletext;

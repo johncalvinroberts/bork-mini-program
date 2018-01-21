@@ -7,8 +7,8 @@ import UserModel from '@/models/usermodel'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/registration',
       'pages/landing',
+      'pages/registration',
       'pages/login'
     ],
     window: {

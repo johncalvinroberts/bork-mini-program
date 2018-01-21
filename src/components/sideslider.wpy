@@ -1,4 +1,5 @@
 <style lang="scss">
+@import "../styles/variables.scss";
 .sideslider--outer{
   width: 100%;
   z-index: 99;
@@ -22,43 +23,42 @@
 .sideslider--sheet{
   transition: all 0.3s ease-in-out;
   position: absolute;
-  right: 0;
+  left: 0;
   top: 0;
   bottom: 0;
   width:65%;
   background-color: #fff;
-  padding: 20rpx 40rpx;
+  padding: $default-padding;
   padding-bottom:0;
   box-sizing: border-box;
+  box-shadow: 10px 10px 30px 0 rgba(0,0,0,0.1);
 }
 .sideslider--inner{
   position: relative;
   width: 100%;
+  z-index: 99;
+  padding-top:10px;
 }
 .sideslider__exit-button{
   position: absolute;
-  top:6px;
-  z-index:99;
-  right: 0;
+
   padding: 4px;
 }
-.sideslider__exit-inner{
-  transition: all 0.3s ease;
-  height: 2px;
-  width: 25px;
-  background-color: #000;
-  opacity: 0.8;
+#sideslider-close{
+  position: absolute;
+  top:-40rpx;
+  left: 0;
+  z-index:99;
+  width: 40rpx;
+  height: 40rpx;
 }
 </style>
 <template>
-  <view class="sideslider--outer" style="visibility: {{isOpen ? 'visible' : 'hidden'}};" @tap="handleTapSheet">
+  <view class="sideslider--outer" style="visibility: {{isopen ? 'visible' : 'hidden'}};" @tap="handleTapSheet">
     <view class="sideslider--mask" id="sheetmask"></view>
-    <view class="sideslider--sheet" style="transform:{{isOpen ? 'translate3d(0%,0,0)' : 'translate3d(100%, 0, 0)'}}; -webkit-transform:{{isOpen ? 'translate3d(0%,0,0)' : 'translate3d(100%, 0, 0)'}};">
+    <view class="sideslider--sheet" style="transform:{{isopen ? 'translate3d(0%,0,0)' : 'translate3d(-100%, 0, 0)'}}; -webkit-transform:{{isopen ? 'translate3d(0%,0,0)' : 'translate3d(-100%, 0, 0)'}};">
       <view class="sideslider--inner">
-        <view class="sideslider__exit-button" id="sideslider-exit">
-          <view class="sideslider__exit-inner" style="transform:rotate({{isOpen ? '-45deg' : '0'}}); -webkit-transform:rotate({{isOpen ? '-45deg' : '0'}});"></view>
-          <view class="sideslider__exit-inner" style="transform:rotate({{isOpen ? '45deg' : '0'}}); -webkit-transform:rotate({{isOpen ? '45deg' : '0'}});"></view>
-        </view>
+        <image class="icon--default" src="../icons/close.svg" @tap="handleTapBtn" id="sideslider-close"/>
         <slot></slot>
       </view>
     </view>
@@ -68,14 +68,17 @@
   import wepy from 'wepy'
   export default class SideSlider extends wepy.component {
     props = {
-      isOpen: {}
+      isopen: {}
     }
     methods = {
       handleTapSheet (e) {
-        const isTarget = e.target.id === 'sheetmask' || e.target.id === 'sideslider-exit'
+        const isTarget = e.target.id === 'sheetmask'
         if (isTarget) {
-          this.$emit('tapSheet', null)
+          this.$emit('tapsheet', null)
         }
+      },
+      handleTapBtn (e) {
+        this.$emit('tapsheet', null)
       }
     }
   }

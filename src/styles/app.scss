@@ -118,13 +118,15 @@ page{
   margin: 0 auto;
   width: 70%;
   left: 15%;
+  z-index:99;
 }
 
-.btn--default__dark {
-  background-color: $black;
-  color: $white;
+.btn--default__dark, .btn--default__dark[disabled] {
+  background-color: $black !important;
+  color: $white !important;
   font-size: $font-small;
   box-shadow: none;
+  transition: all 0.3s ease;
 }
 .btn--default__small {
   background-color: $black;
@@ -172,7 +174,7 @@ page{
     width:20%;
     text-align: center;
     vertical-align:middle;
-    height:1.4rem;
+    line-height:1.4rem;
     border-bottom: $section-border;
   }
   .form-item--label__fullwidth {
@@ -187,6 +189,7 @@ page{
     padding:0 5px;
     vertical-align:middle;
     line-height:1.4rem;
+    height:auto;
     border-bottom: $section-border;
   }
   .form-item--textinput {

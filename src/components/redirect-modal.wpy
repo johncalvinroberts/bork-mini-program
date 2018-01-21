@@ -25,15 +25,13 @@
       linkname: {
         type: String,
         default: '回到首页'
-      },
-      message: {
-        type: String
       }
     }
 
     data ={
-      isChildOpen: true,
-      hasClose: false
+      isChildOpen: false,
+      hasClose: false,
+      message: ''
     }
 
     components = {
@@ -42,6 +40,11 @@
     methods = {
       redirect () {
         wepy.navigateTo({url: this.link})
+      },
+      toggleModal ({message}) {
+        this.message = message
+        this.isChildOpen = !this.isChildOpen
+        this.$apply()
       }
     }
   }

@@ -1,0 +1,49 @@
+<style lang="scss">
+@import '../styles/variables.scss';
+  .error--title{
+    font-size: 40rpx;
+    display: inline-block;
+    vertical-align:middle;
+    padding-left:10px;
+  }
+  .error--body{
+    opacity: 0.8;
+    font-size: $font-small;
+    padding:20rpx 10rpx;
+  }
+</style>
+<template>
+  <modal :isopen.sync="errorModalOpen" @masktap.user="handleTap">
+    <view class="error--top">
+      <image class="icon--inline" src="../icons/error.svg"/>
+      <view class="error--title">{{header}}</view>
+      <view class="error--body">{{message}}</view>
+      <button class="btn--default__small pull-right" @tap="handleTap">ok</button>
+    </view>
+  </modal>
+</template>
+<script>
+  import wepy from 'wepy'
+  import Modal from '@/components/modal'
+  export default class ErrorModal extends wepy.component {
+    components ={
+      modal: Modal
+    }
+    data = {
+      errorModalOpen: false,
+      header: null,
+      message: null
+    }
+    methods = {
+      showMessage (param) {
+        this.errorModalOpen = true
+        this.header = param.header
+        this.message = param.message
+        this.$apply()
+      },
+      handleTap () {
+        this.errorModalOpen = false
+      }
+    }
+  }
+</script>

@@ -4,6 +4,8 @@
     border-left: $section-border;
     padding: $default-padding;
     padding-bottom:200rpx;
+    max-width: 500px;
+    margin: 0 auto;
   }
 </style>
 <template>

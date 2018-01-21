@@ -31,13 +31,13 @@
    return __webpack_require__(3);
 })([
 /***** module 0 start *****/
-/***** src/pages/registration.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container padbox--default\">\n    <div class=\"registration--title\">加入我们</div>\n    <div class=\"registration--subtitle\">     欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想\n    </div>\n    <formparent>\n      stufff\n    </formparent>\n  </div>\n  <div v-if=\"(isRegistered)\">\n    <redirectmodal  v-bind:message.once=\"message\"></redirectmodal>\n  </div>\n"},/***** module 0 end *****/
+/***** src/pages/landing.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container__flex\">\n    <div class=\"flex--item__vertical-center padbox--default\">\n      <img class=\"landing--banner\" mode=\"aspectFit\" src=\"icons/fido_logo_black.png\"/>\n      <div class=\"flex--parent__horizontal padbox--default\">\n        <div class=\"flex--item__half btn--default__medium\" @click=\"navToDogs($event)\">看dogs</div>\n        <div class=\"flex--item__half btn--default__medium\" @click=\"navToCats($event)\">看cats</div>\n      </div>\n      <div class=\"padbox--default\" v-if=\"(!isRegistered || !isRescuer)\">\n        <button class=\"btn--default\" @click=\"navToRescueRegistration($event)\">我要成为rescuer</button>\n      </div>\n    </div>\n    <img class=\"icon--default landing--profile\" @click=\"handleProfileBtn($event)\" mode=\"aspectFit\" src=\"icons/profile.svg\"/>\n  </div>\n  <modal  v-bind:isopen.sync=\"registrationModalOpen\" v-bind:title.once=\"modalTitle\" v-bind:subtitle.once=\"modalSubtitle\"  v-on:masktap=\"toggleModal\">\n    <div class=\"landing--modal-btns\">\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToNormalRegistration($event)\">我想领养狗adopter</button>\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToRescueRegistration($event)\">我是rescuer</button>\n    </div>\n    <button class=\"btn--blank landing--login\" @click=\"navToLogin($event)\">登录</button>\n  </modal>\n"},/***** module 0 end *****/
 
 
 /***** module 1 start *****/
-/***** src/pages/landing.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container__flex\">\n    <div class=\"flex--item__vertical-center padbox--default\">\n      <img class=\"landing--banner\" mode=\"aspectFit\" src=\"icons/fido_logo_black.png\"/>\n      <div class=\"flex--parent__horizontal padbox--default\">\n        <div class=\"flex--item__half btn--default__medium\" @click=\"navToDogs($event)\">看dogs</div>\n        <div class=\"flex--item__half btn--default__medium\" @click=\"navToCats($event)\">看cats</div>\n      </div>\n      <div class=\"padbox--default\" v-if=\"(!isRegistered || !isRescuer)\">\n        <button class=\"btn--default\" @click=\"navToRescueRegistration($event)\">我要成为rescuer</button>\n      </div>\n    </div>\n    <img class=\"icon--default landing--profile\" @click=\"handleProfileBtn($event)\" mode=\"aspectFit\" src=\"icons/profile.svg\"/>\n  </div>\n  <modal  v-bind:isopen.sync=\"registrationModalOpen\" v-bind:title.once=\"modalTitle\" v-bind:subtitle.once=\"modalSubtitle\"  v-on:masktap=\"toggleModal\">\n    <div class=\"landing--modal-btns\">\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToNormalRegistration($event)\">我想领养狗adopter</button>\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToRescueRegistration($event)\">我是rescuer</button>\n    </div>\n    <button class=\"btn--blank landing--login\" @click=\"navToLogin($event)\">登录</button>\n  </modal>\n"},/***** module 1 end *****/
+/***** src/pages/registration.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container padbox--default\">\n    <div class=\"registration--title\">加入我们</div>\n    <div class=\"registration--subtitle\">     欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想\n    </div>\n    <formparent>\n      <button class=\"btn--default__dark\" @click=\"getWeChat($event)\" :disabled=\"(wechatDisabled)\">\n        <img class=\"icon--inline\" mode=\"aspectFit\" src=\"icons/wechat_white.svg\"/>\n        使用微信登录\n      </button>\n      <div v-if=\"(authData)\">\n        <div class=\"form-item--default\">\n          <div class=\"form-item--label\">名字</div>\n          <div class=\"form-item--input\">{{authData.nickName}}</div>\n        </div>\n        <div class=\"form-item--default\">\n          <div class=\"form-item--label\">地方</div>\n          <div class=\"form-item--input\">{{authData.province}}, {{authData.city}}</div>\n        </div>\n        <div class=\"form-item--default\">\n          <div class=\"form-item--label\">微信👌</div>\n          <input type=\"text\" placeholder=\"请输入你的微信号\" class=\"form-item--input\" @input=\"handleWx($event)\"/>\n        </div>\n        <div class=\"form-message\">\n          最后一步：认证一下你的账号。你需要给救狗人士提供你的微信号，这样子当你遇到喜欢的狗的时候救狗人士可以更方便的联系你\n        </div>\n        <div class=\"form-item--default\">\n          <div class=\"form-item--label__fullwidth\">自我介绍</div>\n          <textarea class=\"form-item--textinput\" @input=\"handlePersonal($event)\"></textarea>\n        </div>\n        <button class=\"btn--default btn--default__fixed\">保存</button>\n      </div>\n    </formparent>\n  </div>\n  <div v-if=\"(isRegistered)\">\n    <redirectmodal  v-bind:message.once=\"message\"></redirectmodal>\n  </div>\n"},/***** module 1 end *****/
 
 
 /***** module 2 start *****/
@@ -85,7 +85,7 @@ var _default = function (_wepy$app) {
     var _this = _possibleConstructorReturn(this, (_default.__proto__ || Object.getPrototypeOf(_default)).call(this));
 
     _this.config = {
-      pages: ['pages/registration', 'pages/landing', 'pages/login'],
+      pages: ['pages/landing', 'pages/registration', 'pages/login'],
       window: {
         backgroundTextStyle: 'dark',
         navigationBarBackgroundColor: '#FFFFFF',
@@ -115,9 +115,8 @@ var _default = function (_wepy$app) {
                 if (window && window.wx) {
                   this.globalData.isWeb = true;
                 }
-                console.log(this.globalData.isWeb);
 
-              case 3:
+              case 2:
               case 'end':
                 return _context.stop();
             }
@@ -137,7 +136,7 @@ var _default = function (_wepy$app) {
 }(_wepy2.default.app);
 
 exports.default = _default;
-__wepy_require(4).default.$createApp(_default, {"routes":{"pages/registration":7,"pages/landing":10,"pages/login":12},"style":[36,37,38,39,40,41,42],"components":{},"apis":{}});
+__wepy_require(4).default.$createApp(_default, {"routes":{"pages/landing":7,"pages/registration":9,"pages/login":12},"style":[37,38,39,40,41,42,43],"components":{},"apis":{}});
 
 },/***** module 3 end *****/
 
@@ -225,6 +224,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _avWeappMin = __wepy_require(27);
@@ -236,6 +237,10 @@ var _secret_keys = __wepy_require(28);
 var _wepy = __wepy_require(4);
 
 var _wepy2 = _interopRequireDefault(_wepy);
+
+var _lodash = __wepy_require(29);
+
+var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -279,14 +284,47 @@ var UserModel = function () {
               case 2:
                 authData = _context.sent;
 
-                console.log(authData);
+                if (authData.authSetting['scope.userInfo']) {
+                  _context.next = 13;
+                  break;
+                }
 
-              case 4:
+                _context.prev = 4;
+                _context.next = 7;
+                return _wepy2.default.authorize({ scope: 'scope.userInfo' });
+
+              case 7:
+                _context.next = 13;
+                break;
+
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context['catch'](4);
+
+                console.error(_context.t0);
+                return _context.abrupt('return', _context.t0);
+
+              case 13:
+                _context.prev = 13;
+                _context.next = 16;
+                return this.logIn();
+
+              case 16:
+                return _context.abrupt('return', this.data);
+
+              case 19:
+                _context.prev = 19;
+                _context.t1 = _context['catch'](13);
+
+                console.error(_context.t1);
+                return _context.abrupt('return', _context.t1);
+
+              case 23:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[4, 9], [13, 19]]);
       }));
 
       function authorize() {
@@ -299,37 +337,46 @@ var UserModel = function () {
     key: 'logIn',
     value: function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var signedInUser, current;
+        var loginPromise, wxPromise, _ref3, _ref4, loginInfo, userInfo, updatedUser;
+
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.prev = 0;
-                _context2.next = 3;
-                return _avWeappMin2.default.User.loginWithWeapp();
+                loginPromise = _avWeappMin2.default.User.loginWithWeapp();
+                wxPromise = _wepy2.default.getUserInfo();
+                _context2.next = 5;
+                return Promise.all([loginPromise, wxPromise]);
 
-              case 3:
-                signedInUser = _context2.sent;
+              case 5:
+                _ref3 = _context2.sent;
+                _ref4 = _slicedToArray(_ref3, 2);
+                loginInfo = _ref4[0];
+                userInfo = _ref4[1].userInfo;
+                _context2.next = 11;
+                return _avWeappMin2.default.User.current().set(userInfo).save();
 
-                this.data = signedInUser;
-                current = _avWeappMin2.default.User.current();
+              case 11:
+                updatedUser = _context2.sent;
 
-                console.log(current);
-                _context2.next = 12;
+                this.data = updatedUser.toJSON();
+                _context2.next = 19;
                 break;
 
-              case 9:
-                _context2.prev = 9;
+              case 15:
+                _context2.prev = 15;
                 _context2.t0 = _context2['catch'](0);
 
                 console.error(_context2.t0);
+                return _context2.abrupt('return', _context2.t0);
 
-              case 12:
+              case 19:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 9]]);
+        }, _callee2, this, [[0, 15]]);
       }));
 
       function logIn() {
@@ -339,6 +386,55 @@ var UserModel = function () {
       return logIn;
     }()
   }, {
+    key: 'requestLocation',
+    value: function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var authData;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _wepy2.default.getSetting();
+
+              case 2:
+                authData = _context3.sent;
+
+                if (authData.authSetting['scope.userLocation']) {
+                  _context3.next = 13;
+                  break;
+                }
+
+                _context3.prev = 4;
+                _context3.next = 7;
+                return _wepy2.default.authorize({ scope: 'scope.userLocation' });
+
+              case 7:
+                _context3.next = 13;
+                break;
+
+              case 9:
+                _context3.prev = 9;
+                _context3.t0 = _context3['catch'](4);
+
+                console.error(_context3.t0);
+                return _context3.abrupt('return', _context3.t0);
+
+              case 13:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[4, 9]]);
+      }));
+
+      function requestLocation() {
+        return _ref5.apply(this, arguments);
+      }
+
+      return requestLocation;
+    }()
+  }, {
     key: 'register',
     value: function register() {
       console.log('hey');
@@ -346,10 +442,7 @@ var UserModel = function () {
   }, {
     key: 'isRegistered',
     get: function get() {
-      if (this.data.attributes) {
-        return true;
-      }
-      return false;
+      return !(0, _lodash2.default)(this.data);
     }
   }, {
     key: 'isRescuer',
@@ -358,6 +451,11 @@ var UserModel = function () {
         return true;
       }
       return false;
+    }
+  }, {
+    key: 'attributes',
+    get: function get() {
+      return this.data.attributes || null;
     }
   }]);
 
@@ -369,195 +467,6 @@ exports.default = UserModel;
 
 
 /***** module 7 start *****/
-/***** src/pages/registration.wpy *****/
-function(module, exports, __wepy_require) {'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _wepy = __wepy_require(4);
-
-var _wepy2 = _interopRequireDefault(_wepy);
-
-var _formParent = __wepy_require(8);
-
-var _formParent2 = _interopRequireDefault(_formParent);
-
-var _redirectModal = __wepy_require(9);
-
-var _redirectModal2 = _interopRequireDefault(_redirectModal);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Registration = function (_wepy$page) {
-  _inherits(Registration, _wepy$page);
-
-  function Registration() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    _classCallCheck(this, Registration);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Registration.__proto__ || Object.getPrototypeOf(Registration)).call.apply(_ref, [this].concat(args))), _this), _this.config = {
-      navigationBarTitleText: '注册'
-    }, _this.$repeat = {}, _this.$props = { "redirectmodal": { "xmlns:v-bind": "", "v-bind:message.once": "message" } }, _this.$events = {}, _this.components = {
-      formparent: _formParent2.default,
-      redirectmodal: _redirectModal2.default
-    }, _this.data = {
-      message: '你已经注册了'
-    }, _this.methods = {
-      redirectHome: function redirectHome() {
-        _wepy2.default.navigateTo({ url: 'landing' });
-      }
-    }, _this.computed = {
-      isRegistered: function isRegistered() {
-        console.log(this.$parent.data);
-        return !this.$parent.globalData.user.isRegistered;
-      }
-    }, _temp), _possibleConstructorReturn(_this, _ret);
-  }
-
-  _createClass(Registration, [{
-    key: 'onShow',
-    value: function onShow() {}
-  }]);
-
-  return Registration;
-}(_wepy2.default.page);
-
-exports.default = Registration;
-
-exports.default.template=__wepy_require(0);
-},/***** module 7 end *****/
-
-
-/***** module 8 start *****/
-/***** src/components/form-parent.wpy *****/
-function(module, exports, __wepy_require) {'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _wepy = __wepy_require(4);
-
-var _wepy2 = _interopRequireDefault(_wepy);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var FormParent = function (_wepy$component) {
-  _inherits(FormParent, _wepy$component);
-
-  function FormParent() {
-    _classCallCheck(this, FormParent);
-
-    return _possibleConstructorReturn(this, (FormParent.__proto__ || Object.getPrototypeOf(FormParent)).apply(this, arguments));
-  }
-
-  return FormParent;
-}(_wepy2.default.component);
-
-exports.default = FormParent;
-
-exports.default.template=__wepy_require(13);
-},/***** module 8 end *****/
-
-
-/***** module 9 start *****/
-/***** src/components/redirect-modal.wpy *****/
-function(module, exports, __wepy_require) {'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _wepy = __wepy_require(4);
-
-var _wepy2 = _interopRequireDefault(_wepy);
-
-var _modal = __wepy_require(11);
-
-var _modal2 = _interopRequireDefault(_modal);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var RedirectModal = function (_wepy$component) {
-  _inherits(RedirectModal, _wepy$component);
-
-  function RedirectModal() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    _classCallCheck(this, RedirectModal);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = RedirectModal.__proto__ || Object.getPrototypeOf(RedirectModal)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
-      link: {
-        type: String,
-        default: 'landing'
-      },
-      linkname: {
-        type: String,
-        default: '回到首页'
-      },
-      message: {
-        type: String
-      }
-    }, _this.data = {
-      isChildOpen: true,
-      hasClose: false
-    }, _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "isChildOpen", "v-bind:hasClose.sync": "hasClose" } }, _this.$events = {}, _this.components = {
-      modal: _modal2.default
-    }, _this.methods = {
-      redirect: function redirect() {
-        _wepy2.default.navigateTo({ url: this.link });
-      }
-    }, _temp), _possibleConstructorReturn(_this, _ret);
-  }
-
-  return RedirectModal;
-}(_wepy2.default.component);
-
-exports.default = RedirectModal;
-
-exports.default.template=__wepy_require(14);
-},/***** module 9 end *****/
-
-
-/***** module 10 start *****/
 /***** src/pages/landing.wpy *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -572,7 +481,7 @@ var _wepy = __wepy_require(4);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
-var _modal = __wepy_require(11);
+var _modal = __wepy_require(8);
 
 var _modal2 = _interopRequireDefault(_modal);
 
@@ -602,7 +511,7 @@ var Index = function (_wepy$page) {
       navigationBarTitleText: '正在加载'
     }, _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "registrationModalOpen", "v-bind:title.once": "modalTitle", "v-bind:subtitle.once": "modalSubtitle", "xmlns:v-on": "" } }, _this.$events = { "modal": { "v-on:masktap": "toggleModal" } }, _this.components = {
       modal: _modal2.default
-    }, _this.mixins = [], _this.data = {
+    }, _this.data = {
       isRegistered: false,
       isRescuer: false,
       registrationModalOpen: false,
@@ -672,11 +581,11 @@ var Index = function (_wepy$page) {
 
 exports.default = Index;
 
-exports.default.template=__wepy_require(1);
-},/***** module 10 end *****/
+exports.default.template=__wepy_require(0);
+},/***** module 7 end *****/
 
 
-/***** module 11 start *****/
+/***** module 8 start *****/
 /***** src/components/modal.wpy *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -751,6 +660,255 @@ var Modal = function (_wepy$component) {
 
 exports.default = Modal;
 
+exports.default.template=__wepy_require(13);
+},/***** module 8 end *****/
+
+
+/***** module 9 start *****/
+/***** src/pages/registration.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _wepy = __wepy_require(4);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+var _formParent = __wepy_require(10);
+
+var _formParent2 = _interopRequireDefault(_formParent);
+
+var _redirectModal = __wepy_require(11);
+
+var _redirectModal2 = _interopRequireDefault(_redirectModal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Registration = function (_wepy$page) {
+  _inherits(Registration, _wepy$page);
+
+  function Registration() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Registration);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Registration.__proto__ || Object.getPrototypeOf(Registration)).call.apply(_ref, [this].concat(args))), _this), _this.config = {
+      navigationBarTitleText: '注册'
+    }, _this.$repeat = {}, _this.$props = { "redirectmodal": { "xmlns:v-bind": "", "v-bind:message.once": "message" } }, _this.$events = {}, _this.components = {
+      formparent: _formParent2.default,
+      redirectmodal: _redirectModal2.default
+    }, _this.data = {
+      message: '你已经注册了',
+      wechatDisabled: false,
+      isRegistered: false,
+      authData: null,
+      wxUsername: {},
+      personalNote: null
+    }, _this.methods = {
+      redirectHome: function redirectHome() {
+        _wepy2.default.navigateTo({ url: 'landing' });
+      },
+      handleWx: function handleWx(_ref2) {
+        var detail = _ref2.detail;
+
+        this.wxUsername = detail.value;
+        this.$apply();
+      },
+      handlePersonal: function handlePersonal(_ref3) {
+        var detail = _ref3.detail;
+
+        console.log(detail);
+        this.personalNote = detail.value;
+      }
+    }, _this.computed = {}, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Registration, [{
+    key: 'onShow',
+    value: function onShow() {
+      this.isRegistered = this.$parent.globalData.user.isRegistered;
+    }
+  }, {
+    key: 'getWeChat',
+    value: function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var user, authData;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                user = this.$parent.globalData.user;
+                _context.prev = 1;
+                _context.next = 4;
+                return user.authorize();
+
+              case 4:
+                authData = _context.sent;
+
+                console.log(authData);
+                this.authData = authData;
+                this.$apply();
+                _context.next = 13;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context['catch'](1);
+
+                // actually deal with the error maybe lol
+                console.error(_context.t0);
+
+              case 13:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[1, 10]]);
+      }));
+
+      function getWeChat() {
+        return _ref4.apply(this, arguments);
+      }
+
+      return getWeChat;
+    }()
+  }]);
+
+  return Registration;
+}(_wepy2.default.page);
+
+exports.default = Registration;
+
+exports.default.template=__wepy_require(1);
+},/***** module 9 end *****/
+
+
+/***** module 10 start *****/
+/***** src/components/form-parent.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _wepy = __wepy_require(4);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FormParent = function (_wepy$component) {
+  _inherits(FormParent, _wepy$component);
+
+  function FormParent() {
+    _classCallCheck(this, FormParent);
+
+    return _possibleConstructorReturn(this, (FormParent.__proto__ || Object.getPrototypeOf(FormParent)).apply(this, arguments));
+  }
+
+  return FormParent;
+}(_wepy2.default.component);
+
+exports.default = FormParent;
+
+exports.default.template=__wepy_require(14);
+},/***** module 10 end *****/
+
+
+/***** module 11 start *****/
+/***** src/components/redirect-modal.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _wepy = __wepy_require(4);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+var _modal = __wepy_require(8);
+
+var _modal2 = _interopRequireDefault(_modal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RedirectModal = function (_wepy$component) {
+  _inherits(RedirectModal, _wepy$component);
+
+  function RedirectModal() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, RedirectModal);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = RedirectModal.__proto__ || Object.getPrototypeOf(RedirectModal)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
+      link: {
+        type: String,
+        default: 'landing'
+      },
+      linkname: {
+        type: String,
+        default: '回到首页'
+      },
+      message: {
+        type: String
+      }
+    }, _this.data = {
+      isChildOpen: true,
+      hasClose: false
+    }, _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "isChildOpen", "v-bind:hasClose.sync": "hasClose" } }, _this.$events = {}, _this.components = {
+      modal: _modal2.default
+    }, _this.methods = {
+      redirect: function redirect() {
+        _wepy2.default.navigateTo({ url: this.link });
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  return RedirectModal;
+}(_wepy2.default.component);
+
+exports.default = RedirectModal;
+
 exports.default.template=__wepy_require(15);
 },/***** module 11 end *****/
 
@@ -764,15 +922,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _wepy = __wepy_require(4);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
-var _redirectModal = __wepy_require(9);
+var _redirectModal = __wepy_require(11);
 
 var _redirectModal2 = _interopRequireDefault(_redirectModal);
 
-var _formParent = __wepy_require(8);
+var _formParent = __wepy_require(10);
 
 var _formParent2 = _interopRequireDefault(_formParent);
 
@@ -801,17 +961,20 @@ var Login = function (_wepy$page) {
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Login.__proto__ || Object.getPrototypeOf(Login)).call.apply(_ref, [this].concat(args))), _this), _this.config = {
       navigationBarTitleText: '登录'
     }, _this.data = {
-      message: '你已经登录了'
+      message: '你已经登录了',
+      isRegistered: false
     }, _this.$repeat = {}, _this.$props = { "redirectmodal": { "xmlns:v-bind": "", "v-bind:message.once": "message" } }, _this.$events = {}, _this.components = {
       formparent: _formParent2.default,
       redirectmodal: _redirectModal2.default
-    }, _this.computed = {
-      isRegistered: function isRegistered() {
-        console.log(this.$parent.data);
-        return !this.$parent.globalData.user.isRegistered;
-      }
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    }, _this.computed = {}, _temp), _possibleConstructorReturn(_this, _ret);
   }
+
+  _createClass(Login, [{
+    key: 'onShow',
+    value: function onShow() {
+      this.isRegistered = this.$parent.globalData.user.isRegistered;
+    }
+  }]);
 
   return Login;
 }(_wepy2.default.page);
@@ -823,18 +986,18 @@ exports.default.template=__wepy_require(2);
 
 
 /***** module 13 start *****/
-/***** src/components/form-parent.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"form--outer\">\n    <slot></slot>\n  </div>\n"},/***** module 13 end *****/
+/***** src/components/modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"modal--blur\" :style=\"'visibility: ' + (isopen ? 'visible' : 'hidden') + ';'\">\n    <div class=\"container__flex modal--mask\" @click=\"maskTap($event)\" id=\"modalmask\">\n      <div class=\"modal--body\" :style=\"'transform: ' + (isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)') + ';'\">\n        <img class=\"modal--close\" @click=\"maskTap($event)\" src=\"icons/close.svg\" v-if=\"(hasClose)\"/>\n        <div class=\"modal--title\" v-if=\"(title)\">{{title}}</div>\n        <div class=\"modal--subtitle\" v-if=\"(subtitle)\">{{subtitle}}</div>\n        <div class=\"modal--slot-outer\">\n          <slot></slot>\n        </div>\n      </div>\n    </div>\n  </div>\n"},/***** module 13 end *****/
 
 
 /***** module 14 start *****/
-/***** src/components/redirect-modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <modal  v-bind:isopen.sync=\"isChildOpen\" v-bind:hasClose.sync=\"hasClose\">\n    <div class=\"redirect--title\">\n      {{message}}\n    </div>\n    <button class=\"btn--default__small pull-right btn-redirect\" @click=\"redirect($event)\">{{linkname}}</button>\n  </modal>\n"},/***** module 14 end *****/
+/***** src/components/form-parent.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"form--outer\">\n    <slot></slot>\n  </div>\n"},/***** module 14 end *****/
 
 
 /***** module 15 start *****/
-/***** src/components/modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"modal--blur\" :style=\"'visibility: ' + (isopen ? 'visible' : 'hidden') + ';'\">\n    <div class=\"container__flex modal--mask\" @click=\"maskTap($event)\" id=\"modalmask\">\n      <div class=\"modal--body\" :style=\"'transform: ' + (isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)') + ';'\">\n        <img class=\"modal--close\" @click=\"maskTap($event)\" src=\"icons/close.svg\" v-if=\"(hasClose)\"/>\n        <div class=\"modal--title\" v-if=\"(title)\">{{title}}</div>\n        <div class=\"modal--subtitle\" v-if=\"(subtitle)\">{{subtitle}}</div>\n        <div class=\"modal--slot-outer\">\n          <slot></slot>\n        </div>\n      </div>\n    </div>\n  </div>\n"},/***** module 15 end *****/
+/***** src/components/redirect-modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <modal  v-bind:isopen.sync=\"isChildOpen\" v-bind:hasClose.sync=\"hasClose\">\n    <div class=\"redirect--title\">\n      {{message}}\n    </div>\n    <button class=\"btn--default__small pull-right btn-redirect\" @click=\"redirect($event)\">{{linkname}}</button>\n  </modal>\n"},/***** module 15 end *****/
 
 
 /***** module 16 start *****/
@@ -843,7 +1006,7 @@ function(module, exports, __wepy_require) {'use strict';
 
 exports.__esModule = true;
 
-var _native = __wepy_require(29);
+var _native = __wepy_require(30);
 
 var _native2 = _interopRequireDefault(_native);
 
@@ -986,7 +1149,7 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _native = __wepy_require(29);
+var _native = __wepy_require(30);
 
 var _native2 = _interopRequireDefault(_native);
 
@@ -1533,11 +1696,11 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _vue = __wepy_require(30);
+var _vue = __wepy_require(31);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _vueRouter = __wepy_require(31);
+var _vueRouter = __wepy_require(32);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
@@ -1545,7 +1708,7 @@ var _event = __wepy_require(19);
 
 var _event2 = _interopRequireDefault(_event);
 
-var _word = __wepy_require(32);
+var _word = __wepy_require(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2088,17 +2251,17 @@ function(module, exports, __wepy_require) {'use strict';
 
 exports.__esModule = true;
 
-var _vue = __wepy_require(30);
+var _vue = __wepy_require(31);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _axios = __wepy_require(33);
+var _axios = __wepy_require(34);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _query = __wepy_require(34);
+var _query = __wepy_require(35);
 
-var _device = __wepy_require(35);
+var _device = __wepy_require(36);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7126,15 +7289,603 @@ exports.appKey = appKey;
 
 
 /***** module 29 start *****/
+/***** node_modules/lodash.isempty/index.js *****/
+function(module, exports, __wepy_require) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    mapTag = '[object Map]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    setTag = '[object Set]',
+    weakMapTag = '[object WeakMap]';
+
+var dataViewTag = '[object DataView]';
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined,
+    propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
+    nativeKeys = overArg(Object.keys, Object);
+
+/* Built-in method references that are verified to be native. */
+var DataView = getNative(root, 'DataView'),
+    Map = getNative(root, 'Map'),
+    Promise = getNative(root, 'Promise'),
+    Set = getNative(root, 'Set'),
+    WeakMap = getNative(root, 'WeakMap');
+
+/** Detect if properties shadowing those on `Object.prototype` are non-enumerable. */
+var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = toSource(DataView),
+    mapCtorString = toSource(Map),
+    promiseCtorString = toSource(Promise),
+    setCtorString = toSource(Set),
+    weakMapCtorString = toSource(WeakMap);
+
+/**
+ * The base implementation of `getTag`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  return objectToString.call(value);
+}
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+var getTag = baseGetTag;
+
+// Fallback for data views, maps, sets, and weak maps in IE 11,
+// for data views in Edge < 14, and promises in Node.js.
+if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = objectToString.call(value),
+        Ctor = result == objectTag ? value.constructor : undefined,
+        ctorString = Ctor ? toSource(Ctor) : undefined;
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to process.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || stubFalse;
+
+/**
+ * Checks if `value` is an empty object, collection, map, or set.
+ *
+ * Objects are considered empty if they have no own enumerable string keyed
+ * properties.
+ *
+ * Array-like values such as `arguments` objects, arrays, buffers, strings, or
+ * jQuery-like collections are considered empty if they have a `length` of `0`.
+ * Similarly, maps and sets are considered empty if they have a `size` of `0`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+ * @example
+ *
+ * _.isEmpty(null);
+ * // => true
+ *
+ * _.isEmpty(true);
+ * // => true
+ *
+ * _.isEmpty(1);
+ * // => true
+ *
+ * _.isEmpty([1, 2, 3]);
+ * // => false
+ *
+ * _.isEmpty({ 'a': 1 });
+ * // => false
+ */
+function isEmpty(value) {
+  if (isArrayLike(value) &&
+      (isArray(value) || typeof value == 'string' ||
+        typeof value.splice == 'function' || isBuffer(value) || isArguments(value))) {
+    return !value.length;
+  }
+  var tag = getTag(value);
+  if (tag == mapTag || tag == setTag) {
+    return !value.size;
+  }
+  if (nonEnumShadows || isPrototype(value)) {
+    return !nativeKeys(value).length;
+  }
+  for (var key in value) {
+    if (hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = isEmpty;
+
+},/***** module 29 end *****/
+
+
+/***** module 30 start *****/
 /***** node_modules/wepy-web/lib/native.js *****/
 function(module, exports, __wepy_require) {"use strict";
 
 exports.__esModule = true;
 exports.default = {};
-},/***** module 29 end *****/
+},/***** module 30 end *****/
 
 
-/***** module 30 start *****/
+/***** module 31 start *****/
 /***** node_modules/vue/dist/vue.js *****/
 function(module, exports, __wepy_require) {/*!
  * Vue.js v1.0.28
@@ -17373,10 +18124,10 @@ setTimeout(function () {
 return Vue;
 
 })));
-},/***** module 30 end *****/
+},/***** module 31 end *****/
 
 
-/***** module 31 start *****/
+/***** module 32 start *****/
 /***** node_modules/vue-router/dist/vue-router.js *****/
 function(module, exports, __wepy_require) {/*!
  * vue-router v0.7.13
@@ -20087,10 +20838,10 @@ function(module, exports, __wepy_require) {/*!
   return Router;
 
 }));
-},/***** module 31 end *****/
+},/***** module 32 end *****/
 
 
-/***** module 32 start *****/
+/***** module 33 start *****/
 /***** node_modules/wepy-web/lib/helper/word.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -20107,10 +20858,10 @@ var camelize = exports.camelize = function camelize(str) {
     return c ? c.toUpperCase() : '';
   });
 };
-},/***** module 32 end *****/
+},/***** module 33 end *****/
 
 
-/***** module 33 start *****/
+/***** module 34 start *****/
 /***** node_modules/axios/dist/axios.js *****/
 function(module, exports, __wepy_require) {/* axios v0.17.1 | (c) 2017 by Matt Zabriskie */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -21713,10 +22464,10 @@ return /******/ (function(modules) { // webpackBootstrap
 });
 ;
 //# sourceMappingURL=axios.map
-},/***** module 33 end *****/
+},/***** module 34 end *****/
 
 
-/***** module 34 start *****/
+/***** module 35 start *****/
 /***** node_modules/wepy-web/lib/helper/query.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -21812,10 +22563,10 @@ function stringifyQuery(obj) {
 
     return res ? '?' + res : '';
 }
-},/***** module 34 end *****/
+},/***** module 35 end *****/
 
 
-/***** module 35 start *****/
+/***** module 36 start *****/
 /***** node_modules/wepy-web/lib/helper/device.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -21889,17 +22640,12 @@ function mobile() {
 };
 
 function browser() {};
-},/***** module 35 end *****/
-
-
-/***** module 36 start *****/
-/***** src/app.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "view,view:before,view:after,text,text:before,text:after,image,image:before,image:after,scroll-view,scroll-view:before,scroll-view:after,movable-area,movable-area:before,movable-area:after,cover-view,cover-view:before,cover-view:after,icon,icon:before,icon:after,rich-text,rich-text:before,rich-text:after,progress,progress:before,progress:after,button,button:before,button:after,checkbox,checkbox:before,checkbox:after,form,form:before,form:after,input,input:before,input:after,label,label:before,label:after,picker,picker:before,picker:after,picker-view,picker-view:before,picker-view:after,radio,radio:before,radio:after,slider,slider:before,slider:after,switch,switch:before,switch:after,textarea,textarea:before,textarea:after,navigator,navigator:before,navigator:after,audio,audio:before,audio:after,video,video:before,video:after{box-sizing:border-box}view::-webkit-scrollbar,view:before::-webkit-scrollbar,view:after::-webkit-scrollbar,text::-webkit-scrollbar,text:before::-webkit-scrollbar,text:after::-webkit-scrollbar,image::-webkit-scrollbar,image:before::-webkit-scrollbar,image:after::-webkit-scrollbar,scroll-view::-webkit-scrollbar,scroll-view:before::-webkit-scrollbar,scroll-view:after::-webkit-scrollbar,movable-area::-webkit-scrollbar,movable-area:before::-webkit-scrollbar,movable-area:after::-webkit-scrollbar,cover-view::-webkit-scrollbar,cover-view:before::-webkit-scrollbar,cover-view:after::-webkit-scrollbar,icon::-webkit-scrollbar,icon:before::-webkit-scrollbar,icon:after::-webkit-scrollbar,rich-text::-webkit-scrollbar,rich-text:before::-webkit-scrollbar,rich-text:after::-webkit-scrollbar,progress::-webkit-scrollbar,progress:before::-webkit-scrollbar,progress:after::-webkit-scrollbar,button::-webkit-scrollbar,button:before::-webkit-scrollbar,button:after::-webkit-scrollbar,checkbox::-webkit-scrollbar,checkbox:before::-webkit-scrollbar,checkbox:after::-webkit-scrollbar,form::-webkit-scrollbar,form:before::-webkit-scrollbar,form:after::-webkit-scrollbar,input::-webkit-scrollbar,input:before::-webkit-scrollbar,input:after::-webkit-scrollbar,label::-webkit-scrollbar,label:before::-webkit-scrollbar,label:after::-webkit-scrollbar,picker::-webkit-scrollbar,picker:before::-webkit-scrollbar,picker:after::-webkit-scrollbar,picker-view::-webkit-scrollbar,picker-view:before::-webkit-scrollbar,picker-view:after::-webkit-scrollbar,radio::-webkit-scrollbar,radio:before::-webkit-scrollbar,radio:after::-webkit-scrollbar,slider::-webkit-scrollbar,slider:before::-webkit-scrollbar,slider:after::-webkit-scrollbar,switch::-webkit-scrollbar,switch:before::-webkit-scrollbar,switch:after::-webkit-scrollbar,textarea::-webkit-scrollbar,textarea:before::-webkit-scrollbar,textarea:after::-webkit-scrollbar,navigator::-webkit-scrollbar,navigator:before::-webkit-scrollbar,navigator:after::-webkit-scrollbar,audio::-webkit-scrollbar,audio:before::-webkit-scrollbar,audio:after::-webkit-scrollbar,video::-webkit-scrollbar,video:before::-webkit-scrollbar,video:after::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}body{background:#fff;font-size:14px;font-family:-apple-system-font,Helvetica Neue,Helvetica,sans-serif}.container,.container__flex,.container__has-footer,.container__has-tabbar{height:100%;min-height:100vh}.padbox--default{padding:20px}.container__has-footer{padding-bottom:100px}.container__has-tabbar{padding-bottom:55px}.container__flex{display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}.flex--item__vertical-center{width:100%;text-align:center;margin-top:-55px}.flex--parent__horizontal{display:flex;justify-content:space-around;max-width:600px;margin:0 auto}.flex--item__half{flex:0 0 45%}.btn--default,.btn--default__medium,.btn--default__small{background:#50E3C2;color:#333;border-radius:0;border:2px solid #333;box-shadow:4px 4px 0 #333}.btn--default:after,.btn--default__medium:after,.btn--default__small:after{display:none}.btn--default__medium{border:2px solid #333;padding:20px;box-shadow:4px 4px 0 #333;background-color:#fff;max-width:230px;margin:10px}.btn--default__small{background-color:#333;color:#fff;font-size:10px;max-width:60px;box-shadow:none}.btn--blank{border:0px;color:#333}.btn--blank:after{display:none}.icon--default{width:40px;height:40px}.pull-right{float:right}.pull-left{float:left}\n\n"},/***** module 36 end *****/
+},/***** module 36 end *****/
 
 
 /***** module 37 start *****/
-/***** src/pages/registration.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".registration--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.registration--subtitle{padding-bottom:5px;text-align:center;font-size:14px}\n\n"},/***** module 37 end *****/
+/***** src/app.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "view,view:before,view:after,text,text:before,text:after,image,image:before,image:after,scroll-view,scroll-view:before,scroll-view:after,movable-area,movable-area:before,movable-area:after,cover-view,cover-view:before,cover-view:after,icon,icon:before,icon:after,rich-text,rich-text:before,rich-text:after,progress,progress:before,progress:after,button,button:before,button:after,checkbox,checkbox:before,checkbox:after,form,form:before,form:after,input,input:before,input:after,label,label:before,label:after,picker,picker:before,picker:after,picker-view,picker-view:before,picker-view:after,radio,radio:before,radio:after,slider,slider:before,slider:after,switch,switch:before,switch:after,textarea,textarea:before,textarea:after,navigator,navigator:before,navigator:after,audio,audio:before,audio:after,video,video:before,video:after{box-sizing:border-box}view::-webkit-scrollbar,view:before::-webkit-scrollbar,view:after::-webkit-scrollbar,text::-webkit-scrollbar,text:before::-webkit-scrollbar,text:after::-webkit-scrollbar,image::-webkit-scrollbar,image:before::-webkit-scrollbar,image:after::-webkit-scrollbar,scroll-view::-webkit-scrollbar,scroll-view:before::-webkit-scrollbar,scroll-view:after::-webkit-scrollbar,movable-area::-webkit-scrollbar,movable-area:before::-webkit-scrollbar,movable-area:after::-webkit-scrollbar,cover-view::-webkit-scrollbar,cover-view:before::-webkit-scrollbar,cover-view:after::-webkit-scrollbar,icon::-webkit-scrollbar,icon:before::-webkit-scrollbar,icon:after::-webkit-scrollbar,rich-text::-webkit-scrollbar,rich-text:before::-webkit-scrollbar,rich-text:after::-webkit-scrollbar,progress::-webkit-scrollbar,progress:before::-webkit-scrollbar,progress:after::-webkit-scrollbar,button::-webkit-scrollbar,button:before::-webkit-scrollbar,button:after::-webkit-scrollbar,checkbox::-webkit-scrollbar,checkbox:before::-webkit-scrollbar,checkbox:after::-webkit-scrollbar,form::-webkit-scrollbar,form:before::-webkit-scrollbar,form:after::-webkit-scrollbar,input::-webkit-scrollbar,input:before::-webkit-scrollbar,input:after::-webkit-scrollbar,label::-webkit-scrollbar,label:before::-webkit-scrollbar,label:after::-webkit-scrollbar,picker::-webkit-scrollbar,picker:before::-webkit-scrollbar,picker:after::-webkit-scrollbar,picker-view::-webkit-scrollbar,picker-view:before::-webkit-scrollbar,picker-view:after::-webkit-scrollbar,radio::-webkit-scrollbar,radio:before::-webkit-scrollbar,radio:after::-webkit-scrollbar,slider::-webkit-scrollbar,slider:before::-webkit-scrollbar,slider:after::-webkit-scrollbar,switch::-webkit-scrollbar,switch:before::-webkit-scrollbar,switch:after::-webkit-scrollbar,textarea::-webkit-scrollbar,textarea:before::-webkit-scrollbar,textarea:after::-webkit-scrollbar,navigator::-webkit-scrollbar,navigator:before::-webkit-scrollbar,navigator:after::-webkit-scrollbar,audio::-webkit-scrollbar,audio:before::-webkit-scrollbar,audio:after::-webkit-scrollbar,video::-webkit-scrollbar,video:before::-webkit-scrollbar,video:after::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}body{background:#fff;font-size:14px;font-family:-apple-system-font,Helvetica Neue,Helvetica,sans-serif}.container,.container__flex,.container__has-footer,.container__has-tabbar{height:100%;min-height:100vh}.padbox--default{padding:20px}.container__has-footer{padding-bottom:100px}.container__has-tabbar{padding-bottom:55px}.container__flex{display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}.flex--item__vertical-center{width:100%;text-align:center;margin-top:-55px}.flex--parent__horizontal{display:flex;justify-content:space-around;max-width:600px;margin:0 auto}.flex--item__half{flex:0 0 45%}.btn--default,.btn--default__medium,.btn--default__small,.btn--default__dark,.btn--default__fixed{background:#50E3C2;color:#333;border-radius:0;border:2px solid #333;box-shadow:4px 4px 0 #333}.btn--default:after,.btn--default__medium:after,.btn--default__small:after,.btn--default__dark:after,.btn--default__fixed:after{display:none}.btn--default[disabled],.btn--default__medium[disabled],.btn--default__dark[disabled],.btn--default__fixed[disabled]{opacity:0.8}.btn--default__medium{border:2px solid #333;padding:20px;box-shadow:4px 4px 0 #333;background-color:#fff;max-width:230px;margin:10px}.btn--default__fixed{position:fixed;width:200px;bottom:55px;margin:0 auto;width:70%;left:15%}.btn--default__dark{background-color:#333;color:#fff;font-size:14px;box-shadow:none}.btn--default__small{background-color:#333;color:#fff;font-size:10px;max-width:60px;box-shadow:none}.btn--blank{border:0px;color:#333}.btn--blank:after{display:none}.icon--default{width:40px;height:40px}.icon--inline{width:30px;height:30px;vertical-align:middle}.pull-right{float:right}.pull-left{float:left}.form-item--default{margin:20px 0}.form-item--default .form-item--label,.form-item--default .form-item--label__fullwidth{display:inline-block;color:#333;font-size:14px;font-weight:400;width:20%;text-align:center;vertical-align:middle;height:1.4rem;border-bottom:1px solid rgba(51,51,51,0.5)}.form-item--default .form-item--label__fullwidth{width:100%;text-align:left;margin-bottom:5px}.form-item--default .form-item--input{display:inline-block;border-left:1px solid rgba(51,51,51,0.5);width:80%;padding:0 5px;vertical-align:middle;line-height:1.4rem;border-bottom:1px solid rgba(51,51,51,0.5)}.form-item--default .form-item--textinput{border:2px solid #333;width:auto}.form-message{background-color:rgba(0,0,0,0.1);padding:10px;color:#333;text-align:center;margin-top:20px;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1)}\n\n"},/***** module 37 end *****/
 
 
 /***** module 38 start *****/
@@ -21908,23 +22654,28 @@ function(module, exports, __wepy_require) {module.exports = ".landing--profile{p
 
 
 /***** module 39 start *****/
-/***** src/pages/login.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".login--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.login--subtitle{padding-bottom:5px;text-align:center;font-size:14px}\n\n"},/***** module 39 end *****/
+/***** src/pages/registration.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".registration--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.registration--subtitle{padding-bottom:5px;text-align:center;font-size:14px}\n\n"},/***** module 39 end *****/
 
 
 /***** module 40 start *****/
-/***** src/components/form-parent.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".form--outer{border-left:1px solid rgba(51,51,51,0.5);padding:20px}\n\n"},/***** module 40 end *****/
+/***** src/pages/login.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".login--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.login--subtitle{padding-bottom:5px;text-align:center;font-size:14px}\n\n"},/***** module 40 end *****/
 
 
 /***** module 41 start *****/
-/***** src/components/redirect-modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".redirect--title{padding:5px 0;font-size:15px}\n\n"},/***** module 41 end *****/
+/***** src/components/modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".modal--mask{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(51,51,51,0.2);box-sizing:border-box;padding:30px}.modal--body{transition:transform 0.3s ease;padding:20px;background-color:#fff;position:relative;border:2px solid #333;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);width:100%;max-width:600px;margin:0 auto}.modal--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.modal--subtitle{padding-bottom:5px;text-align:center;font-size:14px}.modal--slot-outer{padding:10px 0}.modal--close{position:absolute;padding:2.5px;top:10px;right:10px;width:20px;height:20px}\n\n"},/***** module 41 end *****/
 
 
 /***** module 42 start *****/
-/***** src/components/modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".modal--mask{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(51,51,51,0.2);box-sizing:border-box;padding:30px}.modal--body{transition:transform 0.3s ease;padding:20px;background-color:#fff;position:relative;border:2px solid #333;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);width:100%;max-width:600px;margin:0 auto}.modal--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.modal--subtitle{padding-bottom:5px;text-align:center;font-size:14px}.modal--slot-outer{padding:10px 0}.modal--close{position:absolute;padding:2.5px;top:10px;right:10px;width:20px;height:20px}\n\n"}/***** module 42 end *****/
+/***** src/components/form-parent.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".form--outer{border-left:1px solid rgba(51,51,51,0.5);padding:20px;padding-bottom:100px;max-width:500px;margin:0 auto}\n\n"},/***** module 42 end *****/
+
+
+/***** module 43 start *****/
+/***** src/components/redirect-modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".redirect--title{padding:5px 0;font-size:15px}\n\n"}/***** module 43 end *****/
 
 
 

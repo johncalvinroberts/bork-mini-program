@@ -1,5 +1,4 @@
 <style lang="scss">
-@import "../styles/variables.scss";
 .landing--profile {
   position: absolute;
   bottom: 40rpx;
@@ -27,6 +26,15 @@
 .landing--modal-btns{
   text-align: center;
 }
+.landing--sideslider {
+  flex-wrap: wrap;
+  padding:50% 0;
+  .btn--default__small{
+    width: 100%;
+    display: block;
+    max-width:unset;
+  }
+}
 </style>
 <template>
   <view class="container__flex">
@@ -52,11 +60,25 @@
     </view>
     <button class="btn--blank landing--login" @tap="navToLogin">登录</button>
   </modal>
+  <block wx:if="{{isRegistered}}">
+    <sideslider :isopen.sync="sideSliderOpen" @tapsheet.user="toggleSlider">
+      <view class="container__flex landing--sideslider">
+        <button class="btn--default__small">something</button>
+        <button class="btn--default__small">something</button>
+        <button class="btn--default__small">something</button>
+        <block wx:if="{{isRescuer}}">
+          <button class="btn--default__small">rescuers only</button>
+          <button class="btn--default__small">rescuers only</button>
+        </block>
+      </view>
+    </sideslider>
+  </block>
 </template>
 
 <script>
   import wepy from 'wepy'
   import Modal from '@/components/modal'
+  import SideSlider from '@/components/sideslider'
 
   export default class Index extends wepy.page {
     config = {
@@ -64,14 +86,15 @@
     }
 
     components = {
-      modal: Modal
+      modal: Modal,
+      sideslider: SideSlider
     }
 
     data = {
       isRegistered: false,
       isRescuer: false,
       registrationModalOpen: false,
-      sidesliderOpen: false,
+      sideSliderOpen: false,
       modalTitle: '你还没有注册😁',
       modalSubtitle: '你可以成为adopter还是rescuer.'
     }
@@ -84,7 +107,7 @@
         if (!this.isRegistered) {
           this.registrationModalOpen = !this.registrationModalOpen
         } else {
-          this.sidesliderOpen = !this.sidesliderOpen
+          this.sideSliderOpen = !this.sideSliderOpen
         }
       },
       navToDogs () {
@@ -97,7 +120,8 @@
         this.registrationModalOpen = !this.registrationModalOpen
       },
       toggleSlider () {
-        this.sidesliderOpen = !this.sidesliderOpen
+        this.sideSliderOpen = !this.sideSliderOpen
+        this.$apply()
       },
       navToNormalRegistration () {
         wepy.navigateTo({url: 'registration'})

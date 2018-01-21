@@ -30,17 +30,18 @@
     }
 
     data = {
-      message: '你已经登录了'
+      message: '你已经登录了',
+      isRegistered: false
     }
 
     components = {
       formparent: FormParent,
       redirectmodal: RedirectModal
     }
-    computed = {
-      isRegistered () {
-        return this.$parent.globalData.user.isRegistered
-      }
+    computed = {}
+
+    onShow () {
+      this.isRegistered = this.$parent.globalData.user.isRegistered
     }
   }
 </script>

@@ -14,6 +14,7 @@
     <view class="registration--subtitle">     欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想
     </view>
     <formparent>
+
       <button class="btn--default__dark" disabled="{{wechatDisabled}}" @tap="getWeChat">
         <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>
         使用微信登录
@@ -27,44 +28,48 @@
           <view class="form-item--label">地方</view>
           <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
         </view>
+        <view class="form-message">
+          最后一步：认证一下你的账号。你需要给救狗人士提供你的微信号，这样当你遇到喜欢的狗的时候救狗人士可以更方便的联系你。写个自我介绍让救狗人士认识一下你
+        </view>
         <view class="form-item--default">
           <view class="form-item--label">微信👌</view>
-          <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx"/>
+          <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx" maxlength="70" confirm-type="next"/>
         </view>
-        <view class="form-message">
-          最后一步：认证一下你的账号。你需要给救狗人士提供你的微信号，这样子当你遇到喜欢的狗的时候救狗人士可以更方便的联系你
+        <view class="form-item--default">
+          <view class="form-item--label">年龄🍫</view>
+          <input type="number" placeholder="输入你的年龄请" class="form-item--input" @input="handleAge" maxlength="3" confirm-type="next"/>
         </view>
         <view class="form-item--default">
           <view class="form-item--label__fullwidth">自我介绍</view>
-          <textarea class="form-item--textinput" @input="handlePersonal"/>
+          <textarea class="form-item--textinput" @input="handlePersonal" confirm-type="send" @confirm="handleSubmit" maxlength="200" />
         </view>
-        <button class="btn--default btn--default__fixed">保存</button>
+        <button class="btn--default" @tap="handleSubmit">保存</button>
       </block>
     </formparent>
   </view>
-  <view wx:if="{{isRegistered}}">
-    <redirectmodal :message="message"/>
-  </view>
+  <redirectmodal/>
+  <errormodal/>
 </template>
 <script>
   import wepy from 'wepy'
   import FormParent from '@/components/form-parent'
   import RedirectModal from '@/components/redirect-modal'
+  import ErrorModal from '@/components/error-modal'
   export default class Registration extends wepy.page {
     config = {
       navigationBarTitleText: '注册'
     }
     components = {
       formparent: FormParent,
-      redirectmodal: RedirectModal
+      redirectmodal: RedirectModal,
+      errormodal: ErrorModal
     }
     data = {
-      message: '你已经注册了',
-      wechatDisabled: false,
       isRegistered: false,
       authData: null,
       wxUsername: {},
-      personalNote: null
+      personalNote: null,
+      age: null
     }
     methods = {
       redirectHome () {
@@ -75,28 +80,71 @@
         this.$apply()
       },
       handlePersonal ({detail}) {
-        console.log(detail)
         this.personalNote = detail.value
+        this.$apply()
+      },
+      handleAge ({detail}) {
+        this.age = detail.value
+        this.$apply()
       }
     }
 
-    computed = {}
+    computed = {
+      fieldsValid () {
+        if (!this.personalNote || !this.wxUsername || !this.age) {
+          return false
+        }
+        return true
+      },
+      wechatDisabled () {
+        return this.authData !== null
+      }
+    }
 
     onShow () {
       this.isRegistered = !this.$parent.globalData.user.isRegistered
+      if (this.isRegistered) {
+        const params = {message: '你已经注册了'}
+        this.$invoke('redirectmodal', 'toggleModal', params)
+      }
     }
 
     async getWeChat () {
       const user = this.$parent.globalData.user
       try {
-        const authData = await user.authorize()
-        console.log(authData)
-        this.authData = authData
+        await user.authorize()
+        this.authData = this.$parent.globalData.user.currentUser()
         this.$apply()
       } catch (err) {
         // actually deal with the error maybe lol
         console.error(err)
       }
+    }
+
+    async handleSubmit () {
+      if (!this.fieldsValid) {
+        return this.handleSubmitError()
+      }
+      try {
+        const wechatId = this.wxUsername
+        const personalNote = this.personalNote
+        await this.$parent.globalData.user.updateBasicInfo({wechatId, personalNote})
+        const params = {message: '恭喜你注册成功了'}
+        this.$invoke('redirectmodal', 'toggleModal', params)
+      } catch (err) {
+        // this error too guy
+        console.error(err)
+      }
+    }
+
+    handleSubmitError () {
+      const header = '认证失败 🙇‍'
+      const message = '你得提供你的个人资料才有权利领养无家可归的小动物。'
+      const params = {
+        header,
+        message
+      }
+      return this.$invoke('errormodal', 'showMessage', params)
     }
   }
   </script>

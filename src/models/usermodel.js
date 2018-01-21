@@ -26,13 +26,13 @@ export default class UserModel {
   }
 
   get isRescuer () {
-    if (this.data.attributes && this.data.attributes.is_rescuer) {
+    if (!isEmpty(this.data) && this.data.is_rescuer) {
       return true
     }
     return false
   }
   get attributes () {
-    return this.data.attributes || null
+    return this.data || null
   }
 
   async authorize () {
@@ -48,6 +48,18 @@ export default class UserModel {
     try {
       await this.logIn()
       return this.data
+    } catch (err) {
+      console.error(err)
+      return err
+    }
+  }
+
+  async updateBasicInfo (params) {
+    try {
+      const updatedUser = await Lean.User.current().set(params).save()
+      this.data = updatedUser.toJSON()
+      console.log(updatedUser.toJSON())
+      return updatedUser
     } catch (err) {
       console.error(err)
       return err
