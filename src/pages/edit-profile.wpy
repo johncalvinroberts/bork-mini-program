@@ -1,0 +1,14 @@
+<style lang="scss">
+  .something{
+    color: pink;
+  }
+</style>
+<template>
+  <view class="container">
+    hey
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class EditProfile extends wepy.page {}
+</script>

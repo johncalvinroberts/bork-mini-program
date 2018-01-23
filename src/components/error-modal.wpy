@@ -32,17 +32,22 @@
     data = {
       errorModalOpen: false,
       header: null,
-      message: null
+      message: null,
+      refresh: false
     }
     methods = {
       showMessage (param) {
         this.errorModalOpen = true
         this.header = param.header
         this.message = param.message
+        this.refresh = param.refresh || false
         this.$apply()
       },
       handleTap () {
         this.errorModalOpen = false
+        if (this.refresh) {
+          this.$emit('modaltap')
+        }
       }
     }
   }

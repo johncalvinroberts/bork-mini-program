@@ -195,6 +195,7 @@ page{
   .form-item--textinput {
     border: $chunky-border;
     width: auto;
+    z-index: 99;
   }
 }
 

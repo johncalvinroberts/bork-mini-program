@@ -26,13 +26,14 @@ export default class UserModel {
   }
 
   get isRescuer () {
-    if (!isEmpty(this.data) && this.data.is_rescuer) {
+    if (!isEmpty(this.data) && this.data.isRescuer) {
       return true
     }
     return false
   }
   get attributes () {
-    return this.data || null
+    if (isEmpty(this.data)) return null
+    return this.data
   }
 
   async authorize () {
@@ -54,11 +55,17 @@ export default class UserModel {
     }
   }
 
+  async fetchUpdate () {
+    const current = await Lean.User.current().fetch()
+    console.log(current)
+    this.data = current.toJSON()
+    return this.data
+  }
+
   async updateBasicInfo (params) {
     try {
       const updatedUser = await Lean.User.current().set(params).save()
       this.data = updatedUser.toJSON()
-      console.log(updatedUser.toJSON())
       return updatedUser
     } catch (err) {
       console.error(err)

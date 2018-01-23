@@ -48,7 +48,7 @@
     </formparent>
   </view>
   <redirectmodal/>
-  <errormodal/>
+  <errormodal @modaltap.user="reloadPage"/>
 </template>
 <script>
   import wepy from 'wepy'
@@ -86,6 +86,9 @@
       handleAge ({detail}) {
         this.age = detail.value
         this.$apply()
+      },
+      reloadPage () {
+        this.onLoad()
       }
     }
 
@@ -102,7 +105,7 @@
     }
 
     onShow () {
-      this.isRegistered = !this.$parent.globalData.user.isRegistered
+      this.isRegistered = this.$parent.globalData.user.isRegistered
       if (this.isRegistered) {
         const params = {message: '你已经注册了'}
         this.$invoke('redirectmodal', 'toggleModal', params)
@@ -118,6 +121,7 @@
       } catch (err) {
         // actually deal with the error maybe lol
         console.error(err)
+        this.handleFetchError()
       }
     }
 
@@ -128,13 +132,25 @@
       try {
         const wechatId = this.wxUsername
         const personalNote = this.personalNote
-        await this.$parent.globalData.user.updateBasicInfo({wechatId, personalNote})
+        const age = this.age
+        await this.$parent.globalData.user.updateBasicInfo({wechatId, personalNote, age})
         const params = {message: '恭喜你注册成功了'}
         this.$invoke('redirectmodal', 'toggleModal', params)
+        this.$parent.globalData.user.fetchUpdate()
       } catch (err) {
-        // this error too guy
+        // this error too my guy
         console.error(err)
+        this.handleFetchError()
       }
+    }
+
+    handleFetchError () {
+      const params = {
+        header: '哎哟出错了😯',
+        message: '刷新页面再试试一遍',
+        refresh: true
+      }
+      this.$invoke('errormodal', 'showMessage', params)
     }
 
     handleSubmitError () {

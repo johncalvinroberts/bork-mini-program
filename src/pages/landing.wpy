@@ -126,7 +126,9 @@
       navToNormalRegistration () {
         wepy.navigateTo({url: 'registration'})
       },
-      navToRescueRegistration () {},
+      navToRescueRegistration () {
+        wepy.navigateTo({url: 'rescuer-registration'})
+      },
       navToLogin () {
         wepy.navigateTo({
           url: 'login'

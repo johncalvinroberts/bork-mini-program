@@ -1,0 +1,61 @@
+<style lang="scss">
+  @import '../styles/variables.scss';
+  .radio--default{
+    visibility: hidden;
+    &:before,{
+      visibility: visible;
+      content: '';
+      border-radius: 4rpx;
+      background-color: $black;
+      opacity: 0.8;
+      width:10px!important;
+      height:10px!important;
+      padding: 2px 12px;
+    }
+  }
+  .radio--default[checked]{
+    &:before{
+      background-color: $color-primary;
+      background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size: contain;
+    }
+  }
+  .radio--label{
+    display: inline-block;
+    margin-left:-18px;
+  }
+  .radio--outer{
+    display: block;
+  }
+</style>
+<template>
+  <radio-group @change="handleChange">
+    <repeat for="{{choices}}" key="index" index="index" item="item">
+      <view class="radio--outer">
+        <radio class="radio--default" value="{{item.value}}" checked="{{currentchoice === item.value}}"/>
+        <view class="radio--label">{{item.name}}</view>
+      </view>
+    </repeat>
+  </radio-group>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class RadioList extends wepy.component {
+    props = {
+      choices: {
+        type: Array
+      },
+      currentchoice: {
+        type: String
+      }
+    }
+    methods = {
+      handleChange ({detail}) {
+        console.log(detail)
+        this.$emit('toggle', detail)
+      }
+    }
+  }
+</script>

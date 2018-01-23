@@ -1,0 +1,32 @@
+<style lang="scss">
+  .coolswitch {
+    &:after &:before{
+      display: none;
+    }
+  }
+  .coolswitch[checked] {
+
+  }
+</style>
+<template>
+    <view class="choice-one">{{choices[0]}}</view>
+    <switch @change="toggle" class="coolswitch"/>
+    <view class="choice-two">{{choices[1]}}</view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class CoolSwitch extends wepy.component {
+    data = {}
+    props = {
+      choices: {
+        type: Array
+      }
+    }
+
+    methods = {
+      toggle ({detail}) {
+        this.$emit('toggle', detail)
+      }
+    }
+  }
+</script>

@@ -1,0 +1,193 @@
+<style lang="scss">
+@import '../styles/mixins.scss';
+  .registration--title {
+    @include titletext;
+  }
+
+  .registration--subtitle {
+    @include subtitletext;
+  }
+</style>
+<template>
+  <view class="container padbox--default">
+    <view class="registration--title">成为rescuer</view>
+    <view class="registration--subtitle">Are you a compassionate person? Do you come close to tears at the thought of a poor dog being neglected, abused, abandoned or even eaten? Do you collect stray dogs and/or cats and have more of them than you can handle? If so, become a rescuer and find a new home for your little bundles of love.
+    </view>
+    <formparent>
+      <button class="btn--default__dark" disabled="{{wechatDisabled}}" @tap="getWeChat">
+        <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>
+        使用微信登录
+      </button>
+      <block wx:if="{{authData}}">
+        <view class="form-item--default">
+          <view class="form-item--label">名字</view>
+          <view class="form-item--input">{{authData.nickName}}</view>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label">地方</view>
+          <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label">微信👌</view>
+          <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx" maxlength="70" confirm-type="next" value="{{authData.wechatId || ''}}"/>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label">年龄🍫</view>
+          <input type="number" placeholder="输入你的年龄请" class="form-item--input" @input="handleAge" maxlength="3" confirm-type="next" value="{{authData.age || ''}}"/>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label__fullwidth">自我介绍</view>
+          <textarea class="form-item--textinput" @input="handlePersonal" confirm-type="next" maxlength="200" value="{{authData.personalNote}}"/>
+        </view>
+        <view class="form-item--default">
+          <radiolist @toggle.user="toggleIdType" :choices.sync="idChoices" :currentchoice.sync="idType"/>
+        </view>
+        <block wx:if="{{chooseChineseId}}">
+          <view class="form-item--default">
+            <view class="form-item--label">
+              身份证📇
+            </view>
+            <input type="idcard" placeholder="身份证" class="form-item--input" @input="handleId" maxlength="3" confirm-type="next"/>
+          </view>
+        </block>
+          <block wx:else>
+            <view class="form-item--default">
+              <view class="form-item--label__fullwidth">
+                <coolpicker @change.user="handleCountryChange" :collection.sync="countryChoices" :country.sync="country" :label.sync="countryText"/>
+              </view>
+            </view>
+            <view class="form-item--default">
+              <view class="form-item--label">
+                姓名📇
+              </view>
+              <input type="number" placeholder="请输入你的全法律上的姓名" class="form-item--input" @input="handleFullName" maxlength="50" confirm-type="next" value="{{authData.fullName || ''}}"/>
+            </view>
+            <view class="form-item--default">
+              <view class="form-item--label">
+                护照🛂
+              </view>
+              <input type="number" placeholder="请输入护照号" class="form-item--input" @input="handleId" maxlength="50" confirm-type="next"/>
+            </view>
+        </block>
+        <button class="btn--default" @tap="handleSubmit">保存</button>
+      </block>
+    </formparent>
+  </view>
+  <redirectmodal/>
+  <errormodal/>
+</template>
+<script>
+  import wepy from 'wepy'
+  import FormParent from '@/components/form-parent'
+  import RedirectModal from '@/components/redirect-modal'
+  import ErrorModal from '@/components/error-modal'
+  import CoolSwitch from '@/components/cool-switch'
+  import CoolPicker from '@/components/cool-picker'
+  import RadioList from '@/components/radiolist'
+  import countryChoices from '@/utils/countries'
+  export default class RescuerRegistration extends wepy.page {
+    data = {
+      idChoices: [{
+        name: '身份证',
+        value: 'chinese_id'
+      }, {
+        name: '护照',
+        value: 'passport'
+      }],
+      countryChoices: countryChoices,
+      countryText: '护照国家 🎏',
+      authData: null,
+      wxUsername: null,
+      personalNote: null,
+      age: null,
+      idNumber: null,
+      idType: 'chinese_id',
+      country: 'China',
+      fullName: ''
+    }
+
+    components = {
+      formparent: FormParent,
+      redirectmodal: RedirectModal,
+      errormodal: ErrorModal,
+      coolswitch: CoolSwitch,
+      coolpicker: CoolPicker,
+      radiolist: RadioList
+    }
+
+    computed = {
+      wechatDisabled () {
+        return this.authData !== null
+      },
+      chooseChineseId () {
+        return this.idType === 'chinese_id'
+      }
+    }
+
+    methods = {
+      handleWx ({detail}) {
+        this.wxUsername = detail.value
+        this.$apply()
+      },
+      handlePersonal ({detail}) {
+        this.personalNote = detail.value
+        this.$apply()
+      },
+      handleAge ({detail}) {
+        this.age = detail.value
+        this.$apply()
+      },
+      handleId ({detail}) {
+        this.idNumber = detail.value
+        this.$apply()
+      },
+      handleFullName ({detail}) {
+        this.fullName = detail.value
+      },
+      toggleIdType (e) {
+        if (this.idType === 'chinese_id') {
+          this.idType = 'passport'
+        } else {
+          this.idType = 'chinese_id'
+        }
+      },
+      handleCountryChange ({detail}) {
+        this.country = countryChoices[detail.value]
+        this.$apply()
+      },
+      reloadPage () {
+        this.onLoad()
+      },
+      handleSubmit () {
+        console.log('yyoyo')
+      }
+    }
+    onload () {}
+
+    onShow () {
+      this.isRegistered = this.$parent.globalData.user.isRegistered
+      this.authData = this.$parent.globalData.user.attributes
+      console.log(this.isRegistered)
+      if (this.$parent.globalData.user.isRescuer) {
+        const params = {
+          message: '你已经是rescuer了，你可以在个人中心编辑你的资料',
+          link: 'edit-profile',
+          linkname: '编辑'
+        }
+        this.$invoke('redirectmodal', 'toggleModal', params)
+      }
+    }
+
+    async getWeChat () {
+      const user = this.$parent.globalData.user
+      try {
+        await user.authorize()
+        this.authData = this.$parent.globalData.user.currentUser()
+        this.$apply()
+      } catch (err) {
+        // actually deal with the error maybe lol
+        console.error(err)
+      }
+    }
+  }
+</script>

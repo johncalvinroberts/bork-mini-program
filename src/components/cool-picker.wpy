@@ -1,0 +1,33 @@
+<style lang="scss">
+  .picker-choice{
+  }
+</style>
+<template>
+  <picker mode="selector" @change="handleChange" value="{{country}}" range="{{collection}}">
+    <view class="picker-choice">
+      {{label}}：{{country}}
+    </view>
+  </picker>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class CoolPicker extends wepy.component {
+    props = {
+      collection: {
+        type: Array
+      },
+      country: {
+        type: String
+      },
+      label: {
+        type: String
+      }
+    }
+    methods = {
+      handleChange (param) {
+        console.log(param)
+        this.$emit('change', param)
+      }
+    }
+  }
+</script>

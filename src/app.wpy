@@ -7,9 +7,11 @@ import UserModel from '@/models/usermodel'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/landing',
+      'pages/rescuer-registration',
       'pages/registration',
-      'pages/login'
+      'pages/login',
+      'pages/landing',
+      'pages/edit-profile'
     ],
     window: {
       backgroundTextStyle: 'dark',
