@@ -31,7 +31,7 @@
           </view>
           <view class="form-item--default">
             <view class="form-item--label">微信👌</view>
-            <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx" maxlength="70" confirm-type="next" value="{{authData.wechatId || ''}}"/>
+            <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx" maxlength="70" confirm-type="next" value="{{authData.wxUsername || ''}}"/>
           </view>
           <view class="form-item--default">
             <view class="form-item--label">年龄🍫</view>
@@ -56,7 +56,7 @@
               <view class="form-item--label">
                 身份证📇
               </view>
-              <input type="idcard" placeholder="身份证" class="form-item--input" @input="handleId" maxlength="3" confirm-type="next"/>
+              <input type="idcard" placeholder="身份证" class="form-item--input" @input="handleId" confirm-type="next"/>
             </view>
           </block>
             <block wx:else>
@@ -112,7 +112,7 @@
       wxUsername: null,
       personalNote: null,
       age: null,
-      idNumber: null,
+      idNumber: '',
       idType: 'chinese_id',
       country: 'China',
       fullName: ''
@@ -133,14 +133,20 @@
       chooseChineseId () {
         return this.idType === 'chinese_id'
       },
-      checkFields () {
-        const fields = [this.age, this.wxUsername, this.personalNote, this.idNumber]
+      hasEmptyFields () {
+        const {age, wxUsername, personalNote, idNumber, country, fullName} = this.data
+        const fields = {age, wxUsername, personalNote, idNumber}
         if (this.idType === 'passport') {
-          fields.push(this.country, this.fullName)
+          fields.country = country
+          fields.fullName = fullName
         }
-        const emptyFields = fields.filter(field => isEmpty(field))
-        if (isEmpty(emptyFields)) return emptyFields
-        return false
+        const emptyFields = Object.keys(fields).filter(field => {
+          let value = fields[field]
+          if (value === '' || value === ' ' || value === null) {
+            return field
+          }
+        })
+        return isEmpty(emptyFields) ? false : emptyFields
       }
     }
 
@@ -163,6 +169,7 @@
       },
       handleFullName ({detail}) {
         this.fullName = detail.value
+        this.$apply()
       },
       toggleIdType (e) {
         if (this.idType === 'chinese_id') {
@@ -170,6 +177,8 @@
         } else {
           this.idType = 'chinese_id'
         }
+        this.idNumber = ''
+        this.$apply()
       },
       handleCountryChange ({detail}) {
         this.country = countryChoices[detail.value]
@@ -177,12 +186,6 @@
       },
       reloadPage () {
         this.onLoad()
-      },
-      handleSubmit () {
-        const emptyFields = this.checkFields
-        if (emptyFields) {
-          console.log(emptyFields)
-        }
       }
     }
 
@@ -192,7 +195,6 @@
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.authData = this.$parent.globalData.user.attributes
       if (this.authData) this.diffAuthData()
-      console.log(this.isRegistered)
       if (this.$parent.globalData.user.isRescuer) {
         const params = {
           message: '你已经是rescuer了，你可以在个人中心编辑你的资料',
@@ -212,12 +214,44 @@
       } catch (err) {
         // actually deal with the error maybe lol
         console.error(err)
+        this.handleFetchError()
       }
     }
+
+    handleFetchError () {
+      const params = {
+        header: '哎哟出错了😯',
+        message: '刷新页面再试试一遍',
+        refresh: true
+      }
+      this.$invoke('errormodal', 'showMessage', params)
+    }
+
+    async handleSubmit () {
+      if (this.hasEmptyFields) return this.handleSubmitError()
+      try {
+        const {wxUsername, personalNote, age, idType, idNumber, fullName, country} = this.data
+        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age, idType, idNumber, fullName, country})
+        const params = {message: '恭喜你, 你已经成为fido的rescuer'}
+        this.$invoke('redirectmodal', 'toggleModal', params)
+        this.$parent.globalData.user.fetchUpdate()
+      } catch (err) {
+        console.error(err)
+        this.handleFetchError()
+      }
+    }
+
+    handleSubmitError () {
+      const params = {
+        header: '认证失败 🙇‍',
+        message: `你还没有填完你的信息，我们为了你的安全努力，请填完再提交谢谢🙏`
+      }
+      return this.$invoke('errormodal', 'showMessage', params)
+    }
     diffAuthData () {
-      this.age = this.authData.age
-      this.personalNote = this.authData.personalNote
-      this.wxUsername = this.authData.wxUsername
+      this.age = this.authData.age || ''
+      this.personalNote = this.authData.personalNote || ''
+      this.wxUsername = this.authData.wxUsername || ''
       this.$apply()
     }
   }

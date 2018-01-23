@@ -62,7 +62,7 @@ export default class UserModel {
     return this.data
   }
 
-  async updateBasicInfo (params) {
+  async updateProfileInfo (params) {
     try {
       const updatedUser = await Lean.User.current().set(params).save()
       this.data = updatedUser.toJSON()

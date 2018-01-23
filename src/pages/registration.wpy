@@ -130,10 +130,8 @@
         return this.handleSubmitError()
       }
       try {
-        const wechatId = this.wxUsername
-        const personalNote = this.personalNote
-        const age = this.age
-        await this.$parent.globalData.user.updateBasicInfo({wechatId, personalNote, age})
+        const {wxUsername, personalNote, age} = this.data
+        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age})
         const params = {message: '恭喜你注册成功了'}
         this.$invoke('redirectmodal', 'toggleModal', params)
         this.$parent.globalData.user.fetchUpdate()
