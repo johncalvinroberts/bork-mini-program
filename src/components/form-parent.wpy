@@ -3,15 +3,18 @@
   .form--outer{
     border-left: $section-border;
     padding: $default-padding;
-    padding-bottom:200rpx;
     max-width: 500px;
     margin: 0 auto;
+  }
+  .form--bottom-padding{
+    height: 300px;
   }
 </style>
 <template>
   <view class="form--outer">
     <slot></slot>
   </view>
+  <view class="form--bottom-padding"></view>
 </template>
 <script>
   import wepy from 'wepy'

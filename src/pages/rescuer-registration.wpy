@@ -19,56 +19,66 @@
         使用微信登录
       </button>
       <block wx:if="{{authData}}">
-        <view class="form-item--default">
-          <view class="form-item--label">名字</view>
-          <view class="form-item--input">{{authData.nickName}}</view>
-        </view>
-        <view class="form-item--default">
-          <view class="form-item--label">地方</view>
-          <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
-        </view>
-        <view class="form-item--default">
-          <view class="form-item--label">微信👌</view>
-          <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx" maxlength="70" confirm-type="next" value="{{authData.wechatId || ''}}"/>
-        </view>
-        <view class="form-item--default">
-          <view class="form-item--label">年龄🍫</view>
-          <input type="number" placeholder="输入你的年龄请" class="form-item--input" @input="handleAge" maxlength="3" confirm-type="next" value="{{authData.age || ''}}"/>
-        </view>
-        <view class="form-item--default">
-          <view class="form-item--label__fullwidth">自我介绍</view>
-          <textarea class="form-item--textinput" @input="handlePersonal" confirm-type="next" maxlength="200" value="{{authData.personalNote}}"/>
-        </view>
-        <view class="form-item--default">
-          <radiolist @toggle.user="toggleIdType" :choices.sync="idChoices" :currentchoice.sync="idType"/>
-        </view>
-        <block wx:if="{{chooseChineseId}}">
+        <view class="form--group">
+          <view class="form--group__title">基本信息</view>
           <view class="form-item--default">
-            <view class="form-item--label">
-              身份证📇
-            </view>
-            <input type="idcard" placeholder="身份证" class="form-item--input" @input="handleId" maxlength="3" confirm-type="next"/>
+            <view class="form-item--label">名字</view>
+            <view class="form-item--input">{{authData.nickName}}</view>
           </view>
-        </block>
-          <block wx:else>
-            <view class="form-item--default">
-              <view class="form-item--label__fullwidth">
-                <coolpicker @change.user="handleCountryChange" :collection.sync="countryChoices" :country.sync="country" :label.sync="countryText"/>
-              </view>
-            </view>
+          <view class="form-item--default">
+            <view class="form-item--label">地方</view>
+            <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
+          </view>
+          <view class="form-item--default">
+            <view class="form-item--label">微信👌</view>
+            <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx" maxlength="70" confirm-type="next" value="{{authData.wechatId || ''}}"/>
+          </view>
+          <view class="form-item--default">
+            <view class="form-item--label">年龄🍫</view>
+            <input type="number" placeholder="输入你的年龄请" class="form-item--input" @input="handleAge" maxlength="3" confirm-type="next" value="{{authData.age || ''}}"/>
+          </view>
+        </view>
+        <view class="form--group">
+          <view class="form--group__title">自我介绍</view>
+          <view class="form-item--label">介绍一下自己，说一说你来这里的目标是什么，你对你的rescue dog 和 rescue cat 有多么多么的爱，等等</view>
+          <view class="form-item--default">
+            <textarea class="form-item--textinput" @input="handlePersonal" confirm-type="next" maxlength="200" value="{{authData.personalNote}}"/>
+          </view>
+        </view>
+        <view class="form--group">
+          <view class="form--group__title">身份信息</view>
+          <view class="form-item--label">For Your Safety</view>
+          <view class="form-item--default">
+            <radiolist @toggle.user="toggleIdType" :choices.sync="idChoices" :currentchoice.sync="idType"/>
+          </view>
+          <block wx:if="{{chooseChineseId}}">
             <view class="form-item--default">
               <view class="form-item--label">
-                姓名📇
+                身份证📇
               </view>
-              <input type="number" placeholder="请输入你的全法律上的姓名" class="form-item--input" @input="handleFullName" maxlength="50" confirm-type="next" value="{{authData.fullName || ''}}"/>
+              <input type="idcard" placeholder="身份证" class="form-item--input" @input="handleId" maxlength="3" confirm-type="next"/>
             </view>
-            <view class="form-item--default">
-              <view class="form-item--label">
-                护照🛂
+          </block>
+            <block wx:else>
+              <view class="form-item--default">
+                <view class="form-item--label__fullwidth">
+                  <coolpicker @change.user="handleCountryChange" :collection.sync="countryChoices" :selection.sync="country" :label.sync="countryText"/>
+                </view>
               </view>
-              <input type="number" placeholder="请输入护照号" class="form-item--input" @input="handleId" maxlength="50" confirm-type="next"/>
-            </view>
-        </block>
+              <view class="form-item--default">
+                <view class="form-item--label">
+                  姓名📇
+                </view>
+                <input type="number" placeholder="请输入你的全法律上的姓名" class="form-item--input" @input="handleFullName" maxlength="50" confirm-type="next" value="{{authData.fullName || ''}}"/>
+              </view>
+              <view class="form-item--default">
+                <view class="form-item--label">
+                  护照🛂
+                </view>
+                <input type="number" placeholder="请输入护照号" class="form-item--input" @input="handleId" maxlength="50" confirm-type="next"/>
+              </view>
+          </block>
+        </view>
         <button class="btn--default" @tap="handleSubmit">保存</button>
       </block>
     </formparent>
@@ -81,10 +91,12 @@
   import FormParent from '@/components/form-parent'
   import RedirectModal from '@/components/redirect-modal'
   import ErrorModal from '@/components/error-modal'
-  import CoolSwitch from '@/components/cool-switch'
   import CoolPicker from '@/components/cool-picker'
   import RadioList from '@/components/radiolist'
   import countryChoices from '@/utils/countries'
+
+  import isEmpty from 'lodash.isempty'
+
   export default class RescuerRegistration extends wepy.page {
     data = {
       idChoices: [{
@@ -110,7 +122,6 @@
       formparent: FormParent,
       redirectmodal: RedirectModal,
       errormodal: ErrorModal,
-      coolswitch: CoolSwitch,
       coolpicker: CoolPicker,
       radiolist: RadioList
     }
@@ -121,6 +132,15 @@
       },
       chooseChineseId () {
         return this.idType === 'chinese_id'
+      },
+      checkFields () {
+        const fields = [this.age, this.wxUsername, this.personalNote, this.idNumber]
+        if (this.idType === 'passport') {
+          fields.push(this.country, this.fullName)
+        }
+        const emptyFields = fields.filter(field => isEmpty(field))
+        if (isEmpty(emptyFields)) return emptyFields
+        return false
       }
     }
 
@@ -159,14 +179,19 @@
         this.onLoad()
       },
       handleSubmit () {
-        console.log('yyoyo')
+        const emptyFields = this.checkFields
+        if (emptyFields) {
+          console.log(emptyFields)
+        }
       }
     }
+
     onload () {}
 
     onShow () {
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.authData = this.$parent.globalData.user.attributes
+      if (this.authData) this.diffAuthData()
       console.log(this.isRegistered)
       if (this.$parent.globalData.user.isRescuer) {
         const params = {
@@ -188,6 +213,12 @@
         // actually deal with the error maybe lol
         console.error(err)
       }
+    }
+    diffAuthData () {
+      this.age = this.authData.age
+      this.personalNote = this.authData.personalNote
+      this.wxUsername = this.authData.wxUsername
+      this.$apply()
     }
   }
 </script>

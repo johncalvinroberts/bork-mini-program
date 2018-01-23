@@ -5,7 +5,7 @@
 <template>
   <picker mode="selector" @change="handleChange" value="{{country}}" range="{{collection}}">
     <view class="picker-choice">
-      {{label}}：{{country}}
+      {{label}}：{{selection}}
     </view>
   </picker>
 </template>
@@ -16,7 +16,7 @@
       collection: {
         type: Array
       },
-      country: {
+      selection: {
         type: String
       },
       label: {

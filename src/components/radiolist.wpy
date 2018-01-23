@@ -2,7 +2,7 @@
   @import '../styles/variables.scss';
   .radio--default{
     visibility: hidden;
-    &:before,{
+    &:before{
       visibility: visible;
       content: '';
       border-radius: 4rpx;
@@ -10,7 +10,7 @@
       opacity: 0.8;
       width:10px!important;
       height:10px!important;
-      padding: 2px 12px;
+      padding: 4px 12px;
     }
   }
   .radio--default[checked]{
@@ -28,6 +28,7 @@
   }
   .radio--outer{
     display: block;
+    margin-bottom:20rpx;
   }
 </style>
 <template>
@@ -53,7 +54,6 @@
     }
     methods = {
       handleChange ({detail}) {
-        console.log(detail)
         this.$emit('toggle', detail)
       }
     }
