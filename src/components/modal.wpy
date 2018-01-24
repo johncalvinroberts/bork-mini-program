@@ -49,11 +49,12 @@
   <view class="modal--blur" style="visibility: {{isopen ? 'visible' : 'hidden'}};">
     <view class="container__flex modal--mask" @tap="maskTap" id="modalmask">
       <view class="modal--body" style="transform: {{isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)'}};">
-        <image class="modal--close" src="../icons/close.svg" @tap="maskTap" wx:if="{{hasClose}}"></image>
+        <image class="modal--close" src="../icons/close.svg" @tap="maskTap" wx:if="{{hasclose}}"></image>
         <view class="modal--title" wx:if="{{title}}">{{title}}</view>
         <view class="modal--subtitle"wx:if="{{subtitle}}">{{subtitle}}</view>
         <view class="modal--slot-outer">
-          <slot></slot>
+          <slot>
+          </slot>
         </view>
       </view>
     </view>
@@ -74,7 +75,7 @@
         type: String,
         default: null
       },
-      hasClose: {
+      hasclose: {
         type: Boolean,
         default: true
       }

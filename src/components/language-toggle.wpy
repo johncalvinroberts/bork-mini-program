@@ -1,0 +1,40 @@
+<style lang="scss">
+@import "../styles/variables.scss";
+  .lang--outer{
+    position: absolute;
+    top: 20rpx;
+    right: 20rpx;
+    padding: 20rpx;
+  }
+  .lang--btn{
+    background-color: $light-grey;
+    &:before, &:after{
+      display: none;
+    }
+  }
+</style>
+<template>
+  <view class="lang--outer">
+    <button class="lang--btn" @tap="changeLanguage">{{currentLanguage}}</button>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class LanguageToggle extends wepy.component {
+    /*
+      Listen closely. Only ever use this component on a page, never inside another component god damnit.
+    */
+    data = {}
+    computed = {
+      currentLanguage () {
+        return this.$parent.$parent.globalData.lang
+      }
+    }
+    methods = {
+      changeLanguage () {
+        this.$parent.$parent.toggleLocale()
+        this.$emit('togglelang')
+      }
+    }
+  }
+</script>

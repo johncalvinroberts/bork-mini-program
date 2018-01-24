@@ -28,16 +28,16 @@
    __webpack_require__.p = "/";
    // Load entry module and return exports
    
-   return __webpack_require__(3);
+   return __webpack_require__(5);
 })([
 /***** module 0 start *****/
-/***** src/pages/landing.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container__flex\">\n    <div class=\"flex--item__vertical-center padbox--default\">\n      <img class=\"landing--banner\" mode=\"aspectFit\" src=\"icons/fido_logo_black.png\"/>\n      <div class=\"flex--parent__horizontal padbox--default\">\n        <div class=\"flex--item__half btn--default__medium\" @click=\"navToDogs($event)\">看dogs</div>\n        <div class=\"flex--item__half btn--default__medium\" @click=\"navToCats($event)\">看cats</div>\n      </div>\n      <div class=\"padbox--default\" v-if=\"(!isRegistered || !isRescuer)\">\n        <button class=\"btn--default\" @click=\"navToRescueRegistration($event)\">我要成为rescuer</button>\n      </div>\n    </div>\n    <img class=\"icon--default landing--profile\" @click=\"handleProfileBtn($event)\" mode=\"aspectFit\" src=\"icons/profile.svg\"/>\n  </div>\n  <modal  v-bind:isopen.sync=\"registrationModalOpen\" v-bind:title.once=\"modalTitle\" v-bind:subtitle.once=\"modalSubtitle\"  v-on:masktap=\"toggleModal\">\n    <div class=\"landing--modal-btns\">\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToNormalRegistration($event)\">我想领养狗adopter</button>\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToRescueRegistration($event)\">我是rescuer</button>\n    </div>\n    <button class=\"btn--blank landing--login\" @click=\"navToLogin($event)\">登录</button>\n  </modal>\n"},/***** module 0 end *****/
+/***** src/pages/rescuer-registration.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container padbox--default\">\n    <div class=\"registration--title\">成为rescuer</div>\n    <div class=\"registration--subtitle\">Are you a compassionate person? Do you come close to tears at the thought of a poor dog being neglected, abused, abandoned or even eaten? Do you collect stray dogs and/or cats and have more of them than you can handle? If so, become a rescuer and find a new home for your little bundles of love.\n    </div>\n    <formparent>\n      <button class=\"btn--default__dark\" @click=\"getWeChat($event)\" :disabled=\"(wechatDisabled)\">\n        <img class=\"icon--inline\" mode=\"aspectFit\" src=\"icons/wechat_white.svg\"/>\n        使用微信登录\n      </button>\n      <div v-if=\"(authData)\">\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">基本信息</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">名字</div>\n            <div class=\"form-item--input\">{{authData.nickName}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">地方</div>\n            <div class=\"form-item--input\">{{authData.province}}, {{authData.city}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">微信👌</div>\n            <input type=\"text\" placeholder=\"请输入你的微信号\" class=\"form-item--input\" @blur=\"handleWx($event)\" maxlength=\"70\" confirm-type=\"next\" :value=\"(wxUsername || '')\"/>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">年龄🍫</div>\n            <input type=\"number\" placeholder=\"输入你的年龄请\" class=\"form-item--input\" @blur=\"handleAge($event)\" maxlength=\"3\" confirm-type=\"next\" :value=\"(age || '')\"/>\n          </div>\n        </div>\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">自我介绍</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">介绍一下自己，说一说你来这里的目标是什么，你对你的rescue dog 和 rescue cat 有多么多么的爱，等等</div>\n            <textarea class=\"form-item--textinput\" @blur=\"handlePersonal($event)\" confirm-type=\"next\" maxlength=\"200\" :value=\"(personalNote)\"></textarea>\n          </div>\n        </div>\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">实名认证</div>\n          <div class=\"form-item--label\">For Your Safety</div>\n          <div class=\"form-item--default\">\n            <radiolist  v-on:toggle=\"toggleIdType\"  v-bind:choices.sync=\"idChoices\" v-bind:currentchoice.sync=\"idType\"></radiolist>\n          </div>\n          <div v-if=\"(chooseChineseId)\">\n            <div class=\"form-item--default\">\n              <div class=\"form-item--label\">\n                身份证📇\n              </div>\n              <input type=\"idcard\" placeholder=\"身份证\" class=\"form-item--input\" @blur=\"handleId($event)\" confirm-type=\"next\"/>\n            </div>\n          </div>\n            <div  wx:else=\"wx:else\">\n              <div class=\"form-item--default\">\n                <div class=\"form-item--label__fullwidth\">\n                  <coolpicker  v-on:change=\"handleCountryChange\"  v-bind:collection.sync=\"countryChoices\" v-bind:selection.sync=\"country\" v-bind:label.sync=\"countryText\"></coolpicker>\n                </div>\n              </div>\n              <div class=\"form-item--default\">\n                <div class=\"form-item--label\">\n                  姓名📇\n                </div>\n                <input type=\"text\" placeholder=\"请输入你的全法律上的姓名\" class=\"form-item--input\" @blur=\"handleFullName($event)\" maxlength=\"50\" confirm-type=\"next\" :value=\"(fullName || '')\"/>\n              </div>\n              <div class=\"form-item--default\">\n                <div class=\"form-item--label\">\n                  护照🛂\n                </div>\n                <input type=\"number\" placeholder=\"请输入护照号\" class=\"form-item--input\" @blur=\"handleId($event)\" maxlength=\"50\" confirm-type=\"next\" :value=\"(idNumber || '')\"/>\n              </div>\n          </div>\n        </div>\n        <button class=\"btn--default\" @click=\"handleSubmit($event)\">保存</button>\n      </div>\n    </formparent>\n  </div>\n  <redirectmodal></redirectmodal>\n  <errormodal></errormodal>\n  <fidoloader></fidoloader>\n"},/***** module 0 end *****/
 
 
 /***** module 1 start *****/
 /***** src/pages/registration.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container padbox--default\">\n    <div class=\"registration--title\">加入我们</div>\n    <div class=\"registration--subtitle\">     欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想\n    </div>\n    <formparent>\n      <button class=\"btn--default__dark\" @click=\"getWeChat($event)\" :disabled=\"(wechatDisabled)\">\n        <img class=\"icon--inline\" mode=\"aspectFit\" src=\"icons/wechat_white.svg\"/>\n        使用微信登录\n      </button>\n      <div v-if=\"(authData)\">\n        <div class=\"form-item--default\">\n          <div class=\"form-item--label\">名字</div>\n          <div class=\"form-item--input\">{{authData.nickName}}</div>\n        </div>\n        <div class=\"form-item--default\">\n          <div class=\"form-item--label\">地方</div>\n          <div class=\"form-item--input\">{{authData.province}}, {{authData.city}}</div>\n        </div>\n        <div class=\"form-item--default\">\n          <div class=\"form-item--label\">微信👌</div>\n          <input type=\"text\" placeholder=\"请输入你的微信号\" class=\"form-item--input\" @input=\"handleWx($event)\"/>\n        </div>\n        <div class=\"form-message\">\n          最后一步：认证一下你的账号。你需要给救狗人士提供你的微信号，这样子当你遇到喜欢的狗的时候救狗人士可以更方便的联系你\n        </div>\n        <div class=\"form-item--default\">\n          <div class=\"form-item--label__fullwidth\">自我介绍</div>\n          <textarea class=\"form-item--textinput\" @input=\"handlePersonal($event)\"></textarea>\n        </div>\n        <button class=\"btn--default btn--default__fixed\">保存</button>\n      </div>\n    </formparent>\n  </div>\n  <div v-if=\"(isRegistered)\">\n    <redirectmodal  v-bind:message.once=\"message\"></redirectmodal>\n  </div>\n"},/***** module 1 end *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container padbox--default\">\n    <div class=\"registration--title\">加入我们</div>\n    <div class=\"registration--subtitle\">     欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想\n    </div>\n    <formparent>\n\n      <button class=\"btn--default__dark\" @click=\"getWeChat($event)\" :disabled=\"(wechatDisabled)\">\n        <img class=\"icon--inline\" mode=\"aspectFit\" src=\"icons/wechat_white.svg\"/>\n        使用微信登录\n      </button>\n      <div v-if=\"(authData)\">\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">基本信息</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">名字</div>\n            <div class=\"form-item--input\">{{authData.nickName}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">地方</div>\n            <div class=\"form-item--input\">{{authData.province}}, {{authData.city}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">微信👌</div>\n            <input type=\"text\" placeholder=\"请输入你的微信号\" class=\"form-item--input\" @blur=\"handleWx($event)\" maxlength=\"70\" confirm-type=\"next\"/>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">年龄🍫</div>\n            <input type=\"number\" placeholder=\"输入你的年龄请\" class=\"form-item--input\" @blur=\"handleAge($event)\" maxlength=\"3\" confirm-type=\"next\"/>\n          </div>\n        </div>\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">自我介绍</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">你需要给救狗人士提供你的微信号，这样当你遇到喜欢的狗的时候救狗人士可以更方便的联系你。写个自我介绍让救狗人士认识一下你</div>\n            <textarea class=\"form-item--textinput\" @focus=\"handleFocus($event)\" @blur=\"handlePersonal($event)\" confirm-type=\"send\" @confirm=\"handleSubmit($event)\" maxlength=\"200\"></textarea>\n          </div>\n        </div>\n        <button class=\"btn--default\" @click=\"handleSubmit($event)\">保存</button>\n      </div>\n    </formparent>\n  </div>\n  <redirectmodal></redirectmodal>\n  <errormodal></errormodal>\n  <fidoloader></fidoloader>\n"},/***** module 1 end *****/
 
 
 /***** module 2 start *****/
@@ -46,6 +46,16 @@ function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"co
 
 
 /***** module 3 start *****/
+/***** src/pages/landing.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container__flex\">\n    <div class=\"flex--item__vertical-center padbox--default\">\n      <img class=\"landing--banner\" mode=\"aspectFit\" src=\"icons/fido_logo_black.png\"/>\n      <div class=\"flex--parent__horizontal padbox--default\">\n        <div class=\"flex--item__half btn--default__medium\" @click=\"navToDogs($event)\">看dogs</div>\n        <div class=\"flex--item__half btn--default__medium\" @click=\"navToCats($event)\">看cats</div>\n      </div>\n      <div class=\"padbox--default\" v-if=\"(!isRegistered || !isRescuer)\">\n        <button class=\"btn--default\" @click=\"navToRescueRegistration($event)\">我要成为rescuer</button>\n      </div>\n    </div>\n    <img class=\"icon--default landing--profile\" @click=\"handleProfileBtn($event)\" mode=\"aspectFit\" src=\"icons/profile.svg\"/>\n  </div>\n  <modal  v-bind:isopen.sync=\"registrationModalOpen\" v-bind:title.once=\"modalTitle\" v-bind:subtitle.once=\"modalSubtitle\"  v-on:masktap=\"toggleModal\">\n    <div class=\"landing--modal-btns\">\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToNormalRegistration($event)\">我想领养狗adopter</button>\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToRescueRegistration($event)\">我是rescuer</button>\n    </div>\n    <button class=\"btn--blank landing--login\" @click=\"navToLogin($event)\">登录</button>\n  </modal>\n  <div v-if=\"(isRegistered)\">\n    <sideslider  v-bind:isopen.sync=\"sideSliderOpen\"  v-on:tapsheet=\"toggleSlider\">\n      <div class=\"container__flex landing--sideslider\">\n        <button class=\"btn--default__small\">something</button>\n        <button class=\"btn--default__small\">something</button>\n        <button class=\"btn--default__small\">something</button>\n        <div v-if=\"(isRescuer)\">\n          <button class=\"btn--default__small\">rescuers only</button>\n          <button class=\"btn--default__small\">rescuers only</button>\n        </div>\n      </div>\n    </sideslider>\n  </div>\n"},/***** module 3 end *****/
+
+
+/***** module 4 start *****/
+/***** src/pages/edit-profile.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container\">\n    hey\n  </div>\n"},/***** module 4 end *****/
+
+
+/***** module 5 start *****/
 /***** src/app.wpy *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -56,13 +66,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _wepy = __wepy_require(4);
+var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
-__wepy_require(5);
+__wepy_require(7);
 
-var _usermodel = __wepy_require(6);
+var _usermodel = __wepy_require(8);
 
 var _usermodel2 = _interopRequireDefault(_usermodel);
 
@@ -85,7 +95,7 @@ var _default = function (_wepy$app) {
     var _this = _possibleConstructorReturn(this, (_default.__proto__ || Object.getPrototypeOf(_default)).call(this));
 
     _this.config = {
-      pages: ['pages/landing', 'pages/registration', 'pages/login'],
+      pages: ['pages/rescuer-registration', 'pages/registration', 'pages/login', 'pages/landing', 'pages/edit-profile'],
       window: {
         backgroundTextStyle: 'dark',
         navigationBarBackgroundColor: '#FFFFFF',
@@ -136,46 +146,46 @@ var _default = function (_wepy$app) {
 }(_wepy2.default.app);
 
 exports.default = _default;
-__wepy_require(4).default.$createApp(_default, {"routes":{"pages/landing":7,"pages/registration":9,"pages/login":12},"style":[37,38,39,40,41,42,43],"components":{},"apis":{}});
+__wepy_require(6).default.$createApp(_default, {"routes":{"pages/rescuer-registration":9,"pages/registration":18,"pages/login":19,"pages/landing":20,"pages/edit-profile":23},"style":[52,53,54,55,56,57,58,59,60,61,62,63],"components":{},"apis":{}});
 
-},/***** module 3 end *****/
+},/***** module 5 end *****/
 
 
-/***** module 4 start *****/
+/***** module 6 start *****/
 /***** node_modules/wepy-web/lib/wepy.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
 exports.__esModule = true;
 
-var _app = __wepy_require(16);
+var _app = __wepy_require(32);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _page = __wepy_require(17);
+var _page = __wepy_require(33);
 
 var _page2 = _interopRequireDefault(_page);
 
-var _component = __wepy_require(18);
+var _component = __wepy_require(34);
 
 var _component2 = _interopRequireDefault(_component);
 
-var _event = __wepy_require(19);
+var _event = __wepy_require(35);
 
 var _event2 = _interopRequireDefault(_event);
 
-var _base = __wepy_require(20);
+var _base = __wepy_require(36);
 
 var _base2 = _interopRequireDefault(_base);
 
-var _util = __wepy_require(21);
+var _util = __wepy_require(37);
 
 var _util2 = _interopRequireDefault(_util);
 
-var _mixin = __wepy_require(22);
+var _mixin = __wepy_require(38);
 
 var _mixin2 = _interopRequireDefault(_mixin);
 
-var _wx = __wepy_require(23);
+var _wx = __wepy_require(39);
 
 var _wx2 = _interopRequireDefault(_wx);
 
@@ -200,22 +210,22 @@ exports.default = {
     $isPlainObject: _util2.default.$isPlainObject,
     $copy: _util2.default.$copy
 };
-},/***** module 4 end *****/
+},/***** module 6 end *****/
 
 
-/***** module 5 start *****/
+/***** module 7 start *****/
 /***** node_modules/wepy-async-function/index.js *****/
-function(module, exports, __wepy_require) {var g = __wepy_require(24);
+function(module, exports, __wepy_require) {var g = __wepy_require(40);
 
 // IOS 10.0.1 may cause IOS crash.
-g.Promise = __wepy_require(25);
-g.regeneratorRuntime = __wepy_require(26);
+g.Promise = __wepy_require(41);
+g.regeneratorRuntime = __wepy_require(42);
 
 
-},/***** module 5 end *****/
+},/***** module 7 end *****/
 
 
-/***** module 6 start *****/
+/***** module 8 start *****/
 /***** src/models/usermodel.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -228,17 +238,17 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _avWeappMin = __wepy_require(27);
+var _avWeappMin = __wepy_require(43);
 
 var _avWeappMin2 = _interopRequireDefault(_avWeappMin);
 
-var _secret_keys = __wepy_require(28);
+var _secret_keys = __wepy_require(44);
 
-var _wepy = __wepy_require(4);
+var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
-var _lodash = __wepy_require(29);
+var _lodash = __wepy_require(17);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -334,53 +344,126 @@ var UserModel = function () {
       return authorize;
     }()
   }, {
-    key: 'logIn',
+    key: 'fetchUpdate',
     value: function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var loginPromise, wxPromise, _ref3, _ref4, loginInfo, userInfo, updatedUser;
-
+        var current;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.prev = 0;
-                loginPromise = _avWeappMin2.default.User.loginWithWeapp();
-                wxPromise = _wepy2.default.getUserInfo();
-                _context2.next = 5;
-                return Promise.all([loginPromise, wxPromise]);
+                _context2.next = 2;
+                return _avWeappMin2.default.User.current().fetch();
 
-              case 5:
-                _ref3 = _context2.sent;
-                _ref4 = _slicedToArray(_ref3, 2);
-                loginInfo = _ref4[0];
-                userInfo = _ref4[1].userInfo;
-                _context2.next = 11;
-                return _avWeappMin2.default.User.current().set(userInfo).save();
+              case 2:
+                current = _context2.sent;
 
-              case 11:
-                updatedUser = _context2.sent;
+                console.log(current);
+                this.data = current.toJSON();
+                return _context2.abrupt('return', this.data);
 
-                this.data = updatedUser.toJSON();
-                _context2.next = 19;
-                break;
-
-              case 15:
-                _context2.prev = 15;
-                _context2.t0 = _context2['catch'](0);
-
-                console.error(_context2.t0);
-                return _context2.abrupt('return', _context2.t0);
-
-              case 19:
+              case 6:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 15]]);
+        }, _callee2, this);
+      }));
+
+      function fetchUpdate() {
+        return _ref2.apply(this, arguments);
+      }
+
+      return fetchUpdate;
+    }()
+  }, {
+    key: 'updateProfileInfo',
+    value: function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(params) {
+        var updatedUser;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return _avWeappMin2.default.User.current().set(params).save();
+
+              case 3:
+                updatedUser = _context3.sent;
+
+                this.data = updatedUser.toJSON();
+                return _context3.abrupt('return', updatedUser);
+
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3['catch'](0);
+
+                console.error(_context3.t0);
+                return _context3.abrupt('return', _context3.t0);
+
+              case 12:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[0, 8]]);
+      }));
+
+      function updateProfileInfo(_x) {
+        return _ref3.apply(this, arguments);
+      }
+
+      return updateProfileInfo;
+    }()
+  }, {
+    key: 'logIn',
+    value: function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        var loginPromise, wxPromise, _ref5, _ref6, loginInfo, userInfo, updatedUser;
+
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                loginPromise = _avWeappMin2.default.User.loginWithWeapp();
+                wxPromise = _wepy2.default.getUserInfo();
+                _context4.next = 5;
+                return Promise.all([loginPromise, wxPromise]);
+
+              case 5:
+                _ref5 = _context4.sent;
+                _ref6 = _slicedToArray(_ref5, 2);
+                loginInfo = _ref6[0];
+                userInfo = _ref6[1].userInfo;
+                _context4.next = 11;
+                return _avWeappMin2.default.User.current().set(userInfo).save();
+
+              case 11:
+                updatedUser = _context4.sent;
+
+                this.data = updatedUser.toJSON();
+                _context4.next = 19;
+                break;
+
+              case 15:
+                _context4.prev = 15;
+                _context4.t0 = _context4['catch'](0);
+
+                console.error(_context4.t0);
+                return _context4.abrupt('return', _context4.t0);
+
+              case 19:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[0, 15]]);
       }));
 
       function logIn() {
-        return _ref2.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return logIn;
@@ -388,48 +471,48 @@ var UserModel = function () {
   }, {
     key: 'requestLocation',
     value: function () {
-      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var authData;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context3.next = 2;
+                _context5.next = 2;
                 return _wepy2.default.getSetting();
 
               case 2:
-                authData = _context3.sent;
+                authData = _context5.sent;
 
                 if (authData.authSetting['scope.userLocation']) {
-                  _context3.next = 13;
+                  _context5.next = 13;
                   break;
                 }
 
-                _context3.prev = 4;
-                _context3.next = 7;
+                _context5.prev = 4;
+                _context5.next = 7;
                 return _wepy2.default.authorize({ scope: 'scope.userLocation' });
 
               case 7:
-                _context3.next = 13;
+                _context5.next = 13;
                 break;
 
               case 9:
-                _context3.prev = 9;
-                _context3.t0 = _context3['catch'](4);
+                _context5.prev = 9;
+                _context5.t0 = _context5['catch'](4);
 
-                console.error(_context3.t0);
-                return _context3.abrupt('return', _context3.t0);
+                console.error(_context5.t0);
+                return _context5.abrupt('return', _context5.t0);
 
               case 13:
               case 'end':
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this, [[4, 9]]);
+        }, _callee5, this, [[4, 9]]);
       }));
 
       function requestLocation() {
-        return _ref5.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return requestLocation;
@@ -447,15 +530,12 @@ var UserModel = function () {
   }, {
     key: 'isRescuer',
     get: function get() {
-      if (this.data.attributes && this.data.attributes.is_rescuer) {
-        return true;
-      }
-      return false;
+      return !(0, _lodash2.default)(this.data) && this.data.rescueVerified;
     }
   }, {
     key: 'attributes',
     get: function get() {
-      return this.data.attributes || null;
+      return (0, _lodash2.default)(this.data) ? null : this.data;
     }
   }]);
 
@@ -463,209 +543,11 @@ var UserModel = function () {
 }();
 
 exports.default = UserModel;
-},/***** module 6 end *****/
-
-
-/***** module 7 start *****/
-/***** src/pages/landing.wpy *****/
-function(module, exports, __wepy_require) {'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _wepy = __wepy_require(4);
-
-var _wepy2 = _interopRequireDefault(_wepy);
-
-var _modal = __wepy_require(8);
-
-var _modal2 = _interopRequireDefault(_modal);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Index = function (_wepy$page) {
-  _inherits(Index, _wepy$page);
-
-  function Index() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    _classCallCheck(this, Index);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref, [this].concat(args))), _this), _this.config = {
-      navigationBarTitleText: '正在加载'
-    }, _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "registrationModalOpen", "v-bind:title.once": "modalTitle", "v-bind:subtitle.once": "modalSubtitle", "xmlns:v-on": "" } }, _this.$events = { "modal": { "v-on:masktap": "toggleModal" } }, _this.components = {
-      modal: _modal2.default
-    }, _this.data = {
-      isRegistered: false,
-      isRescuer: false,
-      registrationModalOpen: false,
-      sidesliderOpen: false,
-      modalTitle: '你还没有注册😁',
-      modalSubtitle: '你可以成为adopter还是rescuer.'
-    }, _this.methods = {
-      handleRescueButton: function handleRescueButton() {
-        console.log(this.isRegistered);
-      },
-      handleProfileBtn: function handleProfileBtn() {
-        if (!this.isRegistered) {
-          this.registrationModalOpen = !this.registrationModalOpen;
-        } else {
-          this.sidesliderOpen = !this.sidesliderOpen;
-        }
-      },
-      navToDogs: function navToDogs() {
-        console.log('dogs');
-      },
-      navToCats: function navToCats() {
-        console.log('cats');
-      },
-      toggleModal: function toggleModal() {
-        this.registrationModalOpen = !this.registrationModalOpen;
-      },
-      toggleSlider: function toggleSlider() {
-        this.sidesliderOpen = !this.sidesliderOpen;
-      },
-      navToNormalRegistration: function navToNormalRegistration() {
-        _wepy2.default.navigateTo({ url: 'registration' });
-      },
-      navToRescueRegistration: function navToRescueRegistration() {},
-      navToLogin: function navToLogin() {
-        _wepy2.default.navigateTo({
-          url: 'login'
-        });
-      }
-    }, _this.computed = {}, _temp), _possibleConstructorReturn(_this, _ret);
-  }
-
-  _createClass(Index, [{
-    key: 'onLoad',
-    value: function onLoad() {
-      _wepy2.default.setNavigationBarTitle({
-        title: 'fido'
-      });
-      this.isRegistered = this.$parent.globalData.user.isRegistered;
-      this.isRescuer = this.$parent.globalData.user.isRescuer;
-      this.$apply();
-    }
-  }, {
-    key: 'onUnload',
-    value: function onUnload() {
-      console.log('landing unload');
-    }
-  }, {
-    key: 'onShow',
-    value: function onShow() {
-      this.sidesliderOpen = false;
-      this.registrationModalOpen = false;
-    }
-  }]);
-
-  return Index;
-}(_wepy2.default.page);
-
-exports.default = Index;
-
-exports.default.template=__wepy_require(0);
-},/***** module 7 end *****/
-
-
-/***** module 8 start *****/
-/***** src/components/modal.wpy *****/
-function(module, exports, __wepy_require) {'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _wepy = __wepy_require(4);
-
-var _wepy2 = _interopRequireDefault(_wepy);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Modal = function (_wepy$component) {
-  _inherits(Modal, _wepy$component);
-
-  function Modal() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    _classCallCheck(this, Modal);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
-      title: {
-        type: String,
-        default: null
-      },
-      isopen: {
-        type: Boolean
-      },
-      subtitle: {
-        type: String,
-        default: null
-      },
-      hasClose: {
-        type: Boolean,
-        default: true
-      }
-    }, _this.methods = {
-      maskTap: function maskTap(e) {
-        if (e.target.id === e.currentTarget.id) {
-          this.$emit('masktap');
-        }
-      }
-    }, _this.data = {}, _this.components = {}, _temp), _possibleConstructorReturn(_this, _ret);
-  }
-
-  _createClass(Modal, [{
-    key: 'onLoad',
-    value: function onLoad() {}
-  }, {
-    key: 'onShow',
-    value: function onShow() {}
-  }]);
-
-  return Modal;
-}(_wepy2.default.component);
-
-exports.default = Modal;
-
-exports.default.template=__wepy_require(13);
 },/***** module 8 end *****/
 
 
 /***** module 9 start *****/
-/***** src/pages/registration.wpy *****/
+/***** src/pages/rescuer-registration.wpy *****/
 function(module, exports, __wepy_require) {'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -675,7 +557,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _wepy = __wepy_require(4);
+var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
@@ -687,6 +569,30 @@ var _redirectModal = __wepy_require(11);
 
 var _redirectModal2 = _interopRequireDefault(_redirectModal);
 
+var _errorModal = __wepy_require(12);
+
+var _errorModal2 = _interopRequireDefault(_errorModal);
+
+var _coolPicker = __wepy_require(13);
+
+var _coolPicker2 = _interopRequireDefault(_coolPicker);
+
+var _radiolist = __wepy_require(14);
+
+var _radiolist2 = _interopRequireDefault(_radiolist);
+
+var _fidoLoader = __wepy_require(15);
+
+var _fidoLoader2 = _interopRequireDefault(_fidoLoader);
+
+var _countries = __wepy_require(16);
+
+var _countries2 = _interopRequireDefault(_countries);
+
+var _lodash = __wepy_require(17);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -697,36 +603,75 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Registration = function (_wepy$page) {
-  _inherits(Registration, _wepy$page);
+var RescuerRegistration = function (_wepy$page) {
+  _inherits(RescuerRegistration, _wepy$page);
 
-  function Registration() {
+  function RescuerRegistration() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    _classCallCheck(this, Registration);
+    _classCallCheck(this, RescuerRegistration);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Registration.__proto__ || Object.getPrototypeOf(Registration)).call.apply(_ref, [this].concat(args))), _this), _this.config = {
-      navigationBarTitleText: '注册'
-    }, _this.$repeat = {}, _this.$props = { "redirectmodal": { "xmlns:v-bind": "", "v-bind:message.once": "message" } }, _this.$events = {}, _this.components = {
-      formparent: _formParent2.default,
-      redirectmodal: _redirectModal2.default
-    }, _this.data = {
-      message: '你已经注册了',
-      wechatDisabled: false,
-      isRegistered: false,
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = RescuerRegistration.__proto__ || Object.getPrototypeOf(RescuerRegistration)).call.apply(_ref, [this].concat(args))), _this), _this.data = {
+      idChoices: [{
+        name: '身份证',
+        value: 'chinese_id'
+      }, {
+        name: '护照',
+        value: 'passport'
+      }],
+      countryChoices: _countries2.default,
+      countryText: '护照国家 🎏',
       authData: null,
-      wxUsername: {},
-      personalNote: null
-    }, _this.methods = {
-      redirectHome: function redirectHome() {
-        _wepy2.default.navigateTo({ url: 'landing' });
+      wxUsername: null,
+      personalNote: null,
+      age: null,
+      idNumber: '',
+      idType: 'chinese_id',
+      country: 'China',
+      fullName: ''
+    }, _this.$repeat = {}, _this.$props = { "coolpicker": { "v-bind:collection.sync": "countryChoices", "v-bind:selection.sync": "country", "v-bind:label.sync": "countryText" }, "radiolist": { "xmlns:v-on": "", "xmlns:v-bind": "", "v-bind:choices.sync": "idChoices", "v-bind:currentchoice.sync": "idType" } }, _this.$events = { "coolpicker": { "v-on:change": "handleCountryChange" }, "radiolist": { "v-on:toggle": "toggleIdType" } }, _this.components = {
+      formparent: _formParent2.default,
+      redirectmodal: _redirectModal2.default,
+      errormodal: _errorModal2.default,
+      coolpicker: _coolPicker2.default,
+      radiolist: _radiolist2.default,
+      fidoloader: _fidoLoader2.default
+    }, _this.computed = {
+      wechatDisabled: function wechatDisabled() {
+        return this.authData !== null;
       },
+      chooseChineseId: function chooseChineseId() {
+        return this.idType === 'chinese_id';
+      },
+      hasEmptyFields: function hasEmptyFields() {
+        var _data = this.data,
+            age = _data.age,
+            wxUsername = _data.wxUsername,
+            personalNote = _data.personalNote,
+            idNumber = _data.idNumber,
+            country = _data.country,
+            fullName = _data.fullName;
+
+        var fields = { age: age, wxUsername: wxUsername, personalNote: personalNote, idNumber: idNumber };
+        if (this.idType === 'passport') {
+          fields.country = country;
+          fields.fullName = fullName;
+        }
+        var emptyFields = Object.keys(fields).filter(function (field) {
+          var value = fields[field];
+          if (value === '' || value === ' ' || value === null) {
+            return field;
+          }
+        });
+        return (0, _lodash2.default)(emptyFields) ? false : emptyFields;
+      }
+    }, _this.methods = {
       handleWx: function handleWx(_ref2) {
         var detail = _ref2.detail;
 
@@ -736,69 +681,205 @@ var Registration = function (_wepy$page) {
       handlePersonal: function handlePersonal(_ref3) {
         var detail = _ref3.detail;
 
-        console.log(detail);
         this.personalNote = detail.value;
+        this.$apply();
+      },
+      handleAge: function handleAge(_ref4) {
+        var detail = _ref4.detail;
+
+        this.age = detail.value;
+        this.$apply();
+      },
+      handleId: function handleId(_ref5) {
+        var detail = _ref5.detail;
+
+        this.idNumber = detail.value;
+        this.$apply();
+      },
+      handleFullName: function handleFullName(_ref6) {
+        var detail = _ref6.detail;
+
+        this.fullName = detail.value;
+        this.$apply();
+      },
+      toggleIdType: function toggleIdType(e) {
+        if (this.idType === 'chinese_id') {
+          this.idType = 'passport';
+        } else {
+          this.idType = 'chinese_id';
+        }
+        this.idNumber = '';
+        this.$apply();
+      },
+      handleCountryChange: function handleCountryChange(_ref7) {
+        var detail = _ref7.detail;
+
+        this.country = _countries2.default[detail.value];
+        this.$apply();
+      },
+      reloadPage: function reloadPage() {
+        this.onLoad();
       }
-    }, _this.computed = {}, _temp), _possibleConstructorReturn(_this, _ret);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  _createClass(Registration, [{
+  _createClass(RescuerRegistration, [{
+    key: 'onload',
+    value: function onload() {}
+  }, {
     key: 'onShow',
     value: function onShow() {
       this.isRegistered = this.$parent.globalData.user.isRegistered;
+      this.authData = this.$parent.globalData.user.attributes;
+      if (this.authData) this.diffAuthData();
+      if (!this.$parent.globalData.user.isRescuer) {
+        var params = {
+          message: '你已经是rescuer了，你可以在个人中心编辑你的资料',
+          link: 'edit-profile',
+          linkname: '编辑'
+        };
+        this.$invoke('redirectmodal', 'toggleModal', params);
+      }
     }
   }, {
     key: 'getWeChat',
     value: function () {
-      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var user, authData;
+      var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var user;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                this.$invoke('fidoloader', 'showLoading', '');
                 user = this.$parent.globalData.user;
-                _context.prev = 1;
-                _context.next = 4;
+                _context.prev = 2;
+                _context.next = 5;
                 return user.authorize();
 
-              case 4:
-                authData = _context.sent;
-
-                console.log(authData);
-                this.authData = authData;
+              case 5:
+                this.authData = this.$parent.globalData.user.attributes;
                 this.$apply();
-                _context.next = 13;
+                this.diffAuthData();
+                this.$invoke('fidoloader', 'hideLoading', '');
+                _context.next = 16;
                 break;
 
-              case 10:
-                _context.prev = 10;
-                _context.t0 = _context['catch'](1);
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context['catch'](2);
 
+                this.$invoke('fidoloader', 'hideLoading', '');
                 // actually deal with the error maybe lol
                 console.error(_context.t0);
+                this.handleFetchError();
 
-              case 13:
+              case 16:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[1, 10]]);
+        }, _callee, this, [[2, 11]]);
       }));
 
       function getWeChat() {
-        return _ref4.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return getWeChat;
     }()
+  }, {
+    key: 'handleFetchError',
+    value: function handleFetchError() {
+      var params = {
+        header: '哎哟出错了😯',
+        message: '刷新页面再试试一遍',
+        refresh: true
+      };
+      this.$invoke('errormodal', 'showMessage', params);
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function () {
+      var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _data2, wxUsername, personalNote, age, idType, idNumber, fullName, country, params;
+
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!this.hasEmptyFields) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt('return', this.handleSubmitError());
+
+              case 2:
+                this.$invoke('fidoloader', 'showLoading', '');
+                _context2.prev = 3;
+                _data2 = this.data, wxUsername = _data2.wxUsername, personalNote = _data2.personalNote, age = _data2.age, idType = _data2.idType, idNumber = _data2.idNumber, fullName = _data2.fullName, country = _data2.country;
+                _context2.next = 7;
+                return this.$parent.globalData.user.updateProfileInfo({ wxUsername: wxUsername, personalNote: personalNote, age: age, idType: idType, idNumber: idNumber, fullName: fullName, country: country });
+
+              case 7:
+                params = { message: '恭喜你, 你已经成为fido的rescuer' };
+
+                this.$invoke('fidoloader', 'hideLoading', '');
+                this.$invoke('redirectmodal', 'toggleModal', params);
+                this.$parent.globalData.user.fetchUpdate();
+                _context2.next = 17;
+                break;
+
+              case 13:
+                _context2.prev = 13;
+                _context2.t0 = _context2['catch'](3);
+
+                console.error(_context2.t0);
+                this.handleFetchError();
+
+              case 17:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[3, 13]]);
+      }));
+
+      function handleSubmit() {
+        return _ref9.apply(this, arguments);
+      }
+
+      return handleSubmit;
+    }()
+  }, {
+    key: 'handleSubmitError',
+    value: function handleSubmitError() {
+      var params = {
+        header: '认证失败 🙇‍',
+        message: '\u4F60\u8FD8\u6CA1\u6709\u586B\u5B8C\u4F60\u7684\u4FE1\u606F\uFF0C\u6211\u4EEC\u4E3A\u4E86\u4F60\u7684\u5B89\u5168\u52AA\u529B\uFF0C\u8BF7\u586B\u5B8C\u518D\u63D0\u4EA4\u8C22\u8C22\uD83D\uDE4F'
+      };
+      return this.$invoke('errormodal', 'showMessage', params);
+    }
+  }, {
+    key: 'diffAuthData',
+    value: function diffAuthData() {
+      this.age = this.authData.age || '';
+      this.personalNote = this.authData.personalNote || '';
+      this.wxUsername = this.authData.wxUsername || '';
+      this.fullName = this.authData.fullName || '';
+      this.idNumber = this.authData.idNumber || '';
+      this.country = this.authData.country || 'china';
+      this.idType = this.authData.idType || 'chinese_id';
+      this.$apply();
+    }
   }]);
 
-  return Registration;
+  return RescuerRegistration;
 }(_wepy2.default.page);
 
-exports.default = Registration;
+exports.default = RescuerRegistration;
 
-exports.default.template=__wepy_require(1);
+exports.default.template=__wepy_require(0);
 },/***** module 9 end *****/
 
 
@@ -811,7 +892,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _wepy = __wepy_require(4);
+var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
@@ -837,7 +918,7 @@ var FormParent = function (_wepy$component) {
 
 exports.default = FormParent;
 
-exports.default.template=__wepy_require(14);
+exports.default.template=__wepy_require(24);
 },/***** module 10 end *****/
 
 
@@ -850,11 +931,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _wepy = __wepy_require(4);
+var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
-var _modal = __wepy_require(8);
+var _modal = __wepy_require(21);
 
 var _modal2 = _interopRequireDefault(_modal);
 
@@ -888,18 +969,23 @@ var RedirectModal = function (_wepy$component) {
       linkname: {
         type: String,
         default: '回到首页'
-      },
-      message: {
-        type: String
       }
     }, _this.data = {
-      isChildOpen: true,
-      hasClose: false
-    }, _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "isChildOpen", "v-bind:hasClose.sync": "hasClose" } }, _this.$events = {}, _this.components = {
+      isChildOpen: false,
+      hasClose: false,
+      message: ''
+    }, _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "isChildOpen", "v-bind:hasclose.sync": "hasClose" } }, _this.$events = {}, _this.components = {
       modal: _modal2.default
     }, _this.methods = {
       redirect: function redirect() {
         _wepy2.default.navigateTo({ url: this.link });
+      },
+      toggleModal: function toggleModal(_ref2) {
+        var message = _ref2.message;
+
+        this.message = message;
+        this.isChildOpen = !this.isChildOpen;
+        this.$apply();
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -909,11 +995,1126 @@ var RedirectModal = function (_wepy$component) {
 
 exports.default = RedirectModal;
 
-exports.default.template=__wepy_require(15);
+exports.default.template=__wepy_require(25);
 },/***** module 11 end *****/
 
 
 /***** module 12 start *****/
+/***** src/components/error-modal.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+var _modal = __wepy_require(21);
+
+var _modal2 = _interopRequireDefault(_modal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ErrorModal = function (_wepy$component) {
+  _inherits(ErrorModal, _wepy$component);
+
+  function ErrorModal() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, ErrorModal);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ErrorModal.__proto__ || Object.getPrototypeOf(ErrorModal)).call.apply(_ref, [this].concat(args))), _this), _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "errorModalOpen", "xmlns:v-on": "" } }, _this.$events = { "modal": { "v-on:masktap": "handleTap" } }, _this.components = {
+      modal: _modal2.default
+    }, _this.data = {
+      errorModalOpen: false,
+      header: null,
+      message: null,
+      refresh: false
+    }, _this.methods = {
+      showMessage: function showMessage(param) {
+        this.errorModalOpen = true;
+        this.header = param.header;
+        this.message = param.message;
+        this.refresh = param.refresh || false;
+        this.$apply();
+      },
+      handleTap: function handleTap() {
+        this.errorModalOpen = false;
+        if (this.refresh) {
+          this.$parent.onLoad();
+          this.$emit('modaltap');
+        }
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  return ErrorModal;
+}(_wepy2.default.component);
+
+exports.default = ErrorModal;
+
+exports.default.template=__wepy_require(26);
+},/***** module 12 end *****/
+
+
+/***** module 13 start *****/
+/***** src/components/cool-picker.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CoolPicker = function (_wepy$component) {
+  _inherits(CoolPicker, _wepy$component);
+
+  function CoolPicker() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, CoolPicker);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CoolPicker.__proto__ || Object.getPrototypeOf(CoolPicker)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
+      collection: {
+        type: Array
+      },
+      selection: {
+        type: String
+      },
+      label: {
+        type: String
+      }
+    }, _this.methods = {
+      handleChange: function handleChange(param) {
+        console.log(param);
+        this.$emit('change', param);
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  return CoolPicker;
+}(_wepy2.default.component);
+
+exports.default = CoolPicker;
+
+exports.default.template=__wepy_require(27);
+},/***** module 13 end *****/
+
+
+/***** module 14 start *****/
+/***** src/components/radiolist.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RadioList = function (_wepy$component) {
+  _inherits(RadioList, _wepy$component);
+
+  function RadioList() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, RadioList);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = RadioList.__proto__ || Object.getPrototypeOf(RadioList)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
+      choices: {
+        type: Array
+      },
+      currentchoice: {
+        type: String
+      }
+    }, _this.methods = {
+      handleChange: function handleChange(_ref2) {
+        var detail = _ref2.detail;
+
+        this.$emit('toggle', detail);
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  return RadioList;
+}(_wepy2.default.component);
+
+exports.default = RadioList;
+
+exports.default.template=__wepy_require(28);
+},/***** module 14 end *****/
+
+
+/***** module 15 start *****/
+/***** src/components/fido-loader.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FidoLoader = function (_wepy$component) {
+  _inherits(FidoLoader, _wepy$component);
+
+  function FidoLoader() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, FidoLoader);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = FidoLoader.__proto__ || Object.getPrototypeOf(FidoLoader)).call.apply(_ref, [this].concat(args))), _this), _this.props = {}, _this.data = {
+      visible: false,
+      message: '小狗正在跑赶来。。。'
+    }, _this.methods = {
+      showLoading: function showLoading(message) {
+        if (message && message !== '') {
+          this.message = message;
+        }
+        this.visible = true;
+        this.$apply();
+      },
+      hideLoading: function hideLoading() {
+        this.visible = false;
+        this.$apply();
+      }
+    }, _this.watch = {}, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(FidoLoader, [{
+    key: 'onLoad',
+    value: function onLoad() {}
+  }]);
+
+  return FidoLoader;
+}(_wepy2.default.component);
+
+exports.default = FidoLoader;
+
+exports.default.template=__wepy_require(29);
+},/***** module 15 end *****/
+
+
+/***** module 16 start *****/
+/***** src/utils/countries.js *****/
+function(module, exports, __wepy_require) {"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/* eslint-disable */
+var countries = [{ "name": "Afghanistan", "code": "AF" }, { "name": "land Islands", "code": "AX" }, { "name": "Albania", "code": "AL" }, { "name": "Algeria", "code": "DZ" }, { "name": "American Samoa", "code": "AS" }, { "name": "AndorrA", "code": "AD" }, { "name": "Angola", "code": "AO" }, { "name": "Anguilla", "code": "AI" }, { "name": "Antarctica", "code": "AQ" }, { "name": "Antigua and Barbuda", "code": "AG" }, { "name": "Argentina", "code": "AR" }, { "name": "Armenia", "code": "AM" }, { "name": "Aruba", "code": "AW" }, { "name": "Australia", "code": "AU" }, { "name": "Austria", "code": "AT" }, { "name": "Azerbaijan", "code": "AZ" }, { "name": "Bahamas", "code": "BS" }, { "name": "Bahrain", "code": "BH" }, { "name": "Bangladesh", "code": "BD" }, { "name": "Barbados", "code": "BB" }, { "name": "Belarus", "code": "BY" }, { "name": "Belgium", "code": "BE" }, { "name": "Belize", "code": "BZ" }, { "name": "Benin", "code": "BJ" }, { "name": "Bermuda", "code": "BM" }, { "name": "Bhutan", "code": "BT" }, { "name": "Bolivia", "code": "BO" }, { "name": "Bosnia and Herzegovina", "code": "BA" }, { "name": "Botswana", "code": "BW" }, { "name": "Bouvet Island", "code": "BV" }, { "name": "Brazil", "code": "BR" }, { "name": "British Indian Ocean Territory", "code": "IO" }, { "name": "Brunei Darussalam", "code": "BN" }, { "name": "Bulgaria", "code": "BG" }, { "name": "Burkina Faso", "code": "BF" }, { "name": "Burundi", "code": "BI" }, { "name": "Cambodia", "code": "KH" }, { "name": "Cameroon", "code": "CM" }, { "name": "Canada", "code": "CA" }, { "name": "Cape Verde", "code": "CV" }, { "name": "Cayman Islands", "code": "KY" }, { "name": "Central African Republic", "code": "CF" }, { "name": "Chad", "code": "TD" }, { "name": "Chile", "code": "CL" }, { "name": "China", "code": "CN" }, { "name": "Christmas Island", "code": "CX" }, { "name": "Cocos (Keeling) Islands", "code": "CC" }, { "name": "Colombia", "code": "CO" }, { "name": "Comoros", "code": "KM" }, { "name": "Congo", "code": "CG" }, { "name": "Congo, The Democratic Republic of the", "code": "CD" }, { "name": "Cook Islands", "code": "CK" }, { "name": "Costa Rica", "code": "CR" }, { "name": "Cote D\"Ivoire", "code": "CI" }, { "name": "Croatia", "code": "HR" }, { "name": "Cuba", "code": "CU" }, { "name": "Cyprus", "code": "CY" }, { "name": "Czech Republic", "code": "CZ" }, { "name": "Denmark", "code": "DK" }, { "name": "Djibouti", "code": "DJ" }, { "name": "Dominica", "code": "DM" }, { "name": "Dominican Republic", "code": "DO" }, { "name": "Ecuador", "code": "EC" }, { "name": "Egypt", "code": "EG" }, { "name": "El Salvador", "code": "SV" }, { "name": "Equatorial Guinea", "code": "GQ" }, { "name": "Eritrea", "code": "ER" }, { "name": "Estonia", "code": "EE" }, { "name": "Ethiopia", "code": "ET" }, { "name": "Falkland Islands (Malvinas)", "code": "FK" }, { "name": "Faroe Islands", "code": "FO" }, { "name": "Fiji", "code": "FJ" }, { "name": "Finland", "code": "FI" }, { "name": "France", "code": "FR" }, { "name": "French Guiana", "code": "GF" }, { "name": "French Polynesia", "code": "PF" }, { "name": "French Southern Territories", "code": "TF" }, { "name": "Gabon", "code": "GA" }, { "name": "Gambia", "code": "GM" }, { "name": "Georgia", "code": "GE" }, { "name": "Germany", "code": "DE" }, { "name": "Ghana", "code": "GH" }, { "name": "Gibraltar", "code": "GI" }, { "name": "Greece", "code": "GR" }, { "name": "Greenland", "code": "GL" }, { "name": "Grenada", "code": "GD" }, { "name": "Guadeloupe", "code": "GP" }, { "name": "Guam", "code": "GU" }, { "name": "Guatemala", "code": "GT" }, { "name": "Guernsey", "code": "GG" }, { "name": "Guinea", "code": "GN" }, { "name": "Guinea-Bissau", "code": "GW" }, { "name": "Guyana", "code": "GY" }, { "name": "Haiti", "code": "HT" }, { "name": "Heard Island and Mcdonald Islands", "code": "HM" }, { "name": "Holy See (Vatican City State)", "code": "VA" }, { "name": "Honduras", "code": "HN" }, { "name": "Hong Kong", "code": "HK" }, { "name": "Hungary", "code": "HU" }, { "name": "Iceland", "code": "IS" }, { "name": "India", "code": "IN" }, { "name": "Indonesia", "code": "ID" }, { "name": "Iran, Islamic Republic Of", "code": "IR" }, { "name": "Iraq", "code": "IQ" }, { "name": "Ireland", "code": "IE" }, { "name": "Isle of Man", "code": "IM" }, { "name": "Israel", "code": "IL" }, { "name": "Italy", "code": "IT" }, { "name": "Jamaica", "code": "JM" }, { "name": "Japan", "code": "JP" }, { "name": "Jersey", "code": "JE" }, { "name": "Jordan", "code": "JO" }, { "name": "Kazakhstan", "code": "KZ" }, { "name": "Kenya", "code": "KE" }, { "name": "Kiribati", "code": "KI" }, { "name": "Korea, Democratic People\"S Republic of", "code": "KP" }, { "name": "Korea, Republic of", "code": "KR" }, { "name": "Kuwait", "code": "KW" }, { "name": "Kyrgyzstan", "code": "KG" }, { "name": "Lao People\"S Democratic Republic", "code": "LA" }, { "name": "Latvia", "code": "LV" }, { "name": "Lebanon", "code": "LB" }, { "name": "Lesotho", "code": "LS" }, { "name": "Liberia", "code": "LR" }, { "name": "Libyan Arab Jamahiriya", "code": "LY" }, { "name": "Liechtenstein", "code": "LI" }, { "name": "Lithuania", "code": "LT" }, { "name": "Luxembourg", "code": "LU" }, { "name": "Macao", "code": "MO" }, { "name": "Macedonia, The Former Yugoslav Republic of", "code": "MK" }, { "name": "Madagascar", "code": "MG" }, { "name": "Malawi", "code": "MW" }, { "name": "Malaysia", "code": "MY" }, { "name": "Maldives", "code": "MV" }, { "name": "Mali", "code": "ML" }, { "name": "Malta", "code": "MT" }, { "name": "Marshall Islands", "code": "MH" }, { "name": "Martinique", "code": "MQ" }, { "name": "Mauritania", "code": "MR" }, { "name": "Mauritius", "code": "MU" }, { "name": "Mayotte", "code": "YT" }, { "name": "Mexico", "code": "MX" }, { "name": "Micronesia, Federated States of", "code": "FM" }, { "name": "Moldova, Republic of", "code": "MD" }, { "name": "Monaco", "code": "MC" }, { "name": "Mongolia", "code": "MN" }, { "name": "Montenegro", "code": "ME" }, { "name": "Montserrat", "code": "MS" }, { "name": "Morocco", "code": "MA" }, { "name": "Mozambique", "code": "MZ" }, { "name": "Myanmar", "code": "MM" }, { "name": "Namibia", "code": "NA" }, { "name": "Nauru", "code": "NR" }, { "name": "Nepal", "code": "NP" }, { "name": "Netherlands", "code": "NL" }, { "name": "Netherlands Antilles", "code": "AN" }, { "name": "New Caledonia", "code": "NC" }, { "name": "New Zealand", "code": "NZ" }, { "name": "Nicaragua", "code": "NI" }, { "name": "Niger", "code": "NE" }, { "name": "Nigeria", "code": "NG" }, { "name": "Niue", "code": "NU" }, { "name": "Norfolk Island", "code": "NF" }, { "name": "Northern Mariana Islands", "code": "MP" }, { "name": "Norway", "code": "NO" }, { "name": "Oman", "code": "OM" }, { "name": "Pakistan", "code": "PK" }, { "name": "Palau", "code": "PW" }, { "name": "Palestinian Territory, Occupied", "code": "PS" }, { "name": "Panama", "code": "PA" }, { "name": "Papua New Guinea", "code": "PG" }, { "name": "Paraguay", "code": "PY" }, { "name": "Peru", "code": "PE" }, { "name": "Philippines", "code": "PH" }, { "name": "Pitcairn", "code": "PN" }, { "name": "Poland", "code": "PL" }, { "name": "Portugal", "code": "PT" }, { "name": "Puerto Rico", "code": "PR" }, { "name": "Qatar", "code": "QA" }, { "name": "Reunion", "code": "RE" }, { "name": "Romania", "code": "RO" }, { "name": "Russian Federation", "code": "RU" }, { "name": "RWANDA", "code": "RW" }, { "name": "Saint Helena", "code": "SH" }, { "name": "Saint Kitts and Nevis", "code": "KN" }, { "name": "Saint Lucia", "code": "LC" }, { "name": "Saint Pierre and Miquelon", "code": "PM" }, { "name": "Saint Vincent and the Grenadines", "code": "VC" }, { "name": "Samoa", "code": "WS" }, { "name": "San Marino", "code": "SM" }, { "name": "Sao Tome and Principe", "code": "ST" }, { "name": "Saudi Arabia", "code": "SA" }, { "name": "Senegal", "code": "SN" }, { "name": "Serbia", "code": "RS" }, { "name": "Seychelles", "code": "SC" }, { "name": "Sierra Leone", "code": "SL" }, { "name": "Singapore", "code": "SG" }, { "name": "Slovakia", "code": "SK" }, { "name": "Slovenia", "code": "SI" }, { "name": "Solomon Islands", "code": "SB" }, { "name": "Somalia", "code": "SO" }, { "name": "South Africa", "code": "ZA" }, { "name": "South Georgia and the South Sandwich Islands", "code": "GS" }, { "name": "Spain", "code": "ES" }, { "name": "Sri Lanka", "code": "LK" }, { "name": "Sudan", "code": "SD" }, { "name": "Suriname", "code": "SR" }, { "name": "Svalbard and Jan Mayen", "code": "SJ" }, { "name": "Swaziland", "code": "SZ" }, { "name": "Sweden", "code": "SE" }, { "name": "Switzerland", "code": "CH" }, { "name": "Syrian Arab Republic", "code": "SY" }, { "name": "Taiwan, Province of China", "code": "TW" }, { "name": "Tajikistan", "code": "TJ" }, { "name": "Tanzania, United Republic of", "code": "TZ" }, { "name": "Thailand", "code": "TH" }, { "name": "Timor-Leste", "code": "TL" }, { "name": "Togo", "code": "TG" }, { "name": "Tokelau", "code": "TK" }, { "name": "Tonga", "code": "TO" }, { "name": "Trinidad and Tobago", "code": "TT" }, { "name": "Tunisia", "code": "TN" }, { "name": "Turkey", "code": "TR" }, { "name": "Turkmenistan", "code": "TM" }, { "name": "Turks and Caicos Islands", "code": "TC" }, { "name": "Tuvalu", "code": "TV" }, { "name": "Uganda", "code": "UG" }, { "name": "Ukraine", "code": "UA" }, { "name": "United Arab Emirates", "code": "AE" }, { "name": "United Kingdom", "code": "GB" }, { "name": "United States", "code": "US" }, { "name": "United States Minor Outlying Islands", "code": "UM" }, { "name": "Uruguay", "code": "UY" }, { "name": "Uzbekistan", "code": "UZ" }, { "name": "Vanuatu", "code": "VU" }, { "name": "Venezuela", "code": "VE" }, { "name": "Viet Nam", "code": "VN" }, { "name": "Virgin Islands, British", "code": "VG" }, { "name": "Virgin Islands, U.S.", "code": "VI" }, { "name": "Wallis and Futuna", "code": "WF" }, { "name": "Western Sahara", "code": "EH" }, { "name": "Yemen", "code": "YE" }, { "name": "Zambia", "code": "ZM" }, { "name": "Zimbabwe", "code": "ZW" }];
+var justNames = countries.map(function (country) {
+  return country["name"];
+});
+
+exports.default = justNames;
+},/***** module 16 end *****/
+
+
+/***** module 17 start *****/
+/***** node_modules/lodash.isempty/index.js *****/
+function(module, exports, __wepy_require) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    mapTag = '[object Map]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    setTag = '[object Set]',
+    weakMapTag = '[object WeakMap]';
+
+var dataViewTag = '[object DataView]';
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined,
+    propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
+    nativeKeys = overArg(Object.keys, Object);
+
+/* Built-in method references that are verified to be native. */
+var DataView = getNative(root, 'DataView'),
+    Map = getNative(root, 'Map'),
+    Promise = getNative(root, 'Promise'),
+    Set = getNative(root, 'Set'),
+    WeakMap = getNative(root, 'WeakMap');
+
+/** Detect if properties shadowing those on `Object.prototype` are non-enumerable. */
+var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = toSource(DataView),
+    mapCtorString = toSource(Map),
+    promiseCtorString = toSource(Promise),
+    setCtorString = toSource(Set),
+    weakMapCtorString = toSource(WeakMap);
+
+/**
+ * The base implementation of `getTag`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  return objectToString.call(value);
+}
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+var getTag = baseGetTag;
+
+// Fallback for data views, maps, sets, and weak maps in IE 11,
+// for data views in Edge < 14, and promises in Node.js.
+if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = objectToString.call(value),
+        Ctor = result == objectTag ? value.constructor : undefined,
+        ctorString = Ctor ? toSource(Ctor) : undefined;
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to process.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || stubFalse;
+
+/**
+ * Checks if `value` is an empty object, collection, map, or set.
+ *
+ * Objects are considered empty if they have no own enumerable string keyed
+ * properties.
+ *
+ * Array-like values such as `arguments` objects, arrays, buffers, strings, or
+ * jQuery-like collections are considered empty if they have a `length` of `0`.
+ * Similarly, maps and sets are considered empty if they have a `size` of `0`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+ * @example
+ *
+ * _.isEmpty(null);
+ * // => true
+ *
+ * _.isEmpty(true);
+ * // => true
+ *
+ * _.isEmpty(1);
+ * // => true
+ *
+ * _.isEmpty([1, 2, 3]);
+ * // => false
+ *
+ * _.isEmpty({ 'a': 1 });
+ * // => false
+ */
+function isEmpty(value) {
+  if (isArrayLike(value) &&
+      (isArray(value) || typeof value == 'string' ||
+        typeof value.splice == 'function' || isBuffer(value) || isArguments(value))) {
+    return !value.length;
+  }
+  var tag = getTag(value);
+  if (tag == mapTag || tag == setTag) {
+    return !value.size;
+  }
+  if (nonEnumShadows || isPrototype(value)) {
+    return !nativeKeys(value).length;
+  }
+  for (var key in value) {
+    if (hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = isEmpty;
+
+},/***** module 17 end *****/
+
+
+/***** module 18 start *****/
+/***** src/pages/registration.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+var _formParent = __wepy_require(10);
+
+var _formParent2 = _interopRequireDefault(_formParent);
+
+var _redirectModal = __wepy_require(11);
+
+var _redirectModal2 = _interopRequireDefault(_redirectModal);
+
+var _errorModal = __wepy_require(12);
+
+var _errorModal2 = _interopRequireDefault(_errorModal);
+
+var _fidoLoader = __wepy_require(15);
+
+var _fidoLoader2 = _interopRequireDefault(_fidoLoader);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Registration = function (_wepy$page) {
+  _inherits(Registration, _wepy$page);
+
+  function Registration() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Registration);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Registration.__proto__ || Object.getPrototypeOf(Registration)).call.apply(_ref, [this].concat(args))), _this), _this.config = {
+      navigationBarTitleText: '注册'
+    }, _this.components = {
+      formparent: _formParent2.default,
+      redirectmodal: _redirectModal2.default,
+      errormodal: _errorModal2.default,
+      fidoloader: _fidoLoader2.default
+    }, _this.data = {
+      isRegistered: false,
+      authData: null,
+      wxUsername: {},
+      personalNote: null,
+      age: null
+    }, _this.methods = {
+      redirectHome: function redirectHome() {
+        _wepy2.default.navigateTo({ url: 'landing' });
+      },
+      handleWx: function handleWx(_ref2) {
+        var detail = _ref2.detail;
+
+        this.wxUsername = detail.value;
+        this.$apply();
+      },
+      handlePersonal: function handlePersonal(_ref3) {
+        var detail = _ref3.detail;
+
+        this.personalNote = detail.value;
+        this.$apply();
+      },
+      handleAge: function handleAge(_ref4) {
+        var detail = _ref4.detail;
+
+        this.age = detail.value;
+        this.$apply();
+      }
+    }, _this.computed = {
+      fieldsValid: function fieldsValid() {
+        if (!this.personalNote || !this.wxUsername || !this.age) {
+          return false;
+        }
+        return true;
+      },
+      wechatDisabled: function wechatDisabled() {
+        return this.authData !== null;
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Registration, [{
+    key: 'onShow',
+    value: function onShow() {
+      this.isRegistered = this.$parent.globalData.user.isRegistered;
+      if (this.isRegistered) {
+        var params = { message: '你已经注册了' };
+        this.$invoke('redirectmodal', 'toggleModal', params);
+      }
+    }
+  }, {
+    key: 'getWeChat',
+    value: function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var user;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                user = this.$parent.globalData.user;
+
+                this.$invoke('fidoloader', 'showLoading', '');
+                _context.prev = 2;
+                _context.next = 5;
+                return user.authorize();
+
+              case 5:
+                this.authData = this.$parent.globalData.user.currentUser();
+                this.$apply();
+                this.$invoke('fidoloader', 'hideLoading', '');
+                _context.next = 15;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context['catch'](2);
+
+                // actually deal with the error maybe lol
+                console.error(_context.t0);
+                this.$invoke('fidoloader', 'hideLoading', '');
+                this.handleFetchError();
+
+              case 15:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[2, 10]]);
+      }));
+
+      function getWeChat() {
+        return _ref5.apply(this, arguments);
+      }
+
+      return getWeChat;
+    }()
+  }, {
+    key: 'handleSubmit',
+    value: function () {
+      var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _data, wxUsername, personalNote, age, params;
+
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (this.fieldsValid) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt('return', this.handleSubmitError());
+
+              case 2:
+                _context2.prev = 2;
+
+                this.$invoke('fidoloader', 'showLoading', '');
+                _data = this.data, wxUsername = _data.wxUsername, personalNote = _data.personalNote, age = _data.age;
+                _context2.next = 7;
+                return this.$parent.globalData.user.updateProfileInfo({ wxUsername: wxUsername, personalNote: personalNote, age: age });
+
+              case 7:
+                params = { message: '恭喜你注册成功了' };
+
+                this.$invoke('fidoloader', 'hideLoading', '');
+                this.$invoke('redirectmodal', 'toggleModal', params);
+                this.$parent.globalData.user.fetchUpdate();
+                _context2.next = 17;
+                break;
+
+              case 13:
+                _context2.prev = 13;
+                _context2.t0 = _context2['catch'](2);
+
+                // this error too my guy
+                console.error(_context2.t0);
+                this.handleFetchError();
+
+              case 17:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[2, 13]]);
+      }));
+
+      function handleSubmit() {
+        return _ref6.apply(this, arguments);
+      }
+
+      return handleSubmit;
+    }()
+  }, {
+    key: 'handleFetchError',
+    value: function handleFetchError() {
+      var params = {
+        header: '哎哟出错了😯',
+        message: '刷新页面再试试一遍',
+        refresh: true
+      };
+      this.$invoke('errormodal', 'showMessage', params);
+    }
+  }, {
+    key: 'handleSubmitError',
+    value: function handleSubmitError() {
+      var header = '认证失败 🙇‍';
+      var message = '你得提供你的个人资料才有权利领养无家可归的小动物。';
+      var params = {
+        header: header,
+        message: message
+      };
+      return this.$invoke('errormodal', 'showMessage', params);
+    }
+  }]);
+
+  return Registration;
+}(_wepy2.default.page);
+
+exports.default = Registration;
+
+exports.default.template=__wepy_require(1);
+},/***** module 18 end *****/
+
+
+/***** module 19 start *****/
 /***** src/pages/login.wpy *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -924,7 +2125,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _wepy = __wepy_require(4);
+var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
@@ -982,31 +2183,360 @@ var Login = function (_wepy$page) {
 exports.default = Login;
 
 exports.default.template=__wepy_require(2);
-},/***** module 12 end *****/
+},/***** module 19 end *****/
 
 
-/***** module 13 start *****/
+/***** module 20 start *****/
+/***** src/pages/landing.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+var _modal = __wepy_require(21);
+
+var _modal2 = _interopRequireDefault(_modal);
+
+var _sideslider = __wepy_require(22);
+
+var _sideslider2 = _interopRequireDefault(_sideslider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Index = function (_wepy$page) {
+  _inherits(Index, _wepy$page);
+
+  function Index() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Index);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref, [this].concat(args))), _this), _this.config = {
+      navigationBarTitleText: '正在加载'
+    }, _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "registrationModalOpen", "v-bind:title.once": "modalTitle", "v-bind:subtitle.once": "modalSubtitle", "xmlns:v-on": "" }, "sideslider": { "xmlns:v-bind": "", "v-bind:isopen.sync": "sideSliderOpen", "xmlns:v-on": "" } }, _this.$events = { "modal": { "v-on:masktap": "toggleModal" }, "sideslider": { "v-on:tapsheet": "toggleSlider" } }, _this.components = {
+      modal: _modal2.default,
+      sideslider: _sideslider2.default
+    }, _this.data = {
+      isRegistered: false,
+      isRescuer: false,
+      registrationModalOpen: false,
+      sideSliderOpen: false,
+      modalTitle: '你还没有注册😁',
+      modalSubtitle: '你可以成为adopter还是rescuer.'
+    }, _this.methods = {
+      handleRescueButton: function handleRescueButton() {
+        console.log(this.isRegistered);
+      },
+      handleProfileBtn: function handleProfileBtn() {
+        if (!this.isRegistered) {
+          this.registrationModalOpen = !this.registrationModalOpen;
+        } else {
+          this.sideSliderOpen = !this.sideSliderOpen;
+        }
+      },
+      navToDogs: function navToDogs() {
+        console.log('dogs');
+      },
+      navToCats: function navToCats() {
+        console.log('cats');
+      },
+      toggleModal: function toggleModal() {
+        this.registrationModalOpen = !this.registrationModalOpen;
+      },
+      toggleSlider: function toggleSlider() {
+        this.sideSliderOpen = !this.sideSliderOpen;
+        this.$apply();
+      },
+      navToNormalRegistration: function navToNormalRegistration() {
+        _wepy2.default.navigateTo({ url: 'registration' });
+      },
+      navToRescueRegistration: function navToRescueRegistration() {
+        _wepy2.default.navigateTo({ url: 'rescuer-registration' });
+      },
+      navToLogin: function navToLogin() {
+        _wepy2.default.navigateTo({
+          url: 'login'
+        });
+      }
+    }, _this.computed = {}, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Index, [{
+    key: 'onLoad',
+    value: function onLoad() {
+      _wepy2.default.setNavigationBarTitle({
+        title: 'fido'
+      });
+      this.isRegistered = this.$parent.globalData.user.isRegistered;
+      this.isRescuer = this.$parent.globalData.user.isRescuer;
+      this.$apply();
+    }
+  }, {
+    key: 'onUnload',
+    value: function onUnload() {
+      console.log('landing unload');
+    }
+  }, {
+    key: 'onShow',
+    value: function onShow() {
+      this.sidesliderOpen = false;
+      this.registrationModalOpen = false;
+    }
+  }]);
+
+  return Index;
+}(_wepy2.default.page);
+
+exports.default = Index;
+
+exports.default.template=__wepy_require(3);
+},/***** module 20 end *****/
+
+
+/***** module 21 start *****/
 /***** src/components/modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"modal--blur\" :style=\"'visibility: ' + (isopen ? 'visible' : 'hidden') + ';'\">\n    <div class=\"container__flex modal--mask\" @click=\"maskTap($event)\" id=\"modalmask\">\n      <div class=\"modal--body\" :style=\"'transform: ' + (isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)') + ';'\">\n        <img class=\"modal--close\" @click=\"maskTap($event)\" src=\"icons/close.svg\" v-if=\"(hasClose)\"/>\n        <div class=\"modal--title\" v-if=\"(title)\">{{title}}</div>\n        <div class=\"modal--subtitle\" v-if=\"(subtitle)\">{{subtitle}}</div>\n        <div class=\"modal--slot-outer\">\n          <slot></slot>\n        </div>\n      </div>\n    </div>\n  </div>\n"},/***** module 13 end *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Modal = function (_wepy$component) {
+  _inherits(Modal, _wepy$component);
+
+  function Modal() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Modal);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
+      title: {
+        type: String,
+        default: null
+      },
+      isopen: {
+        type: Boolean
+      },
+      subtitle: {
+        type: String,
+        default: null
+      },
+      hasclose: {
+        type: Boolean,
+        default: true
+      }
+    }, _this.methods = {
+      maskTap: function maskTap(e) {
+        if (e.target.id === e.currentTarget.id) {
+          this.$emit('masktap');
+        }
+      }
+    }, _this.data = {}, _this.components = {}, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Modal, [{
+    key: 'onLoad',
+    value: function onLoad() {}
+  }, {
+    key: 'onShow',
+    value: function onShow() {}
+  }]);
+
+  return Modal;
+}(_wepy2.default.component);
+
+exports.default = Modal;
+
+exports.default.template=__wepy_require(30);
+},/***** module 21 end *****/
 
 
-/***** module 14 start *****/
+/***** module 22 start *****/
+/***** src/components/sideslider.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SideSlider = function (_wepy$component) {
+  _inherits(SideSlider, _wepy$component);
+
+  function SideSlider() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, SideSlider);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SideSlider.__proto__ || Object.getPrototypeOf(SideSlider)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
+      isopen: {}
+    }, _this.methods = {
+      handleTapSheet: function handleTapSheet(e) {
+        var isTarget = e.target.id === 'sheetmask';
+        if (isTarget) {
+          this.$emit('tapsheet', null);
+        }
+      },
+      handleTapBtn: function handleTapBtn(e) {
+        this.$emit('tapsheet', null);
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  return SideSlider;
+}(_wepy2.default.component);
+
+exports.default = SideSlider;
+
+exports.default.template=__wepy_require(31);
+},/***** module 22 end *****/
+
+
+/***** module 23 start *****/
+/***** src/pages/edit-profile.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EditProfile = function (_wepy$page) {
+  _inherits(EditProfile, _wepy$page);
+
+  function EditProfile() {
+    _classCallCheck(this, EditProfile);
+
+    return _possibleConstructorReturn(this, (EditProfile.__proto__ || Object.getPrototypeOf(EditProfile)).apply(this, arguments));
+  }
+
+  return EditProfile;
+}(_wepy2.default.page);
+
+exports.default = EditProfile;
+
+exports.default.template=__wepy_require(4);
+},/***** module 23 end *****/
+
+
+/***** module 24 start *****/
 /***** src/components/form-parent.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"form--outer\">\n    <slot></slot>\n  </div>\n"},/***** module 14 end *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"form--outer\">\n    <slot></slot>\n  </div>\n  <div class=\"form--bottom-padding\"></div>\n"},/***** module 24 end *****/
 
 
-/***** module 15 start *****/
+/***** module 25 start *****/
 /***** src/components/redirect-modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <modal  v-bind:isopen.sync=\"isChildOpen\" v-bind:hasClose.sync=\"hasClose\">\n    <div class=\"redirect--title\">\n      {{message}}\n    </div>\n    <button class=\"btn--default__small pull-right btn-redirect\" @click=\"redirect($event)\">{{linkname}}</button>\n  </modal>\n"},/***** module 15 end *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <modal  v-bind:isopen.sync=\"isChildOpen\" v-bind:hasclose.sync=\"hasClose\">\n    <div class=\"redirect--title\">\n      {{message}}\n    </div>\n    <button class=\"btn--default__small pull-right btn-redirect\" @click=\"redirect($event)\">{{linkname}}</button>\n  </modal>\n"},/***** module 25 end *****/
 
 
-/***** module 16 start *****/
+/***** module 26 start *****/
+/***** src/components/error-modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <modal  v-bind:isopen.sync=\"errorModalOpen\"  v-on:masktap=\"handleTap\">\n    <div class=\"error--top\">\n      <img class=\"icon--inline\" src=\"icons/error.svg\"/>\n      <div class=\"error--title\">{{header}}</div>\n      <div class=\"error--body\">{{message}}</div>\n      <button class=\"btn--default__small pull-right\" @click=\"handleTap($event)\">ok</button>\n    </div>\n  </modal>\n"},/***** module 26 end *****/
+
+
+/***** module 27 start *****/
+/***** src/components/cool-picker.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <picker mode=\"selector\" @change=\"handleChange($event)\" :value=\"(country)\" :range=\"(collection)\">\n    <div class=\"picker-choice\">\n      {{label}}：{{selection}}\n    </div>\n  </picker>\n"},/***** module 27 end *****/
+
+
+/***** module 28 start *****/
+/***** src/components/radiolist.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <radio-group @change=\"handleChange($event)\">\n    <div key=\"index\" v-for=\"(index, item) in (choices)\">\n      <div class=\"radio--outer\">\n        <radio class=\"radio--default\" :value=\"(item.value)\" :checked=\"(currentchoice === item.value)\"></radio>\n        <div class=\"radio--label\">{{item.name}}</div>\n      </div>\n    </div>\n  </radio-group>\n"},/***** module 28 end *****/
+
+
+/***** module 29 start *****/
+/***** src/components/fido-loader.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"loader-container container__flex\" :style=\"'visibility:' + (visible ? 'visible' : 'hidden') + ';'\">\n    <div class=\"loader-outer\">\n      <div class=\"loader-inner\">\n        <div class=\"cloud\"></div>\n      </div>\n      <div class=\"loader--moving-background\"></div>\n      <div class=\"loader-text\">\n        {{message}}\n      </div>\n    </div>\n  </div>\n"},/***** module 29 end *****/
+
+
+/***** module 30 start *****/
+/***** src/components/modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"modal--blur\" :style=\"'visibility: ' + (isopen ? 'visible' : 'hidden') + ';'\">\n    <div class=\"container__flex modal--mask\" @click=\"maskTap($event)\" id=\"modalmask\">\n      <div class=\"modal--body\" :style=\"'transform: ' + (isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)') + ';'\">\n        <img class=\"modal--close\" @click=\"maskTap($event)\" src=\"icons/close.svg\" v-if=\"(hasclose)\"/>\n        <div class=\"modal--title\" v-if=\"(title)\">{{title}}</div>\n        <div class=\"modal--subtitle\" v-if=\"(subtitle)\">{{subtitle}}</div>\n        <div class=\"modal--slot-outer\">\n          <slot>\n          </slot>\n        </div>\n      </div>\n    </div>\n  </div>\n"},/***** module 30 end *****/
+
+
+/***** module 31 start *****/
+/***** src/components/sideslider.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"sideslider--outer\" @click=\"handleTapSheet($event)\" :style=\"'visibility: ' + (isopen ? 'visible' : 'hidden') + ';'\">\n    <div class=\"sideslider--mask\" id=\"sheetmask\"></div>\n    <div class=\"sideslider--sheet\" :style=\"'transform:' + (isopen ? 'translate3d(0%,0,0)' : 'translate3d(-100%, 0, 0)') + '; -webkit-transform:' + (isopen ? 'translate3d(0%,0,0)' : 'translate3d(-100%, 0, 0)') + ';'\">\n      <div class=\"sideslider--inner\">\n        <img class=\"icon--default\" @click=\"handleTapBtn($event)\" id=\"sideslider-close\" src=\"icons/close.svg\"/>\n        <slot></slot>\n      </div>\n    </div>\n  </div>\n"},/***** module 31 end *****/
+
+
+/***** module 32 start *****/
 /***** node_modules/wepy-web/lib/app.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
 exports.__esModule = true;
 
-var _native = __wepy_require(30);
+var _native = __wepy_require(45);
 
 var _native2 = _interopRequireDefault(_native);
 
@@ -1138,10 +2668,10 @@ var _class = function () {
 }();
 
 exports.default = _class;
-},/***** module 16 end *****/
+},/***** module 32 end *****/
 
 
-/***** module 17 start *****/
+/***** module 33 start *****/
 /***** node_modules/wepy-web/lib/page.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -1149,15 +2679,15 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _native = __wepy_require(30);
+var _native = __wepy_require(45);
 
 var _native2 = _interopRequireDefault(_native);
 
-var _component2 = __wepy_require(18);
+var _component2 = __wepy_require(34);
 
 var _component3 = _interopRequireDefault(_component2);
 
-var _util = __wepy_require(21);
+var _util = __wepy_require(37);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -1266,10 +2796,10 @@ var _class = function (_component) {
 }(_component3.default);
 
 exports.default = _class;
-},/***** module 17 end *****/
+},/***** module 33 end *****/
 
 
-/***** module 18 start *****/
+/***** module 34 start *****/
 /***** node_modules/wepy-web/lib/component.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -1277,11 +2807,11 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _event = __wepy_require(19);
+var _event = __wepy_require(35);
 
 var _event2 = _interopRequireDefault(_event);
 
-var _util = __wepy_require(21);
+var _util = __wepy_require(37);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -1647,10 +3177,10 @@ function getEventsFn(comContext, evtName) {
     }
     return fnFn;
 }
-},/***** module 18 end *****/
+},/***** module 34 end *****/
 
 
-/***** module 19 start *****/
+/***** module 35 start *****/
 /***** node_modules/wepy-web/lib/event.js *****/
 function(module, exports, __wepy_require) {"use strict";
 
@@ -1685,10 +3215,10 @@ var _class = function () {
 }();
 
 exports.default = _class;
-},/***** module 19 end *****/
+},/***** module 35 end *****/
 
 
-/***** module 20 start *****/
+/***** module 36 start *****/
 /***** node_modules/wepy-web/lib/base.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -1696,19 +3226,19 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _vue = __wepy_require(31);
+var _vue = __wepy_require(46);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _vueRouter = __wepy_require(32);
+var _vueRouter = __wepy_require(47);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _event = __wepy_require(19);
+var _event = __wepy_require(35);
 
 var _event2 = _interopRequireDefault(_event);
 
-var _word = __wepy_require(33);
+var _word = __wepy_require(48);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1967,10 +3497,10 @@ exports.default = {
         return vueObject;
     }
 };
-},/***** module 20 end *****/
+},/***** module 36 end *****/
 
 
-/***** module 21 start *****/
+/***** module 37 start *****/
 /***** node_modules/wepy-web/lib/util.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -2199,10 +3729,10 @@ exports.default = {
         return rst;
     }
 };
-},/***** module 21 end *****/
+},/***** module 37 end *****/
 
 
-/***** module 22 start *****/
+/***** module 38 start *****/
 /***** node_modules/wepy-web/lib/mixin.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -2242,26 +3772,26 @@ var _class = function () {
 }();
 
 exports.default = _class;
-},/***** module 22 end *****/
+},/***** module 38 end *****/
 
 
-/***** module 23 start *****/
+/***** module 39 start *****/
 /***** node_modules/wepy-web/lib/wx.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
 exports.__esModule = true;
 
-var _vue = __wepy_require(31);
+var _vue = __wepy_require(46);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _axios = __wepy_require(34);
+var _axios = __wepy_require(49);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _query = __wepy_require(35);
+var _query = __wepy_require(50);
 
-var _device = __wepy_require(36);
+var _device = __wepy_require(51);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2526,18 +4056,18 @@ if (typeof window !== 'undefined') {
 window.wx = wx;
 
 exports.default = wx;
-},/***** module 23 end *****/
+},/***** module 39 end *****/
 
 
-/***** module 24 start *****/
+/***** module 40 start *****/
 /***** node_modules/wepy-async-function/global.js *****/
 function(module, exports, __wepy_require) {var global = module.exports = typeof window !== 'undefined' && window.Math === Math
   ? window : typeof self !== 'undefined' && self.Math === Math ? self : this;
 
-},/***** module 24 end *****/
+},/***** module 40 end *****/
 
 
-/***** module 25 start *****/
+/***** module 41 start *****/
 /***** node_modules/promise-polyfill/promise.js *****/
 function(module, exports, __wepy_require) {(function (root) {
 
@@ -2773,10 +4303,10 @@ function(module, exports, __wepy_require) {(function (root) {
 
 })(this);
 
-},/***** module 25 end *****/
+},/***** module 41 end *****/
 
 
-/***** module 26 start *****/
+/***** module 42 start *****/
 /***** node_modules/regenerator-runtime/runtime.js *****/
 function(module, exports, __wepy_require) {/**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -3506,10 +5036,10 @@ function(module, exports, __wepy_require) {/**
   (function() { return this })() || Function("return this")()
 );
 
-},/***** module 26 end *****/
+},/***** module 42 end *****/
 
 
-/***** module 27 start *****/
+/***** module 43 start *****/
 /***** src/utils/av-weapp-min.js *****/
 function(module, exports, __wepy_require) {"use strict";
 
@@ -7266,10 +8796,10 @@ var window = {};var XMLHttpRequest;
   }, function (e, t) {}]);
 });
 //# sourceMappingURL=av-weapp-min.js.map
-},/***** module 27 end *****/
+},/***** module 43 end *****/
 
 
-/***** module 28 start *****/
+/***** module 44 start *****/
 /***** src/secret_keys.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -7285,607 +8815,19 @@ var appId = 'tSaB7MBClaYfLMBAe5uC5RqP-gzGzoHsz';
 var appKey = 'QKBpAySHMxB1XbGAdKFAThgf';
 exports.appId = appId;
 exports.appKey = appKey;
-},/***** module 28 end *****/
+},/***** module 44 end *****/
 
 
-/***** module 29 start *****/
-/***** node_modules/lodash.isempty/index.js *****/
-function(module, exports, __wepy_require) {/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]',
-    mapTag = '[object Map]',
-    objectTag = '[object Object]',
-    promiseTag = '[object Promise]',
-    setTag = '[object Set]',
-    weakMapTag = '[object WeakMap]';
-
-var dataViewTag = '[object DataView]';
-
-/**
- * Used to match `RegExp`
- * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
- */
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-
-/** Used to detect host constructors (Safari). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-/** Detect free variable `exports`. */
-var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
-
-/** Detect free variable `module`. */
-var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
-
-/** Detect the popular CommonJS extension `module.exports`. */
-var moduleExports = freeModule && freeModule.exports === freeExports;
-
-/**
- * Gets the value at `key` of `object`.
- *
- * @private
- * @param {Object} [object] The object to query.
- * @param {string} key The key of the property to get.
- * @returns {*} Returns the property value.
- */
-function getValue(object, key) {
-  return object == null ? undefined : object[key];
-}
-
-/**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-/**
- * Creates a unary function that invokes `func` with its argument transformed.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {Function} transform The argument transform.
- * @returns {Function} Returns the new function.
- */
-function overArg(func, transform) {
-  return function(arg) {
-    return func(transform(arg));
-  };
-}
-
-/** Used for built-in method references. */
-var funcProto = Function.prototype,
-    objectProto = Object.prototype;
-
-/** Used to detect overreaching core-js shims. */
-var coreJsData = root['__core-js_shared__'];
-
-/** Used to detect methods masquerading as native. */
-var maskSrcKey = (function() {
-  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
-  return uid ? ('Symbol(src)_1.' + uid) : '';
-}());
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/** Built-in value references. */
-var Buffer = moduleExports ? root.Buffer : undefined,
-    propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
-    nativeKeys = overArg(Object.keys, Object);
-
-/* Built-in method references that are verified to be native. */
-var DataView = getNative(root, 'DataView'),
-    Map = getNative(root, 'Map'),
-    Promise = getNative(root, 'Promise'),
-    Set = getNative(root, 'Set'),
-    WeakMap = getNative(root, 'WeakMap');
-
-/** Detect if properties shadowing those on `Object.prototype` are non-enumerable. */
-var nonEnumShadows = !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf');
-
-/** Used to detect maps, sets, and weakmaps. */
-var dataViewCtorString = toSource(DataView),
-    mapCtorString = toSource(Map),
-    promiseCtorString = toSource(Promise),
-    setCtorString = toSource(Set),
-    weakMapCtorString = toSource(WeakMap);
-
-/**
- * The base implementation of `getTag`.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  return objectToString.call(value);
-}
-
-/**
- * The base implementation of `_.isNative` without bad shim checks.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function,
- *  else `false`.
- */
-function baseIsNative(value) {
-  if (!isObject(value) || isMasked(value)) {
-    return false;
-  }
-  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
-  return pattern.test(toSource(value));
-}
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = getValue(object, key);
-  return baseIsNative(value) ? value : undefined;
-}
-
-/**
- * Gets the `toStringTag` of `value`.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-var getTag = baseGetTag;
-
-// Fallback for data views, maps, sets, and weak maps in IE 11,
-// for data views in Edge < 14, and promises in Node.js.
-if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
-    (Map && getTag(new Map) != mapTag) ||
-    (Promise && getTag(Promise.resolve()) != promiseTag) ||
-    (Set && getTag(new Set) != setTag) ||
-    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
-  getTag = function(value) {
-    var result = objectToString.call(value),
-        Ctor = result == objectTag ? value.constructor : undefined,
-        ctorString = Ctor ? toSource(Ctor) : undefined;
-
-    if (ctorString) {
-      switch (ctorString) {
-        case dataViewCtorString: return dataViewTag;
-        case mapCtorString: return mapTag;
-        case promiseCtorString: return promiseTag;
-        case setCtorString: return setTag;
-        case weakMapCtorString: return weakMapTag;
-      }
-    }
-    return result;
-  };
-}
-
-/**
- * Checks if `func` has its source masked.
- *
- * @private
- * @param {Function} func The function to check.
- * @returns {boolean} Returns `true` if `func` is masked, else `false`.
- */
-function isMasked(func) {
-  return !!maskSrcKey && (maskSrcKey in func);
-}
-
-/**
- * Checks if `value` is likely a prototype object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
- */
-function isPrototype(value) {
-  var Ctor = value && value.constructor,
-      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
-
-  return value === proto;
-}
-
-/**
- * Converts `func` to its source code.
- *
- * @private
- * @param {Function} func The function to process.
- * @returns {string} Returns the source code.
- */
-function toSource(func) {
-  if (func != null) {
-    try {
-      return funcToString.call(func);
-    } catch (e) {}
-    try {
-      return (func + '');
-    } catch (e) {}
-  }
-  return '';
-}
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an `arguments` object,
- *  else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments(value) {
-  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-}
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null && isLength(value.length) && !isFunction(value);
-}
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object,
- *  else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
-}
-
-/**
- * Checks if `value` is a buffer.
- *
- * @static
- * @memberOf _
- * @since 4.3.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
- * @example
- *
- * _.isBuffer(new Buffer(2));
- * // => true
- *
- * _.isBuffer(new Uint8Array(2));
- * // => false
- */
-var isBuffer = nativeIsBuffer || stubFalse;
-
-/**
- * Checks if `value` is an empty object, collection, map, or set.
- *
- * Objects are considered empty if they have no own enumerable string keyed
- * properties.
- *
- * Array-like values such as `arguments` objects, arrays, buffers, strings, or
- * jQuery-like collections are considered empty if they have a `length` of `0`.
- * Similarly, maps and sets are considered empty if they have a `size` of `0`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is empty, else `false`.
- * @example
- *
- * _.isEmpty(null);
- * // => true
- *
- * _.isEmpty(true);
- * // => true
- *
- * _.isEmpty(1);
- * // => true
- *
- * _.isEmpty([1, 2, 3]);
- * // => false
- *
- * _.isEmpty({ 'a': 1 });
- * // => false
- */
-function isEmpty(value) {
-  if (isArrayLike(value) &&
-      (isArray(value) || typeof value == 'string' ||
-        typeof value.splice == 'function' || isBuffer(value) || isArguments(value))) {
-    return !value.length;
-  }
-  var tag = getTag(value);
-  if (tag == mapTag || tag == setTag) {
-    return !value.size;
-  }
-  if (nonEnumShadows || isPrototype(value)) {
-    return !nativeKeys(value).length;
-  }
-  for (var key in value) {
-    if (hasOwnProperty.call(value, key)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a function, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8-9 which returns 'object' for typed array and other constructors.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This method is loosely based on
- * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * This method returns `false`.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
- * @example
- *
- * _.times(2, _.stubFalse);
- * // => [false, false]
- */
-function stubFalse() {
-  return false;
-}
-
-module.exports = isEmpty;
-
-},/***** module 29 end *****/
-
-
-/***** module 30 start *****/
+/***** module 45 start *****/
 /***** node_modules/wepy-web/lib/native.js *****/
 function(module, exports, __wepy_require) {"use strict";
 
 exports.__esModule = true;
 exports.default = {};
-},/***** module 30 end *****/
+},/***** module 45 end *****/
 
 
-/***** module 31 start *****/
+/***** module 46 start *****/
 /***** node_modules/vue/dist/vue.js *****/
 function(module, exports, __wepy_require) {/*!
  * Vue.js v1.0.28
@@ -18124,10 +19066,10 @@ setTimeout(function () {
 return Vue;
 
 })));
-},/***** module 31 end *****/
+},/***** module 46 end *****/
 
 
-/***** module 32 start *****/
+/***** module 47 start *****/
 /***** node_modules/vue-router/dist/vue-router.js *****/
 function(module, exports, __wepy_require) {/*!
  * vue-router v0.7.13
@@ -20838,10 +21780,10 @@ function(module, exports, __wepy_require) {/*!
   return Router;
 
 }));
-},/***** module 32 end *****/
+},/***** module 47 end *****/
 
 
-/***** module 33 start *****/
+/***** module 48 start *****/
 /***** node_modules/wepy-web/lib/helper/word.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -20858,10 +21800,10 @@ var camelize = exports.camelize = function camelize(str) {
     return c ? c.toUpperCase() : '';
   });
 };
-},/***** module 33 end *****/
+},/***** module 48 end *****/
 
 
-/***** module 34 start *****/
+/***** module 49 start *****/
 /***** node_modules/axios/dist/axios.js *****/
 function(module, exports, __wepy_require) {/* axios v0.17.1 | (c) 2017 by Matt Zabriskie */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -22464,10 +23406,10 @@ return /******/ (function(modules) { // webpackBootstrap
 });
 ;
 //# sourceMappingURL=axios.map
-},/***** module 34 end *****/
+},/***** module 49 end *****/
 
 
-/***** module 35 start *****/
+/***** module 50 start *****/
 /***** node_modules/wepy-web/lib/helper/query.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -22563,10 +23505,10 @@ function stringifyQuery(obj) {
 
     return res ? '?' + res : '';
 }
-},/***** module 35 end *****/
+},/***** module 50 end *****/
 
 
-/***** module 36 start *****/
+/***** module 51 start *****/
 /***** node_modules/wepy-web/lib/helper/device.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -22640,42 +23582,67 @@ function mobile() {
 };
 
 function browser() {};
-},/***** module 36 end *****/
+},/***** module 51 end *****/
 
 
-/***** module 37 start *****/
+/***** module 52 start *****/
 /***** src/app.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "view,view:before,view:after,text,text:before,text:after,image,image:before,image:after,scroll-view,scroll-view:before,scroll-view:after,movable-area,movable-area:before,movable-area:after,cover-view,cover-view:before,cover-view:after,icon,icon:before,icon:after,rich-text,rich-text:before,rich-text:after,progress,progress:before,progress:after,button,button:before,button:after,checkbox,checkbox:before,checkbox:after,form,form:before,form:after,input,input:before,input:after,label,label:before,label:after,picker,picker:before,picker:after,picker-view,picker-view:before,picker-view:after,radio,radio:before,radio:after,slider,slider:before,slider:after,switch,switch:before,switch:after,textarea,textarea:before,textarea:after,navigator,navigator:before,navigator:after,audio,audio:before,audio:after,video,video:before,video:after{box-sizing:border-box}view::-webkit-scrollbar,view:before::-webkit-scrollbar,view:after::-webkit-scrollbar,text::-webkit-scrollbar,text:before::-webkit-scrollbar,text:after::-webkit-scrollbar,image::-webkit-scrollbar,image:before::-webkit-scrollbar,image:after::-webkit-scrollbar,scroll-view::-webkit-scrollbar,scroll-view:before::-webkit-scrollbar,scroll-view:after::-webkit-scrollbar,movable-area::-webkit-scrollbar,movable-area:before::-webkit-scrollbar,movable-area:after::-webkit-scrollbar,cover-view::-webkit-scrollbar,cover-view:before::-webkit-scrollbar,cover-view:after::-webkit-scrollbar,icon::-webkit-scrollbar,icon:before::-webkit-scrollbar,icon:after::-webkit-scrollbar,rich-text::-webkit-scrollbar,rich-text:before::-webkit-scrollbar,rich-text:after::-webkit-scrollbar,progress::-webkit-scrollbar,progress:before::-webkit-scrollbar,progress:after::-webkit-scrollbar,button::-webkit-scrollbar,button:before::-webkit-scrollbar,button:after::-webkit-scrollbar,checkbox::-webkit-scrollbar,checkbox:before::-webkit-scrollbar,checkbox:after::-webkit-scrollbar,form::-webkit-scrollbar,form:before::-webkit-scrollbar,form:after::-webkit-scrollbar,input::-webkit-scrollbar,input:before::-webkit-scrollbar,input:after::-webkit-scrollbar,label::-webkit-scrollbar,label:before::-webkit-scrollbar,label:after::-webkit-scrollbar,picker::-webkit-scrollbar,picker:before::-webkit-scrollbar,picker:after::-webkit-scrollbar,picker-view::-webkit-scrollbar,picker-view:before::-webkit-scrollbar,picker-view:after::-webkit-scrollbar,radio::-webkit-scrollbar,radio:before::-webkit-scrollbar,radio:after::-webkit-scrollbar,slider::-webkit-scrollbar,slider:before::-webkit-scrollbar,slider:after::-webkit-scrollbar,switch::-webkit-scrollbar,switch:before::-webkit-scrollbar,switch:after::-webkit-scrollbar,textarea::-webkit-scrollbar,textarea:before::-webkit-scrollbar,textarea:after::-webkit-scrollbar,navigator::-webkit-scrollbar,navigator:before::-webkit-scrollbar,navigator:after::-webkit-scrollbar,audio::-webkit-scrollbar,audio:before::-webkit-scrollbar,audio:after::-webkit-scrollbar,video::-webkit-scrollbar,video:before::-webkit-scrollbar,video:after::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}body{background:#fff;font-size:14px;font-family:-apple-system-font,Helvetica Neue,Helvetica,sans-serif}.container,.container__flex,.container__has-footer,.container__has-tabbar{height:100%;min-height:100vh}.padbox--default{padding:20px}.container__has-footer{padding-bottom:100px}.container__has-tabbar{padding-bottom:55px}.container__flex{display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}.flex--item__vertical-center{width:100%;text-align:center;margin-top:-55px}.flex--parent__horizontal{display:flex;justify-content:space-around;max-width:600px;margin:0 auto}.flex--item__half{flex:0 0 45%}.btn--default,.btn--default__medium,.btn--default__small,.btn--default__dark,.btn--default__fixed{background:#50E3C2;color:#333;border-radius:0;border:2px solid #333;box-shadow:4px 4px 0 #333}.btn--default:after,.btn--default__medium:after,.btn--default__small:after,.btn--default__dark:after,.btn--default__fixed:after{display:none}.btn--default[disabled],.btn--default__medium[disabled],.btn--default__dark[disabled],.btn--default__fixed[disabled]{opacity:0.8}.btn--default__medium{border:2px solid #333;padding:20px;box-shadow:4px 4px 0 #333;background-color:#fff;max-width:230px;margin:10px}.btn--default__fixed{position:fixed;width:200px;bottom:55px;margin:0 auto;width:70%;left:15%}.btn--default__dark{background-color:#333;color:#fff;font-size:14px;box-shadow:none}.btn--default__small{background-color:#333;color:#fff;font-size:10px;max-width:60px;box-shadow:none}.btn--blank{border:0px;color:#333}.btn--blank:after{display:none}.icon--default{width:40px;height:40px}.icon--inline{width:30px;height:30px;vertical-align:middle}.pull-right{float:right}.pull-left{float:left}.form-item--default{margin:20px 0}.form-item--default .form-item--label,.form-item--default .form-item--label__fullwidth{display:inline-block;color:#333;font-size:14px;font-weight:400;width:20%;text-align:center;vertical-align:middle;height:1.4rem;border-bottom:1px solid rgba(51,51,51,0.5)}.form-item--default .form-item--label__fullwidth{width:100%;text-align:left;margin-bottom:5px}.form-item--default .form-item--input{display:inline-block;border-left:1px solid rgba(51,51,51,0.5);width:80%;padding:0 5px;vertical-align:middle;line-height:1.4rem;border-bottom:1px solid rgba(51,51,51,0.5)}.form-item--default .form-item--textinput{border:2px solid #333;width:auto}.form-message{background-color:rgba(0,0,0,0.1);padding:10px;color:#333;text-align:center;margin-top:20px;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1)}\n\n"},/***** module 37 end *****/
+function(module, exports, __wepy_require) {module.exports = "view,view:before,view:after,text,text:before,text:after,image,image:before,image:after,scroll-view,scroll-view:before,scroll-view:after,movable-area,movable-area:before,movable-area:after,cover-view,cover-view:before,cover-view:after,icon,icon:before,icon:after,rich-text,rich-text:before,rich-text:after,progress,progress:before,progress:after,button,button:before,button:after,checkbox,checkbox:before,checkbox:after,form,form:before,form:after,input,input:before,input:after,label,label:before,label:after,picker,picker:before,picker:after,picker-view,picker-view:before,picker-view:after,radio,radio:before,radio:after,slider,slider:before,slider:after,switch,switch:before,switch:after,textarea,textarea:before,textarea:after,navigator,navigator:before,navigator:after,audio,audio:before,audio:after,video,video:before,video:after{box-sizing:border-box}view::-webkit-scrollbar,view:before::-webkit-scrollbar,view:after::-webkit-scrollbar,text::-webkit-scrollbar,text:before::-webkit-scrollbar,text:after::-webkit-scrollbar,image::-webkit-scrollbar,image:before::-webkit-scrollbar,image:after::-webkit-scrollbar,scroll-view::-webkit-scrollbar,scroll-view:before::-webkit-scrollbar,scroll-view:after::-webkit-scrollbar,movable-area::-webkit-scrollbar,movable-area:before::-webkit-scrollbar,movable-area:after::-webkit-scrollbar,cover-view::-webkit-scrollbar,cover-view:before::-webkit-scrollbar,cover-view:after::-webkit-scrollbar,icon::-webkit-scrollbar,icon:before::-webkit-scrollbar,icon:after::-webkit-scrollbar,rich-text::-webkit-scrollbar,rich-text:before::-webkit-scrollbar,rich-text:after::-webkit-scrollbar,progress::-webkit-scrollbar,progress:before::-webkit-scrollbar,progress:after::-webkit-scrollbar,button::-webkit-scrollbar,button:before::-webkit-scrollbar,button:after::-webkit-scrollbar,checkbox::-webkit-scrollbar,checkbox:before::-webkit-scrollbar,checkbox:after::-webkit-scrollbar,form::-webkit-scrollbar,form:before::-webkit-scrollbar,form:after::-webkit-scrollbar,input::-webkit-scrollbar,input:before::-webkit-scrollbar,input:after::-webkit-scrollbar,label::-webkit-scrollbar,label:before::-webkit-scrollbar,label:after::-webkit-scrollbar,picker::-webkit-scrollbar,picker:before::-webkit-scrollbar,picker:after::-webkit-scrollbar,picker-view::-webkit-scrollbar,picker-view:before::-webkit-scrollbar,picker-view:after::-webkit-scrollbar,radio::-webkit-scrollbar,radio:before::-webkit-scrollbar,radio:after::-webkit-scrollbar,slider::-webkit-scrollbar,slider:before::-webkit-scrollbar,slider:after::-webkit-scrollbar,switch::-webkit-scrollbar,switch:before::-webkit-scrollbar,switch:after::-webkit-scrollbar,textarea::-webkit-scrollbar,textarea:before::-webkit-scrollbar,textarea:after::-webkit-scrollbar,navigator::-webkit-scrollbar,navigator:before::-webkit-scrollbar,navigator:after::-webkit-scrollbar,audio::-webkit-scrollbar,audio:before::-webkit-scrollbar,audio:after::-webkit-scrollbar,video::-webkit-scrollbar,video:before::-webkit-scrollbar,video:after::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}body{background:#fff;font-size:14px;font-family:-apple-system-font,Helvetica Neue,Helvetica,sans-serif}.container,.container__flex,.container__has-footer,.container__has-tabbar{height:100%;min-height:100vh}.padbox--default{padding:20px}.container__has-footer{padding-bottom:100px}.container__has-tabbar{padding-bottom:55px}.container__flex{display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}.flex--item__vertical-center{width:100%;text-align:center;margin-top:-55px}.flex--parent__horizontal{display:flex;justify-content:space-around;max-width:600px;margin:0 auto}.flex--item__half{flex:0 0 45%}.btn--default,.btn--default__medium,.btn--default__small,.btn--default__dark,.btn--default__fixed{background:#50E3C2;color:#333;border-radius:0;border:2px solid #333;box-shadow:4px 4px 0 #333}.btn--default:after,.btn--default__medium:after,.btn--default__small:after,.btn--default__dark:after,.btn--default__fixed:after{display:none}.btn--default[disabled],.btn--default__medium[disabled],.btn--default__dark[disabled],.btn--default__fixed[disabled]{opacity:0.8}.btn--default__medium{border:2px solid #333;padding:20px;box-shadow:4px 4px 0 #333;background-color:#fff;max-width:230px;margin:10px}.btn--default__fixed{position:fixed;width:200px;bottom:55px;margin:0 auto;width:70%;left:15%;z-index:99}.btn--default__dark,.btn--default__dark[disabled]{background-color:#333 !important;color:#fff !important;font-size:14px;box-shadow:none;transition:all 0.3s ease}.btn--default__small{background-color:#333;color:#fff;font-size:10px;max-width:60px;box-shadow:none}.btn--blank{border:0px;color:#333}.btn--blank:after{display:none}.icon--default{width:40px;height:40px}.icon--inline{width:30px;height:30px;vertical-align:middle}.pull-right{float:right}.pull-left{float:left}.form--group{background-color:rgba(0,0,0,0.1);padding:10px;margin:20px 0}.form--group .form--group__title{font-size:15px;font-weight:bold}.form-item--default{margin:10px 0}.form-item--default .form-item--label,.form-item--default .form-item--label__fullwidth{display:inline-block;color:#333;font-size:14px;font-weight:400;padding-right:10px;vertical-align:middle;line-height:1.4rem}.form-item--default .form-item--label__fullwidth{width:100%;text-align:left;margin-bottom:5px}.form-item--default .form-item--input{display:inline-block;width:100%;vertical-align:middle;line-height:1.4rem;padding:10px 5px;height:auto;border-left:2px solid #333;background-color:#fff;transition:all 0.3s ease}.form-item--default .form-item--input[focus]{border-left:2px solid #50E3C2}.form-item--default .form-item--textinput{border-left:2px solid #333;padding:10px;width:auto;z-index:99;margin-top:10px;background-color:#fff}.form-message{background-color:rgba(0,0,0,0.1);padding:10px;color:#333;text-align:center;margin-top:20px;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1)}.registration--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px;max-width:500px;margin:0 auto}.registration--subtitle{padding-bottom:5px;text-align:center;font-size:14px;max-width:500px;margin:0 auto}@media all and (min-width: 640px){.registration--subtitle{padding-bottom:25px}}\n\n"},/***** module 52 end *****/
 
 
-/***** module 38 start *****/
-/***** src/pages/landing.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".landing--profile{position:absolute;bottom:20px;left:20px}.landing--banner{width:120px;height:120px}.landing--register-btn{font-size:15px;margin:10px auto;max-width:200px;width:100%;display:block}.landing--login{opacity:0.8;width:100%;text-align:center;font-size:11px;text-decoration:underline;margin-top:25px}.landing--modal-btns{text-align:center}\n\n"},/***** module 38 end *****/
-
-
-/***** module 39 start *****/
-/***** src/pages/registration.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".registration--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.registration--subtitle{padding-bottom:5px;text-align:center;font-size:14px}\n\n"},/***** module 39 end *****/
-
-
-/***** module 40 start *****/
+/***** module 53 start *****/
 /***** src/pages/login.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".login--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.login--subtitle{padding-bottom:5px;text-align:center;font-size:14px}\n\n"},/***** module 40 end *****/
+function(module, exports, __wepy_require) {module.exports = ".login--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.login--subtitle{padding-bottom:5px;text-align:center;font-size:14px}\n\n"},/***** module 53 end *****/
 
 
-/***** module 41 start *****/
-/***** src/components/modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".modal--mask{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(51,51,51,0.2);box-sizing:border-box;padding:30px}.modal--body{transition:transform 0.3s ease;padding:20px;background-color:#fff;position:relative;border:2px solid #333;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);width:100%;max-width:600px;margin:0 auto}.modal--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.modal--subtitle{padding-bottom:5px;text-align:center;font-size:14px}.modal--slot-outer{padding:10px 0}.modal--close{position:absolute;padding:2.5px;top:10px;right:10px;width:20px;height:20px}\n\n"},/***** module 41 end *****/
+/***** module 54 start *****/
+/***** src/pages/landing.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".landing--profile{position:absolute;bottom:20px;left:20px}.landing--banner{width:120px;height:120px}.landing--register-btn{font-size:15px;margin:10px auto;max-width:200px;width:100%;display:block}.landing--login{opacity:0.8;width:100%;text-align:center;font-size:11px;text-decoration:underline;margin-top:25px}.landing--modal-btns{text-align:center}.landing--sideslider{flex-wrap:wrap;padding:50% 0}.landing--sideslider .btn--default__small{width:100%;display:block;max-width:unset}\n\n"},/***** module 54 end *****/
 
 
-/***** module 42 start *****/
+/***** module 55 start *****/
+/***** src/pages/edit-profile.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".something{color:pink}\n\n"},/***** module 55 end *****/
+
+
+/***** module 56 start *****/
 /***** src/components/form-parent.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".form--outer{border-left:1px solid rgba(51,51,51,0.5);padding:20px;padding-bottom:100px;max-width:500px;margin:0 auto}\n\n"},/***** module 42 end *****/
+function(module, exports, __wepy_require) {module.exports = ".form--outer{border-left:1px solid rgba(51,51,51,0.5);padding:20px;max-width:500px;margin:0 auto}.form--bottom-padding{height:300px}\n\n"},/***** module 56 end *****/
 
 
-/***** module 43 start *****/
+/***** module 57 start *****/
 /***** src/components/redirect-modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".redirect--title{padding:5px 0;font-size:15px}\n\n"}/***** module 43 end *****/
+function(module, exports, __wepy_require) {module.exports = ".redirect--title{padding:5px 0;font-size:15px}\n\n"},/***** module 57 end *****/
+
+
+/***** module 58 start *****/
+/***** src/components/error-modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".error--title{font-size:20px;display:inline-block;vertical-align:middle;padding-left:10px}.error--body{opacity:0.8;font-size:14px;padding:10px 5px}\n\n"},/***** module 58 end *****/
+
+
+/***** module 59 start *****/
+/***** src/components/cool-picker.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n"},/***** module 59 end *****/
+
+
+/***** module 60 start *****/
+/***** src/components/radiolist.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".radio--default{visibility:hidden}.radio--default:before{visibility:visible;content:'';border-radius:2px;background-color:#333;opacity:0.8;width:10px !important;height:10px !important;padding:4px 12px}.radio--default[checked]:before{background-color:#50E3C2;background-image:url(\"https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png\");background-repeat:no-repeat;background-position:center;background-size:contain}.radio--label{display:inline-block;margin-left:-18px}.radio--outer{display:block;margin-bottom:10px}\n\n"},/***** module 60 end *****/
+
+
+/***** module 61 start *****/
+/***** src/components/fido-loader.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".loader-container{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(51,51,51,0.2);box-sizing:border-box;padding:30px;z-index:199}.loader-outer{transition:transform 0.3s ease;padding:20px;padding-top:0;background-color:#fff;position:relative;border:2px solid #333;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);width:100%;max-width:600px;margin:0 auto;z-index:200;overflow:hidden !important}.loader-inner{width:100%;height:100px}.loader-text{text-align:center;margin-top:10px;z-index:201;position:relative;color:#fff}.cloud{border-radius:50%;position:absolute;background-color:#fff;padding:10px;opacity:0.8;top:10px;left:0px;z-index:201;animation-delay:1s;animation:shuffling 3s linear infinite alternate}.cloud:before,.cloud:after{display:none}.loader--moving-background{position:absolute;background-image:linear-gradient(to top, #30cfd0 0%, #330867 100%);width:300%;height:500px;animation:backgroundAnimation 4s linear infinite;animation-direction:alternate}@keyframes backgroundAnimation{from{left:0%;top:-80px;transform:rotate(0deg)}to{left:-90%;top:-10px;transform:rotate(100deg)}}@keyframes shuffling{from{left:-15%;transform:scale(1);top:10px}to{left:100%;transform:scale(6);opacity:0.3}}\n\n"},/***** module 61 end *****/
+
+
+/***** module 62 start *****/
+/***** src/components/modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".modal--mask{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(51,51,51,0.2);box-sizing:border-box;padding:30px;z-index:199}.modal--body{transition:transform 0.3s ease;padding:20px;background-color:#fff;position:relative;border:2px solid #333;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);width:100%;max-width:600px;margin:0 auto;z-index:200}.modal--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.modal--subtitle{padding-bottom:5px;text-align:center;font-size:14px}.modal--slot-outer{padding:10px 0}.modal--close{position:absolute;padding:2.5px;top:10px;right:10px;width:20px;height:20px}\n\n"},/***** module 62 end *****/
+
+
+/***** module 63 start *****/
+/***** src/components/sideslider.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".sideslider--outer{width:100%;z-index:99;height:100vh;position:fixed;top:0;bottom:0;left:0;right:0;box-sizing:border-box;overflow:hidden}.sideslider--mask{height:100%;background-color:rgba(0,0,0,0.5);top:0;bottom:0;left:0;right:0}.sideslider--sheet{transition:all 0.3s ease-in-out;position:absolute;left:0;top:0;bottom:0;width:65%;background-color:#fff;padding:20px;padding-bottom:0;box-sizing:border-box;box-shadow:10px 10px 30px 0 rgba(0,0,0,0.1)}.sideslider--inner{position:relative;width:100%;z-index:99;padding-top:10px}.sideslider__exit-button{position:absolute;padding:4px}#sideslider-close{position:absolute;top:-20px;left:0;z-index:99;width:20px;height:20px}\n\n"}/***** module 63 end *****/
 
 
 

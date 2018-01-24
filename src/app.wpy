@@ -1,16 +1,18 @@
 <style lang="scss" src='./styles/app.scss'></style>
 <script>
 import wepy from 'wepy'
+import locales from '@/utils/locales'
+import T from '@/utils/weapp-i18n'
 import 'wepy-async-function'
 import UserModel from '@/models/usermodel'
 
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/rescuer-registration',
-      'pages/registration',
-      'pages/login',
       'pages/landing',
+      'pages/rescuer-registration',
+      'pages/login',
+      'pages/registration',
       'pages/edit-profile'
     ],
     window: {
@@ -20,9 +22,11 @@ export default class extends wepy.app {
       navigationBarTextStyle: 'black'
     }
   }
+
   globalData = {
     user: {},
-    isWeb: false
+    isWeb: false,
+    lang: 'zh_CN'
   }
 
   constructor () {
@@ -31,11 +35,39 @@ export default class extends wepy.app {
     this.use('promisify')
   }
 
+  async registerLocales () {
+    T.registerLocale(locales)
+    T.setLocale(this.globalData.lang)
+    wepy.T = T
+    if (this.globalData.user.isRegistered) {
+      this.globalData.lang = this.user.language
+    } else {
+      try {
+        const {language} = await wepy.getSystemInfo()
+        if (language !== 'zh_CN') {
+          console.log('changing language to english')
+          this.globalData.lang = 'en'
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+  }
+
+  toggleLocale () {
+    const current = this.globalData.lang
+    const targetLang = current === 'zh_CN' ? 'en' : 'zh_CN'
+    this.globalData.lang = targetLang
+    console.log(this.globalData.lang)
+    wepy.T.setLocale(this.globalData.lang)
+  }
+
   async onLaunch () {
-    this.globalData.user = new UserModel()
     if (window && window.wx) {
       this.globalData.isWeb = true
     }
+    this.globalData.user = new UserModel()
+    this.registerLocales()
   }
 }
 </script>

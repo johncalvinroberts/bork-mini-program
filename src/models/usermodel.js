@@ -16,7 +16,8 @@ export default class UserModel {
   currentUser () {
     const current = Lean.User.current()
     if (current) {
-      this.data = current.attributes
+      console.log(current)
+      this.data = current.attributes // should switch this to current.toJSON()
     }
     return current
   }
@@ -28,8 +29,13 @@ export default class UserModel {
   get isRescuer () {
     return !isEmpty(this.data) && this.data.rescueVerified
   }
+
   get attributes () {
     return isEmpty(this.data) ? null : this.data
+  }
+
+  get language () {
+    return this.data.attributes.language || 'zh_CN'
   }
 
   async authorize () {

@@ -1,13 +1,3 @@
-<style lang="scss">
-  @import '../styles/mixins.scss';
-  .registration--title {
-    @include titletext;
-  }
-
-  .registration--subtitle {
-    @include subtitletext;
-  }
-</style>
 <template>
   <view class="container padbox--default">
     <view class="registration--title">加入我们</view>
@@ -20,41 +10,46 @@
         使用微信登录
       </button>
       <block wx:if="{{authData}}">
-        <view class="form-item--default">
-          <view class="form-item--label">名字</view>
-          <view class="form-item--input">{{authData.nickName}}</view>
+        <view class="form--group">
+          <view class="form--group__title">基本信息</view>
+          <view class="form-item--default">
+            <view class="form-item--label">名字</view>
+            <view class="form-item--input">{{authData.nickName}}</view>
+          </view>
+          <view class="form-item--default">
+            <view class="form-item--label">地方</view>
+            <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
+          </view>
+          <view class="form-item--default">
+            <view class="form-item--label">微信👌</view>
+            <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next"/>
+          </view>
+          <view class="form-item--default">
+            <view class="form-item--label">年龄🍫</view>
+            <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next"/>
+          </view>
         </view>
-        <view class="form-item--default">
-          <view class="form-item--label">地方</view>
-          <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
-        </view>
-        <view class="form-message">
-          最后一步：认证一下你的账号。你需要给救狗人士提供你的微信号，这样当你遇到喜欢的狗的时候救狗人士可以更方便的联系你。写个自我介绍让救狗人士认识一下你
-        </view>
-        <view class="form-item--default">
-          <view class="form-item--label">微信👌</view>
-          <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next"/>
-        </view>
-        <view class="form-item--default">
-          <view class="form-item--label">年龄🍫</view>
-          <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next"/>
-        </view>
-        <view class="form-item--default">
-          <view class="form-item--label__fullwidth">自我介绍</view>
-          <textarea class="form-item--textinput" @focus="handleFocus" @blur="handlePersonal" confirm-type="send" @confirm="handleSubmit" maxlength="200" />
+        <view class="form--group">
+          <view class="form--group__title">自我介绍</view>
+          <view class="form-item--default">
+            <view class="form-item--label">你需要给救狗人士提供你的微信号，这样当你遇到喜欢的狗的时候救狗人士可以更方便的联系你。写个自我介绍让救狗人士认识一下你</view>
+            <textarea class="form-item--textinput" @focus="handleFocus" @blur="handlePersonal" confirm-type="send" @confirm="handleSubmit" maxlength="200" />
+          </view>
         </view>
         <button class="btn--default" @tap="handleSubmit">保存</button>
       </block>
     </formparent>
   </view>
   <redirectmodal/>
-  <errormodal @modaltap.user="reloadPage"/>
+  <errormodal/>
+  <fidoloader/>
 </template>
 <script>
   import wepy from 'wepy'
   import FormParent from '@/components/form-parent'
   import RedirectModal from '@/components/redirect-modal'
   import ErrorModal from '@/components/error-modal'
+  import FidoLoader from '@/components/fido-loader'
   export default class Registration extends wepy.page {
     config = {
       navigationBarTitleText: '注册'
@@ -62,7 +57,8 @@
     components = {
       formparent: FormParent,
       redirectmodal: RedirectModal,
-      errormodal: ErrorModal
+      errormodal: ErrorModal,
+      fidoloader: FidoLoader
     }
     data = {
       isRegistered: false,
@@ -86,9 +82,6 @@
       handleAge ({detail}) {
         this.age = detail.value
         this.$apply()
-      },
-      reloadPage () {
-        this.onLoad()
       }
     }
 
@@ -114,13 +107,16 @@
 
     async getWeChat () {
       const user = this.$parent.globalData.user
+      this.$invoke('fidoloader', 'showLoading', '')
       try {
         await user.authorize()
         this.authData = this.$parent.globalData.user.currentUser()
         this.$apply()
+        this.$invoke('fidoloader', 'hideLoading', '')
       } catch (err) {
         // actually deal with the error maybe lol
         console.error(err)
+        this.$invoke('fidoloader', 'hideLoading', '')
         this.handleFetchError()
       }
     }
@@ -130,9 +126,11 @@
         return this.handleSubmitError()
       }
       try {
+        this.$invoke('fidoloader', 'showLoading', '')
         const {wxUsername, personalNote, age} = this.data
         await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age})
         const params = {message: '恭喜你注册成功了'}
+        this.$invoke('fidoloader', 'hideLoading', '')
         this.$invoke('redirectmodal', 'toggleModal', params)
         this.$parent.globalData.user.fetchUpdate()
       } catch (err) {

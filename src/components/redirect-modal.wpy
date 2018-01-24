@@ -5,7 +5,7 @@
 }
 </style>
 <template>
-  <modal :isopen.sync="isChildOpen" :hasClose.sync="hasClose">
+  <modal :isopen.sync="isChildOpen" :hasclose.sync="hasClose">
     <view class="redirect--title">
       {{message}}
     </view>
