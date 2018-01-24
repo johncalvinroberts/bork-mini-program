@@ -1,0 +1,111 @@
+<style lang="scss">
+  @import '../styles/variables.scss';
+  .loader-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(#333, 0.2);
+    box-sizing: border-box;
+    padding: $default-padding * 1.5;
+    z-index: 199;
+  }
+  .loader-outer{
+    transition: transform 0.3s ease;
+    padding: $default-padding;
+    padding-top: 0;
+    background-color: $white;
+    position:relative;
+    border: 2px solid $black;
+    box-shadow: $normal-shadow;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    z-index:200;
+    overflow: hidden !important;
+  }
+  .loader-inner{
+    width: 100%;
+    height: 100px;
+  }
+  .loader-text{
+    text-align: center;
+    margin-top: 10px;
+    z-index: 201;
+    position:relative;
+    color: $white;
+  }
+  .cloud{
+    border-radius: 50%;
+    position: absolute;
+    background-color: $white;
+    padding: 10px;
+    opacity: 0.8;
+    top: 10px;
+    left: 0px;
+    z-index: 201;
+    animation-delay: (random(2) * 1s);
+    animation: shuffling 3s linear infinite alternate;
+    &:before, &:after{
+      display: none;
+    }
+  }
+  .loader--moving-background{
+    position: absolute;
+    background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+    width: 300%;
+    height: 500px;
+    animation: backgroundAnimation 4s linear infinite;
+    animation-direction: alternate;
+  }
+  @keyframes backgroundAnimation {
+    from { left: 0%; top: -80px; transform: rotate(0deg);}
+    to { left: -90%; top: -10px; transform: rotate(100deg);}
+  }
+  @keyframes shuffling {
+    from { left: -15%; transform: scale(random(1)); top: 10px;}
+    to { left: 100%; transform: scale(random(120)); opacity: 0.3;}
+  }
+
+</style>
+<template>
+  <view class="loader-container container__flex" style="visibility:{{visible ? 'visible' : 'hidden'}};">
+    <view class="loader-outer">
+      <view class="loader-inner">
+        <view class="cloud"></view>
+      </view>
+      <view class="loader--moving-background"></view>
+      <view class="loader-text">
+        {{message}}
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class FidoLoader extends wepy.component {
+    props = {}
+
+    data = {
+      visible: false,
+      message: '小狗正在跑赶来。。。'
+    }
+    methods = {
+      showLoading (message) {
+        if (message && message !== '') {
+          this.message = message
+        }
+        this.visible = true
+        this.$apply()
+      },
+      hideLoading () {
+        this.visible = false
+        this.$apply()
+      }
+    }
+    onLoad () {
+    }
+    watch = {}
+  }
+</script>

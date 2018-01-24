@@ -26,14 +26,10 @@ export default class UserModel {
   }
 
   get isRescuer () {
-    if (!isEmpty(this.data) && this.data.isRescuer) {
-      return true
-    }
-    return false
+    return !isEmpty(this.data) && this.data.rescueVerified
   }
   get attributes () {
-    if (isEmpty(this.data)) return null
-    return this.data
+    return isEmpty(this.data) ? null : this.data
   }
 
   async authorize () {

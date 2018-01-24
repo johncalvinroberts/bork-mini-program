@@ -33,15 +33,15 @@
         </view>
         <view class="form-item--default">
           <view class="form-item--label">微信👌</view>
-          <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx" maxlength="70" confirm-type="next"/>
+          <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next"/>
         </view>
         <view class="form-item--default">
           <view class="form-item--label">年龄🍫</view>
-          <input type="number" placeholder="输入你的年龄请" class="form-item--input" @input="handleAge" maxlength="3" confirm-type="next"/>
+          <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next"/>
         </view>
         <view class="form-item--default">
           <view class="form-item--label__fullwidth">自我介绍</view>
-          <textarea class="form-item--textinput" @input="handlePersonal" confirm-type="send" @confirm="handleSubmit" maxlength="200" />
+          <textarea class="form-item--textinput" @focus="handleFocus" @blur="handlePersonal" confirm-type="send" @confirm="handleSubmit" maxlength="200" />
         </view>
         <button class="btn--default" @tap="handleSubmit">保存</button>
       </block>

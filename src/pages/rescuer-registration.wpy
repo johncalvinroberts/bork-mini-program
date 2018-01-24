@@ -31,18 +31,18 @@
           </view>
           <view class="form-item--default">
             <view class="form-item--label">微信👌</view>
-            <input type="text" placeholder="请输入你的微信号" class="form-item--input" @input="handleWx" maxlength="70" confirm-type="next" value="{{authData.wxUsername || ''}}"/>
+            <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next" value="{{wxUsername || ''}}"/>
           </view>
           <view class="form-item--default">
             <view class="form-item--label">年龄🍫</view>
-            <input type="number" placeholder="输入你的年龄请" class="form-item--input" @input="handleAge" maxlength="3" confirm-type="next" value="{{authData.age || ''}}"/>
+            <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next" value="{{age || ''}}"/>
           </view>
         </view>
         <view class="form--group">
           <view class="form--group__title">自我介绍</view>
           <view class="form-item--label">介绍一下自己，说一说你来这里的目标是什么，你对你的rescue dog 和 rescue cat 有多么多么的爱，等等</view>
           <view class="form-item--default">
-            <textarea class="form-item--textinput" @input="handlePersonal" confirm-type="next" maxlength="200" value="{{authData.personalNote}}"/>
+            <textarea class="form-item--textinput" @blur="handlePersonal" confirm-type="next" maxlength="200" value="{{personalNote}}"/>
           </view>
         </view>
         <view class="form--group">
@@ -56,7 +56,7 @@
               <view class="form-item--label">
                 身份证📇
               </view>
-              <input type="idcard" placeholder="身份证" class="form-item--input" @input="handleId" confirm-type="next"/>
+              <input type="idcard" placeholder="身份证" class="form-item--input" @blur="handleId" confirm-type="next"/>
             </view>
           </block>
             <block wx:else>
@@ -69,13 +69,13 @@
                 <view class="form-item--label">
                   姓名📇
                 </view>
-                <input type="number" placeholder="请输入你的全法律上的姓名" class="form-item--input" @input="handleFullName" maxlength="50" confirm-type="next" value="{{authData.fullName || ''}}"/>
+                <input type="text" placeholder="请输入你的全法律上的姓名" class="form-item--input" @blur="handleFullName" maxlength="50" confirm-type="next" value="{{fullName || ''}}"/>
               </view>
               <view class="form-item--default">
                 <view class="form-item--label">
                   护照🛂
                 </view>
-                <input type="number" placeholder="请输入护照号" class="form-item--input" @input="handleId" maxlength="50" confirm-type="next"/>
+                <input type="number" placeholder="请输入护照号" class="form-item--input" @blur="handleId" maxlength="50" confirm-type="next" value="{{idNumber || ''}}"/>
               </view>
           </block>
         </view>
@@ -85,6 +85,7 @@
   </view>
   <redirectmodal/>
   <errormodal/>
+  <fidoloader/>
 </template>
 <script>
   import wepy from 'wepy'
@@ -93,8 +94,8 @@
   import ErrorModal from '@/components/error-modal'
   import CoolPicker from '@/components/cool-picker'
   import RadioList from '@/components/radiolist'
+  import FidoLoader from '@/components/fido-loader'
   import countryChoices from '@/utils/countries'
-
   import isEmpty from 'lodash.isempty'
 
   export default class RescuerRegistration extends wepy.page {
@@ -123,7 +124,8 @@
       redirectmodal: RedirectModal,
       errormodal: ErrorModal,
       coolpicker: CoolPicker,
-      radiolist: RadioList
+      radiolist: RadioList,
+      fidoloader: FidoLoader
     }
 
     computed = {
@@ -164,6 +166,7 @@
         this.$apply()
       },
       handleId ({detail}) {
+        console.log('heyoay')
         this.idNumber = detail.value
         this.$apply()
       },
@@ -206,12 +209,16 @@
     }
 
     async getWeChat () {
+      this.$invoke('fidoloader', 'showLoading', '')
       const user = this.$parent.globalData.user
       try {
         await user.authorize()
-        this.authData = this.$parent.globalData.user.currentUser()
+        this.authData = this.$parent.globalData.user.attributes
         this.$apply()
+        this.diffAuthData()
+        this.$invoke('fidoloader', 'hideLoading', '')
       } catch (err) {
+        this.$invoke('fidoloader', 'hideLoading', '')
         // actually deal with the error maybe lol
         console.error(err)
         this.handleFetchError()
@@ -229,10 +236,12 @@
 
     async handleSubmit () {
       if (this.hasEmptyFields) return this.handleSubmitError()
+      this.$invoke('fidoloader', 'showLoading', '')
       try {
         const {wxUsername, personalNote, age, idType, idNumber, fullName, country} = this.data
         await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age, idType, idNumber, fullName, country})
         const params = {message: '恭喜你, 你已经成为fido的rescuer'}
+        this.$invoke('fidoloader', 'hideLoading', '')
         this.$invoke('redirectmodal', 'toggleModal', params)
         this.$parent.globalData.user.fetchUpdate()
       } catch (err) {
@@ -248,10 +257,14 @@
       }
       return this.$invoke('errormodal', 'showMessage', params)
     }
+
     diffAuthData () {
       this.age = this.authData.age || ''
       this.personalNote = this.authData.personalNote || ''
       this.wxUsername = this.authData.wxUsername || ''
+      this.idNumber = this.authData.idNumber || ''
+      this.country = this.authData.country || 'china'
+      this.idType = this.authData.idType || 'chinese_id'
       this.$apply()
     }
   }
