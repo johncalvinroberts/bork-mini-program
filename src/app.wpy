@@ -58,7 +58,6 @@ export default class extends wepy.app {
     const current = this.globalData.lang
     const targetLang = current === 'zh_CN' ? 'en' : 'zh_CN'
     this.globalData.lang = targetLang
-    console.log(this.globalData.lang)
     wepy.T.setLocale(this.globalData.lang)
   }
 

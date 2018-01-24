@@ -33,6 +33,9 @@
     methods = {
       changeLanguage () {
         this.$parent.$parent.toggleLocale()
+        wepy.T.setLocale(this.$parent.$parent.globalData.lang)
+        console.log(wepy)
+        this.$apply()
         this.$emit('togglelang')
       }
     }

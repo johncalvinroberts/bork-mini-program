@@ -49,7 +49,7 @@
       </view>
     </view>
     <image class="icon--default landing--profile" @tap="handleProfileBtn" src="../icons/profile.svg" mode="aspectFit"/>
-    <languagetoggle @togglelang.user="registerLocale"/>
+    <languagetoggle />
   </view>
   <modal :isopen.sync="registrationModalOpen"
           :title.sync="modalTitle"
