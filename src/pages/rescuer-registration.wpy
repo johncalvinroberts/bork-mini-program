@@ -1,50 +1,49 @@
 <template>
   <view class="container padbox--default">
-    <view class="registration--title">成为rescuer</view>
-    <view class="registration--subtitle">Are you a compassionate person? Do you come close to tears at the thought of a poor dog being neglected, abused, abandoned or even eaten? Do you collect stray dogs and/or cats and have more of them than you can handle? If so, become a rescuer and find a new home for your little bundles of love.
-    </view>
+    <view class="registration--title">{{t.title}}</view>
+    <view class="registration--subtitle">{{t.subtitle}}</view>
     <formparent>
       <button class="btn--default__dark" disabled="{{wechatDisabled}}" @tap="getWeChat">
         <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>
-        使用微信登录
+        {{t.login_with_wechat}}
       </button>
       <block wx:if="{{authData}}">
         <view class="form--group">
-          <view class="form--group__title">基本信息</view>
+          <view class="form--group__title">{{t.basic_info}}</view>
           <view class="form-item--default">
-            <view class="form-item--label">名字</view>
+            <view class="form-item--label">{{t.name}}</view>
             <view class="form-item--input">{{authData.nickName}}</view>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">地方</view>
+            <view class="form-item--label">{{t.name}}</view>
             <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">微信👌</view>
+            <view class="form-item--label">{{t.wechat}}</view>
             <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next" value="{{wxUsername || ''}}"/>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">年龄🍫</view>
+            <view class="form-item--label">{{t.age}}</view>
             <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next" value="{{age || ''}}"/>
           </view>
         </view>
         <view class="form--group">
-          <view class="form--group__title">自我介绍</view>
+          <view class="form--group__title">{{t.self_intro}}</view>
           <view class="form-item--default">
-            <view class="form-item--label">介绍一下自己，说一说你来这里的目标是什么，你对你的rescue dog 和 rescue cat 有多么多么的爱，等等</view>
+            <view class="form-item--label">{{t.intro_explanation}}</view>
             <textarea class="form-item--textinput" @blur="handlePersonal" confirm-type="next" maxlength="200" value="{{personalNote}}"/>
           </view>
         </view>
         <view class="form--group">
-          <view class="form--group__title">实名认证</view>
-          <view class="form-item--label">For Your Safety</view>
+          <view class="form--group__title">{{t.id_validation}}</view>
+          <view class="form-item--label">{{t.id_subtitle}}</view>
           <view class="form-item--default">
             <radiolist @toggle.user="toggleIdType" :choices.sync="idChoices" :currentchoice.sync="idType"/>
           </view>
           <block wx:if="{{chooseChineseId}}">
             <view class="form-item--default">
               <view class="form-item--label">
-                身份证📇
+                {{t.chinese_shenfenzheng}}
               </view>
               <input type="idcard" placeholder="身份证" class="form-item--input" @blur="handleId" confirm-type="next"/>
             </view>
@@ -57,19 +56,19 @@
               </view>
               <view class="form-item--default">
                 <view class="form-item--label">
-                  姓名📇
+                  {{t.full_name}}
                 </view>
                 <input type="text" placeholder="请输入你的全法律上的姓名" class="form-item--input" @blur="handleFullName" maxlength="50" confirm-type="next" value="{{fullName || ''}}"/>
               </view>
               <view class="form-item--default">
                 <view class="form-item--label">
-                  护照🛂
+                  {{t.passport}}
                 </view>
                 <input type="number" placeholder="请输入护照号" class="form-item--input" @blur="handleId" maxlength="50" confirm-type="next" value="{{idNumber || ''}}"/>
               </view>
           </block>
         </view>
-        <button class="btn--default" @tap="handleSubmit">保存</button>
+        <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
       </block>
     </formparent>
   </view>
@@ -86,6 +85,7 @@
   import RadioList from '@/components/radiolist'
   import FidoLoader from '@/components/fido-loader'
   import countryChoices from '@/utils/countries'
+  import LocalesMixin from '@/mixins/localesmixin'
   import isEmpty from 'lodash.isempty'
 
   export default class RescuerRegistration extends wepy.page {
@@ -108,6 +108,8 @@
       country: 'China',
       fullName: ''
     }
+
+    mixins = [LocalesMixin]
 
     components = {
       formparent: FormParent,
@@ -181,9 +183,7 @@
       }
     }
 
-    onload () {}
-
-    onShow () {
+    onLoad () {
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.authData = this.$parent.globalData.user.attributes
       if (this.authData) this.diffAuthData()

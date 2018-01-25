@@ -1,42 +1,42 @@
 <template>
   <view class="container padbox--default">
-    <view class="registration--title">加入我们</view>
-    <view class="registration--subtitle">     欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想
+    <view class="registration--title">{{t.title}}</view>
+    <view class="registration--subtitle">{{t.subtitle}}
     </view>
     <formparent>
 
       <button class="btn--default__dark" disabled="{{wechatDisabled}}" @tap="getWeChat">
         <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>
-        使用微信登录
+        {{t.login_with_wechat}}
       </button>
       <block wx:if="{{authData}}">
         <view class="form--group">
-          <view class="form--group__title">基本信息</view>
+          <view class="form--group__title">{{t.basic_info}}</view>
           <view class="form-item--default">
-            <view class="form-item--label">名字</view>
+            <view class="form-item--label">{{t.name}}</view>
             <view class="form-item--input">{{authData.nickName}}</view>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">地方</view>
+            <view class="form-item--label">{{t.place}}</view>
             <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">微信👌</view>
+            <view class="form-item--label">{{t.wechat}}</view>
             <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next"/>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">年龄🍫</view>
+            <view class="form-item--label">{{t.age}}</view>
             <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next"/>
           </view>
         </view>
         <view class="form--group">
-          <view class="form--group__title">自我介绍</view>
+          <view class="form--group__title">{{t.self_intro}}</view>
           <view class="form-item--default">
-            <view class="form-item--label">你需要给救狗人士提供你的微信号，这样当你遇到喜欢的狗的时候救狗人士可以更方便的联系你。写个自我介绍让救狗人士认识一下你</view>
+            <view class="form-item--label">{{t.intro_explanation}}</view>
             <textarea class="form-item--textinput" @focus="handleFocus" @blur="handlePersonal" confirm-type="send" @confirm="handleSubmit" maxlength="200" />
           </view>
         </view>
-        <button class="btn--default" @tap="handleSubmit">保存</button>
+        <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
       </block>
     </formparent>
   </view>
@@ -50,16 +50,22 @@
   import RedirectModal from '@/components/redirect-modal'
   import ErrorModal from '@/components/error-modal'
   import FidoLoader from '@/components/fido-loader'
+  import LocalesMixin from '@/mixins/localesmixin'
+
   export default class Registration extends wepy.page {
     config = {
       navigationBarTitleText: '注册'
     }
+
     components = {
       formparent: FormParent,
       redirectmodal: RedirectModal,
       errormodal: ErrorModal,
       fidoloader: FidoLoader
     }
+
+    mixins = [LocalesMixin]
+
     data = {
       isRegistered: false,
       authData: null,
@@ -67,6 +73,7 @@
       personalNote: null,
       age: null
     }
+
     methods = {
       redirectHome () {
         wepy.navigateTo({url: 'landing'})
@@ -97,7 +104,7 @@
       }
     }
 
-    onShow () {
+    onLoad () {
       this.isRegistered = this.$parent.globalData.user.isRegistered
       if (this.isRegistered) {
         const params = {message: '你已经注册了'}

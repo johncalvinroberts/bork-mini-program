@@ -109,7 +109,6 @@
     }
 
     onLoad () {
-      console.log('page onload')
       wepy.setNavigationBarTitle({
         title: 'fido'
       })

@@ -16,6 +16,12 @@ export default class LocalesMixin extends wepy.mixin {
 
   methods = {}
 
+  events = {
+    'routechange': () => {
+      console.log('yeaaaaaaboiii')
+    }
+  }
+
   setLocales () {
     const _ = wepy.T._
     const pageLocales = _(this.currentPage)
@@ -24,14 +30,17 @@ export default class LocalesMixin extends wepy.mixin {
   }
 
   onLoad () {
-    const pages = getCurrentPages()[0] // eslint-disable-line
-    this.currentPage = pages ? pages.route.split('pages/')[1] : 'landing'
+    const pages = getCurrentPages() // eslint-disable-line
+    const currentPage = pages[(pages.length - 1)]
+    this.currentPage = currentPage ? currentPage.route.split('pages/')[1] : 'landing'
+    console.log(this.currentPage)
     this.$apply()
     this.setLocales()
   }
 
   handleWebLocales () {
     this.currentPage = window.location.hash.split('#!/pages/')[1]
+    console.log(this.currentPage)
     const _ = wepy.T._
     const pageLocales = _(this.currentPage)
     this.data.t = Object.assign({}, pageLocales)

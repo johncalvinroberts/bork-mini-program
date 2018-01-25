@@ -32,12 +32,12 @@
 })([
 /***** module 0 start *****/
 /***** src/pages/landing.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container__flex\">\n    <div class=\"flex--item__vertical-center padbox--default\">\n      <img class=\"landing--banner\" mode=\"aspectFit\" src=\"icons/fido_logo_black.png\"/>\n      <div class=\"flex--parent__horizontal padbox--default\">\n        <button class=\"flex--item__half btn--default__medium\" @click=\"navToDogs($event)\">{{t.view_dogs}}</button>\n        <button class=\"flex--item__half btn--default__medium\" @click=\"navToCats($event)\">{{t.view_cats}}</button>\n      </div>\n      <div class=\"padbox--default\" v-if=\"(!isRegistered || !isRescuer)\">\n        <button class=\"btn--default\" @click=\"navToRescueRegistration($event)\">{{t.cta_rescuer}}</button>\n      </div>\n    </div>\n    <img class=\"icon--default landing--profile\" @click=\"handleProfileBtn($event)\" mode=\"aspectFit\" src=\"icons/profile.svg\"/>\n    <languagetoggle></languagetoggle>\n  </div>\n  <modal  v-bind:isopen.sync=\"registrationModalOpen\" v-bind:title.sync=\"modalTitle\" v-bind:subtitle.sync=\"modalSubtitle\"  v-on:masktap=\"toggleModal\">\n    <div class=\"landing--modal-btns\">\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToNormalRegistration($event)\">{{t.cta_adopter}}</button>\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToRescueRegistration($event)\">{{t.cta_rescuer}}</button>\n    </div>\n    <button class=\"btn--blank landing--login\" @click=\"navToLogin($event)\">{{t.login}}</button>\n  </modal>\n  <div v-if=\"(isRegistered)\">\n    <sideslider  v-bind:isopen.sync=\"sideSliderOpen\"  v-on:tapsheet=\"toggleSlider\">\n      <div class=\"container__flex landing--sideslider\">\n        <button class=\"btn--default__small\">something</button>\n        <button class=\"btn--default__small\">something</button>\n        <button class=\"btn--default__small\"></button>\n        <div v-if=\"(isRescuer)\">\n          <button class=\"btn--default__small\">rescuers only</button>\n          <button class=\"btn--default__small\">rescuers only</button>\n        </div>\n      </div>\n    </sideslider>\n  </div>\n"},/***** module 0 end *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container__flex\">\n    <div class=\"flex--item__vertical-center padbox--default\">\n      <img class=\"landing--banner\" mode=\"aspectFit\" src=\"icons/fido_logo_black.png\"/>\n      <div class=\"flex--parent__horizontal padbox--default\">\n        <button class=\"flex--item__half btn--default__medium\" @click=\"navToDogs($event)\">{{t.view_dogs}}</button>\n        <button class=\"flex--item__half btn--default__medium\" @click=\"navToCats($event)\">{{t.view_cats}}</button>\n      </div>\n      <div class=\"padbox--default\" v-if=\"(!isRegistered || !isRescuer)\">\n        <button class=\"btn--default\" @click=\"navToRescueRegistration($event)\">{{t.cta_rescuer}}</button>\n      </div>\n    </div>\n    <img class=\"icon--default landing--profile\" @click=\"handleProfileBtn($event)\" mode=\"aspectFit\" src=\"icons/profile.svg\"/>\n    <languagetoggle></languagetoggle>\n  </div>\n  <unregisteredmodal></unregisteredmodal>\n  <div v-if=\"(isRegistered)\">\n    <sideslider  v-bind:isopen.sync=\"sideSliderOpen\"  v-on:tapsheet=\"toggleSlider\">\n      <div class=\"container__flex landing--sideslider\">\n        <button class=\"btn--default__small\">something</button>\n        <button class=\"btn--default__small\">something</button>\n        <button class=\"btn--default__small\"></button>\n        <div v-if=\"(isRescuer)\">\n          <button class=\"btn--default__small\">rescuers only</button>\n          <button class=\"btn--default__small\">rescuers only</button>\n        </div>\n      </div>\n    </sideslider>\n  </div>\n"},/***** module 0 end *****/
 
 
 /***** module 1 start *****/
 /***** src/pages/rescuer-registration.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container padbox--default\">\n    <div class=\"registration--title\">成为rescuer</div>\n    <div class=\"registration--subtitle\">Are you a compassionate person? Do you come close to tears at the thought of a poor dog being neglected, abused, abandoned or even eaten? Do you collect stray dogs and/or cats and have more of them than you can handle? If so, become a rescuer and find a new home for your little bundles of love.\n    </div>\n    <formparent>\n      <button class=\"btn--default__dark\" @click=\"getWeChat($event)\" :disabled=\"(wechatDisabled)\">\n        <img class=\"icon--inline\" mode=\"aspectFit\" src=\"icons/wechat_white.svg\"/>\n        使用微信登录\n      </button>\n      <div v-if=\"(authData)\">\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">基本信息</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">名字</div>\n            <div class=\"form-item--input\">{{authData.nickName}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">地方</div>\n            <div class=\"form-item--input\">{{authData.province}}, {{authData.city}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">微信👌</div>\n            <input type=\"text\" placeholder=\"请输入你的微信号\" class=\"form-item--input\" @blur=\"handleWx($event)\" maxlength=\"70\" confirm-type=\"next\" :value=\"(wxUsername || '')\"/>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">年龄🍫</div>\n            <input type=\"number\" placeholder=\"输入你的年龄请\" class=\"form-item--input\" @blur=\"handleAge($event)\" maxlength=\"3\" confirm-type=\"next\" :value=\"(age || '')\"/>\n          </div>\n        </div>\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">自我介绍</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">介绍一下自己，说一说你来这里的目标是什么，你对你的rescue dog 和 rescue cat 有多么多么的爱，等等</div>\n            <textarea class=\"form-item--textinput\" @blur=\"handlePersonal($event)\" confirm-type=\"next\" maxlength=\"200\" :value=\"(personalNote)\"></textarea>\n          </div>\n        </div>\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">实名认证</div>\n          <div class=\"form-item--label\">For Your Safety</div>\n          <div class=\"form-item--default\">\n            <radiolist  v-on:toggle=\"toggleIdType\"  v-bind:choices.sync=\"idChoices\" v-bind:currentchoice.sync=\"idType\"></radiolist>\n          </div>\n          <div v-if=\"(chooseChineseId)\">\n            <div class=\"form-item--default\">\n              <div class=\"form-item--label\">\n                身份证📇\n              </div>\n              <input type=\"idcard\" placeholder=\"身份证\" class=\"form-item--input\" @blur=\"handleId($event)\" confirm-type=\"next\"/>\n            </div>\n          </div>\n            <div  wx:else=\"wx:else\">\n              <div class=\"form-item--default\">\n                <div class=\"form-item--label__fullwidth\">\n                  <coolpicker  v-on:change=\"handleCountryChange\"  v-bind:collection.sync=\"countryChoices\" v-bind:selection.sync=\"country\" v-bind:label.sync=\"countryText\"></coolpicker>\n                </div>\n              </div>\n              <div class=\"form-item--default\">\n                <div class=\"form-item--label\">\n                  姓名📇\n                </div>\n                <input type=\"text\" placeholder=\"请输入你的全法律上的姓名\" class=\"form-item--input\" @blur=\"handleFullName($event)\" maxlength=\"50\" confirm-type=\"next\" :value=\"(fullName || '')\"/>\n              </div>\n              <div class=\"form-item--default\">\n                <div class=\"form-item--label\">\n                  护照🛂\n                </div>\n                <input type=\"number\" placeholder=\"请输入护照号\" class=\"form-item--input\" @blur=\"handleId($event)\" maxlength=\"50\" confirm-type=\"next\" :value=\"(idNumber || '')\"/>\n              </div>\n          </div>\n        </div>\n        <button class=\"btn--default\" @click=\"handleSubmit($event)\">保存</button>\n      </div>\n    </formparent>\n  </div>\n  <redirectmodal></redirectmodal>\n  <errormodal></errormodal>\n  <fidoloader></fidoloader>\n"},/***** module 1 end *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container padbox--default\">\n    <div class=\"registration--title\">{{t.title}}</div>\n    <div class=\"registration--subtitle\">{{t.subtitle}}</div>\n    <formparent>\n      <button class=\"btn--default__dark\" @click=\"getWeChat($event)\" :disabled=\"(wechatDisabled)\">\n        <img class=\"icon--inline\" mode=\"aspectFit\" src=\"icons/wechat_white.svg\"/>\n        {{t.login_with_wechat}}\n      </button>\n      <div v-if=\"(authData)\">\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">{{t.basic_info}}</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.name}}</div>\n            <div class=\"form-item--input\">{{authData.nickName}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.name}}</div>\n            <div class=\"form-item--input\">{{authData.province}}, {{authData.city}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.wechat}}</div>\n            <input type=\"text\" placeholder=\"请输入你的微信号\" class=\"form-item--input\" @blur=\"handleWx($event)\" maxlength=\"70\" confirm-type=\"next\" :value=\"(wxUsername || '')\"/>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.age}}</div>\n            <input type=\"number\" placeholder=\"输入你的年龄请\" class=\"form-item--input\" @blur=\"handleAge($event)\" maxlength=\"3\" confirm-type=\"next\" :value=\"(age || '')\"/>\n          </div>\n        </div>\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">{{t.self_intro}}</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.intro_explanation}}</div>\n            <textarea class=\"form-item--textinput\" @blur=\"handlePersonal($event)\" confirm-type=\"next\" maxlength=\"200\" :value=\"(personalNote)\"></textarea>\n          </div>\n        </div>\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">{{t.id_validation}}</div>\n          <div class=\"form-item--label\">{{t.id_subtitle}}</div>\n          <div class=\"form-item--default\">\n            <radiolist  v-on:toggle=\"toggleIdType\"  v-bind:choices.sync=\"idChoices\" v-bind:currentchoice.sync=\"idType\"></radiolist>\n          </div>\n          <div v-if=\"(chooseChineseId)\">\n            <div class=\"form-item--default\">\n              <div class=\"form-item--label\">\n                {{t.chinese_shenfenzheng}}\n              </div>\n              <input type=\"idcard\" placeholder=\"身份证\" class=\"form-item--input\" @blur=\"handleId($event)\" confirm-type=\"next\"/>\n            </div>\n          </div>\n            <div  wx:else=\"wx:else\">\n              <div class=\"form-item--default\">\n                <div class=\"form-item--label__fullwidth\">\n                  <coolpicker  v-on:change=\"handleCountryChange\"  v-bind:collection.sync=\"countryChoices\" v-bind:selection.sync=\"country\" v-bind:label.sync=\"countryText\"></coolpicker>\n                </div>\n              </div>\n              <div class=\"form-item--default\">\n                <div class=\"form-item--label\">\n                  {{t.full_name}}\n                </div>\n                <input type=\"text\" placeholder=\"请输入你的全法律上的姓名\" class=\"form-item--input\" @blur=\"handleFullName($event)\" maxlength=\"50\" confirm-type=\"next\" :value=\"(fullName || '')\"/>\n              </div>\n              <div class=\"form-item--default\">\n                <div class=\"form-item--label\">\n                  {{t.passport}}\n                </div>\n                <input type=\"number\" placeholder=\"请输入护照号\" class=\"form-item--input\" @blur=\"handleId($event)\" maxlength=\"50\" confirm-type=\"next\" :value=\"(idNumber || '')\"/>\n              </div>\n          </div>\n        </div>\n        <button class=\"btn--default\" @click=\"handleSubmit($event)\">{{t.save}}</button>\n      </div>\n    </formparent>\n  </div>\n  <redirectmodal></redirectmodal>\n  <errormodal></errormodal>\n  <fidoloader></fidoloader>\n"},/***** module 1 end *****/
 
 
 /***** module 2 start *****/
@@ -47,7 +47,7 @@ function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"co
 
 /***** module 3 start *****/
 /***** src/pages/registration.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container padbox--default\">\n    <div class=\"registration--title\">加入我们</div>\n    <div class=\"registration--subtitle\">     欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想\n    </div>\n    <formparent>\n\n      <button class=\"btn--default__dark\" @click=\"getWeChat($event)\" :disabled=\"(wechatDisabled)\">\n        <img class=\"icon--inline\" mode=\"aspectFit\" src=\"icons/wechat_white.svg\"/>\n        使用微信登录\n      </button>\n      <div v-if=\"(authData)\">\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">基本信息</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">名字</div>\n            <div class=\"form-item--input\">{{authData.nickName}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">地方</div>\n            <div class=\"form-item--input\">{{authData.province}}, {{authData.city}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">微信👌</div>\n            <input type=\"text\" placeholder=\"请输入你的微信号\" class=\"form-item--input\" @blur=\"handleWx($event)\" maxlength=\"70\" confirm-type=\"next\"/>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">年龄🍫</div>\n            <input type=\"number\" placeholder=\"输入你的年龄请\" class=\"form-item--input\" @blur=\"handleAge($event)\" maxlength=\"3\" confirm-type=\"next\"/>\n          </div>\n        </div>\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">自我介绍</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">你需要给救狗人士提供你的微信号，这样当你遇到喜欢的狗的时候救狗人士可以更方便的联系你。写个自我介绍让救狗人士认识一下你</div>\n            <textarea class=\"form-item--textinput\" @focus=\"handleFocus($event)\" @blur=\"handlePersonal($event)\" confirm-type=\"send\" @confirm=\"handleSubmit($event)\" maxlength=\"200\"></textarea>\n          </div>\n        </div>\n        <button class=\"btn--default\" @click=\"handleSubmit($event)\">保存</button>\n      </div>\n    </formparent>\n  </div>\n  <redirectmodal></redirectmodal>\n  <errormodal></errormodal>\n  <fidoloader></fidoloader>\n"},/***** module 3 end *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"container padbox--default\">\n    <div class=\"registration--title\">{{t.title}}</div>\n    <div class=\"registration--subtitle\">{{t.subtitle}}\n    </div>\n    <formparent>\n\n      <button class=\"btn--default__dark\" @click=\"getWeChat($event)\" :disabled=\"(wechatDisabled)\">\n        <img class=\"icon--inline\" mode=\"aspectFit\" src=\"icons/wechat_white.svg\"/>\n        {{t.login_with_wechat}}\n      </button>\n      <div v-if=\"(authData)\">\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">{{t.basic_info}}</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.name}}</div>\n            <div class=\"form-item--input\">{{authData.nickName}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.place}}</div>\n            <div class=\"form-item--input\">{{authData.province}}, {{authData.city}}</div>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.wechat}}</div>\n            <input type=\"text\" placeholder=\"请输入你的微信号\" class=\"form-item--input\" @blur=\"handleWx($event)\" maxlength=\"70\" confirm-type=\"next\"/>\n          </div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.age}}</div>\n            <input type=\"number\" placeholder=\"输入你的年龄请\" class=\"form-item--input\" @blur=\"handleAge($event)\" maxlength=\"3\" confirm-type=\"next\"/>\n          </div>\n        </div>\n        <div class=\"form--group\">\n          <div class=\"form--group__title\">{{t.self_intro}}</div>\n          <div class=\"form-item--default\">\n            <div class=\"form-item--label\">{{t.intro_explanation}}</div>\n            <textarea class=\"form-item--textinput\" @focus=\"handleFocus($event)\" @blur=\"handlePersonal($event)\" confirm-type=\"send\" @confirm=\"handleSubmit($event)\" maxlength=\"200\"></textarea>\n          </div>\n        </div>\n        <button class=\"btn--default\" @click=\"handleSubmit($event)\">{{t.save}}</button>\n      </div>\n    </formparent>\n  </div>\n  <redirectmodal></redirectmodal>\n  <errormodal></errormodal>\n  <fidoloader></fidoloader>\n"},/***** module 3 end *****/
 
 
 /***** module 4 start *****/
@@ -119,6 +119,17 @@ var _default = function (_wepy$app) {
 
     _this.use('requestfix');
     _this.use('promisify');
+    console.log(_wepy2.default);
+    _this.intercept('$route', {
+      config: function config(p) {
+        console.log('XXXXXXXX config route');
+        return p;
+      },
+      success: function success(p) {
+        console.log('XXXXXXXX route success');
+        return p;
+      }
+    });
     return _this;
   }
 
@@ -188,6 +199,11 @@ var _default = function (_wepy$app) {
       return getSystemLang;
     }()
   }, {
+    key: 'onShow',
+    value: function onShow() {
+      _wepy2.default.navigateTo({ url: 'pages/rescuer-registration' });
+    }
+  }, {
     key: 'onLaunch',
     value: function onLaunch() {
       if (_wepy2.default.env === 'web') {
@@ -202,7 +218,7 @@ var _default = function (_wepy$app) {
 }(_wepy2.default.app);
 
 exports.default = _default;
-__wepy_require(6).default.$createApp(_default, {"routes":{"pages/landing":11,"pages/rescuer-registration":16,"pages/login":25,"pages/registration":26,"pages/edit-profile":27},"style":[57,58,59,60,61,62,63,64,65,66,67,68,69],"components":{},"apis":{}});
+__wepy_require(6).default.$createApp(_default, {"routes":{"pages/landing":11,"pages/rescuer-registration":16,"pages/login":25,"pages/registration":26,"pages/edit-profile":27},"style":[59,60,61,62,63,64,65,66,67,68,69,70,71,72],"components":{},"apis":{}});
 
 },/***** module 5 end *****/
 
@@ -284,10 +300,38 @@ exports.default = {
       "view_dogs": "view dogs",
       "view_cats": "view cats",
       "cta_rescuer": "I'm a rescuer",
-      "cta_adopter": "I want to adopt",
-      "login": "Login",
-      "modal_title": "U need to register first😁",
-      "modal_subtitle": "You can sign up to be an adopter or rescuer"
+      "login": "Login"
+    },
+    "registration": {
+      "title": "Join Fido",
+      "subtitle": "Welcome to Fido. Sign up as an adopter so you can reach out to rescuers of stray dogs & cats.",
+      "login_with_wechat": "Sign up With Wechat",
+      "basic_info": "Basic info",
+      "name": "Name",
+      "place": "Place",
+      "wechat": "WeChat👌",
+      "age": "age🍫",
+      "self_intro": "personal statement",
+      "intro_explanation": "Write a little about yourself. Rescuers need to know that you are a trustworthy and kind-hearted person :)",
+      "save": "Save"
+    },
+    "rescuer-registration": {
+      "title": "Become A Rescuer",
+      "subtitle": "Are you a compassionate person? Do you come close to tears at the thought of a poor dog being neglected, abused, abandoned or even eaten? Do you collect stray dogs and/or cats and have more of them than you can handle? If so, become a rescuer and find a new home for your little bundles of love.",
+      "login_with_wechat": "Sign up With Wechat",
+      "basic_info": "Basic info",
+      "name": "Name",
+      "place": "Place",
+      "wechat": "WeChat👌",
+      "age": "age🍫",
+      "self_intro": "personal statement",
+      "intro_explanation": "Write a bit about yourself. Why do you rescue stray animals? etc.",
+      "id_validation": "ID Verification",
+      "id_subtitle": "For your safety, we verify our rescuers identity",
+      "chinese_shenfenzheng": "Chinese ID",
+      "full_name": "Full Name",
+      "passport": "passport🛂",
+      "save": "save"
     }
   },
   "zh_CN": {
@@ -295,10 +339,38 @@ exports.default = {
       "view_dogs": "看狗狗",
       "view_cats": "看猫猫",
       "cta_rescuer": "我是救狗救猫的人",
-      "cta_adopter": "我想领养",
-      "login": "登录",
-      "modal_title": "你还没有注册😁",
-      "modal_subtitle": "你可以成为adopter还是rescuer"
+      "login": "登录"
+    },
+    "registration": {
+      "title": "加入我们",
+      "subtitle": "欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想",
+      "login_with_wechat": "使用微信登录",
+      "basic_info": "基本信息",
+      "name": "名字",
+      "place": "地方",
+      "wechat": "微信👌",
+      "age": "年龄🍫",
+      "self_intro": "自我介绍",
+      "intro_explanation": "你需要给救狗人士提供你的微信号，这样当你遇到喜欢的狗的时候救狗人士可以更方便的联系你。写个自我介绍让救狗人士认识一下你",
+      "save": "保存"
+    },
+    "rescuer-registration": {
+      "title": "成为rescuer",
+      "subtitle": "你是救猫救狗的人吗？当你看到痛苦的小动物的时候你变的也很痛苦吗？你会收留很多流浪猫或者流浪狗吗？吃素吗？你在小区门口捡了一只走丢的小狗想帮它找新主人？注册成为rescuer吧！",
+      "login_with_wechat": "使用微信登录",
+      "basic_info": "基本信息",
+      "name": "名字",
+      "place": "地方",
+      "wechat": "微信👌",
+      "age": "年龄🍫",
+      "self_intro": "自我介绍",
+      "intro_explanation": "介绍一下自己，说一说你来这里的目标是什么，你对你的rescue dog 和 rescue cat 有多么多么的爱，等等",
+      "id_validation": "实名认证",
+      "id_subtitle": "为了你的安全",
+      "chinese_shenfenzheng": "身份证📇",
+      "full_name": "姓名📇",
+      "passport": "护照🛂",
+      "save": "保存"
     }
   }
 };
@@ -692,9 +764,9 @@ var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
-var _modal = __wepy_require(12);
+var _unregisteredModal = __wepy_require(12);
 
-var _modal2 = _interopRequireDefault(_modal);
+var _unregisteredModal2 = _interopRequireDefault(_unregisteredModal);
 
 var _sideslider = __wepy_require(13);
 
@@ -732,22 +804,19 @@ var Index = function (_wepy$page) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Index.__proto__ || Object.getPrototypeOf(Index)).call.apply(_ref, [this].concat(args))), _this), _this.config = {
       navigationBarTitleText: '正在加载'
-    }, _this.mixins = [_localesmixin2.default], _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "registrationModalOpen", "v-bind:title.sync": "modalTitle", "v-bind:subtitle.sync": "modalSubtitle", "xmlns:v-on": "" }, "sideslider": { "xmlns:v-bind": "", "v-bind:isopen.sync": "sideSliderOpen", "xmlns:v-on": "" } }, _this.$events = { "modal": { "v-on:masktap": "toggleModal" }, "sideslider": { "v-on:tapsheet": "toggleSlider" } }, _this.components = {
-      modal: _modal2.default,
+    }, _this.mixins = [_localesmixin2.default], _this.$repeat = {}, _this.$props = { "sideslider": { "xmlns:v-bind": "", "v-bind:isopen.sync": "sideSliderOpen", "xmlns:v-on": "" } }, _this.$events = { "sideslider": { "v-on:tapsheet": "toggleSlider" } }, _this.components = {
+      unregisteredmodal: _unregisteredModal2.default,
       sideslider: _sideslider2.default,
       languagetoggle: _languageToggle2.default
     }, _this.data = {
       isRegistered: false,
       isRescuer: false,
-      registrationModalOpen: false,
       sideSliderOpen: false,
-      modalTitle: '',
-      modalSubtitle: '',
       pageName: 'landing'
     }, _this.methods = {
       handleProfileBtn: function handleProfileBtn() {
         if (!this.isRegistered) {
-          this.registrationModalOpen = !this.registrationModalOpen;
+          this.$invoke('unregisteredmodal', 'openModal', '');
         } else {
           this.sideSliderOpen = !this.sideSliderOpen;
         }
@@ -758,9 +827,6 @@ var Index = function (_wepy$page) {
       navToCats: function navToCats() {
         console.log('cats');
       },
-      toggleModal: function toggleModal() {
-        this.registrationModalOpen = !this.registrationModalOpen;
-      },
       toggleSlider: function toggleSlider() {
         this.sideSliderOpen = !this.sideSliderOpen;
         this.$apply();
@@ -770,17 +836,6 @@ var Index = function (_wepy$page) {
       },
       navToRescueRegistration: function navToRescueRegistration() {
         _wepy2.default.navigateTo({ url: 'rescuer-registration' });
-      },
-      navToLogin: function navToLogin() {
-        _wepy2.default.navigateTo({
-          url: 'login'
-        });
-      }
-    }, _this.watch = {
-      t: function t() {
-        this.modalTitle = this.t.modal_title;
-        this.modalSubtitle = this.t.modal_subtitle;
-        this.$apply();
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -788,17 +843,11 @@ var Index = function (_wepy$page) {
   _createClass(Index, [{
     key: 'onLoad',
     value: function onLoad() {
-      console.log('page onload');
       _wepy2.default.setNavigationBarTitle({
         title: 'fido'
       });
       this.isRegistered = this.$parent.globalData.user.isRegistered;
       this.isRescuer = this.$parent.globalData.user.isRescuer;
-      if (_wepy2.default.env === 'web') {
-        this.modalTitle = this.data.t.modal_title;
-        this.modalSubtitle = this.data.t.modal_subtitle;
-        this.$apply();
-      }
     }
   }, {
     key: 'onUnload',
@@ -809,7 +858,6 @@ var Index = function (_wepy$page) {
     key: 'onHide',
     value: function onHide() {
       this.sidesliderOpen = false;
-      this.registrationModalOpen = false;
     }
   }]);
 
@@ -823,7 +871,7 @@ exports.default.template=__wepy_require(0);
 
 
 /***** module 12 start *****/
-/***** src/components/modal.wpy *****/
+/***** src/components/unregistered-modal.wpy *****/
 function(module, exports, __wepy_require) {'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -837,6 +885,10 @@ var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
+var _modal = __wepy_require(50);
+
+var _modal2 = _interopRequireDefault(_modal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -845,57 +897,69 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Modal = function (_wepy$component) {
-  _inherits(Modal, _wepy$component);
+var UnregisteredModal = function (_wepy$component) {
+  _inherits(UnregisteredModal, _wepy$component);
 
-  function Modal() {
+  function UnregisteredModal() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    _classCallCheck(this, Modal);
+    _classCallCheck(this, UnregisteredModal);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
-      title: {
-        type: String,
-        default: null
-      },
-      isopen: {
-        type: Boolean
-      },
-      subtitle: {
-        type: String,
-        default: null
-      },
-      hasclose: {
-        type: Boolean,
-        default: true
-      }
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = UnregisteredModal.__proto__ || Object.getPrototypeOf(UnregisteredModal)).call.apply(_ref, [this].concat(args))), _this), _this.data = {
+      registrationModalOpen: false,
+      login: '登录',
+      ctaRescuer: '我是救狗救猫的人',
+      ctaAdopter: '我想领养',
+      modalSubtitle: '你可以成为adopter还是rescuer',
+      modalTitle: '你还没有注册😁'
+    }, _this.$repeat = {}, _this.$props = { "modal": { "xmlns:v-bind": "", "v-bind:isopen.sync": "registrationModalOpen", "v-bind:title.sync": "modalTitle", "v-bind:subtitle.sync": "modalSubtitle", "xmlns:v-on": "" } }, _this.$events = { "modal": { "v-on:masktap": "closeModal" } }, _this.components = {
+      modal: _modal2.default
     }, _this.methods = {
-      maskTap: function maskTap(e) {
-        if (e.target.id === e.currentTarget.id) {
-          this.$emit('masktap');
-        }
+      navToNormalRegistration: function navToNormalRegistration() {
+        _wepy2.default.navigateTo({ url: 'registration' });
+      },
+      navToRescueRegistration: function navToRescueRegistration() {
+        _wepy2.default.navigateTo({ url: 'rescuer-registration' });
+      },
+      navToLogin: function navToLogin() {
+        _wepy2.default.navigateTo({
+          url: 'login'
+        });
+      },
+      openModal: function openModal() {
+        this.registrationModalOpen = true;
+        this.$apply();
+      },
+      closeModal: function closeModal() {
+        this.registrationModalOpen = false;
+        this.$apply();
       }
-    }, _this.data = {}, _this.components = {}, _temp), _possibleConstructorReturn(_this, _ret);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  _createClass(Modal, [{
+  _createClass(UnregisteredModal, [{
     key: 'onLoad',
-    value: function onLoad() {}
-  }, {
-    key: 'onShow',
-    value: function onShow() {}
+    value: function onLoad() {
+      if (_wepy2.default.T.locale === 'en') {
+        this.modalTitle = 'U need to register first😁';
+        this.modalSubtitle = 'You can sign up to be an adopter or rescuer';
+        this.ctaAdopter = 'I want to adopt';
+        this.login = 'Login';
+        this.ctaRescuer = 'I am a rescuer';
+      }
+    }
   }]);
 
-  return Modal;
+  return UnregisteredModal;
 }(_wepy2.default.component);
 
-exports.default = Modal;
+exports.default = UnregisteredModal;
 
 exports.default.template=__wepy_require(28);
 },/***** module 12 end *****/
@@ -1067,8 +1131,12 @@ var LocalesMixin = function (_wepy$mixin) {
       currentPage: ''
     };
     _this.methods = {};
+    _this.events = {
+      'routechange': function routechange() {
+        console.log('yeaaaaaaboiii');
+      }
+    };
 
-    console.log('locales constructor');
     var isWeb = _wepy2.default.env === 'web';
     if (isWeb) {
       _this.handleWebLocales();
@@ -1087,9 +1155,9 @@ var LocalesMixin = function (_wepy$mixin) {
   }, {
     key: 'onLoad',
     value: function onLoad() {
-      console.log('mixin onload');
-      var pages = getCurrentPages()[0]; // eslint-disable-line
-      this.currentPage = pages ? pages.route.split('pages/')[1] : 'landing';
+      var pages = getCurrentPages(); // eslint-disable-line
+      var currentPage = pages[pages.length - 1];
+      this.currentPage = currentPage ? currentPage.route.split('pages/')[1] : 'landing';
       console.log(this.currentPage);
       this.$apply();
       this.setLocales();
@@ -1097,8 +1165,8 @@ var LocalesMixin = function (_wepy$mixin) {
   }, {
     key: 'handleWebLocales',
     value: function handleWebLocales() {
-      console.log('handleWebLocales');
       this.currentPage = window.location.hash.split('#!/pages/')[1];
+      console.log(this.currentPage);
       var _ = _wepy2.default.T._;
       var pageLocales = _(this.currentPage);
       this.data.t = Object.assign({}, pageLocales);
@@ -1155,6 +1223,10 @@ var _countries = __wepy_require(23);
 
 var _countries2 = _interopRequireDefault(_countries);
 
+var _localesmixin = __wepy_require(15);
+
+var _localesmixin2 = _interopRequireDefault(_localesmixin);
+
 var _lodash = __wepy_require(24);
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -1201,7 +1273,7 @@ var RescuerRegistration = function (_wepy$page) {
       idType: 'chinese_id',
       country: 'China',
       fullName: ''
-    }, _this.$repeat = {}, _this.$props = { "coolpicker": { "v-bind:collection.sync": "countryChoices", "v-bind:selection.sync": "country", "v-bind:label.sync": "countryText" }, "radiolist": { "xmlns:v-on": "", "xmlns:v-bind": "", "v-bind:choices.sync": "idChoices", "v-bind:currentchoice.sync": "idType" } }, _this.$events = { "coolpicker": { "v-on:change": "handleCountryChange" }, "radiolist": { "v-on:toggle": "toggleIdType" } }, _this.components = {
+    }, _this.mixins = [_localesmixin2.default], _this.$repeat = {}, _this.$props = { "coolpicker": { "v-bind:collection.sync": "countryChoices", "v-bind:selection.sync": "country", "v-bind:label.sync": "countryText" }, "radiolist": { "xmlns:v-on": "", "xmlns:v-bind": "", "v-bind:choices.sync": "idChoices", "v-bind:currentchoice.sync": "idType" } }, _this.$events = { "coolpicker": { "v-on:change": "handleCountryChange" }, "radiolist": { "v-on:toggle": "toggleIdType" } }, _this.components = {
       formparent: _formParent2.default,
       redirectmodal: _redirectModal2.default,
       errormodal: _errorModal2.default,
@@ -1290,11 +1362,8 @@ var RescuerRegistration = function (_wepy$page) {
   }
 
   _createClass(RescuerRegistration, [{
-    key: 'onload',
-    value: function onload() {}
-  }, {
-    key: 'onShow',
-    value: function onShow() {
+    key: 'onLoad',
+    value: function onLoad() {
       this.isRegistered = this.$parent.globalData.user.isRegistered;
       this.authData = this.$parent.globalData.user.attributes;
       if (this.authData) this.diffAuthData();
@@ -1501,7 +1570,7 @@ var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
-var _modal = __wepy_require(12);
+var _modal = __wepy_require(50);
 
 var _modal2 = _interopRequireDefault(_modal);
 
@@ -1578,7 +1647,7 @@ var _wepy = __wepy_require(6);
 
 var _wepy2 = _interopRequireDefault(_wepy);
 
-var _modal = __wepy_require(12);
+var _modal = __wepy_require(50);
 
 var _modal2 = _interopRequireDefault(_modal);
 
@@ -2537,6 +2606,10 @@ var _fidoLoader = __wepy_require(22);
 
 var _fidoLoader2 = _interopRequireDefault(_fidoLoader);
 
+var _localesmixin = __wepy_require(15);
+
+var _localesmixin2 = _interopRequireDefault(_localesmixin);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -2568,7 +2641,7 @@ var Registration = function (_wepy$page) {
       redirectmodal: _redirectModal2.default,
       errormodal: _errorModal2.default,
       fidoloader: _fidoLoader2.default
-    }, _this.data = {
+    }, _this.mixins = [_localesmixin2.default], _this.data = {
       isRegistered: false,
       authData: null,
       wxUsername: {},
@@ -2610,8 +2683,8 @@ var Registration = function (_wepy$page) {
   }
 
   _createClass(Registration, [{
-    key: 'onShow',
-    value: function onShow() {
+    key: 'onLoad',
+    value: function onLoad() {
       this.isRegistered = this.$parent.globalData.user.isRegistered;
       if (this.isRegistered) {
         var params = { message: '你已经注册了' };
@@ -2792,8 +2865,8 @@ exports.default.template=__wepy_require(4);
 
 
 /***** module 28 start *****/
-/***** src/components/modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"modal--blur\" :style=\"'visibility: ' + (isopen ? 'visible' : 'hidden') + ';'\">\n    <div class=\"container__flex modal--mask\" @click=\"maskTap($event)\" id=\"modalmask\">\n      <div class=\"modal--body\" :style=\"'transform: ' + (isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)') + ';'\">\n        <img class=\"modal--close\" @click=\"maskTap($event)\" src=\"icons/close.svg\" v-if=\"(hasclose)\"/>\n        <div class=\"modal--title\" v-if=\"(title)\">{{title}}</div>\n        <div class=\"modal--subtitle\" v-if=\"(subtitle)\">{{subtitle}}</div>\n        <div class=\"modal--slot-outer\">\n          <slot>\n          </slot>\n        </div>\n      </div>\n    </div>\n  </div>\n"},/***** module 28 end *****/
+/***** src/components/unregistered-modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <modal  v-bind:isopen.sync=\"registrationModalOpen\" v-bind:title.sync=\"modalTitle\" v-bind:subtitle.sync=\"modalSubtitle\"  v-on:masktap=\"closeModal\">\n    <div class=\"landing--modal-btns\">\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToNormalRegistration($event)\">{{ctaAdopter}}</button>\n      <button class=\"btn--default__medium landing--register-btn\" @click=\"navToRescueRegistration($event)\">{{ctaRescuer}}</button>\n    </div>\n    <button class=\"btn--blank landing--login\" @click=\"navToLogin($event)\">{{login}}</button>\n  </modal>\n"},/***** module 28 end *****/
 
 
 /***** module 29 start *****/
@@ -2842,7 +2915,7 @@ function(module, exports, __wepy_require) {'use strict';
 
 exports.__esModule = true;
 
-var _native = __wepy_require(50);
+var _native = __wepy_require(52);
 
 var _native2 = _interopRequireDefault(_native);
 
@@ -2985,7 +3058,7 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _native = __wepy_require(50);
+var _native = __wepy_require(52);
 
 var _native2 = _interopRequireDefault(_native);
 
@@ -3532,11 +3605,11 @@ exports.__esModule = true;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _vue = __wepy_require(51);
+var _vue = __wepy_require(53);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _vueRouter = __wepy_require(52);
+var _vueRouter = __wepy_require(54);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
@@ -3544,7 +3617,7 @@ var _event = __wepy_require(40);
 
 var _event2 = _interopRequireDefault(_event);
 
-var _word = __wepy_require(53);
+var _word = __wepy_require(55);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4087,17 +4160,17 @@ function(module, exports, __wepy_require) {'use strict';
 
 exports.__esModule = true;
 
-var _vue = __wepy_require(51);
+var _vue = __wepy_require(53);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _axios = __wepy_require(54);
+var _axios = __wepy_require(56);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _query = __wepy_require(55);
+var _query = __wepy_require(57);
 
-var _device = __wepy_require(56);
+var _device = __wepy_require(58);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9125,15 +9198,99 @@ exports.appKey = appKey;
 
 
 /***** module 50 start *****/
+/***** src/components/modal.wpy *****/
+function(module, exports, __wepy_require) {'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _wepy = __wepy_require(6);
+
+var _wepy2 = _interopRequireDefault(_wepy);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Modal = function (_wepy$component) {
+  _inherits(Modal, _wepy$component);
+
+  function Modal() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Modal);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.props = {
+      title: {
+        type: String,
+        default: null
+      },
+      isopen: {
+        type: Boolean
+      },
+      subtitle: {
+        type: String,
+        default: null
+      },
+      hasclose: {
+        type: Boolean,
+        default: true
+      }
+    }, _this.methods = {
+      maskTap: function maskTap(e) {
+        if (e.target.id === e.currentTarget.id) {
+          this.$emit('masktap');
+        }
+      }
+    }, _this.data = {}, _this.components = {}, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Modal, [{
+    key: 'onLoad',
+    value: function onLoad() {}
+  }, {
+    key: 'onShow',
+    value: function onShow() {}
+  }]);
+
+  return Modal;
+}(_wepy2.default.component);
+
+exports.default = Modal;
+
+exports.default.template=__wepy_require(51);
+},/***** module 50 end *****/
+
+
+/***** module 51 start *****/
+/***** src/components/modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n  <div class=\"modal--blur\" :style=\"'visibility: ' + (isopen ? 'visible' : 'hidden') + ';'\">\n    <div class=\"container__flex modal--mask\" @click=\"maskTap($event)\" id=\"modalmask\">\n      <div class=\"modal--body\" :style=\"'transform: ' + (isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)') + ';'\">\n        <img class=\"modal--close\" @click=\"maskTap($event)\" src=\"icons/close.svg\" v-if=\"(hasclose)\"/>\n        <div class=\"modal--title\" v-if=\"(title)\">{{title}}</div>\n        <div class=\"modal--subtitle\" v-if=\"(subtitle)\">{{subtitle}}</div>\n        <div class=\"modal--slot-outer\">\n          <slot>\n          </slot>\n        </div>\n      </div>\n    </div>\n  </div>\n"},/***** module 51 end *****/
+
+
+/***** module 52 start *****/
 /***** node_modules/wepy-web/lib/native.js *****/
 function(module, exports, __wepy_require) {"use strict";
 
 exports.__esModule = true;
 exports.default = {};
-},/***** module 50 end *****/
+},/***** module 52 end *****/
 
 
-/***** module 51 start *****/
+/***** module 53 start *****/
 /***** node_modules/vue/dist/vue.js *****/
 function(module, exports, __wepy_require) {/*!
  * Vue.js v1.0.28
@@ -19372,10 +19529,10 @@ setTimeout(function () {
 return Vue;
 
 })));
-},/***** module 51 end *****/
+},/***** module 53 end *****/
 
 
-/***** module 52 start *****/
+/***** module 54 start *****/
 /***** node_modules/vue-router/dist/vue-router.js *****/
 function(module, exports, __wepy_require) {/*!
  * vue-router v0.7.13
@@ -22086,10 +22243,10 @@ function(module, exports, __wepy_require) {/*!
   return Router;
 
 }));
-},/***** module 52 end *****/
+},/***** module 54 end *****/
 
 
-/***** module 53 start *****/
+/***** module 55 start *****/
 /***** node_modules/wepy-web/lib/helper/word.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -22106,10 +22263,10 @@ var camelize = exports.camelize = function camelize(str) {
     return c ? c.toUpperCase() : '';
   });
 };
-},/***** module 53 end *****/
+},/***** module 55 end *****/
 
 
-/***** module 54 start *****/
+/***** module 56 start *****/
 /***** node_modules/axios/dist/axios.js *****/
 function(module, exports, __wepy_require) {/* axios v0.17.1 | (c) 2017 by Matt Zabriskie */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -23712,10 +23869,10 @@ return /******/ (function(modules) { // webpackBootstrap
 });
 ;
 //# sourceMappingURL=axios.map
-},/***** module 54 end *****/
+},/***** module 56 end *****/
 
 
-/***** module 55 start *****/
+/***** module 57 start *****/
 /***** node_modules/wepy-web/lib/helper/query.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -23811,10 +23968,10 @@ function stringifyQuery(obj) {
 
     return res ? '?' + res : '';
 }
-},/***** module 55 end *****/
+},/***** module 57 end *****/
 
 
-/***** module 56 start *****/
+/***** module 58 start *****/
 /***** node_modules/wepy-web/lib/helper/device.js *****/
 function(module, exports, __wepy_require) {'use strict';
 
@@ -23888,72 +24045,77 @@ function mobile() {
 };
 
 function browser() {};
-},/***** module 56 end *****/
-
-
-/***** module 57 start *****/
-/***** src/app.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "view,view:before,view:after,text,text:before,text:after,image,image:before,image:after,scroll-view,scroll-view:before,scroll-view:after,movable-area,movable-area:before,movable-area:after,cover-view,cover-view:before,cover-view:after,icon,icon:before,icon:after,rich-text,rich-text:before,rich-text:after,progress,progress:before,progress:after,button,button:before,button:after,checkbox,checkbox:before,checkbox:after,form,form:before,form:after,input,input:before,input:after,label,label:before,label:after,picker,picker:before,picker:after,picker-view,picker-view:before,picker-view:after,radio,radio:before,radio:after,slider,slider:before,slider:after,switch,switch:before,switch:after,textarea,textarea:before,textarea:after,navigator,navigator:before,navigator:after,audio,audio:before,audio:after,video,video:before,video:after{box-sizing:border-box}view::-webkit-scrollbar,view:before::-webkit-scrollbar,view:after::-webkit-scrollbar,text::-webkit-scrollbar,text:before::-webkit-scrollbar,text:after::-webkit-scrollbar,image::-webkit-scrollbar,image:before::-webkit-scrollbar,image:after::-webkit-scrollbar,scroll-view::-webkit-scrollbar,scroll-view:before::-webkit-scrollbar,scroll-view:after::-webkit-scrollbar,movable-area::-webkit-scrollbar,movable-area:before::-webkit-scrollbar,movable-area:after::-webkit-scrollbar,cover-view::-webkit-scrollbar,cover-view:before::-webkit-scrollbar,cover-view:after::-webkit-scrollbar,icon::-webkit-scrollbar,icon:before::-webkit-scrollbar,icon:after::-webkit-scrollbar,rich-text::-webkit-scrollbar,rich-text:before::-webkit-scrollbar,rich-text:after::-webkit-scrollbar,progress::-webkit-scrollbar,progress:before::-webkit-scrollbar,progress:after::-webkit-scrollbar,button::-webkit-scrollbar,button:before::-webkit-scrollbar,button:after::-webkit-scrollbar,checkbox::-webkit-scrollbar,checkbox:before::-webkit-scrollbar,checkbox:after::-webkit-scrollbar,form::-webkit-scrollbar,form:before::-webkit-scrollbar,form:after::-webkit-scrollbar,input::-webkit-scrollbar,input:before::-webkit-scrollbar,input:after::-webkit-scrollbar,label::-webkit-scrollbar,label:before::-webkit-scrollbar,label:after::-webkit-scrollbar,picker::-webkit-scrollbar,picker:before::-webkit-scrollbar,picker:after::-webkit-scrollbar,picker-view::-webkit-scrollbar,picker-view:before::-webkit-scrollbar,picker-view:after::-webkit-scrollbar,radio::-webkit-scrollbar,radio:before::-webkit-scrollbar,radio:after::-webkit-scrollbar,slider::-webkit-scrollbar,slider:before::-webkit-scrollbar,slider:after::-webkit-scrollbar,switch::-webkit-scrollbar,switch:before::-webkit-scrollbar,switch:after::-webkit-scrollbar,textarea::-webkit-scrollbar,textarea:before::-webkit-scrollbar,textarea:after::-webkit-scrollbar,navigator::-webkit-scrollbar,navigator:before::-webkit-scrollbar,navigator:after::-webkit-scrollbar,audio::-webkit-scrollbar,audio:before::-webkit-scrollbar,audio:after::-webkit-scrollbar,video::-webkit-scrollbar,video:before::-webkit-scrollbar,video:after::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}body{background:#fff;font-size:14px;font-family:-apple-system-font,Helvetica Neue,Helvetica,sans-serif}.container,.container__flex,.container__has-footer,.container__has-tabbar{height:100%;min-height:100vh;position:relative}.padbox--default{padding:20px}.container__has-footer{padding-bottom:100px}.container__has-tabbar{padding-bottom:55px}.container__flex{display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}.flex--item__vertical-center{width:100%;text-align:center;margin-top:-55px}.flex--parent__horizontal{display:flex;justify-content:space-around;max-width:600px;margin:0 auto}.flex--item__half{flex:0 0 45%}.btn--default,.btn--default__medium,.btn--default__small,.btn--default__dark,.btn--default__fixed{background:#50E3C2;color:#333;border-radius:0;border:2px solid #333;box-shadow:4px 4px 0 #333}.btn--default:after,.btn--default__medium:after,.btn--default__small:after,.btn--default__dark:after,.btn--default__fixed:after{display:none}.btn--default[disabled],.btn--default__medium[disabled],.btn--default__dark[disabled],.btn--default__fixed[disabled]{opacity:0.8}.btn--default__medium{border:2px solid #333;padding:10px;box-shadow:4px 4px 0 #333;background-color:#fff;max-width:230px;margin:10px}.btn--default__fixed{position:fixed;width:200px;bottom:55px;margin:0 auto;width:70%;left:15%;z-index:99}.btn--default__dark,.btn--default__dark[disabled]{background-color:#333 !important;color:#fff !important;font-size:14px;box-shadow:none;transition:all 0.3s ease}.btn--default__small{background-color:#333;color:#fff;font-size:10px;max-width:60px;box-shadow:none}.btn--blank{border:0px;color:#333}.btn--blank:after{display:none}.icon--default{width:40px;height:40px}.icon--inline{width:30px;height:30px;vertical-align:middle}.pull-right{float:right}.pull-left{float:left}.form--group{background-color:rgba(0,0,0,0.1);padding:10px;margin:20px 0}.form--group .form--group__title{font-size:15px;font-weight:bold}.form-item--default{margin:10px 0}.form-item--default .form-item--label,.form-item--default .form-item--label__fullwidth{display:inline-block;color:#333;font-size:14px;font-weight:400;padding-right:10px;vertical-align:middle;line-height:1.4rem}.form-item--default .form-item--label__fullwidth{width:100%;text-align:left;margin-bottom:5px}.form-item--default .form-item--input{display:inline-block;width:100%;vertical-align:middle;line-height:1.4rem;padding:10px 5px;height:auto;border-left:2px solid #333;background-color:#fff;transition:all 0.3s ease}.form-item--default .form-item--input[focus]{border-left:2px solid #50E3C2}.form-item--default .form-item--textinput{border-left:2px solid #333;padding:10px;width:auto;z-index:99;margin-top:10px;background-color:#fff}.form-message{background-color:rgba(0,0,0,0.1);padding:10px;color:#333;text-align:center;margin-top:20px;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1)}.registration--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px;max-width:500px;margin:0 auto}.registration--subtitle{padding-bottom:5px;text-align:center;font-size:14px;max-width:500px;margin:0 auto}@media all and (min-width: 640px){.registration--subtitle{padding-bottom:25px}}\n\n"},/***** module 57 end *****/
-
-
-/***** module 58 start *****/
-/***** src/pages/landing.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".landing--profile{position:absolute;bottom:20px;left:20px}.landing--banner{width:120px;height:120px}.landing--register-btn{font-size:15px;margin:10px auto;max-width:200px;width:100%;display:block}.landing--login{opacity:0.8;width:100%;text-align:center;font-size:11px;text-decoration:underline;margin-top:25px}.landing--modal-btns{text-align:center}.landing--sideslider{flex-wrap:wrap;padding:50% 0}.landing--sideslider .btn--default__small{width:100%;display:block;max-width:unset}\n\n"},/***** module 58 end *****/
+},/***** module 58 end *****/
 
 
 /***** module 59 start *****/
-/***** src/pages/login.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".login--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.login--subtitle{padding-bottom:5px;text-align:center;font-size:14px}\n\n"},/***** module 59 end *****/
+/***** src/app.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "view,view:before,view:after,text,text:before,text:after,image,image:before,image:after,scroll-view,scroll-view:before,scroll-view:after,movable-area,movable-area:before,movable-area:after,cover-view,cover-view:before,cover-view:after,icon,icon:before,icon:after,rich-text,rich-text:before,rich-text:after,progress,progress:before,progress:after,button,button:before,button:after,checkbox,checkbox:before,checkbox:after,form,form:before,form:after,input,input:before,input:after,label,label:before,label:after,picker,picker:before,picker:after,picker-view,picker-view:before,picker-view:after,radio,radio:before,radio:after,slider,slider:before,slider:after,switch,switch:before,switch:after,textarea,textarea:before,textarea:after,navigator,navigator:before,navigator:after,audio,audio:before,audio:after,video,video:before,video:after{box-sizing:border-box}view::-webkit-scrollbar,view:before::-webkit-scrollbar,view:after::-webkit-scrollbar,text::-webkit-scrollbar,text:before::-webkit-scrollbar,text:after::-webkit-scrollbar,image::-webkit-scrollbar,image:before::-webkit-scrollbar,image:after::-webkit-scrollbar,scroll-view::-webkit-scrollbar,scroll-view:before::-webkit-scrollbar,scroll-view:after::-webkit-scrollbar,movable-area::-webkit-scrollbar,movable-area:before::-webkit-scrollbar,movable-area:after::-webkit-scrollbar,cover-view::-webkit-scrollbar,cover-view:before::-webkit-scrollbar,cover-view:after::-webkit-scrollbar,icon::-webkit-scrollbar,icon:before::-webkit-scrollbar,icon:after::-webkit-scrollbar,rich-text::-webkit-scrollbar,rich-text:before::-webkit-scrollbar,rich-text:after::-webkit-scrollbar,progress::-webkit-scrollbar,progress:before::-webkit-scrollbar,progress:after::-webkit-scrollbar,button::-webkit-scrollbar,button:before::-webkit-scrollbar,button:after::-webkit-scrollbar,checkbox::-webkit-scrollbar,checkbox:before::-webkit-scrollbar,checkbox:after::-webkit-scrollbar,form::-webkit-scrollbar,form:before::-webkit-scrollbar,form:after::-webkit-scrollbar,input::-webkit-scrollbar,input:before::-webkit-scrollbar,input:after::-webkit-scrollbar,label::-webkit-scrollbar,label:before::-webkit-scrollbar,label:after::-webkit-scrollbar,picker::-webkit-scrollbar,picker:before::-webkit-scrollbar,picker:after::-webkit-scrollbar,picker-view::-webkit-scrollbar,picker-view:before::-webkit-scrollbar,picker-view:after::-webkit-scrollbar,radio::-webkit-scrollbar,radio:before::-webkit-scrollbar,radio:after::-webkit-scrollbar,slider::-webkit-scrollbar,slider:before::-webkit-scrollbar,slider:after::-webkit-scrollbar,switch::-webkit-scrollbar,switch:before::-webkit-scrollbar,switch:after::-webkit-scrollbar,textarea::-webkit-scrollbar,textarea:before::-webkit-scrollbar,textarea:after::-webkit-scrollbar,navigator::-webkit-scrollbar,navigator:before::-webkit-scrollbar,navigator:after::-webkit-scrollbar,audio::-webkit-scrollbar,audio:before::-webkit-scrollbar,audio:after::-webkit-scrollbar,video::-webkit-scrollbar,video:before::-webkit-scrollbar,video:after::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}::-webkit-scrollbar{width:0;height:0;color:transparent;display:none !important}body{background:#fff;font-size:14px;font-family:-apple-system-font,Helvetica Neue,Helvetica,sans-serif}.container,.container__flex,.container__has-footer,.container__has-tabbar{height:100%;min-height:100vh;position:relative}.padbox--default{padding:20px}.container__has-footer{padding-bottom:100px}.container__has-tabbar{padding-bottom:55px}.container__flex{display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}.flex--item__vertical-center{width:100%;text-align:center;margin-top:-55px}.flex--parent__horizontal{display:flex;justify-content:space-around;max-width:600px;margin:0 auto}.flex--item__half{flex:0 0 45%}.btn--default,.btn--default__medium,.btn--default__small,.btn--default__dark,.btn--default__fixed{background:#50E3C2;color:#333;border-radius:0;border:2px solid #333;box-shadow:4px 4px 0 #333}.btn--default:after,.btn--default__medium:after,.btn--default__small:after,.btn--default__dark:after,.btn--default__fixed:after{display:none}.btn--default[disabled],.btn--default__medium[disabled],.btn--default__dark[disabled],.btn--default__fixed[disabled]{opacity:0.8}.btn--default__medium{border:2px solid #333;padding:10px;box-shadow:4px 4px 0 #333;background-color:#fff;max-width:230px;margin:10px}.btn--default__fixed{position:fixed;width:200px;bottom:55px;margin:0 auto;width:70%;left:15%;z-index:99}.btn--default__dark,.btn--default__dark[disabled]{background-color:#333 !important;color:#fff !important;font-size:14px;box-shadow:none;transition:all 0.3s ease}.btn--default__small{background-color:#333;color:#fff;font-size:10px;max-width:60px;box-shadow:none}.btn--blank{border:0px;color:#333}.btn--blank:after{display:none}.icon--default{width:40px;height:40px}.icon--inline{width:30px;height:30px;vertical-align:middle}.pull-right{float:right}.pull-left{float:left}.form--group{background-color:rgba(0,0,0,0.1);padding:10px;margin:20px 0}.form--group .form--group__title{font-size:15px;font-weight:bold}.form-item--default{margin:10px 0}.form-item--default .form-item--label,.form-item--default .form-item--label__fullwidth{display:inline-block;color:#333;font-size:14px;font-weight:400;padding-right:10px;vertical-align:middle;line-height:1.4rem}.form-item--default .form-item--label__fullwidth{width:100%;text-align:left;margin-bottom:5px}.form-item--default .form-item--input{display:inline-block;width:100%;vertical-align:middle;line-height:1.4rem;padding:10px 5px;height:auto;border-left:2px solid #333;background-color:#fff;transition:all 0.3s ease}.form-item--default .form-item--input[focus]{border-left:2px solid #50E3C2}.form-item--default .form-item--textinput{border-left:2px solid #333;padding:10px;width:auto;z-index:99;margin-top:10px;background-color:#fff}.form-message{background-color:rgba(0,0,0,0.1);padding:10px;color:#333;text-align:center;margin-top:20px;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1)}.registration--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px;max-width:500px;margin:0 auto}.registration--subtitle{padding-bottom:5px;text-align:center;font-size:14px;max-width:500px;margin:0 auto}@media all and (min-width: 640px){.registration--subtitle{padding-bottom:25px}}\n\n"},/***** module 59 end *****/
 
 
 /***** module 60 start *****/
-/***** src/pages/edit-profile.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".something{color:pink}\n\n"},/***** module 60 end *****/
+/***** src/pages/landing.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".landing--profile{position:absolute;bottom:20px;left:20px}.landing--banner{width:120px;height:120px}.landing--register-btn{font-size:15px;margin:10px auto;max-width:200px;width:100%;display:block}.landing--sideslider{flex-wrap:wrap;padding:50% 0}.landing--sideslider .btn--default__small{width:100%;display:block;max-width:unset}\n\n"},/***** module 60 end *****/
 
 
 /***** module 61 start *****/
-/***** src/components/modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".modal--mask{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(51,51,51,0.2);box-sizing:border-box;padding:30px;z-index:199}.modal--body{transition:transform 0.3s ease;padding:20px;background-color:#fff;position:relative;border:2px solid #333;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);width:100%;max-width:450px;margin:0 auto;z-index:200}.modal--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.modal--subtitle{padding-bottom:5px;text-align:center;font-size:14px}.modal--slot-outer{padding:10px 0}.modal--close{position:absolute;padding:2.5px;top:10px;right:10px;width:20px;height:20px}\n\n"},/***** module 61 end *****/
+/***** src/pages/login.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".login--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.login--subtitle{padding-bottom:5px;text-align:center;font-size:14px}\n\n"},/***** module 61 end *****/
 
 
 /***** module 62 start *****/
-/***** src/components/sideslider.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".sideslider--outer{width:100%;z-index:99;height:100vh;position:fixed;top:0;bottom:0;left:0;right:0;box-sizing:border-box;overflow:hidden}.sideslider--mask{height:100%;background-color:rgba(0,0,0,0.5);top:0;bottom:0;left:0;right:0}.sideslider--sheet{transition:all 0.3s ease-in-out;position:absolute;left:0;top:0;bottom:0;width:65%;background-color:#fff;padding:20px;padding-bottom:0;box-sizing:border-box;box-shadow:10px 10px 30px 0 rgba(0,0,0,0.1)}.sideslider--inner{position:relative;width:100%;z-index:99;padding-top:10px}.sideslider__exit-button{position:absolute;padding:4px}#sideslider-close{position:absolute;top:-20px;left:0;z-index:99;width:20px;height:20px}\n\n"},/***** module 62 end *****/
+/***** src/pages/edit-profile.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".something{color:pink}\n\n"},/***** module 62 end *****/
 
 
 /***** module 63 start *****/
-/***** src/components/language-toggle.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".lang--outer{position:absolute;top:10px;right:10px;padding:10px}.lang--btn{background-color:rgba(0,0,0,0.1)}.lang--btn:before,.lang--btn:after{display:none}\n\n"},/***** module 63 end *****/
+/***** src/components/unregistered-modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".landing--login{opacity:0.8;width:100%;text-align:center;font-size:11px;text-decoration:underline;margin-top:25px}.landing--modal-btns{text-align:center}\n\n"},/***** module 63 end *****/
 
 
 /***** module 64 start *****/
-/***** src/components/form-parent.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".form--outer{border-left:1px solid rgba(51,51,51,0.5);padding:20px;max-width:500px;margin:0 auto}.form--bottom-padding{height:300px}\n\n"},/***** module 64 end *****/
+/***** src/components/sideslider.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".sideslider--outer{width:100%;z-index:99;height:100vh;position:fixed;top:0;bottom:0;left:0;right:0;box-sizing:border-box;overflow:hidden}.sideslider--mask{height:100%;background-color:rgba(0,0,0,0.5);top:0;bottom:0;left:0;right:0}.sideslider--sheet{transition:all 0.3s ease-in-out;position:absolute;left:0;top:0;bottom:0;width:65%;background-color:#fff;padding:20px;padding-bottom:0;box-sizing:border-box;box-shadow:10px 10px 30px 0 rgba(0,0,0,0.1)}.sideslider--inner{position:relative;width:100%;z-index:99;padding-top:10px}.sideslider__exit-button{position:absolute;padding:4px}#sideslider-close{position:absolute;top:-20px;left:0;z-index:99;width:20px;height:20px}\n\n"},/***** module 64 end *****/
 
 
 /***** module 65 start *****/
-/***** src/components/redirect-modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".redirect--title{padding:5px 0;font-size:15px}\n\n"},/***** module 65 end *****/
+/***** src/components/language-toggle.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".lang--outer{position:absolute;top:10px;right:10px;padding:10px}.lang--btn{background-color:rgba(0,0,0,0.1)}.lang--btn:before,.lang--btn:after{display:none}\n\n"},/***** module 65 end *****/
 
 
 /***** module 66 start *****/
-/***** src/components/error-modal.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".error--title{font-size:20px;display:inline-block;vertical-align:middle;padding-left:10px}.error--body{opacity:0.8;font-size:14px;padding:10px 5px}\n\n"},/***** module 66 end *****/
+/***** src/components/form-parent.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".form--outer{border-left:1px solid rgba(51,51,51,0.5);padding:20px;max-width:500px;margin:0 auto}.form--bottom-padding{height:300px}\n\n"},/***** module 66 end *****/
 
 
 /***** module 67 start *****/
-/***** src/components/cool-picker.wpy *****/
-function(module, exports, __wepy_require) {module.exports = "\n"},/***** module 67 end *****/
+/***** src/components/redirect-modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".redirect--title{padding:5px 0;font-size:15px}\n\n"},/***** module 67 end *****/
 
 
 /***** module 68 start *****/
-/***** src/components/radiolist.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".radio--default{visibility:hidden}.radio--default:before{visibility:visible;content:'';border-radius:2px;background-color:#333;opacity:0.8;width:10px !important;height:10px !important;padding:4px 12px}.radio--default[checked]:before{background-color:#50E3C2;background-image:url(\"https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png\");background-repeat:no-repeat;background-position:center;background-size:contain}.radio--label{display:inline-block;margin-left:-18px}.radio--outer{display:block;margin-bottom:10px}\n\n"},/***** module 68 end *****/
+/***** src/components/error-modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".error--title{font-size:20px;display:inline-block;vertical-align:middle;padding-left:10px}.error--body{opacity:0.8;font-size:14px;padding:10px 5px}\n\n"},/***** module 68 end *****/
 
 
 /***** module 69 start *****/
+/***** src/components/cool-picker.wpy *****/
+function(module, exports, __wepy_require) {module.exports = "\n"},/***** module 69 end *****/
+
+
+/***** module 70 start *****/
+/***** src/components/radiolist.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".radio--default{visibility:hidden}.radio--default:before{visibility:visible;content:'';border-radius:2px;background-color:#333;opacity:0.8;width:10px !important;height:10px !important;padding:4px 12px}.radio--default[checked]:before{background-color:#50E3C2;background-image:url(\"https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png\");background-repeat:no-repeat;background-position:center;background-size:contain}.radio--label{display:inline-block;margin-left:-18px}.radio--outer{display:block;margin-bottom:10px}\n\n"},/***** module 70 end *****/
+
+
+/***** module 71 start *****/
 /***** src/components/fido-loader.wpy *****/
-function(module, exports, __wepy_require) {module.exports = ".loader-container{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(51,51,51,0.2);box-sizing:border-box;padding:30px;z-index:199}.loader-outer{transition:transform 0.3s ease;padding:20px;padding-top:0;background-color:#fff;position:relative;border:2px solid #333;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);width:100%;max-width:600px;margin:0 auto;z-index:200;overflow:hidden !important}.loader-inner{width:100%;height:100px}.loader-text{text-align:center;margin-top:10px;z-index:201;position:relative;color:#fff}.cloud{border-radius:50%;position:absolute;background-color:#fff;padding:10px;opacity:0.8;top:10px;left:0px;z-index:201;animation-delay:2s;animation:shuffling 3s linear infinite alternate}.cloud:before,.cloud:after{display:none}.loader--moving-background{position:absolute;background-image:linear-gradient(to top, #30cfd0 0%, #330867 100%);width:300%;height:500px;animation:backgroundAnimation 4s linear infinite;animation-direction:alternate}@keyframes backgroundAnimation{from{left:0%;top:-80px;transform:rotate(0deg)}to{left:-90%;top:-10px;transform:rotate(100deg)}}@keyframes shuffling{from{left:-15%;transform:scale(1);top:10px}to{left:100%;transform:scale(82);opacity:0.3}}\n\n"}/***** module 69 end *****/
+function(module, exports, __wepy_require) {module.exports = ".loader-container{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(51,51,51,0.2);box-sizing:border-box;padding:30px;z-index:199}.loader-outer{transition:transform 0.3s ease;padding:20px;padding-top:0;background-color:#fff;position:relative;border:2px solid #333;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);width:100%;max-width:600px;margin:0 auto;z-index:200;overflow:hidden !important}.loader-inner{width:100%;height:100px}.loader-text{text-align:center;margin-top:10px;z-index:201;position:relative;color:#fff}.cloud{border-radius:50%;position:absolute;background-color:#fff;padding:10px;opacity:0.8;top:10px;left:0px;z-index:201;animation-delay:2s;animation:shuffling 3s linear infinite alternate}.cloud:before,.cloud:after{display:none}.loader--moving-background{position:absolute;background-image:linear-gradient(to top, #30cfd0 0%, #330867 100%);width:300%;height:500px;animation:backgroundAnimation 4s linear infinite;animation-direction:alternate}@keyframes backgroundAnimation{from{left:0%;top:-80px;transform:rotate(0deg)}to{left:-90%;top:-10px;transform:rotate(100deg)}}@keyframes shuffling{from{left:-15%;transform:scale(1);top:10px}to{left:100%;transform:scale(103);opacity:0.3}}\n\n"},/***** module 71 end *****/
+
+
+/***** module 72 start *****/
+/***** src/components/modal.wpy *****/
+function(module, exports, __wepy_require) {module.exports = ".modal--mask{position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(51,51,51,0.2);box-sizing:border-box;padding:30px;z-index:199}.modal--body{transition:transform 0.3s ease;padding:20px;background-color:#fff;position:relative;border:2px solid #333;box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);width:100%;max-width:450px;margin:0 auto;z-index:200}.modal--title{font-size:20px;color:#333;text-align:center;font-weight:500;padding-bottom:5px}.modal--subtitle{padding-bottom:5px;text-align:center;font-size:14px}.modal--slot-outer{padding:10px 0}.modal--close{position:absolute;padding:2.5px;top:10px;right:10px;width:20px;height:20px}\n\n"}/***** module 72 end *****/
 
 
 
