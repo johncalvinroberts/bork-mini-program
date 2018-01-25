@@ -59,7 +59,9 @@ export default class extends wepy.app {
       console.error(err)
     }
   }
-
+  onShow () {
+    wepy.navigateTo({url: 'registration'})
+  }
   onLaunch () {
     if (wepy.env === 'web') {
       this.globalData.isWeb = true

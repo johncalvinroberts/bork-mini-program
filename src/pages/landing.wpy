@@ -15,17 +15,6 @@
   width:100%;
   display: block;
 }
-.landing--login {
-  opacity: 0.8;
-  width: 100%;
-  text-align: center;
-  font-size: 22rpx;
-  text-decoration: underline;
-  margin-top:25px;
-}
-.landing--modal-btns{
-  text-align: center;
-}
 .landing--sideslider {
   flex-wrap: wrap;
   padding:50% 0;
@@ -51,16 +40,7 @@
     <image class="icon--default landing--profile" @tap="handleProfileBtn" src="../icons/profile.svg" mode="aspectFit"/>
     <languagetoggle />
   </view>
-  <modal :isopen.sync="registrationModalOpen"
-          :title.sync="modalTitle"
-          :subtitle.sync="modalSubtitle"
-          @masktap.user="toggleModal">
-    <view class="landing--modal-btns">
-      <button class="btn--default__medium landing--register-btn" @tap="navToNormalRegistration">{{t.cta_adopter}}</button>
-      <button class="btn--default__medium landing--register-btn" @tap="navToRescueRegistration">{{t.cta_rescuer}}</button>
-    </view>
-    <button class="btn--blank landing--login" @tap="navToLogin">{{t.login}}</button>
-  </modal>
+  <unregisteredmodal/>
   <block wx:if="{{isRegistered}}">
     <sideslider :isopen.sync="sideSliderOpen" @tapsheet.user="toggleSlider">
       <view class="container__flex landing--sideslider">
@@ -78,7 +58,7 @@
 
 <script>
   import wepy from 'wepy'
-  import Modal from '@/components/modal'
+  import UnregisteredModal from '@/components/unregistered-modal'
   import SideSlider from '@/components/sideslider'
   import LanguageToggle from '@/components/language-toggle'
   import LocalesMixin from '@/mixins/localesmixin'
@@ -90,7 +70,7 @@
     mixins = [LocalesMixin]
 
     components = {
-      modal: Modal,
+      unregisteredmodal: UnregisteredModal,
       sideslider: SideSlider,
       languagetoggle: LanguageToggle
     }
@@ -98,17 +78,14 @@
     data = {
       isRegistered: false,
       isRescuer: false,
-      registrationModalOpen: false,
       sideSliderOpen: false,
-      modalTitle: '',
-      modalSubtitle: '',
       pageName: 'landing'
     }
 
     methods = {
       handleProfileBtn () {
         if (!this.isRegistered) {
-          this.registrationModalOpen = !this.registrationModalOpen
+          this.$invoke('unregisteredmodal', 'openModal', '')
         } else {
           this.sideSliderOpen = !this.sideSliderOpen
         }
@@ -119,9 +96,6 @@
       navToCats () {
         console.log('cats')
       },
-      toggleModal () {
-        this.registrationModalOpen = !this.registrationModalOpen
-      },
       toggleSlider () {
         this.sideSliderOpen = !this.sideSliderOpen
         this.$apply()
@@ -131,19 +105,6 @@
       },
       navToRescueRegistration () {
         wepy.navigateTo({url: 'rescuer-registration'})
-      },
-      navToLogin () {
-        wepy.navigateTo({
-          url: 'login'
-        })
-      }
-    }
-
-    watch = {
-      t () {
-        this.modalTitle = this.t.modal_title
-        this.modalSubtitle = this.t.modal_subtitle
-        this.$apply()
       }
     }
 
@@ -154,11 +115,6 @@
       })
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.isRescuer = this.$parent.globalData.user.isRescuer
-      if (wepy.env === 'web') {
-        this.modalTitle = this.data.t.modal_title
-        this.modalSubtitle = this.data.t.modal_subtitle
-        this.$apply()
-      }
     }
 
     onUnload () {
@@ -167,7 +123,6 @@
 
     onHide () {
       this.sidesliderOpen = false
-      this.registrationModalOpen = false
     }
   }
 </script>
