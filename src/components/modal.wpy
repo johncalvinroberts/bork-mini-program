@@ -23,7 +23,7 @@
     border: 2px solid $black;
     box-shadow: $normal-shadow;
     width: 100%;
-    max-width: 600px;
+    max-width: 450px;
     margin: 0 auto;
     z-index:200;
   }

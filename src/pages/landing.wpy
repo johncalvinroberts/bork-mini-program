@@ -41,8 +41,8 @@
     <view class="flex--item__vertical-center padbox--default">
       <image class="landing--banner" src="../icons/fido_logo_black.png" mode="aspectFit"></image>
       <view class="flex--parent__horizontal padbox--default">
-        <view class="flex--item__half btn--default__medium" @tap="navToDogs">{{t.view_dogs}}</view>
-        <view class="flex--item__half btn--default__medium" @tap="navToCats">{{t.view_cats}}</view>
+        <button class="flex--item__half btn--default__medium" @tap="navToDogs">{{t.view_dogs}}</button>
+        <button class="flex--item__half btn--default__medium" @tap="navToCats">{{t.view_cats}}</button>
       </view>
       <view class="padbox--default" wx:if="{{!isRegistered || !isRescuer}}">
         <button class="btn--default" @tap="navToRescueRegistration">{{t.cta_rescuer}}</button>
@@ -139,25 +139,33 @@
       }
     }
 
-    computed = {}
+    watch = {
+      t () {
+        this.modalTitle = this.t.modal_title
+        this.modalSubtitle = this.t.modal_subtitle
+        this.$apply()
+      }
+    }
 
     onLoad () {
+      console.log('page onload')
       wepy.setNavigationBarTitle({
         title: 'fido'
       })
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.isRescuer = this.$parent.globalData.user.isRescuer
-      this.setLocales(this.pageName)
-      this.modalTitle = this.t.modal_title
-      this.modalSubtitle = this.t.modal_subtitle
-      this.$apply()
+      if (wepy.env === 'web') {
+        this.modalTitle = this.data.t.modal_title
+        this.modalSubtitle = this.data.t.modal_subtitle
+        this.$apply()
+      }
     }
 
     onUnload () {
       console.log('landing unload')
     }
 
-    onShow () {
+    onHide () {
       this.sidesliderOpen = false
       this.registrationModalOpen = false
     }

@@ -60,25 +60,12 @@ export default class extends wepy.app {
     }
   }
 
-  toggleLocale () {
-    const current = this.globalData.lang
-    const targetLang = current === 'zh_CN' ? 'en' : 'zh_CN'
-    wx.setStorageSync('lang', targetLang)
-    const pages = getCurrentPages()[0] // eslint-disable-line
-    const targetPage = pages ? pages.route.split('pages/')[1] : 'landing'
-    this.registerLocales()
-    wepy.reLaunch({url: targetPage})
-  }
-
   onLaunch () {
-    if (window && window.wx) {
+    if (wepy.env === 'web') {
       this.globalData.isWeb = true
     }
     this.globalData.user = new UserModel()
     this.registerLocales()
-  }
-
-  onShow () {
   }
 }
 </script>

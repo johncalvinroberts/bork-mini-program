@@ -15,19 +15,25 @@
 </style>
 <template>
   <view class="lang--outer">
-    <button class="lang--btn" @tap="changeLanguage">{{currentLanguage}}</button>
+    <button class="lang--btn" @tap="changeLanguage">{{langText}}</button>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   export default class LanguageToggle extends wepy.component {
     /*
-      Listen closely. Only ever use this component on a page, never inside another component because it calls some stuff on the app object.
+      Listen closely. This is browser and xiaochengxu compatible. It's dangerous.
+      Also only ever use it as a first level component
     */
+
     data = {}
+
     computed = {
       currentLanguage () {
-        return this.$parent.$parent.globalData.lang
+        return wepy.T.locale
+      },
+      langText () {
+        return this.currentLanguage === 'zh_CN' ? 'En' : '中'
       }
     }
 
@@ -35,7 +41,16 @@
 
     methods = {
       changeLanguage () {
-        this.$parent.$parent.toggleLocale()
+        const targetLang = this.currentLanguage === 'zh_CN' ? 'en' : 'zh_CN'
+        wx.setStorageSync('lang', targetLang)
+        if (wepy.env !== 'web') {
+          const pages = getCurrentPages()[0] // eslint-disable-line
+          const targetPage = pages ? pages.route.split('pages/')[1] : 'landing'
+          this.$parent.$parent.registerLocales()
+          wepy.reLaunch({url: targetPage})
+        } else {
+          window.location.reload()
+        }
       }
     }
   }
