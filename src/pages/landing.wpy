@@ -42,7 +42,7 @@
       <image class="landing--banner" src="../icons/fido_logo_black.png" mode="aspectFit"></image>
       <view class="flex--parent__horizontal padbox--default">
         <view class="flex--item__half btn--default__medium" @tap="navToDogs">{{t.view_dogs}}</view>
-        <view class="flex--item__half btn--default__medium" @tap="navToCats">{{t.view_dogs}}</view>
+        <view class="flex--item__half btn--default__medium" @tap="navToCats">{{t.view_cats}}</view>
       </view>
       <view class="padbox--default" wx:if="{{!isRegistered || !isRescuer}}">
         <button class="btn--default" @tap="navToRescueRegistration">{{t.cta_rescuer}}</button>
@@ -101,7 +101,8 @@
       registrationModalOpen: false,
       sideSliderOpen: false,
       modalTitle: '',
-      modalSubtitle: ''
+      modalSubtitle: '',
+      pageName: 'landing'
     }
 
     methods = {
@@ -146,14 +147,16 @@
       })
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.isRescuer = this.$parent.globalData.user.isRescuer
-      this.setLocales('landing')
+      this.setLocales(this.pageName)
       this.modalTitle = this.t.modal_title
       this.modalSubtitle = this.t.modal_subtitle
       this.$apply()
     }
+
     onUnload () {
       console.log('landing unload')
     }
+
     onShow () {
       this.sidesliderOpen = false
       this.registrationModalOpen = false

@@ -22,7 +22,7 @@
   import wepy from 'wepy'
   export default class LanguageToggle extends wepy.component {
     /*
-      Listen closely. Only ever use this component on a page, never inside another component god damnit.
+      Listen closely. Only ever use this component on a page, never inside another component because it calls some stuff on the app object.
     */
     data = {}
     computed = {
@@ -30,13 +30,12 @@
         return this.$parent.$parent.globalData.lang
       }
     }
+
+    watch = {}
+
     methods = {
       changeLanguage () {
         this.$parent.$parent.toggleLocale()
-        wepy.T.setLocale(this.$parent.$parent.globalData.lang)
-        console.log(wepy)
-        this.$apply()
-        this.$emit('togglelang')
       }
     }
   }

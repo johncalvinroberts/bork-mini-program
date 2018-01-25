@@ -35,38 +35,50 @@ export default class extends wepy.app {
     this.use('promisify')
   }
 
-  async registerLocales () {
+  registerLocales () {
     T.registerLocale(locales)
+    const lang = wx.getStorageSync('lang')
+    if (lang) {
+      this.globalData.lang = lang
+    } else {
+      wx.setStorageSync('lang', 'zh_CN')
+    }
     T.setLocale(this.globalData.lang)
     wepy.T = T
-    if (this.globalData.user.isRegistered) {
-      this.globalData.lang = this.user.language
-    } else {
-      try {
-        const {language} = await wepy.getSystemInfo()
-        if (language !== 'zh_CN') {
-          console.log('changing language to english')
-          this.globalData.lang = 'en'
-        }
-      } catch (err) {
-        console.error(err)
+  }
+
+  async getSystemLang () {
+    try {
+      const {language} = await wepy.getSystemInfo()
+      if (language !== 'zh_CN') {
+        return 'en'
+      } else {
+        return 'zh_CN'
       }
+    } catch (err) {
+      console.error(err)
     }
   }
 
   toggleLocale () {
     const current = this.globalData.lang
     const targetLang = current === 'zh_CN' ? 'en' : 'zh_CN'
-    this.globalData.lang = targetLang
-    wepy.T.setLocale(this.globalData.lang)
+    wx.setStorageSync('lang', targetLang)
+    const pages = getCurrentPages()[0] // eslint-disable-line
+    const targetPage = pages ? pages.route.split('pages/')[1] : 'landing'
+    this.registerLocales()
+    wepy.reLaunch({url: targetPage})
   }
 
-  async onLaunch () {
+  onLaunch () {
     if (window && window.wx) {
       this.globalData.isWeb = true
     }
     this.globalData.user = new UserModel()
     this.registerLocales()
+  }
+
+  onShow () {
   }
 }
 </script>

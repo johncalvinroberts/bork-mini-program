@@ -46,8 +46,8 @@
       handleTap () {
         this.errorModalOpen = false
         if (this.refresh) {
-          this.$parent.onLoad()
           this.$emit('modaltap')
+          wepy.reLaunch()
         }
       }
     }

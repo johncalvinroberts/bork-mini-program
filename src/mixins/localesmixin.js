@@ -9,20 +9,9 @@ export default class LocalesMixin extends wepy.mixin {
   data = {
     t: {}
   }
+
   methods = {}
 
-  computed = {
-    currentLang () {
-      console.log('hahahahashfas')
-      return this.$parent.$parent.globalData.lang
-    }
-  }
-
-  watch = {
-    currentLang (oldVal, newVal) {
-      console.log(newVal)
-    }
-  }
   setLocales (page) {
     this.page = page
     const _ = wepy.T._

@@ -36,7 +36,7 @@
   .modal--slot-outer {
     padding: $default-padding / 2 0;
   }
-  .modal--close{
+  .modal--close {
     position: absolute;
     padding: 5rpx;
     top: 20rpx;
@@ -62,6 +62,7 @@
 </template>
 <script>
   import wepy from 'wepy'
+
   export default class Modal extends wepy.component {
     props = {
       title: {
