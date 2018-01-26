@@ -34,7 +34,7 @@
           <view class="form--group__title">{{t.self_intro}}</view>
           <view class="form-item--default">
             <view class="form-item--label">{{t.intro_explanation}}</view>
-            <textarea class="form-item--textinput" @focus="handleFocus" @blur="handlePersonal" confirm-type="send" @confirm="handleSubmit" maxlength="200" />
+            <textarea class="form-item--textinput" @blur="handlePersonal" confirm-type="send" @confirm="handleSubmit" maxlength="200" />
           </view>
         </view>
         <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>

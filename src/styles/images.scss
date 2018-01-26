@@ -16,11 +16,17 @@
   margin: 0 10rpx;
 }
 
-.avatar__small {
+.avatar__small, .avatar__large {
   border-radius: 50%;
   width: 80rpx;
   height: 80rpx;
   display: inline-block;
   vertical-align:middle;
   margin: 0 10rpx;
+}
+
+.avatar__large {
+  width: 150rpx;
+  height: 150rpx;
+  margin: 0 20rpx;
 }

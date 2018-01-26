@@ -18,7 +18,7 @@
 }
 .sideslider--box {
   flex-wrap: wrap;
-  padding:50% 0;
+  padding:100rpx 0;
   .sideslider-item {
     margin: 20rpx 0;
   }
@@ -35,21 +35,6 @@
     padding:0 10rpx;
     position: relative;
   }
-  .name {
-    font-size: $font-medium-title;
-    font-weight: bold;
-    color: $black;
-  }
-  .role {
-    background-color: $black;
-    font-size: $font-small;
-    color: $white;
-    text-align: center;
-    padding: 0 10rpx;
-  }
-  .role-rescuer {
-    background-color: $red;
-  }
 }
 .btn--change-view{
   width: 200px;
@@ -60,6 +45,7 @@
   padding: 0;
   text-align: center;
   background-color: $white;
+  color: $black;
   &:before, &:after{
     display: none;
   }
@@ -120,8 +106,14 @@
           {{t.change_rescuer_view}}
         </button>
         <view class="container sideslider--box">
-            <button class="btn--blank sideslider-item">{{t.my_applications}}</button>
-            <button class="btn--blank sideslider-item">{{t.my_likes}}</button>
+            <button class="btn--blank sideslider-item" @tap="navToAdopter" id="applications">
+              <image class="icon--xs" src="../icons/send.svg" mode="aspectFit"/>
+              {{t.my_applications}}
+            </button>
+            <button class="btn--blank sideslider-item" @tap="navToAdopter" id="likes">
+              <image class="icon--xs" src="../icons/star.svg" mode="aspectFit"/>
+              {{t.my_likes}}
+            </button>
             <button class="btn--blank sideslider-item" @tap="handleEdit">
               <image class="icon--xs" src="../icons/edit.svg" mode="aspectFit"/>
               {{t.edit_profile}}
@@ -203,6 +195,9 @@
       navToProfile () {
         console.log('nav to profile')
       },
+      navToAdopter ({target}) {
+        wepy.navigateTo({url: `adopter-home?tab=${target.id}`})
+      },
       changeView () {
         const newView = !this.isRescuerView
         wx.setStorageSync('is_rescuer_view', newView)
@@ -212,6 +207,7 @@
     }
 
     onLoad () {
+      wepy.navigateTo({url: 'adopter-home?tab=likes'})
       wepy.setNavigationBarTitle({
         title: 'fido'
       })

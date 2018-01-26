@@ -48,6 +48,10 @@ export default {
       "full_name": "Full Name",
       "passport": "passport🛂",
       "save":"save"
+    },
+    "adopter-home": {
+      "rescuer": "救助者",
+      "adopter": "领养者"
     }
   },
   "zh_CN": {

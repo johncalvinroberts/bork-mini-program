@@ -97,3 +97,24 @@ page{
 .pull-left {
   float: left;
 }
+
+//  profile stuff
+
+.name {
+  font-size: $font-medium-title;
+  font-weight: bold;
+  color: $black;
+}
+.role {
+  background-color: $black;
+  font-size: $font-small;
+  color: $white;
+  text-align: center;
+  padding: 2rpx 10rpx;
+}
+.role-rescuer {
+  background-color: $red;
+}
+
+
+

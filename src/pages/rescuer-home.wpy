@@ -10,5 +10,13 @@
 </template>
 <script>
   import wepy from 'wepy'
-  export default class RescuerHome extends wepy.page {}
+  export default class RescuerHome extends wepy.page {
+    data = {}
+    components = {}
+    mixins = []
+    computed = {}
+    onLoad (options) {
+      console.log(options)
+    }
+  }
 </script>

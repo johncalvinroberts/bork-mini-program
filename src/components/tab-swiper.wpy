@@ -1,0 +1,32 @@
+<style lang="scss">
+  .something{}
+</style>
+<template>
+
+  <swiper @change="handleChange" current="0">
+    <!-- tabs here -->
+    <slot></slot>
+  </swiper>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class TabSwiper extends wepy.component {
+    props = {
+      tabs: {
+        type: Array
+      },
+      currentTab: {
+        type: String,
+        twoWay: true
+      }
+    }
+    methods = {
+      handleChange (e) {
+        console.log(e)
+      }
+    }
+    data = {}
+    computed = {}
+  }
+</script>

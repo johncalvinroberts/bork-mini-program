@@ -1,0 +1,52 @@
+<style lang="scss">
+@import "../styles/variables.scss";
+  .profile-header--outer{
+    display: block;
+    .avatar__large{
+    }
+    .profile-header__info-outer{
+      display: inline-block;
+      vertical-align:top;
+      padding:20rpx;
+    }
+  }
+</style>
+<template>
+  <view class="padbox--default profile-header--outer">
+    <image class="avatar__large" src="{{userInfo.avatarUrl}}" mode="aspectFit"/>
+    <view class="profile-header__info-outer">
+      <view class="name">{{userInfo.nickName}}</view>
+      <view class="role {{userInfo.rescueVerified ? 'role-rescuer' : ''}}">{{userRole}}</view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class ProfileHeader extends wepy.component {
+    props = {
+      userInfo: {
+        type: Object
+      }
+    }
+    data = {
+      rescuerText: '救助者',
+      adopterText: '领养者'
+    }
+    computed = {
+      userRole () {
+        return this.userInfo.rescueVerified ? this.rescuerText : this.adopterText
+      }
+    }
+
+    methods = {}
+
+    onLoad () {
+      if (wepy.T.locale === 'en') {
+        this.rescuerText = 'Rescuer'
+        this.adopterText = 'Adopter'
+        this.$apply()
+      }
+    }
+  }
+</script>

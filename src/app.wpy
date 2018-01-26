@@ -13,7 +13,12 @@ export default class extends wepy.app {
       'pages/rescuer-registration',
       'pages/login',
       'pages/registration',
-      'pages/edit-profile'
+      'pages/adopter-home',
+      'pages/rescuer-home',
+      'pages/user-profile',
+      'pages/animal-profile',
+      'pages/edit-profile',
+      'pages/add-animal'
     ],
     window: {
       backgroundTextStyle: 'dark',
