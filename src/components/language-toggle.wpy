@@ -7,7 +7,7 @@
     padding: 20rpx;
   }
   .lang--btn{
-    background-color: $light-grey;
+    // background-color: $light-grey;
     &:before, &:after{
       display: none;
     }
@@ -15,7 +15,7 @@
 </style>
 <template>
   <view class="lang--outer">
-    <button class="lang--btn" @tap="changeLanguage">{{langText}}</button>
+    <button class="btn--blank lang--btn" @tap="changeLanguage">{{langText}}</button>
   </view>
 </template>
 <script>

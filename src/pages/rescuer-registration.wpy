@@ -1,3 +1,4 @@
+<style lang="scss" src="../styles/_forms.scss"></style>
 <template>
   <view class="container padbox--default">
     <view class="registration--title">{{t.title}}</view>

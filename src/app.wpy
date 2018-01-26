@@ -71,7 +71,7 @@ export default class extends wepy.app {
   }
 
   onShow () {
-    wepy.navigateTo({url: 'pages/rescuer-registration'})
+    // wepy.navigateTo({url: 'pages/rescuer-registration'})
   }
 
   onLaunch () {

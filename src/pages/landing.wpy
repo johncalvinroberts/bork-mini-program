@@ -1,4 +1,5 @@
 <style lang="scss">
+@import "../styles/variables.scss";
 .landing--profile {
   position: absolute;
   bottom: 40rpx;
@@ -15,13 +16,52 @@
   width:100%;
   display: block;
 }
-.landing--sideslider {
+.sideslider--box {
   flex-wrap: wrap;
   padding:50% 0;
-  .btn--default__small{
-    width: 100%;
-    display: block;
-    max-width:unset;
+  .sideslider-item {
+    margin: 20rpx 0;
+  }
+  .icon--xs {
+    float: left;
+    margin-top:15px;
+  }
+}
+.sideslider--profile-info {
+  padding-bottom: 30rpx;
+  .profile--box{
+    display: inline-block;
+    vertical-align:middle;
+    padding:0 10rpx;
+    position: relative;
+  }
+  .name {
+    font-size: $font-medium-title;
+    font-weight: bold;
+    color: $black;
+  }
+  .role {
+    background-color: $black;
+    font-size: $font-small;
+    color: $white;
+    text-align: center;
+    padding: 0 10rpx;
+  }
+  .role-rescuer {
+    background-color: $red;
+  }
+}
+.btn--change-view{
+  width: 200px;
+  margin: 0 auto;
+  border: $chunky-border;
+  border-radius: 0;
+  font-size: $font-small;
+  padding: 0;
+  text-align: center;
+  background-color: $white;
+  &:before, &:after{
+    display: none;
   }
 }
 </style>
@@ -43,15 +83,51 @@
   <unregisteredmodal/>
   <block wx:if="{{isRegistered}}">
     <sideslider :isopen.sync="sideSliderOpen" @tapsheet.user="toggleSlider">
-      <view class="container__flex landing--sideslider">
-        <button class="btn--default__small">something</button>
-        <button class="btn--default__small">something</button>
-        <button class="btn--default__small"></button>
-        <block wx:if="{{isRescuer}}">
-          <button class="btn--default__small">rescuers only</button>
-          <button class="btn--default__small">rescuers only</button>
-        </block>
+      <view class="sideslider--profile-info" @tap="navToProfile">
+        <image class="avatar__small" src="{{userAttributes.avatarUrl}}" mode="aspectFit"></image>
+        <view class="profile--box">
+          <view class="name">{{userAttributes.nickName}}</view>
+          <view class="role {{isRescuer ? 'role-rescuer' : ''}}">{{userRole}}</view>
+        </view>
       </view>
+      <block wx:if="{{isRescuerView}}">
+        <button class="btn--change-view" @tap="changeView">
+          <image class="icon--xs" src="../icons/switch.svg" mode="aspectFit"/>
+          {{t.change_adopter_view}}
+        </button>
+        <view class="container sideslider--box">
+            <button class="btn--blank sideslider-item">
+              <image class="icon--xs" src="../icons/inbox.svg" mode="aspectFit"/>
+              {{t.requests}}
+            </button>
+            <button class="btn--blank sideslider-item">
+              <image class="icon--xs" src="../icons/crown.svg" mode="aspectFit"/>
+              {{t.my_rescues}}
+            </button>
+            <button class="btn--blank sideslider-item">
+              <image class="icon--xs" src="../icons/hospital.svg" mode="aspectFit"/>
+              {{t.add_animal}}
+            </button>
+          <button class="btn--blank sideslider-item" @tap="handleEdit">
+            <image class="icon--xs" src="../icons/edit.svg" mode="aspectFit"/>
+            {{t.edit_profile}}
+          </button>
+        </view>
+      </block>
+      <block wx:else>
+        <button class="btn--change-view" @tap="changeView" wx:if="{{isRescuer}}">
+          <image class="icon--xs" src="../icons/switch.svg" mode="aspectFit"/>
+          {{t.change_rescuer_view}}
+        </button>
+        <view class="container sideslider--box">
+            <button class="btn--blank sideslider-item">{{t.my_applications}}</button>
+            <button class="btn--blank sideslider-item">{{t.my_likes}}</button>
+            <button class="btn--blank sideslider-item" @tap="handleEdit">
+              <image class="icon--xs" src="../icons/edit.svg" mode="aspectFit"/>
+              {{t.edit_profile}}
+            </button>
+        </view>
+      </block>
     </sideslider>
   </block>
 </template>
@@ -62,6 +138,8 @@
   import SideSlider from '@/components/sideslider'
   import LanguageToggle from '@/components/language-toggle'
   import LocalesMixin from '@/mixins/localesmixin'
+  import isEmpty from 'lodash.isempty'
+
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '正在加载'
@@ -79,7 +157,20 @@
       isRegistered: false,
       isRescuer: false,
       sideSliderOpen: false,
-      pageName: 'landing'
+      pageName: 'landing',
+      isRescuerView: false
+    }
+
+    computed = {
+      userAttributes () {
+        return this.$parent.globalData.user.attributes
+      },
+      userRole () {
+        if (!isEmpty(this.t)) {
+          return this.$parent.globalData.user.isRescuer ? this.t.rescuer : this.t.adopter
+        }
+        return false
+      }
     }
 
     methods = {
@@ -105,6 +196,18 @@
       },
       navToRescueRegistration () {
         wepy.navigateTo({url: 'rescuer-registration'})
+      },
+      handleEdit () {
+        console.log('fuckbra')
+      },
+      navToProfile () {
+        console.log('nav to profile')
+      },
+      changeView () {
+        const newView = !this.isRescuerView
+        wx.setStorageSync('is_rescuer_view', newView)
+        this.isRescuerView = newView
+        this.$apply()
       }
     }
 
@@ -114,6 +217,13 @@
       })
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.isRescuer = this.$parent.globalData.user.isRescuer
+      if (this.isRescuer) {
+        const persistentRescView = wx.getStorageSync('is_rescuer_view')
+        if (persistentRescView) {
+          this.isRescuerView = persistentRescView
+        }
+      }
+      this.$apply()
     }
 
     onUnload () {

@@ -1,6 +1,8 @@
 //BASE STYLES
 @import './variables.scss';
 @import './mixins.scss';
+@import './images.scss';
+@import './buttons.scss';
 
 view, view:before, view:after,
 text, text:before, text:after,
@@ -88,156 +90,10 @@ page{
   flex: 0 0 45%;
 }
 
-.btn--default, .btn--default__medium, .btn--default__small, .btn--default__dark, .btn--default__fixed {
-  background: $color-primary;
-  color: $black;
-  border-radius: 0;
-  border: 2px solid $black;
-  box-shadow: $chunky-shadow;
-  &:after{
-    display: none;
-  }
-}
-
-.btn--default[disabled], .btn--default__medium[disabled], .btn--default__dark[disabled], .btn--default__fixed[disabled] {
-  opacity: 0.8;
-}
-
-.btn--default__medium{
-  border: 2px solid $black;
-  padding: $default-padding / 2;
-  box-shadow: $chunky-shadow;
-  background-color: $white;
-  max-width: 230px;
-  margin: 10px;
-}
-
-.btn--default__fixed {
-  position: fixed;
-  width: 200px;
-  bottom: 55px;
-  margin: 0 auto;
-  width: 70%;
-  left: 15%;
-  z-index:99;
-}
-
-.btn--default__dark, .btn--default__dark[disabled] {
-  background-color: $black !important;
-  color: $white !important;
-  font-size: $font-small;
-  box-shadow: none;
-  transition: all 0.3s ease;
-}
-.btn--default__small {
-  background-color: $black;
-  color: $white;
-  font-size: $font-xs;
-  max-width: 120rpx;
-  box-shadow: none;
-}
-
-.btn--blank {
-  border: 0px;
-  color: $black;
-  &:after{
-    display: none;
-  }
-}
-
-
-.icon--default {
-  width: 40px;
-  height: 40px;
-}
-
-.icon--inline {
-  width:30px;
-  height:30px;
-  vertical-align:middle;
-}
-
 .pull-right {
   float: right;
 }
 
 .pull-left {
   float: left;
-}
-
-.form--group{
-  background-color: $light-grey;
-  padding: $default-padding / 2;
-  margin: $default-padding 0;
-  .form--group__title{
-    font-size: 30rpx;
-    font-weight:bold;
-  }
-}
-
-
-.form-item--default{
-  margin: $default-padding / 2 0;
-  .form-item--label, .form-item--label__fullwidth {
-    display: inline-block;
-    color: $black;
-    font-size: $font-small;
-    font-weight: 400;
-    // text-align: center;
-    padding-right: 10px;
-    vertical-align:middle;
-    line-height:1.4rem;
-  }
-  .form-item--label__fullwidth {
-    width: 100%;
-    text-align:left;
-    margin-bottom: 10rpx;
-  }
-  .form-item--input {
-    display: inline-block;
-    width: 100%;
-    vertical-align:middle;
-    line-height:1.4rem;
-    padding: 20rpx 10rpx;
-    height:auto;
-    border-left: $chunky-border;
-    background-color: $white;
-    transition: all 0.3s ease;
-  }
-  .form-item--input[focus] {
-    border-left: 2px solid $color-primary;
-  }
-  .form-item--textinput {
-    border-left: $chunky-border;
-    padding: 20rpx;
-    width: auto;
-    z-index: 99;
-    margin-top:10px;
-    background-color: $white;
-  }
-}
-
-
-.form-message {
- background-color: $light-grey;
- padding: $default-padding / 2;
- color: $black;
- text-align: center;
- margin-top:40rpx;
- box-shadow: $normal-shadow;
-}
-
-.registration--title {
-  @include titletext;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.registration--subtitle {
-  @include subtitletext;
-  max-width: 500px;
-  margin: 0 auto;
-  @media all and (min-width: $screen-md) {
-    padding-bottom: 25px;
-  }
 }

@@ -1,0 +1,59 @@
+@import "./variables.scss";
+
+.btn--default, .btn--default__medium, .btn--default__small, .btn--default__dark, .btn--default__fixed {
+  background: $color-primary;
+  color: $black;
+  border-radius: 0;
+  border: 2px solid $black;
+  box-shadow: $chunky-shadow;
+  &:after{
+    display: none;
+  }
+}
+
+.btn--default[disabled], .btn--default__medium[disabled], .btn--default__dark[disabled], .btn--default__fixed[disabled] {
+  opacity: 0.8;
+}
+
+.btn--default__medium{
+  border: 2px solid $black;
+  padding: $default-padding / 2;
+  box-shadow: $chunky-shadow;
+  background-color: $white;
+  max-width: 230px;
+  margin: 10px;
+}
+
+.btn--default__fixed {
+  position: fixed;
+  width: 200px;
+  bottom: 55px;
+  margin: 0 auto;
+  width: 70%;
+  left: 15%;
+  z-index:99;
+}
+
+.btn--default__dark, .btn--default__dark[disabled] {
+  background-color: $black !important;
+  color: $white !important;
+  font-size: $font-small;
+  box-shadow: none;
+  transition: all 0.3s ease;
+}
+.btn--default__small {
+  background-color: $black;
+  color: $white;
+  font-size: $font-xs;
+  max-width: 120rpx;
+  box-shadow: none;
+}
+
+.btn--blank {
+  border: 0px;
+  color: $black;
+  border-radius: 0;
+  &:after{
+    display: none;
+  }
+}

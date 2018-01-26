@@ -1,0 +1,79 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+.form--group{
+  background-color: $light-grey;
+  padding: $default-padding / 2;
+  margin: $default-padding 0;
+  .form--group__title{
+    font-size: 30rpx;
+    font-weight:bold;
+  }
+}
+
+
+.form-item--default{
+  margin: $default-padding / 2 0;
+  .form-item--label, .form-item--label__fullwidth {
+    display: inline-block;
+    color: $black;
+    font-size: $font-small;
+    font-weight: 400;
+    // text-align: center;
+    padding-right: 10px;
+    vertical-align:middle;
+    line-height:1.4rem;
+  }
+  .form-item--label__fullwidth {
+    width: 100%;
+    text-align:left;
+    margin-bottom: 10rpx;
+  }
+  .form-item--input {
+    display: inline-block;
+    width: 100%;
+    vertical-align:middle;
+    line-height:1.4rem;
+    padding: 20rpx 10rpx;
+    height:auto;
+    border-left: $chunky-border;
+    background-color: $white;
+    transition: all 0.3s ease;
+  }
+  .form-item--input[focus] {
+    border-left: 2px solid $color-primary;
+  }
+  .form-item--textinput {
+    border-left: $chunky-border;
+    padding: 20rpx;
+    width: auto;
+    z-index: 99;
+    margin-top:10px;
+    background-color: $white;
+  }
+}
+
+
+.form-message {
+ background-color: $light-grey;
+ padding: $default-padding / 2;
+ color: $black;
+ text-align: center;
+ margin-top:40rpx;
+ box-shadow: $normal-shadow;
+}
+
+.registration--title {
+  @include titletext;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.registration--subtitle {
+  @include subtitletext;
+  max-width: 500px;
+  margin: 0 auto;
+  @media all and (min-width: $screen-md) {
+    padding-bottom: 25px;
+  }
+}

@@ -6,7 +6,17 @@ export default {
       "view_dogs" : "view dogs",
       "view_cats" : "view cats",
       "cta_rescuer": "I'm a rescuer",
-      "login": "Login"
+      "login": "Login",
+      "rescuer" : "Rescuer",
+      "adopter": "Adopter",
+      "edit_profile": "Edit Profile",
+      "change_adopter_view": "adopter view",
+      "change_rescuer_view": "rescuer view",
+      "requests": "requests",
+      "my_rescues": "my rescues",
+      "my_applications": "my applications",
+      "my_likes": "my likes",
+      "add_animal": "add a rescue"
     },
     "registration": {
       "title": "Join Fido",
@@ -45,7 +55,17 @@ export default {
       "view_dogs": "看狗狗",
       "view_cats" : "看猫猫",
       "cta_rescuer": "我是救狗救猫的人",
-      "login": "登录"
+      "login": "登录",
+      "rescuer" : "救助者",
+      "adopter": "领养者",
+      "edit_profile": "编辑个人资料",
+      "change_adopter_view": "切换领养者版",
+      "change_rescuer_view": "切换救助者版",
+      "requests": "请求收件箱",
+      "my_rescues": "我的贝贝们",
+      "my_applications": "我的申请",
+      "my_likes": "我的点赞",
+      "add_animal": "添加小动物"
     },
     "registration": {
       "title": "加入我们",

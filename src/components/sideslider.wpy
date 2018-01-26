@@ -39,15 +39,10 @@
   z-index: 99;
   padding-top:10px;
 }
-.sideslider__exit-button{
-  position: absolute;
-
-  padding: 4px;
-}
 #sideslider-close{
   position: absolute;
   top:-40rpx;
-  left: 0;
+  right: 0;
   z-index:99;
   width: 40rpx;
   height: 40rpx;

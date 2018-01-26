@@ -1,20 +1,26 @@
 // Let's use some ssasssssss
 
-$default-padding: 40rpx;
+// colors
 $white: #fff;
 $black: #333333;
 $light-grey: rgba(0, 0, 0, 0.1);
 $color-primary: #50E3C2;
+$red: #ED6263;
+
+// uhhmm..layout stuff? idk
+$default-padding: 40rpx;
 $chunky-shadow: 4px 4px 0 $black;
 $normal-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.1);
 $section-border: 1px solid rgba($black, 0.5);
 $chunky-border: 2px solid #333;
+
+
+// fonts
+$font-medium-title: 18px;
 $font-small: 14px;
 $font-xs: 10px;
 
 
 // screen sizes bay bay heh heh
-
-
 $screen-md: 640px;
 $screen-lg: 1000px;

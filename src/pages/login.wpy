@@ -1,5 +1,6 @@
 <style lang="scss">
   @import '../styles/mixins.scss';
+
   .login--title {
     @include titletext;
   }
