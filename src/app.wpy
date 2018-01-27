@@ -10,7 +10,6 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/landing',
-      'pages/rescuer-registration',
       'pages/login',
       'pages/registration',
       'pages/adopter-home',

@@ -17,8 +17,8 @@
           :subtitle.sync="modalSubtitle"
           @masktap.user="closeModal">
     <view class="landing--modal-btns">
-      <button class="btn--default__medium landing--register-btn" @tap="navToNormalRegistration">{{ctaAdopter}}</button>
-      <button class="btn--default__medium landing--register-btn" @tap="navToRescueRegistration">{{ctaRescuer}}</button>
+      <button class="btn--default__medium landing--register-btn" @tap="navToRegistration" id="adopter">{{ctaAdopter}}</button>
+      <button class="btn--default__medium landing--register-btn" @tap="navToRegistration" id="rescuer">{{ctaRescuer}}</button>
     </view>
     <button class="btn--blank landing--login" @tap="navToLogin">{{login}}</button>
   </modal>
@@ -42,11 +42,8 @@
     }
 
     methods = {
-      navToNormalRegistration () {
-        wepy.navigateTo({url: 'registration'})
-      },
-      navToRescueRegistration () {
-        wepy.navigateTo({url: 'rescuer-registration'})
+      navToRegistration ({target}) {
+        wepy.navigateTo({url: `registration?target=${target.id}`})
       },
       navToLogin () {
         wepy.navigateTo({

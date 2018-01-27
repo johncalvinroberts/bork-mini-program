@@ -1,11 +1,9 @@
 <style lang="scss" src="../styles/_forms.scss"></style>
 <template>
   <view class="container padbox--default">
-    <view class="registration--title">{{t.title}}</view>
-    <view class="registration--subtitle">{{t.subtitle}}
-    </view>
+    <view class="registration--title">{{title}}</view>
+    <view class="registration--subtitle">{{subTitle}}</view>
     <formparent>
-
       <button class="btn--default__dark" disabled="{{wechatDisabled}}" @tap="getWeChat">
         <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>
         {{t.login_with_wechat}}
@@ -18,24 +16,58 @@
             <view class="form-item--input">{{authData.nickName}}</view>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">{{t.place}}</view>
+            <view class="form-item--label">{{t.name}}</view>
             <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
           </view>
           <view class="form-item--default">
             <view class="form-item--label">{{t.wechat}}</view>
-            <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next"/>
+            <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next" value="{{wxUsername || ''}}"/>
           </view>
           <view class="form-item--default">
             <view class="form-item--label">{{t.age}}</view>
-            <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next"/>
+            <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next" value="{{age || ''}}"/>
           </view>
         </view>
         <view class="form--group">
           <view class="form--group__title">{{t.self_intro}}</view>
           <view class="form-item--default">
             <view class="form-item--label">{{t.intro_explanation}}</view>
-            <textarea class="form-item--textinput" @blur="handlePersonal" confirm-type="send" @confirm="handleSubmit" maxlength="200" />
+            <textarea class="form-item--textinput" @blur="handlePersonal" confirm-type="next" maxlength="200" value="{{personalNote}}"/>
           </view>
+        </view>
+        <view class="form--group">
+          <view class="form--group__title">{{t.id_validation}}</view>
+          <view class="form-item--label">{{t.id_subtitle}}</view>
+          <view class="form-item--default">
+            <radiolist @toggle.user="toggleIdType" :choices.sync="idChoices" :currentchoice.sync="idType"/>
+          </view>
+          <block wx:if="{{chooseChineseId}}">
+            <view class="form-item--default">
+              <view class="form-item--label">
+                {{t.chinese_shenfenzheng}}
+              </view>
+              <input type="idcard" placeholder="身份证" class="form-item--input" @blur="handleId" confirm-type="next"/>
+            </view>
+          </block>
+            <block wx:else>
+              <view class="form-item--default">
+                <view class="form-item--label__fullwidth">
+                  <coolpicker @change.user="handleCountryChange" :collection.sync="countryChoices" :selection.sync="country" :label.sync="countryText"/>
+                </view>
+              </view>
+              <view class="form-item--default">
+                <view class="form-item--label">
+                  {{t.full_name}}
+                </view>
+                <input type="text" placeholder="请输入你的全法律上的姓名" class="form-item--input" @blur="handleFullName" maxlength="50" confirm-type="next" value="{{fullName || ''}}"/>
+              </view>
+              <view class="form-item--default">
+                <view class="form-item--label">
+                  {{t.passport}}
+                </view>
+                <input type="number" placeholder="请输入护照号" class="form-item--input" @blur="handleId" maxlength="50" confirm-type="next" value="{{idNumber || ''}}"/>
+              </view>
+          </block>
         </view>
         <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
       </block>
@@ -50,35 +82,85 @@
   import FormParent from '@/components/form-parent'
   import RedirectModal from '@/components/redirect-modal'
   import ErrorModal from '@/components/error-modal'
+  import CoolPicker from '@/components/cool-picker'
+  import RadioList from '@/components/radiolist'
   import FidoLoader from '@/components/fido-loader'
+  import countryChoices from '@/utils/countries'
   import LocalesMixin from '@/mixins/localesmixin'
+  import isEmpty from 'lodash.isempty'
 
   export default class Registration extends wepy.page {
-    config = {
-      navigationBarTitleText: '注册'
+    data = {
+      title: '',
+      subTitle: '',
+      incomingTarget: '',
+      idChoices: [{
+        name: '身份证',
+        value: 'chinese_id'
+      }, {
+        name: '护照',
+        value: 'passport'
+      }],
+      countryChoices: countryChoices,
+      countryText: '护照国家 🎏',
+      authData: null,
+      wxUsername: null,
+      personalNote: null,
+      age: null,
+      idNumber: '',
+      idType: 'chinese_id',
+      country: 'China',
+      fullName: ''
     }
+
+    mixins = [LocalesMixin]
 
     components = {
       formparent: FormParent,
       redirectmodal: RedirectModal,
       errormodal: ErrorModal,
+      coolpicker: CoolPicker,
+      radiolist: RadioList,
       fidoloader: FidoLoader
     }
 
-    mixins = [LocalesMixin]
+    computed = {
+      wechatDisabled () {
+        return this.authData !== null
+      },
+      chooseChineseId () {
+        return this.idType === 'chinese_id'
+      },
+      hasEmptyFields () {
+        const {age, wxUsername, personalNote, idNumber, country, fullName} = this.data
+        const fields = {age, wxUsername, personalNote, idNumber}
+        if (this.idType === 'passport') {
+          fields.country = country
+          fields.fullName = fullName
+        }
+        const emptyFields = Object.keys(fields).filter(field => {
+          let value = fields[field]
+          if (value === '' || value === ' ' || value === null) {
+            return field
+          }
+        })
+        return isEmpty(emptyFields) ? false : emptyFields
+      }
+    }
 
-    data = {
-      isRegistered: false,
-      authData: null,
-      wxUsername: {},
-      personalNote: null,
-      age: null
+    watch = {
+      t () {
+        if (this.incomingTarget === 'rescuer') {
+          this.title = this.t.title_rescuer
+          this.subTitle = this.t.subtitle_rescuer
+        } else {
+          this.title = this.t.title
+          this.subTitle = this.t.subtitle
+        }
+      }
     }
 
     methods = {
-      redirectHome () {
-        wepy.navigateTo({url: 'landing'})
-      },
       handleWx ({detail}) {
         this.wxUsername = detail.value
         this.$apply()
@@ -90,59 +172,56 @@
       handleAge ({detail}) {
         this.age = detail.value
         this.$apply()
-      }
-    }
-
-    computed = {
-      fieldsValid () {
-        if (!this.personalNote || !this.wxUsername || !this.age) {
-          return false
-        }
-        return true
       },
-      wechatDisabled () {
-        return this.authData !== null
+      handleId ({detail}) {
+        this.idNumber = detail.value
+        this.$apply()
+      },
+      handleFullName ({detail}) {
+        this.fullName = detail.value
+        this.$apply()
+      },
+      toggleIdType (e) {
+        if (this.idType === 'chinese_id') {
+          this.idType = 'passport'
+        } else {
+          this.idType = 'chinese_id'
+        }
+        this.idNumber = ''
+        this.$apply()
+      },
+      handleCountryChange ({detail}) {
+        this.country = countryChoices[detail.value]
+        this.$apply()
+      },
+      reloadPage () {
+        this.onLoad()
       }
     }
 
-    onLoad () {
+    onLoad ({target}) {
+      this.incomingTarget = target
       this.isRegistered = this.$parent.globalData.user.isRegistered
       if (this.isRegistered) {
-        const params = {message: '你已经注册了'}
+        const params = {
+          message: this.t.redirect_message,
+          link: 'edit-profile',
+          linkname: this.t.edit_profile
+        }
         this.$invoke('redirectmodal', 'toggleModal', params)
       }
     }
 
     async getWeChat () {
-      const user = this.$parent.globalData.user
       this.$invoke('fidoloader', 'showLoading', '')
       try {
-        await user.authorize()
-        this.authData = this.$parent.globalData.user.currentUser()
+        await this.$parent.globalData.user.authorize()
+        this.authData = this.$parent.globalData.user.attributes
         this.$apply()
         this.$invoke('fidoloader', 'hideLoading', '')
       } catch (err) {
         // actually deal with the error maybe lol
-        console.error(err)
         this.$invoke('fidoloader', 'hideLoading', '')
-        this.handleFetchError()
-      }
-    }
-
-    async handleSubmit () {
-      if (!this.fieldsValid) {
-        return this.handleSubmitError()
-      }
-      try {
-        this.$invoke('fidoloader', 'showLoading', '')
-        const {wxUsername, personalNote, age} = this.data
-        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age})
-        const params = {message: '恭喜你注册成功了'}
-        this.$invoke('fidoloader', 'hideLoading', '')
-        this.$invoke('redirectmodal', 'toggleModal', params)
-        this.$parent.globalData.user.fetchUpdate()
-      } catch (err) {
-        // this error too my guy
         console.error(err)
         this.handleFetchError()
       }
@@ -150,21 +229,35 @@
 
     handleFetchError () {
       const params = {
-        header: '哎哟出错了😯',
-        message: '刷新页面再试试一遍',
+        header: this.t.error_header,
+        message: this.t.error_message,
         refresh: true
       }
       this.$invoke('errormodal', 'showMessage', params)
     }
 
+    async handleSubmit () {
+      if (this.hasEmptyFields) return this.handleSubmitError()
+      this.$invoke('fidoloader', 'showLoading', '')
+      try {
+        const {wxUsername, personalNote, age, idType, idNumber, fullName, country} = this.data
+        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age, idType, idNumber, fullName, country})
+        const params = {message: this.t.success_message}
+        this.$invoke('fidoloader', 'hideLoading', '')
+        this.$invoke('redirectmodal', 'toggleModal', params)
+        this.$parent.globalData.user.fetchUpdate()
+      } catch (err) {
+        console.error(err)
+        this.handleFetchError()
+      }
+    }
+
     handleSubmitError () {
-      const header = '认证失败 🙇‍'
-      const message = '你得提供你的个人资料才有权利领养无家可归的小动物。'
       const params = {
-        header,
-        message
+        header: this.t.submit_error_header,
+        message: this.t.submit_error_message
       }
       return this.$invoke('errormodal', 'showMessage', params)
     }
   }
-  </script>
+</script>
