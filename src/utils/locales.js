@@ -51,7 +51,9 @@ export default {
     },
     "adopter-home": {
       "rescuer": "rescuer",
-      "adopter": "adopter"
+      "adopter": "adopter",
+      "likes": "likes",
+      "applications": "applications"
     },
     "become-rescuer": {
       "title": "Become a rescuer",
@@ -112,7 +114,9 @@ export default {
     },
     "adopter-home": {
       "rescuer": "救助者",
-      "adopter": "领养者"
+      "adopter": "领养者",
+      "likes": "我的点赞",
+      "applications": "我的申请"
     },
     "become-rescuer":{
       "title": "成为救助者",

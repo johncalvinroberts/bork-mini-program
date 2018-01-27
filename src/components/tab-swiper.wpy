@@ -38,9 +38,9 @@
 <template>
   <view class="tabswiper--tabs">
     <repeat for="{{tabs}}" item="tab" index="index" key="index">
-      <view class="tabswiper--tab {{tab === activetab ? 'active' : ''}}"
-            data-tab="{{tab}}"
-            @tap="handleTabTap">{{tab}}</view>
+      <view class="tabswiper--tab {{tab.name === activetab ? 'active' : ''}}"
+            data-tab="{{tab.name}}"
+            @tap="handleTabTap">{{tab.t}}</view>
     </repeat>
   </view>
   <swiper @change="handleChange" current="{{tabIndex}}" class="tabswiper" duration="200">
@@ -63,7 +63,7 @@
 
     methods = {
       handleChange ({detail}) {
-        this.activetab = this.tabs[detail.current]
+        this.activetab = this.tabs[detail.current].name
       },
       handleTabTap ({target}) {
         this.activetab = target.dataset.tab
@@ -74,7 +74,7 @@
 
     computed = {
       tabIndex () {
-        return this.tabs.indexOf(this.activetab)
+        return this.tabs.findIndex(tab => tab.name === this.activetab)
       }
     }
   }

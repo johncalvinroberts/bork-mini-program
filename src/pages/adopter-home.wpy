@@ -24,7 +24,7 @@
       activetab: '',
       loading: true,
       userInfo: {},
-      tabs: ['likes', 'applications']
+      tabs: []
     }
 
     components = {
@@ -36,16 +36,18 @@
     mixins = [LocalesMixin]
 
     watch = {
+      t () {
+        const likes = {name: 'likes', t: this.t.likes}
+        const apps = {name: 'applications', t: this.t.applications}
+        this.tabs = [likes, apps]
+        this.$apply()
+      },
       activetab (newVal, oldVal) {
         if (newVal === 'likes') return this.fetchLikes()
         if (newVal === 'applications') return this.fetchApps()
       }
     }
-    methods = {
-      switchTab (e) {
-        console.log(e)
-      }
-    }
+    methods = {}
 
     computed = {}
 
