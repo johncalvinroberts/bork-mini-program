@@ -115,7 +115,7 @@
       if (image) {
         return `background: url(${image}) no-repeat center; background-size: cover; background-color: #E5E5E5;`
       } else {
-        return `background: url(../icons/camera.svg) no-repeat center; background-size: contain;`
+        return `background: url("http://ac-tSaB7MBC.clouddn.com/9a00a48126f37fc1b73b.svg") no-repeat center; background-size: contain;`
       }
     }
 

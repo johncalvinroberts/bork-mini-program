@@ -20,6 +20,12 @@
           <view class="form-item--label">{{t.type}}</view>
           <radiolist @toggle.user="toggleType" :choices.sync="typeChoices" :currentchoice.sync="animalInfo.type"/>
         </view>
+        <view class="form-item--default">
+          <view class="form-item--label">{{t.available_label}}</view>
+          <view class="form-item--switch-outer">
+            <switch @change="toggleAvailable" class="form-item--switch" checked="{{animalAvailable}}"/> {{availableText}}
+          </view>
+        </view>
       </view>
       <view class="form--group">
         <view class="form--group__title">{{t.animal_intro}}</view>
@@ -99,6 +105,17 @@
         }
         return ''
       },
+      availableText () {
+        if (_isEmpty(this.t)) return ''
+        if (this.animalInfo.available) {
+          return this.t.available
+        } else {
+          return this.t.not_available
+        }
+      },
+      animalAvailable () {
+        return this.animalInfo.available
+      },
       hasEmptyFields () {
         const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'])
         const emptyFields = Object.keys(fields).filter(field => {
@@ -120,8 +137,16 @@
         this.animalInfo.name = detail.value
         this.$apply()
       },
+      toggleActive ({value}) {
+        console.log(value)
+        this.animalInfo.active = value
+      },
       toggleType ({value}) {
         this.animalInfo.type = value
+        this.$apply()
+      },
+      toggleAvailable ({detail}) {
+        this.animalInfo.available = detail.value
         this.$apply()
       }
     }
@@ -139,7 +164,7 @@
     async handleSubmit () {
       console.log(this.hasEmptyFields)
       if (this.hasEmptyFields) return this.handleSubmitError()
-      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], 'active')
+      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'])
       const images = this.images
       const params = {images, ...fields}
       try {
