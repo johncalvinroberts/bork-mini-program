@@ -5,7 +5,6 @@ import isEmpty from 'lodash.isempty'
 
 export default class UserModel {
   constructor () {
-    console.log('im initin')
     Lean.init({
       appId: appId,
       appKey: appKey
@@ -98,6 +97,18 @@ export default class UserModel {
     animal.set({user, active})
     const savedAnimal = await animal.save()
     return savedAnimal
+  }
+
+  async updateRescue (objectId, params) {
+    const animal = Lean.Object.createWithoutData('Animal', objectId)
+    animal.set(params)
+    try {
+      const animalRes = await animal.save()
+      return animalRes.toJSON()
+    } catch (err) {
+      console.error(err)
+      return err
+    }
   }
 
   async logOut () {

@@ -87,7 +87,8 @@
   import FidoLoader from '@/components/fido-loader'
   import countryChoices from '@/utils/countries'
   import LocalesMixin from '@/mixins/localesmixin'
-  import isEmpty from 'lodash.isempty'
+  import _isEmpty from 'lodash.isempty'
+  import _pick from 'lodash.pick'
 
   export default class Registration extends wepy.page {
     data = {
@@ -133,11 +134,11 @@
         return this.idType === 'chinese_id'
       },
       hasEmptyFields () {
-        const {age, wxUsername, personalNote, idNumber, country, fullName} = this.data
-        const fields = {age, wxUsername, personalNote, idNumber}
+        const fields = _pick(this.data, ['age'], ['wxUsername'], ['personalNote'], ['idNumber'])
+
         if (this.idType === 'passport') {
-          fields.country = country
-          fields.fullName = fullName
+          fields.country = this.country
+          fields.fullName = this.fullName
         }
         const emptyFields = Object.keys(fields).filter(field => {
           let value = fields[field]
@@ -145,7 +146,7 @@
             return field
           }
         })
-        return isEmpty(emptyFields) ? false : emptyFields
+        return _isEmpty(emptyFields) ? false : emptyFields
       }
     }
 

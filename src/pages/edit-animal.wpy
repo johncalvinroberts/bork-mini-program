@@ -16,6 +16,10 @@
           <view class="form-item--label">{{t.name}}</view>
           <input type="text" class="form-item--input" @blur="handleName" maxlength="70" confirm-type="next" value="{{name}}"/>
         </view>
+        <view class="form-item--default">
+          <view class="form-item--label">{{t.type}}</view>
+          <radiolist @toggle.user="toggleType" :choices.sync="typeChoices" :currentchoice.sync="animalInfo.type"/>
+        </view>
       </view>
       <view class="form--group">
         <view class="form--group__title">{{t.animal_intro}}</view>
@@ -27,6 +31,9 @@
       <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
     </formparent>
   </view>
+  <errormodal/>
+  <redirectmodal/>
+  <fidoloader/>
 </template>
 <script>
   import wepy from 'wepy'
@@ -36,8 +43,10 @@
   import FidoLoader from '@/components/fido-loader'
   import RedirectModal from '@/components/redirect-modal'
   import ImageUploader from '@/components/image-uploader'
+  import RadioList from '@/components/radiolist'
   import ErrorModal from '@/components/error-modal'
-  import isEmpty from 'lodash.isempty'
+  import _isEmpty from 'lodash.isempty'
+  import _pick from 'lodash.pick'
 
   export default class EditAnimal extends wepy.page {
     config = {
@@ -46,6 +55,7 @@
 
     data = {
       animalId: '',
+      typeChoices: [],
       isEditing: false,
       title: '',
       subtitle: '',
@@ -57,7 +67,8 @@
       fidoloader: FidoLoader,
       redirectmodal: RedirectModal,
       errormodal: ErrorModal,
-      imageuploader: ImageUploader
+      imageuploader: ImageUploader,
+      radiolist: RadioList
     }
 
     watch = {
@@ -69,6 +80,7 @@
           this.title = this.t.add_title
           this.subtitle = this.t.add_subtitle
         }
+        this.typeChoices = [{name: this.t.dog, value: 'dog'}, {name: this.t.cat, value: 'cat'}]
       }
     }
 
@@ -81,21 +93,36 @@
         }
         return ''
       },
+      intro () {
+        if (this.animalInfo && this.animalInfo.intro) {
+          return this.animalInfo.intro
+        }
+        return ''
+      },
       hasEmptyFields () {
-        const fields = ''
+        const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'])
         const emptyFields = Object.keys(fields).filter(field => {
           let value = fields[field]
           if (value === '' || value === ' ' || value === null) {
             return field
           }
         })
-        return isEmpty(emptyFields) ? false : emptyFields
+        return _isEmpty(emptyFields) ? false : emptyFields
       }
     }
 
     methods = {
-      handleSubmit () {
-        console.log()
+      handleIntro ({detail}) {
+        this.animalInfo.intro = detail.value
+        this.$apply()
+      },
+      handleName ({detail}) {
+        this.animalInfo.name = detail.value
+        this.$apply()
+      },
+      toggleType ({value}) {
+        this.animalInfo.type = value
+        this.$apply()
       }
     }
 
@@ -103,10 +130,35 @@
       this.animalId = id
       this.isEditing = JSON.parse(edit)
       if (this.isEditing) {
-        this.fetchAnimal(id) // later can make this so it's just for if isEditing
+        this.fetchAnimal(id)
       }
       this.$apply()
       this.$parent.globalData.user.requestPicture()
+    }
+
+    async handleSubmit () {
+      console.log(this.hasEmptyFields)
+      if (this.hasEmptyFields) return this.handleSubmitError()
+      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], 'active')
+      const images = this.images
+      const params = {images, ...fields}
+      try {
+        const updatedAnimal = await this.$parent.globalData.user.updateRescue(this.animalId, params)
+        this.animalInfo = updatedAnimal
+        this.$apply()
+        const redirectParams = {message: this.t.success_message}
+        this.$invoke('redirectmodal', 'toggleModal', redirectParams)
+      } catch (err) {
+        this.handleSubmitError()
+      }
+    }
+
+    handleSubmitError () {
+      const params = {
+        header: this.t.submit_error_header,
+        message: this.t.submit_error_message
+      }
+      return this.$invoke('errormodal', 'showMessage', params)
     }
   }
 </script>

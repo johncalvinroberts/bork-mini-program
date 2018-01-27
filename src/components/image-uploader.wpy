@@ -80,8 +80,7 @@
             return file.save()
           })
           .then(savedFile => {
-            console.log(savedFile)
-            this.images.push(savedFile)
+            this.images.push(savedFile.attributes.url)
             this.$apply()
           })
           .catch(err => console.error(err))
@@ -114,7 +113,7 @@
     generateStyle (index) {
       const image = this.images[index]
       if (image) {
-        return `background: url(${image.attributes.url}) no-repeat center; background-size: cover;`
+        return `background: url(${image}) no-repeat center; background-size: cover; background-color: #E5E5E5;`
       } else {
         return `background: url(../icons/camera.svg) no-repeat center; background-size: contain;`
       }

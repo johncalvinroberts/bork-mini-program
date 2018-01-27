@@ -80,7 +80,13 @@ export default {
       "animal_intro": "Intro",
       "animal_intro_explanation": "Introduce us to your rescue, tell us about him/her!",
       "basic_info": "Basic info",
-      "save": "保存"
+      "dog": "dog (aka doggo, good boy, woofer, etc.)",
+      "cat": "cat (destroyer of worlds, simba, mini-tiger)",
+      "type": "Type of animal",
+      "submit_error_header": "Incomplete 💁",
+      "submit_error_message": "Please fill in the form",
+      "save": "Save",
+      "success_message": "Nice!! You added a rescue 😁😁😁"
     }
   },
   "zh_CN": {
@@ -162,7 +168,13 @@ export default {
       "animal_intro": "介绍",
       "animal_intro_explanation": "帮我们介绍一下你救助的小动物",
       "basic_info": "基本信息",
-      "save": "保存"
+      "dog": "狗（犬）",
+      "cat": "猫猫（猫咪）",
+      "type": "种类",
+      "submit_error_header": "信息不全💁",
+      "submit_error_message": "请填全了再提交",
+      "save": "保存",
+      "success_message": "牛逼！创建了一个小动物😁😁😁"
     }
   }
 }
