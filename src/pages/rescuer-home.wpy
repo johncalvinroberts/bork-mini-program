@@ -5,18 +5,63 @@
 </style>
 <template>
   <view class="container">
-    hey
+    <profileheader :userInfo.sync="userInfo"/>
+    <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
+      <tabswiperitem></tabswiperitem>
+      <tabswiperitem></tabswiperitem>
+    </tabswiper>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import LocalesMixin from '@/mixins/localesmixin'
+  import ProfileHeader from '@/components/profile-header'
+  import TabSwiper from '@/components/tab-swiper'
+  import TabSwiperItem from '@/components/tab-swiper-item'
+
   export default class RescuerHome extends wepy.page {
-    data = {}
-    components = {}
-    mixins = []
+    data = {
+      activetab: '',
+      loading: true,
+      userInfo: {},
+      tabs: []
+    }
+
+    components = {
+      profileheader: ProfileHeader,
+      tabswiper: TabSwiper,
+      tabswiperitem: TabSwiperItem
+    }
+
+    mixins = [LocalesMixin]
+
     computed = {}
-    onLoad (options) {
-      console.log(options)
+
+    watch = {
+      t () {
+        const requests = {name: 'requests', t: this.t.requests}
+        const rescues = {name: 'rescues', t: this.t.rescues}
+        this.tabs = [requests, rescues]
+        this.$apply()
+      },
+      activetab (newVal, oldVal) {
+        if (newVal === 'requests') return this.fetchRequests()
+        if (newVal === 'rescues') return this.fetchRescues()
+      }
+    }
+
+    onLoad ({tab}) {
+      console.log(tab)
+      this.userInfo = this.$parent.globalData.user.attributes
+      this.activetab = tab
+      this.$apply()
+    }
+    async fetchRequests () {
+      console.log('ahahahsfhas')
+    }
+
+    async fetchRescues () {
+      console.log('oooofuck..')
     }
   }
 </script>

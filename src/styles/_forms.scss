@@ -63,13 +63,13 @@
  box-shadow: $normal-shadow;
 }
 
-.registration--title {
+.form--title {
   @include titletext;
   max-width: 500px;
   margin: 0 auto;
 }
 
-.registration--subtitle {
+.form--subtitle {
   @include subtitletext;
   max-width: 500px;
   margin: 0 auto;

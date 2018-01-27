@@ -1,8 +1,8 @@
 <style lang="scss" src="../styles/_forms.scss"></style>
 <template>
   <view class="container padbox--default">
-    <view class="registration--title">{{title}}</view>
-    <view class="registration--subtitle">{{subTitle}}</view>
+    <view class="form--title">{{title}}</view>
+    <view class="form--subtitle">{{subTitle}}</view>
     <formparent>
       <button class="btn--default__dark" disabled="{{wechatDisabled}}" @tap="getWeChat">
         <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>

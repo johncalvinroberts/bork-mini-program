@@ -55,6 +55,12 @@ export default {
       "likes": "likes",
       "applications": "applications"
     },
+    "rescuer-home": {
+      "rescuer": "rescuer",
+      "adopter": "adopter",
+      "requests": "requests",
+      "rescues": "my rescues"
+    },
     "become-rescuer": {
       "title": "Become a rescuer",
       "subtitle": "Did you pick up a dog off the street? Have a stray cat hanging around? After becoming a rescuer, you can still adopt animals on Fido by switching between rescuer view and adopter view.",
@@ -62,6 +68,19 @@ export default {
       "success_message": "Congrats, you can now list rescue animals on fido :)",
       "error_header": "uh-oh😯",
       "error_message": "something bad occured, try reloading the page"
+    },
+    "edit-animal": {
+      "add_title": "Add a rescue",
+      "add_subtitle": "Provide information about your little bundle of love",
+      "edit_title": "Edit a rescue",
+      "edit_subtitle": "The information about your animal",
+      "images": "Photographs",
+      "name": "Name",
+      "gender": "gender",
+      "animal_intro": "Intro",
+      "animal_intro_explanation": "Introduce us to your rescue, tell us about him/her!",
+      "basic_info": "Basic info",
+      "save": "保存"
     }
   },
   "zh_CN": {
@@ -118,6 +137,12 @@ export default {
       "likes": "我的点赞",
       "applications": "我的申请"
     },
+    "rescuer-home": {
+      "rescuer": "救助者",
+      "adopter": "领养者",
+      "requests": "申请收件箱",
+      "rescues": "我的贝贝们"
+    },
     "become-rescuer":{
       "title": "成为救助者",
       "subtitle": "你可能在街上领养了小动物，想帮它找永久的主人。成为了救助者以后你还可以切换领养者版的fido。",
@@ -125,6 +150,19 @@ export default {
       "success_message": "恭喜恭喜成为了救助者，你现在有权限上传你救助的小动物",
       "error_header": "哎哟出错了😯",
       "error_message": "刷新页面再试试一遍"
+    },
+    "edit-animal": {
+      "add_title": "添加小动物",
+      "add_subtitle": "提供你的小宝宝的信息，帮它找一个forever home",
+      "edit_title": "编辑小动物",
+      "edit_subtitle": "帮小宝宝编辑一下资料",
+      "images": "照片",
+      "name": "昵称",
+      "gender": "性别",
+      "animal_intro": "介绍",
+      "animal_intro_explanation": "帮我们介绍一下你救助的小动物",
+      "basic_info": "基本信息",
+      "save": "保存"
     }
   }
 }

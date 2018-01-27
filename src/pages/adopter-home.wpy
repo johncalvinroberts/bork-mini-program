@@ -47,23 +47,25 @@
         if (newVal === 'applications') return this.fetchApps()
       }
     }
+
     methods = {}
 
     computed = {}
 
-    onLoad (options) {
+    onLoad ({tab}) {
       this.userInfo = this.$parent.globalData.user.attributes
-      this.activetab = options.tab
-      console.log(this.activetab)
+      this.activetab = tab
       this.$apply()
     }
 
     async fetchLikes () {
-      console.log('fethc ing likes')
+      const likes = await this.$parent.globalData.user.fetchLikes()
+      console.log(likes)
     }
 
     async fetchApps () {
-      console.log('fetching apps...')
+      const apps = await this.$parent.globalData.user.fetchApplications()
+      console.log(apps)
     }
   }
 </script>

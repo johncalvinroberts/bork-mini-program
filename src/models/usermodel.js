@@ -5,19 +5,21 @@ import isEmpty from 'lodash.isempty'
 
 export default class UserModel {
   constructor () {
+    console.log('im initin')
     Lean.init({
       appId: appId,
       appKey: appKey
     })
     this.data = {}
+    this.id = null
     this.currentUser()
   }
 
   currentUser () {
     const current = Lean.User.current()
     if (current) {
-      console.log(current)
-      this.data = current.attributes // should switch this to current.toJSON()
+      this.id = current.id
+      this.data = current.toJSON() // should switch this to current.toJSON()
     }
     return current
   }
@@ -81,6 +83,7 @@ export default class UserModel {
       const wxPromise = wepy.getUserInfo()
       const [loginInfo, {userInfo}] = await Promise.all([loginPromise, wxPromise]) // eslint-disable-line no-unused-vars
       const updatedUser = await Lean.User.current().set(userInfo).save()
+      this.id = updatedUser.id
       this.data = updatedUser.toJSON()
     } catch (err) {
       console.error(err)
@@ -88,9 +91,34 @@ export default class UserModel {
     }
   }
 
+  async createRescue () {
+    const animal = new Lean.Object('Animal')
+    const user = Lean.User.current()
+    const active = false
+    animal.set({user, active})
+    const savedAnimal = await animal.save()
+    return savedAnimal
+  }
+
   async logOut () {
     await wepy.clearStorage()
     this.data = {}
+  }
+
+  async fetchLikes () {
+    console.log('anahsfhas')
+  }
+
+  async fetchApplications () {
+    console.log('haha...')
+  }
+
+  async fetchRequests () {
+    console.log('fetch requests')
+  }
+
+  async fetchRescues () {
+    console.log('fetch rescues')
   }
 
   async requestLocation () {
@@ -98,6 +126,18 @@ export default class UserModel {
     if (!authData.authSetting['scope.userLocation']) {
       try {
         await wepy.authorize({scope: 'scope.userLocation'})
+      } catch (err) {
+        console.error(err)
+        return err
+      }
+    }
+  }
+
+  async requestPicture () {
+    const authData = await wepy.getSetting()
+    if (!authData.authSetting['scope.camera']) {
+      try {
+        await wepy.authorize({scope: 'scope.camera'})
       } catch (err) {
         console.error(err)
         return err

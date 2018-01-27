@@ -1,0 +1,112 @@
+<style lang="scss" src="../styles/_forms.scss"></style>
+<template>
+  <view class="container padbox--default">
+    <view class="form--title">{{title}}</view>
+    <view class="form--subtitle">{{subtitle}}</view>
+    <formparent>
+      <view class="form--group">
+        <view class="form--group__title">{{t.images}}</view>
+        <view class="form-item--default">
+          <imageuploader :images.sync="images" :animalId.sync="animalId"/>
+        </view>
+      </view>
+      <view class="form--group">
+        <view class="form--group__title">{{t.basic_info}}</view>
+        <view class="form-item--default">
+          <view class="form-item--label">{{t.name}}</view>
+          <input type="text" class="form-item--input" @blur="handleName" maxlength="70" confirm-type="next" value="{{name}}"/>
+        </view>
+      </view>
+      <view class="form--group">
+        <view class="form--group__title">{{t.animal_intro}}</view>
+        <view class="form-item--default">
+          <view class="form-item--label__paragraph">{{t.animal_intro_explanation}}</view>
+          <textarea class="form-item--textinput" @blur="handleIntro" confirm-type="next" maxlength="200" value="{{intro}}"/>
+        </view>
+      </view>
+      <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
+    </formparent>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import FormParent from '@/components/form-parent'
+  import LocalesMixin from '@/mixins/localesmixin'
+  import AnimalMixin from '@/mixins/animal-mixin'
+  import FidoLoader from '@/components/fido-loader'
+  import RedirectModal from '@/components/redirect-modal'
+  import ImageUploader from '@/components/image-uploader'
+  import ErrorModal from '@/components/error-modal'
+  import isEmpty from 'lodash.isempty'
+
+  export default class EditAnimal extends wepy.page {
+    config = {
+      navigationBarTitleText: 'fido'
+    }
+
+    data = {
+      animalId: '',
+      isEditing: false,
+      title: '',
+      subtitle: '',
+      images: []
+    }
+
+    components = {
+      formparent: FormParent,
+      fidoloader: FidoLoader,
+      redirectmodal: RedirectModal,
+      errormodal: ErrorModal,
+      imageuploader: ImageUploader
+    }
+
+    watch = {
+      t () {
+        if (this.isEditing) {
+          this.title = this.t.edit_title
+          this.subtitle = this.t.edit_subtitle
+        } else {
+          this.title = this.t.add_title
+          this.subtitle = this.t.add_subtitle
+        }
+      }
+    }
+
+    mixins = [LocalesMixin, AnimalMixin]
+
+    computed = {
+      name () {
+        if (this.animalInfo && this.animalInfo.name) {
+          return this.animalInfo.name
+        }
+        return ''
+      },
+      hasEmptyFields () {
+        const fields = ''
+        const emptyFields = Object.keys(fields).filter(field => {
+          let value = fields[field]
+          if (value === '' || value === ' ' || value === null) {
+            return field
+          }
+        })
+        return isEmpty(emptyFields) ? false : emptyFields
+      }
+    }
+
+    methods = {
+      handleSubmit () {
+        console.log()
+      }
+    }
+
+    onLoad ({id, edit}) {
+      this.animalId = id
+      this.isEditing = JSON.parse(edit)
+      if (this.isEditing) {
+        this.fetchAnimal(id) // later can make this so it's just for if isEditing
+      }
+      this.$apply()
+      this.$parent.globalData.user.requestPicture()
+    }
+  }
+</script>

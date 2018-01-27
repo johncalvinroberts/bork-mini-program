@@ -92,15 +92,15 @@
           {{t.change_adopter_view}}
         </button>
         <view class="container sideslider--box">
-            <button class="btn--blank sideslider-item">
+            <button class="btn--blank sideslider-item" @tap="navToRescuer" id="requests">
               <image class="icon--xs" src="../icons/inbox.svg" mode="aspectFit"/>
               {{t.requests}}
             </button>
-            <button class="btn--blank sideslider-item">
+            <button class="btn--blank sideslider-item" @tap="navToRescuer" id="rescues">
               <image class="icon--xs" src="../icons/crown.svg" mode="aspectFit"/>
               {{t.my_rescues}}
             </button>
-            <button class="btn--blank sideslider-item">
+            <button class="btn--blank sideslider-item" @tap="createAnimal">
               <image class="icon--xs" src="../icons/hospital.svg" mode="aspectFit"/>
               {{t.add_animal}}
             </button>
@@ -136,6 +136,7 @@
         <button class="btn--blank" @tap="handleLogout">{{t.logout}}</button>
       </view>
     </sideslider>
+    <fidoloader/>
   </block>
 </template>
 
@@ -144,6 +145,7 @@
   import UnregisteredModal from '@/components/unregistered-modal'
   import SideSlider from '@/components/sideslider'
   import LanguageToggle from '@/components/language-toggle'
+  import FidoLoader from '@/components/fido-loader'
   import LocalesMixin from '@/mixins/localesmixin'
   import isEmpty from 'lodash.isempty'
 
@@ -157,7 +159,8 @@
     components = {
       unregisteredmodal: UnregisteredModal,
       sideslider: SideSlider,
-      languagetoggle: LanguageToggle
+      languagetoggle: LanguageToggle,
+      fidoloader: FidoLoader
     }
 
     data = {
@@ -210,6 +213,9 @@
       navToAdopter ({target}) {
         wepy.navigateTo({url: `adopter-home?tab=${target.id}`})
       },
+      navToRescuer ({target}) {
+        wepy.navigateTo({url: `rescuer-home?tab=${target.id}`})
+      },
       changeView () {
         const newView = !this.isRescuerView
         wx.setStorageSync('is_rescuer_view', newView)
@@ -222,7 +228,7 @@
     }
 
     onLoad () {
-      wepy.navigateTo({url: 'adopter-home?tab=likes'})
+      wepy.navigateTo({url: 'edit-animal?id=5a6c7701d50eee00442ca3eb&edit=false'})
       wepy.setNavigationBarTitle({
         title: 'fido'
       })
@@ -242,9 +248,15 @@
     }
 
     onHide () {
-      this.sidesliderOpen = false
+      this.sideSliderOpen = false
     }
-
+    async createAnimal () {
+      this.sideSliderOpen = false
+      this.$invoke('fidoloader', 'showLoading', '')
+      const animal = await this.$parent.globalData.user.createRescue()
+      wepy.navigateTo({url: `edit-animal?id=${animal.id}&edit=false`})
+      this.$invoke('fidoloader', 'hideLoading', '')
+    }
     async handleLogout () {
       const result = await wepy.showModal({title: this.t.confirm_logout, showCancel: true})
       if (result.confirm) {

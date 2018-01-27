@@ -1,8 +1,8 @@
 <style lang="scss" src="../styles/_forms.scss"></style>
 <template>
   <view class="container padbox--default">
-    <view class="registration--title">{{t.title}}</view>
-    <view class="registration--subtitle">{{t.subtitle}}</view>
+    <view class="form--title">{{t.title}}</view>
+    <view class="form--subtitle">{{t.subtitle}}</view>
     <formparent>
       <button class="btn--default__dark" @tap="submitForm">{{t.confirm}}</button>
     </formparent>
