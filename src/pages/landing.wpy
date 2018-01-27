@@ -19,6 +19,7 @@
 .sideslider--box {
   flex-wrap: wrap;
   padding:100rpx 0;
+  min-height:unset;
   .sideslider-item {
     margin: 20rpx 0;
   }
@@ -34,6 +35,15 @@
     vertical-align:middle;
     padding:0 10rpx;
     position: relative;
+  }
+}
+.landing--bottom-box{
+  position: absolute;
+  bottom: 40rpx;
+  left: 40rpx;
+  .btn--blank{
+    background-color: transparent;
+    font-size: $font-small;
   }
 }
 .btn--change-view{
@@ -59,11 +69,11 @@
         <button class="flex--item__half btn--default__medium" @tap="navToDogs">{{t.view_dogs}}</button>
         <button class="flex--item__half btn--default__medium" @tap="navToCats">{{t.view_cats}}</button>
       </view>
-      <view class="padbox--default" wx:if="{{!isRegistered || !isRescuer}}">
-        <button class="btn--default" @tap="navToRescueRegistration">{{t.cta_rescuer}}</button>
+      <view class="padbox--default" wx:if="{{!isRegistered}}">
+        <button class="btn--default" @tap="handleProfileBtn">{{t.cta_register}}</button>
       </view>
     </view>
-    <image class="icon--default landing--profile" @tap="handleProfileBtn" src="../icons/profile.svg" mode="aspectFit"/>
+    <image class="icon--default landing--profile" @tap="handleProfileBtn" src="../icons/burger.svg" mode="aspectFit"/>
     <languagetoggle />
   </view>
   <unregisteredmodal/>
@@ -120,6 +130,11 @@
             </button>
         </view>
       </block>
+      <view class="landing--bottom-box">
+        <button wx:if="{{!isRescuer}}" class="btn--blank" @tap="showRescuerForm">{{t.become_rescuer}}</button>
+        <button class="btn--blank">{{t.about}}</button>
+        <button class="btn--blank" @tap="handleLogout">{{t.logout}}</button>
+      </view>
     </sideslider>
   </block>
 </template>
@@ -200,6 +215,9 @@
         wx.setStorageSync('is_rescuer_view', newView)
         this.isRescuerView = newView
         this.$apply()
+      },
+      showRescuerForm () {
+        wepy.navigateTo({url: 'become-rescuer'})
       }
     }
 
@@ -225,6 +243,14 @@
 
     onHide () {
       this.sidesliderOpen = false
+    }
+
+    async handleLogout () {
+      const result = await wepy.showModal({title: this.t.confirm_logout, showCancel: true})
+      if (result.confirm) {
+        await this.$parent.globalData.user.logOut()
+        wepy.reLaunch({url: 'landing'})
+      }
     }
   }
 </script>

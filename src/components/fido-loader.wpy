@@ -6,7 +6,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(#333, 0.2);
+    background-color: rgba($purpley, 0.5);
     box-sizing: border-box;
     padding: $default-padding * 1.5;
     z-index: 199;
@@ -104,8 +104,10 @@
         this.$apply()
       }
     }
+
     onLoad () {
     }
+
     watch = {}
   }
 </script>

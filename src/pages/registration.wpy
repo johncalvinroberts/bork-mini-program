@@ -31,7 +31,7 @@
         <view class="form--group">
           <view class="form--group__title">{{t.self_intro}}</view>
           <view class="form-item--default">
-            <view class="form-item--label">{{t.intro_explanation}}</view>
+            <view class="form-item--label__paragraph">{{t.intro_explanation}}</view>
             <textarea class="form-item--textinput" @blur="handlePersonal" confirm-type="next" maxlength="200" value="{{personalNote}}"/>
           </view>
         </view>
@@ -110,7 +110,8 @@
       idNumber: '',
       idType: 'chinese_id',
       country: 'China',
-      fullName: ''
+      fullName: '',
+      isRescuer: false
     }
 
     mixins = [LocalesMixin]
@@ -153,10 +154,12 @@
         if (this.incomingTarget === 'rescuer') {
           this.title = this.t.title_rescuer
           this.subTitle = this.t.subtitle_rescuer
+          this.isRescuer = true
         } else {
           this.title = this.t.title
           this.subTitle = this.t.subtitle
         }
+        this.$apply()
       }
     }
 
@@ -240,15 +243,28 @@
       if (this.hasEmptyFields) return this.handleSubmitError()
       this.$invoke('fidoloader', 'showLoading', '')
       try {
-        const {wxUsername, personalNote, age, idType, idNumber, fullName, country} = this.data
-        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age, idType, idNumber, fullName, country})
+        const {wxUsername,
+          personalNote,
+          age,
+          idType,
+          idNumber,
+          fullName,
+          country,
+          isRescuer} = this.data
+        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age, idType, idNumber, fullName, country, isRescuer})
         const params = {message: this.t.success_message}
         this.$invoke('fidoloader', 'hideLoading', '')
+        this.handleRescuerSuccess()
         this.$invoke('redirectmodal', 'toggleModal', params)
-        this.$parent.globalData.user.fetchUpdate()
       } catch (err) {
         console.error(err)
         this.handleFetchError()
+      }
+    }
+
+    handleRescuerSuccess () {
+      if (this.isRescuer) {
+        wepy.setStorageSync('is_rescuer_view', true)
       }
     }
 

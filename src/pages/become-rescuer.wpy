@@ -1,0 +1,55 @@
+<style lang="scss" src="../styles/_forms.scss"></style>
+<template>
+  <view class="container padbox--default">
+    <view class="registration--title">{{t.title}}</view>
+    <view class="registration--subtitle">{{t.subtitle}}</view>
+    <formparent>
+      <button class="btn--default__dark" @tap="submitForm">{{t.confirm}}</button>
+    </formparent>
+  </view>
+  <fidoloader/>
+  <redirectmodal/>
+  <errormodal/>
+</template>
+<script>
+  import wepy from 'wepy'
+  import FormParent from '@/components/form-parent'
+  import LocalesMixin from '@/mixins/localesmixin'
+  import FidoLoader from '@/components/fido-loader'
+  import RedirectModal from '@/components/redirect-modal'
+  import ErrorModal from '@/components/error-modal'
+
+  export default class BecomeRescuer extends wepy.page {
+    data = {}
+
+    mixins = [LocalesMixin]
+
+    components = {
+      formparent: FormParent,
+      fidoloader: FidoLoader,
+      redirectmodal: RedirectModal,
+      errormodal: ErrorModal
+    }
+
+    methods = {}
+
+    async submitForm () {
+      this.$invoke('fidoloader', 'showLoading', '')
+      try {
+        await this.$parent.globalData.user.updateProfileInfo({isRescuer: true})
+        await this.$parent.globalData.user.fetchUpdate()
+        wepy.setStorageSync('is_rescuer_view', true)
+        const params = {message: this.t.success_message}
+        this.$invoke('redirectmodal', 'toggleModal', params)
+      } catch (err) {
+        console.error(err)
+        const params = {
+          header: this.t.submit_error_header,
+          message: this.t.submit_error_message
+        }
+        return this.$invoke('errormodal', 'showMessage', params)
+      }
+      this.$invoke('fidoloader', 'hideLoading', '')
+    }
+  }
+</script>

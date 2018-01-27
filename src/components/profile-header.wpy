@@ -16,7 +16,7 @@
     <image class="avatar__large" src="{{userInfo.avatarUrl}}" mode="aspectFit"/>
     <view class="profile-header__info-outer">
       <view class="name">{{userInfo.nickName}}</view>
-      <view class="role {{userInfo.rescueVerified ? 'role-rescuer' : ''}}">{{userRole}}</view>
+      <view class="role {{userInfo.isRescuer ? 'role-rescuer' : ''}}">{{userRole}}</view>
     </view>
   </view>
 </template>
@@ -35,7 +35,7 @@
     }
     computed = {
       userRole () {
-        return this.userInfo.rescueVerified ? this.rescuerText : this.adopterText
+        return this.userInfo.isRescuer ? this.rescuerText : this.adopterText
       }
     }
 

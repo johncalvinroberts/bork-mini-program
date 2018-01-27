@@ -27,7 +27,7 @@ export default class UserModel {
   }
 
   get isRescuer () {
-    return !isEmpty(this.data) && this.data.rescueVerified
+    return !isEmpty(this.data) && this.data.isRescuer
   }
 
   get attributes () {
@@ -88,6 +88,11 @@ export default class UserModel {
     }
   }
 
+  async logOut () {
+    await wepy.clearStorage()
+    this.data = {}
+  }
+
   async requestLocation () {
     const authData = await wepy.getSetting()
     if (!authData.authSetting['scope.userLocation']) {
@@ -98,9 +103,5 @@ export default class UserModel {
         return err
       }
     }
-  }
-
-  register () {
-    console.log('hey')
   }
 }

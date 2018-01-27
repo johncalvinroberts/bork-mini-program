@@ -5,7 +5,7 @@ export default {
     "landing" : {
       "view_dogs" : "view dogs",
       "view_cats" : "view cats",
-      "cta_rescuer": "I'm a rescuer",
+      "cta_register": "Sign me up",
       "login": "Login",
       "rescuer" : "Rescuer",
       "adopter": "Adopter",
@@ -16,7 +16,11 @@ export default {
       "my_rescues": "my rescues",
       "my_applications": "my applications",
       "my_likes": "my likes",
-      "add_animal": "add a rescue"
+      "add_animal": "add a rescue",
+      "become_rescuer": "become a rescuer",
+      "about": "about fido",
+      "logout": "log out",
+      "confirm_logout": "Confirm logout"
     },
     "registration": {
       "title_rescuer": "Become A Rescuer",
@@ -42,19 +46,27 @@ export default {
       "error_header": "uh-oh😯",
       "error_message": "something bad occured, try reloading the page",
       "success_message": "Congrats 🎊🎊 you're now on fido",
-      "submit_error_header": "认证失败 🙇‍",
-      "submit_error_message": "你还没有填完你的信息，我们为了你的安全努力，请填完再提交谢谢🙏"
+      "submit_error_header": "Oops 🙇‍",
+      "submit_error_message": "Please complete the sign up form, thanks🙏"
     },
     "adopter-home": {
-      "rescuer": "救助者",
-      "adopter": "领养者"
+      "rescuer": "rescuer",
+      "adopter": "adopter"
+    },
+    "become-rescuer": {
+      "title": "Become a rescuer",
+      "subtitle": "Did you pick up a dog off the street? Have a stray cat hanging around? After becoming a rescuer, you can still adopt animals on Fido by switching between rescuer view and adopter view.",
+      "confirm": "Confirm",
+      "success_message": "Congrats, you can now list rescue animals on fido :)",
+      "error_header": "uh-oh😯",
+      "error_message": "something bad occured, try reloading the page"
     }
   },
   "zh_CN": {
     "landing": {
       "view_dogs": "看狗狗",
       "view_cats" : "看猫猫",
-      "cta_rescuer": "我是救狗救猫的人",
+      "cta_register": "我想注册",
       "login": "登录",
       "rescuer" : "救助者",
       "adopter": "领养者",
@@ -65,7 +77,11 @@ export default {
       "my_rescues": "我的贝贝们",
       "my_applications": "我的申请",
       "my_likes": "我的点赞",
-      "add_animal": "添加小动物"
+      "add_animal": "添加小动物",
+      "become_rescuer": "成为救助者",
+      "about": "关于fido",
+      "logout": "登出",
+      "confirm_logout": "确认登出"
     },
     "registration": {
       "title_rescuer": "成为救助者",
@@ -93,6 +109,18 @@ export default {
       "success_message": "恭喜你 🎊🎊, 注册成功",
       "submit_error_header": "认证失败 🙇‍",
       "submit_error_message": "你还没有填完你的信息，我们为了你的安全努力，请填完再提交谢谢🙏"
+    },
+    "adopter-home": {
+      "rescuer": "救助者",
+      "adopter": "领养者"
+    },
+    "become-rescuer":{
+      "title": "成为救助者",
+      "subtitle": "你可能在街上领养了小动物，想帮它找永久的主人。成为了救助者以后你还可以切换领养者版的fido。",
+      "confirm": "确认开通救助者版",
+      "success_message": "恭喜恭喜成为了救助者，你现在有权限上传你救助的小动物",
+      "error_header": "哎哟出错了😯",
+      "error_message": "刷新页面再试试一遍"
     }
   }
 }

@@ -10,8 +10,9 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/landing',
-      'pages/login',
       'pages/registration',
+      'pages/login',
+      'pages/become-rescuer',
       'pages/adopter-home',
       'pages/rescuer-home',
       'pages/user-profile',
@@ -29,7 +30,6 @@ export default class extends wepy.app {
 
   globalData = {
     user: {},
-    isWeb: false,
     lang: 'zh_CN'
   }
 
@@ -79,9 +79,6 @@ export default class extends wepy.app {
   }
 
   onLaunch () {
-    if (wepy.env === 'web') {
-      this.globalData.isWeb = true
-    }
     this.globalData.user = new UserModel()
     this.registerLocales()
   }
