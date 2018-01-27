@@ -6,6 +6,10 @@
 <template>
   <view class="container">
     <profileheader :userInfo.sync="userInfo"/>
+    <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
+      <tabswiperitem></tabswiperitem>
+      <tabswiperitem></tabswiperitem>
+    </tabswiper>
   </view>
 </template>
 <script>
@@ -13,23 +17,26 @@
   import LocalesMixin from '@/mixins/localesmixin'
   import ProfileHeader from '@/components/profile-header'
   import TabSwiper from '@/components/tab-swiper'
+  import TabSwiperItem from '@/components/tab-swiper-item'
 
   export default class AdopterHome extends wepy.page {
     data = {
-      currentTab: '',
+      activetab: '',
       loading: true,
-      userInfo: {}
+      userInfo: {},
+      tabs: ['likes', 'applications']
     }
 
     components = {
       profileheader: ProfileHeader,
-      tabswiper: TabSwiper
+      tabswiper: TabSwiper,
+      tabswiperitem: TabSwiperItem
     }
 
     mixins = [LocalesMixin]
 
     watch = {
-      currentTab (newVal, oldVal) {
+      activetab (newVal, oldVal) {
         if (newVal === 'likes') return this.fetchLikes()
         if (newVal === 'applications') return this.fetchApps()
       }
@@ -44,8 +51,8 @@
 
     onLoad (options) {
       this.userInfo = this.$parent.globalData.user.attributes
-      this.currentTab = options.tab
-      console.log(this.currentTab)
+      this.activetab = options.tab
+      console.log(this.activetab)
       this.$apply()
     }
 

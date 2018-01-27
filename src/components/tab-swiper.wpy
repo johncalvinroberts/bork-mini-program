@@ -1,10 +1,49 @@
 <style lang="scss">
-  .something {}
+  @import "../styles/variables.scss";
+  .tabswiper{
+    box-sizing: border-box;
+    width:100%;
+  }
+  .tabswiper--tabs {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: $default-padding;
+  }
+  .tabswiper--tab{
+    font-size: $font-medium-title;
+    position: relative;
+    padding: 10rpx;
+    transition: all 0.3s ease;
+    &:after{
+      content: '';
+      width: 0;
+      opacity: 0;
+      left: 50%;
+      bottom: 0;
+      background-color: $color-primary;
+      height: 4rpx;
+      transition: all 0.3s ease;
+      position: absolute;
+    }
+  }
+  .tabswiper--tab.active {
+    &:after{
+      width: 100%;
+      left: 0;
+      opacity: 1;
+    }
+  }
 </style>
 <template>
-
-  <swiper @change="handleChange" current="0">
-    <!-- tabs here -->
+  <view class="tabswiper--tabs">
+    <repeat for="{{tabs}}" item="tab" index="index" key="index">
+      <view class="tabswiper--tab {{tab === activetab ? 'active' : ''}}"
+            data-tab="{{tab}}"
+            @tap="handleTabTap">{{tab}}</view>
+    </repeat>
+  </view>
+  <swiper @change="handleChange" current="{{tabIndex}}" class="tabswiper" duration="200">
     <slot></slot>
   </swiper>
 </template>
@@ -16,17 +55,27 @@
       tabs: {
         type: Array
       },
-      currentTab: {
+      activetab: {
         type: String,
         twoWay: true
       }
     }
+
     methods = {
-      handleChange (e) {
-        console.log(e)
+      handleChange ({detail}) {
+        this.activetab = this.tabs[detail.current]
+      },
+      handleTabTap ({target}) {
+        this.activetab = target.dataset.tab
       }
     }
+
     data = {}
-    computed = {}
+
+    computed = {
+      tabIndex () {
+        return this.tabs.indexOf(this.activetab)
+      }
+    }
   }
 </script>

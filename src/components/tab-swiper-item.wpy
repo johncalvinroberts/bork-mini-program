@@ -1,0 +1,23 @@
+<style lang="scss">
+  .swiper-item--outer{
+    overflow: scroll;
+    height: 100%;
+    padding: 20rpx 0;
+    border: 1px solid black;
+    box-sizing: border-box;
+  }
+</style>
+<template>
+  <swiper-item class="swiper-item--outer">
+    <slot></slot>
+  </swiper-item>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class TabSwiperItem extends wepy.component {
+    props = {}
+    data = {}
+    methods = {}
+  }
+</script>

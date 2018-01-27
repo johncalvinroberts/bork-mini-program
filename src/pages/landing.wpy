@@ -222,7 +222,7 @@
     }
 
     onLoad () {
-      // wepy.navigateTo({url: 'adopter-home?tab=likes'})
+      wepy.navigateTo({url: 'adopter-home?tab=likes'})
       wepy.setNavigationBarTitle({
         title: 'fido'
       })
