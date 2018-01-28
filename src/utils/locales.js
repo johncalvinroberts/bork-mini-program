@@ -86,10 +86,16 @@ export default {
       "available_label":"Availability",
       "available":"Available",
       "not_available": "Not available",
+      "gender":"Gender",
+      "male":"Male",
+      "female":"Female",
+      "fixed":"Neutered/Spayed",
+      "not_fixed":"Not neutured/spayed",
       "submit_error_header": "Incomplete 💁",
       "submit_error_message": "Please fill in the form",
       "save": "Save",
-      "success_message": "Nice!! You added a rescue 😁😁😁"
+      "success_message": "Nice!! You added a rescue 😁😁😁",
+      "edit_success_message": "Updated 👌"
     }
   },
   "zh_CN": {
@@ -177,10 +183,16 @@ export default {
       "available_label":"现在可不可以被领养",
       "available":"领养已开启",
       "not_available": "领养已关闭",
+      "gender":"性别",
+      "male":"男",
+      "female":"女",
+      "fixed":"Neutered/Spayed",
+      "not_fixed":"Not neutured/spayed",
       "submit_error_header": "信息不全💁",
       "submit_error_message": "请填全了再提交",
       "save": "保存",
-      "success_message": "牛逼！创建了一个小动物😁😁😁"
+      "success_message": "牛逼！创建了一个小动物😁😁😁",
+      "edit_success_message": "更新成功 👌"
     }
   }
 }

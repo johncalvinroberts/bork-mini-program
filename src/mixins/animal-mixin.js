@@ -6,7 +6,7 @@ export default class AnimalMixin extends wepy.mixin {
   /*
     okay so this kind of sucks but i am just going to use this mixin
     for fetching data when the user is not logged in
-    or just fetching animal stuff
+    and/or just fetching animal stuff
   */
 
   constructor () {
@@ -22,9 +22,10 @@ export default class AnimalMixin extends wepy.mixin {
     animalInfo: {
       name: '',
       intro: '',
-      gender: 1,
+      gender: 'male',
       type: 'dog',
-      available: true
+      available: true,
+      fixed: true
     }
   }
 

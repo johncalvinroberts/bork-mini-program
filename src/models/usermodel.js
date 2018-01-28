@@ -93,8 +93,8 @@ export default class UserModel {
   async createRescue () {
     const animal = new Lean.Object('Animal')
     const user = Lean.User.current()
-    const active = false
-    animal.set({user, active})
+    const available = true
+    animal.set({user, available})
     const savedAnimal = await animal.save()
     return savedAnimal
   }

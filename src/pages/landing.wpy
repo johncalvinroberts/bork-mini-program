@@ -228,7 +228,7 @@
     }
 
     onLoad () {
-      // wepy.navigateTo({url: 'edit-animal?id=5a6cd30b9f54540045f7f759&edit=true'})
+      wepy.navigateTo({url: 'edit-animal?id=5a6e0693fe88c200455c61a4&edit=true'})
       wepy.setNavigationBarTitle({
         title: 'fido'
       })
@@ -250,6 +250,7 @@
     onHide () {
       this.sideSliderOpen = false
     }
+
     async createAnimal () {
       this.sideSliderOpen = false
       this.$invoke('fidoloader', 'showLoading', '')
@@ -257,6 +258,7 @@
       wepy.navigateTo({url: `edit-animal?id=${animal.id}&edit=false`})
       this.$invoke('fidoloader', 'hideLoading', '')
     }
+
     async handleLogout () {
       const result = await wepy.showModal({title: this.t.confirm_logout, showCancel: true})
       if (result.confirm) {

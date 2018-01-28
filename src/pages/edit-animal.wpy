@@ -21,6 +21,18 @@
           <radiolist @toggle.user="toggleType" :choices.sync="typeChoices" :currentchoice.sync="animalInfo.type"/>
         </view>
         <view class="form-item--default">
+          <view class="form-item--label">{{t.gender}}</view>
+          <view class="form-item--switch-outer">
+            <switch @change="toggleGender" class="form-item--switch" checked="{{isMale}}"/> {{genderText}}
+          </view>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label">{{t.fixed}}</view>
+          <view class="form-item--switch-outer">
+            <switch @change="toggleFixed" class="form-item--switch" checked="{{animalFixed}}"/> {{fixedText}}
+          </view>
+        </view>
+        <view class="form-item--default">
           <view class="form-item--label">{{t.available_label}}</view>
           <view class="form-item--switch-outer">
             <switch @change="toggleAvailable" class="form-item--switch" checked="{{animalAvailable}}"/> {{availableText}}
@@ -62,6 +74,7 @@
     data = {
       animalId: '',
       typeChoices: [],
+      genderChoices: [],
       isEditing: false,
       title: '',
       subtitle: '',
@@ -79,6 +92,7 @@
 
     watch = {
       t () {
+        // set the data values when locales are ready
         if (this.isEditing) {
           this.title = this.t.edit_title
           this.subtitle = this.t.edit_subtitle
@@ -86,7 +100,10 @@
           this.title = this.t.add_title
           this.subtitle = this.t.add_subtitle
         }
-        this.typeChoices = [{name: this.t.dog, value: 'dog'}, {name: this.t.cat, value: 'cat'}]
+        this.typeChoices = [{name: this.t.dog, value: 'dog'},
+          {name: this.t.cat, value: 'cat'}]
+        this.genderChoices = [{name: this.t.male, value: 'male'},
+          {name: this.t.female, value: 'female'}]
       }
     }
 
@@ -125,6 +142,25 @@
           }
         })
         return _isEmpty(emptyFields) ? false : emptyFields
+      },
+      isMale () {
+        return this.animalInfo.gender === 'male'
+      },
+      genderText () {
+        if (_isEmpty(this.t)) return ''
+        if (this.animalInfo.gender === 'male') {
+          return this.t.male
+        } else {
+          return this.t.female
+        }
+      },
+      fixedText () {
+        if (_isEmpty(this.t)) return ''
+        if (this.animalInfo.fixed === true) {
+          return this.t.fixed
+        } else {
+          return this.t.not_fixed
+        }
       }
     }
 
@@ -137,10 +173,6 @@
         this.animalInfo.name = detail.value
         this.$apply()
       },
-      toggleActive ({value}) {
-        console.log(value)
-        this.animalInfo.active = value
-      },
       toggleType ({value}) {
         this.animalInfo.type = value
         this.$apply()
@@ -148,6 +180,17 @@
       toggleAvailable ({detail}) {
         this.animalInfo.available = detail.value
         this.$apply()
+      },
+      toggleGender ({detail}) {
+        if (detail.value === true) {
+          this.animalInfo.gender = 'male'
+        } else {
+          this.animalInfo.gender = 'female'
+        }
+      },
+      toggleFixed ({detail}) {
+        this.animalInfo.fixed = detail.value
+        console.log(this.animalInfo.fixed)
       }
     }
 
@@ -164,14 +207,15 @@
     async handleSubmit () {
       console.log(this.hasEmptyFields)
       if (this.hasEmptyFields) return this.handleSubmitError()
-      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'])
+      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'], ['gender'], ['fixed'])
       const images = this.images
       const params = {images, ...fields}
       try {
         const updatedAnimal = await this.$parent.globalData.user.updateRescue(this.animalId, params)
         this.animalInfo = updatedAnimal
         this.$apply()
-        const redirectParams = {message: this.t.success_message}
+        const message = this.isEditing ? this.t.edit_success_message : this.t.success_message
+        const redirectParams = {message}
         this.$invoke('redirectmodal', 'toggleModal', redirectParams)
       } catch (err) {
         this.handleSubmitError()
