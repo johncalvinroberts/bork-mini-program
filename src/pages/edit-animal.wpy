@@ -13,31 +13,43 @@
       <view class="form--group">
         <view class="form--group__title">{{t.basic_info}}</view>
         <view class="form-item--default">
-          <view class="form-item--label">{{t.name}}</view>
+          <view class="form-item--label">
+            <view class="form-item--label-inner">{{t.name}}</view>
+          </view>
           <input type="text" class="form-item--input" @blur="handleName" maxlength="70" confirm-type="next" value="{{name}}"/>
         </view>
         <view class="form-item--default">
-          <view class="form-item--label__paragraph">{{t.animal_intro_explanation}}</view>
+          <view class="form-item--label">
+            <view class="form-item--label-inner">{{t.animal_intro_explanation}}</view>
+          </view>
           <input type="text" class="form-item--input" @blur="handleIntro" confirm-type="next" maxlength="200" value="{{intro}}"/>
         </view>
         <view class="form-item--default">
-          <view class="form-item--label">{{t.type}}</view>
-          <radiolist @toggle.user="toggleType" :choices.sync="typeChoices" :currentchoice.sync="animalInfo.type"/>
-        </view>
-        <view class="form-item--default">
-          <view class="form-item--label">{{t.gender}}</view>
-          <view class="form-item--switch-outer">
-            <switch @change="toggleGender" class="form-item--switch" checked="{{isMale}}"/> {{genderText}}
+          <view class="form-item--label">
+            <view class="form-item--label-inner">{{t.type}}</view>
           </view>
+          <radiolist :choices.sync="typeChoices" :currentchoice.sync="currentType"/>
         </view>
         <view class="form-item--default">
-          <view class="form-item--label">{{t.fixed}}</view>
+          <view class="form-item--label">
+            <view class="form-item--label-inner">{{t.gender}}</view>
+          </view>
+            <radiolist2 :choices.sync="genderChoices" :currentchoice.sync="currentGender"/>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label">
+            <view class="form-item--label-inner">{{t.fixed}}</view>
+          </view>
           <view class="form-item--switch-outer">
             <switch @change="toggleFixed" class="form-item--switch" checked="{{animalFixed}}"/> {{fixedText}}
           </view>
         </view>
         <view class="form-item--default">
-          <view class="form-item--label">{{t.available_label}}</view>
+          <view class="form-item--label">
+            <view class="form-item--label-inner">
+              {{t.available_label}}
+            </view>
+          </view>
           <view class="form-item--switch-outer">
             <switch @change="toggleAvailable" class="form-item--switch" checked="{{animalAvailable}}"/> {{availableText}}
           </view>
@@ -72,10 +84,13 @@
       animalId: '',
       typeChoices: [],
       genderChoices: [],
+      currentType: '',
+      currentGender: '',
       isEditing: false,
       title: '',
       subtitle: '',
       images: []
+
     }
 
     components = {
@@ -84,6 +99,7 @@
       redirectmodal: RedirectModal,
       errormodal: ErrorModal,
       imageuploader: ImageUploader,
+      radiolist2: RadioList,
       radiolist: RadioList
     }
 
@@ -97,10 +113,25 @@
           this.title = this.t.add_title
           this.subtitle = this.t.add_subtitle
         }
-        this.typeChoices = [{name: this.t.dog, value: 'dog'},
-          {name: this.t.cat, value: 'cat'}]
-        this.genderChoices = [{name: this.t.male, value: 'male'},
+        this.typeChoices = [
+          {name: this.t.dog, value: 'dog'},
+          {name: this.t.cat, value: 'cat'},
+          {name: this.t.other, value: 'other'}]
+        this.genderChoices = [
+          {name: this.t.male, value: 'male'},
           {name: this.t.female, value: 'female'}]
+      },
+      animalInfo (newVal, oldVal) {
+        this.currentGender = newVal.gender
+        this.currentType = newVal.type
+        this.$apply()
+      },
+      currentType () {
+        console.log('now here')
+        this.animalInfo.type = this.currentType
+      },
+      currentGender () {
+        this.animalInfo.gender = this.currentGender
       }
     }
 
@@ -140,17 +171,6 @@
         })
         return _isEmpty(emptyFields) ? false : emptyFields
       },
-      isMale () {
-        return this.animalInfo.gender === 'male'
-      },
-      genderText () {
-        if (_isEmpty(this.t)) return ''
-        if (this.animalInfo.gender === 'male') {
-          return this.t.male
-        } else {
-          return this.t.female
-        }
-      },
       fixedText () {
         if (_isEmpty(this.t)) return ''
         if (this.animalInfo.fixed === true) {
@@ -173,20 +193,9 @@
         this.animalInfo.name = detail.value
         this.$apply()
       },
-      toggleType ({value}) {
-        this.animalInfo.type = value
-        this.$apply()
-      },
       toggleAvailable ({detail}) {
         this.animalInfo.available = detail.value
         this.$apply()
-      },
-      toggleGender ({detail}) {
-        if (detail.value === true) {
-          this.animalInfo.gender = 'male'
-        } else {
-          this.animalInfo.gender = 'female'
-        }
       },
       toggleFixed ({detail}) {
         this.animalInfo.fixed = detail.value

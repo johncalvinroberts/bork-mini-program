@@ -66,31 +66,10 @@
   display: block;
 }
 
-// .form-item--switch {
-//   visibility: hidden;
-//   position: relative;
-//   &:before{
-//     visibility: visible !important;
-//     width: 50rpx;
-//     border-radius: 0;
-//     padding: 10rpx;
-//     background-color: $white;
-//     border: $chunky-border;
-//     opacity: 0.5;
-//     position: absolute;
-//     left: 0;
-//     top: 0;
-//   }
-//   &:after{
-//     visibility: visible !important;
-//     width: 20rpx;
-//     height: 20rpx;
-//     border-radius: 50%;
-//     position: absolute;
-//     left: 0;
-//     top: 0;
-//   }
-// }
+.form-item--label-inner {
+  width: 100%;
+  text-align: center;
+}
 .form-item--switch-outer {
   flex: 2;
   color: $black;

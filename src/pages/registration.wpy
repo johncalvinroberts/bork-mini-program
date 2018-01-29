@@ -12,23 +12,39 @@
         <view class="form--group">
           <view class="form--group__title">{{t.basic_info}}</view>
           <view class="form-item--default">
-            <view class="form-item--label">{{t.name}}</view>
+            <view class="form-item--label">
+              <view class="form-item--label-inner">{{t.name}}</view>
+            </view>
             <view class="form-item--input">{{authData.nickName}}</view>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">{{t.place}}</view>
+            <view class="form-item--label">
+              <view class="form-item--label-inner">{{t.place}}</view>
+            </view>
             <view class="form-item--input">{{authData.province}}, {{authData.city}}</view>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">{{t.wechat}}</view>
+            <view class="form-item--label">
+              <view class="form-item--label-inner">
+                {{t.wechat}}
+              </view>
+            </view>
             <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next" value="{{wxUsername || ''}}"/>
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">{{t.self_intro}}</view>
+            <view class="form-item--label">
+              <view class="form-item--label-inner">
+                {{t.self_intro}}
+              </view>
+            </view>
             <input type="text" class="form-item--input" @blur="handlePersonal" confirm-type="next" maxlength="200" value="{{personalNote}}" placeholder="{{t.intro_explanation}}" />
           </view>
           <view class="form-item--default">
-            <view class="form-item--label">{{t.age}}</view>
+            <view class="form-item--label">
+              <view class="form-item--label-inner">
+                {{t.age}}
+              </view>
+            </view>
             <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next" value="{{age || ''}}"/>
           </view>
         </view>
@@ -36,12 +52,14 @@
           <view class="form--group__title">{{t.id_validation}}</view>
           <view class="form-item--label">{{t.id_subtitle}}</view>
           <view class="form-item--default">
-            <radiolist @toggle.user="toggleIdType" :choices.sync="idChoices" :currentchoice.sync="idType"/>
+            <radiolist :choices.sync="idChoices" :currentchoice.sync="idType" :fullwidth="fullWidthButton"/>
           </view>
           <block wx:if="{{chooseChineseId}}">
             <view class="form-item--default">
               <view class="form-item--label">
-                {{t.chinese_shenfenzheng}}
+                <view class="form-item--label-inner">
+                  {{t.chinese_shenfenzheng_full}}
+                </view>
               </view>
               <input type="idcard" placeholder="身份证" class="form-item--input" @blur="handleId" confirm-type="next"/>
             </view>
@@ -52,13 +70,17 @@
               </view>
               <view class="form-item--default">
                 <view class="form-item--label">
-                  {{t.full_name}}
+                  <view class="form-item--label-inner">
+                    {{t.full_name}}
+                  </view>
                 </view>
                 <input type="text" placeholder="请输入你的全法律上的姓名" class="form-item--input" @blur="handleFullName" maxlength="50" confirm-type="next" value="{{fullName || ''}}"/>
               </view>
               <view class="form-item--default">
                 <view class="form-item--label">
-                  {{t.passport}}
+                  <view class="form-item--label-inner">
+                    {{t.passport}}
+                  </view>
                 </view>
                 <input type="number" placeholder="请输入护照号" class="form-item--input" @blur="handleId" maxlength="50" confirm-type="next" value="{{idNumber || ''}}"/>
               </view>
@@ -90,15 +112,9 @@
       title: '',
       subTitle: '',
       incomingTarget: '',
-      idChoices: [{
-        name: '身份证',
-        value: 'chinese_id'
-      }, {
-        name: '护照',
-        value: 'passport'
-      }],
+      idChoices: [],
+      countryText: '',
       countryChoices: countryChoices,
-      countryText: '护照国家 🎏',
       authData: null,
       wxUsername: null,
       personalNote: null,
@@ -107,7 +123,8 @@
       idType: 'chinese_id',
       country: 'China',
       fullName: '',
-      isRescuer: false
+      isRescuer: false,
+      fullWidthButton: true
     }
 
     mixins = [LocalesMixin]
@@ -155,6 +172,8 @@
           this.title = this.t.title
           this.subTitle = this.t.subtitle
         }
+        this.idChoices = [{name: this.t.chinese_shenfenzheng, value: 'chinese_id'}, {name: this.t.passport, value: 'passport'}]
+        this.countryText = this.t.country
         this.$apply()
       }
     }
@@ -178,15 +197,6 @@
       },
       handleFullName ({detail}) {
         this.fullName = detail.value
-        this.$apply()
-      },
-      toggleIdType (e) {
-        if (this.idType === 'chinese_id') {
-          this.idType = 'passport'
-        } else {
-          this.idType = 'chinese_id'
-        }
-        this.idNumber = ''
         this.$apply()
       },
       handleCountryChange ({detail}) {

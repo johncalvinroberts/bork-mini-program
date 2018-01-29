@@ -33,6 +33,7 @@ export default class AnimalMixin extends wepy.mixin {
     const query = new Lean.Query('Animal')
     const queryResults = await query.get(id)
     this.rawAnimalObj = queryResults
+    console.log(this.rawAnimalObj)
     this.animalInfo = queryResults.toJSON()
     console.log(this.animalInfo)
     this.images = this.animalInfo.images || []

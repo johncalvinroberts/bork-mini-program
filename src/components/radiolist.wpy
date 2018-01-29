@@ -1,33 +1,40 @@
 <style lang="scss">
   @import '../styles/variables.scss';
   .radiolist--group {
-    flex: 2;
+    flex:3;
   }
-  .radio--default{
-    visibility: hidden;
-    &:before{
-      visibility: visible;
-      content: '';
-      border-radius: 4rpx;
-      background-color: $black;
-      opacity: 0.8;
-      width:10px!important;
-      height:10px!important;
-      padding: 4px 12px;
+  .radio--button {
+    transition: all 0.2s ease;
+    border: $chunky-border;
+    color: $black;
+    padding: 2px;
+    border-radius: 0px;
+    background-color: $white;
+    width:50px;
+    height: 30px;
+    font-size:12px;
+    border-radius: 0;
+    display:inline-block;
+    margin: 0 10rpx;
+    vertical-align:middle;
+    line-height: 2;
+    &:before, &:after{
+      display: none;
     }
   }
-  .radio--default[checked]{
-    &:before{
-      background-color: $color-primary;
-      background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
-      background-repeat:no-repeat;
-      background-position:center;
-      background-size: contain;
-    }
+
+  .radio--button.fat {
+    width: 80px;
+  }
+
+  .radio--button.checked {
+    background-color: $black;
+    color: $white;
+    transform: scale(1.1);
+    box-shadow: none;
   }
   .radio--label{
     display: inline-block;
-    margin-left:-18px;
   }
   .radio--outer{
     display: block;
@@ -35,14 +42,13 @@
   }
 </style>
 <template>
-  <radio-group @change="handleChange" class="radiolist--group">
+  <view class="radiolist--group">
     <repeat for="{{choices}}" key="index" index="index" item="item">
-      <view class="radio--outer">
-        <radio class="radio--default" value="{{item.value}}" checked="{{currentchoice === item.value}}"/>
+      <button class="radio--button {{currentchoice === item.value ? 'checked' : ''}} {{fullwidth ? 'fat' : ''}}" @tap="handleChange" data-choice="{{item.value}}">
         <view class="radio--label">{{item.name}}</view>
-      </view>
+      </button>
     </repeat>
-  </radio-group>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
@@ -53,12 +59,18 @@
       },
       currentchoice: {
         type: String,
-        default: ''
+        default: '',
+        twoWay: true
+      },
+      fullwidth: {
+        type: Boolean,
+        default: false
       }
     }
     methods = {
-      handleChange ({detail}) {
-        this.$emit('toggle', detail)
+      handleChange ({currentTarget}) {
+        this.currentchoice = currentTarget.dataset.choice
+        this.$apply()
       }
     }
   }
