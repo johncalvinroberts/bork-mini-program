@@ -10,10 +10,15 @@
     font-size: 14px;
     color: $black;
     position: relative;
-    margin-bottom: 0;
     border-radius: 0;
-    box-shadow: $chunky-shadow;
-    margin-bottom: 10rpx;
+    // box-shadow: $chunky-shadow;
+    // margin-bottom: 10rpx;
+    border: $section-border;
+    height:80rpx;
+    border-top: none;
+    &:first-child{
+      border-top: $section-border
+    }
     &:before, &:after {
       display: none;
     }
@@ -21,11 +26,11 @@
       display: inline-block;
       border-radius: 0rpx;
       background-color: $black;
-      width:20px!important;
-      height:20px!important;
+      width:40rpx!important;
+      height:40rpx!important;
       position: absolute;
       left:40rpx;
-      top:7px;
+      top:20rpx;
     }
     .checkbox--label{
       display: inline-block;
@@ -34,11 +39,12 @@
   }
   .checkbox--outer.checked {
     opacity: 1;
+    background-color: $white;
     .checkbox--box {
       background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
       background-repeat:no-repeat;
       background-position:center;
-      background-size: contain;
+      background-size:80%;
     }
   }
 </style>

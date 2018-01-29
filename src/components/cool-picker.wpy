@@ -7,7 +7,7 @@
     display: inline-block;
     width:37%;
     color: $black;
-    text-align: center;
+    text-align: left;
     padding:10rpx 20rpx;
   }
   .picker-choice{

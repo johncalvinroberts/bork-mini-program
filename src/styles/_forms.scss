@@ -7,18 +7,19 @@
     font-size: 30rpx;
     font-weight:bold;
     border-bottom: 2px solid $black;
-    margin-bottom:20rpx;
+    margin-bottom:30rpx;
     width:100%;
   }
 }
 
 .form-item--default__box {
   display: block !important;
+  padding-left: $default-padding;
 }
 
 .form-item--default, .form-item--default__radio{
-  padding:20rpx 0rpx 20rpx 20rpx;
-  // border-bottom: $section-border;
+  padding:0rpx 0rpx 10rpx 30rpx;
+  height:80rpx;
   display: flex;
   .form-item--label, .form-item--label__fullwidth, .form-item--label__paragraph {
     color: $black;
@@ -68,7 +69,7 @@
 
 .form-item--label-inner {
   width: 100%;
-  text-align: center;
+  text-align: left;
 }
 .form-item--switch-outer {
   flex: 2;
@@ -101,7 +102,7 @@
 }
 
 .form--checkbox-group {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   padding: $default-padding / 2;
 }
