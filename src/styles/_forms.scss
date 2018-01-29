@@ -17,8 +17,8 @@
   padding-left: $default-padding;
 }
 
-.form-item--default, .form-item--default__radio{
-  padding:0rpx 0rpx 10rpx 30rpx;
+.form-item--default, .form-item--radio{
+  padding:0rpx 0rpx 10rpx 40rpx;
   height:80rpx;
   display: flex;
   .form-item--label, .form-item--label__fullwidth, .form-item--label__paragraph {
@@ -62,8 +62,10 @@
   }
 }
 
-.form-item--default__radio{
-  display: block;
+.form-item--radio{
+  height: unset;
+  padding: 20rpx;
+  padding-left: 40rpx;
 }
 
 .form-item--label-inner {
@@ -104,4 +106,6 @@
   width: 100%;
   margin: 0 auto;
   padding: $default-padding / 2;
+  padding-left: $default-padding;
+  padding-right: 0;
 }

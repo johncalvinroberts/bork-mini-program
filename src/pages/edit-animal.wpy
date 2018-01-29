@@ -24,13 +24,13 @@
           </view>
           <input type="text" class="form-item--input" @blur="handleIntro" confirm-type="next" maxlength="200" value="{{intro}}"/>
         </view>
-        <view class="form-item--default">
+        <view class="form-item--radio">
           <view class="form-item--label">
             <view class="form-item--label-inner">{{t.type}}</view>
           </view>
           <radiolist :choices.sync="typeChoices" :currentchoice.sync="currentType"/>
         </view>
-        <view class="form-item--default">
+        <view class="form-item--radio">
           <view class="form-item--label">
             <view class="form-item--label-inner">{{t.gender}}</view>
           </view>

@@ -50,7 +50,6 @@
         </view>
         <view class="form--group">
           <view class="form--group__title">{{t.id_validation}}</view>
-          <view class="form-item--label">{{t.id_subtitle}}</view>
           <view class="form-item--default">
             <radiolist :choices.sync="idChoices" :currentchoice.sync="idType" :fullwidth="fullWidthButton"/>
           </view>
