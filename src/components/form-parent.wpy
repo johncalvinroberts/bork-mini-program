@@ -1,8 +1,6 @@
 <style lang="scss">
   @import '../styles/variables.scss';
   .form--outer{
-    border-left: $section-border;
-    padding: $default-padding;
     max-width: 500px;
     margin: 0 auto;
   }

@@ -1,5 +1,8 @@
 <style lang="scss">
   @import '../styles/variables.scss';
+  .radiolist--group {
+    flex: 2;
+  }
   .radio--default{
     visibility: hidden;
     &:before{
@@ -32,7 +35,7 @@
   }
 </style>
 <template>
-  <radio-group @change="handleChange">
+  <radio-group @change="handleChange" class="radiolist--group">
     <repeat for="{{choices}}" key="index" index="index" item="item">
       <view class="radio--outer">
         <radio class="radio--default" value="{{item.value}}" checked="{{currentchoice === item.value}}"/>

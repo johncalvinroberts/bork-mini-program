@@ -249,6 +249,7 @@
 
     onHide () {
       this.sideSliderOpen = false
+      this.$apply()
     }
 
     async createAnimal () {

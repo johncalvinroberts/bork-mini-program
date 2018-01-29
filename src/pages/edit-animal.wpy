@@ -6,7 +6,7 @@
     <formparent>
       <view class="form--group">
         <view class="form--group__title">{{t.images}}</view>
-        <view class="form-item--default">
+        <view class="form-item--default__box">
           <imageuploader :images.sync="images" :animalId.sync="animalId"/>
         </view>
       </view>
@@ -15,6 +15,10 @@
         <view class="form-item--default">
           <view class="form-item--label">{{t.name}}</view>
           <input type="text" class="form-item--input" @blur="handleName" maxlength="70" confirm-type="next" value="{{name}}"/>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label__paragraph">{{t.animal_intro_explanation}}</view>
+          <input type="text" class="form-item--input" @blur="handleIntro" confirm-type="next" maxlength="200" value="{{intro}}"/>
         </view>
         <view class="form-item--default">
           <view class="form-item--label">{{t.type}}</view>
@@ -37,13 +41,6 @@
           <view class="form-item--switch-outer">
             <switch @change="toggleAvailable" class="form-item--switch" checked="{{animalAvailable}}"/> {{availableText}}
           </view>
-        </view>
-      </view>
-      <view class="form--group">
-        <view class="form--group__title">{{t.animal_intro}}</view>
-        <view class="form-item--default">
-          <view class="form-item--label__paragraph">{{t.animal_intro_explanation}}</view>
-          <textarea class="form-item--textinput" @blur="handleIntro" confirm-type="next" maxlength="200" value="{{intro}}"/>
         </view>
       </view>
       <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>

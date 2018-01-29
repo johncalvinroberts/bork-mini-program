@@ -46,7 +46,7 @@ export default class UserModel {
         await wepy.authorize({scope: 'scope.userInfo'})
       } catch (err) {
         console.error(err)
-        return err
+        return Promise.reject(new Error(err))
       }
     }
     try {
@@ -54,7 +54,7 @@ export default class UserModel {
       return this.data
     } catch (err) {
       console.error(err)
-      return err
+      return Promise.reject(new Error(err))
     }
   }
 
@@ -72,7 +72,7 @@ export default class UserModel {
       return updatedUser
     } catch (err) {
       console.error(err)
-      return err
+      return Promise.reject(new Error(err))
     }
   }
 
@@ -86,7 +86,7 @@ export default class UserModel {
       this.data = updatedUser.toJSON()
     } catch (err) {
       console.error(err)
-      return err
+      return Promise.reject(new Error(err))
     }
   }
 
@@ -107,7 +107,7 @@ export default class UserModel {
       return animalRes.toJSON()
     } catch (err) {
       console.error(err)
-      return err
+      return Promise.reject(new Error(err))
     }
   }
 
@@ -139,7 +139,7 @@ export default class UserModel {
         await wepy.authorize({scope: 'scope.userLocation'})
       } catch (err) {
         console.error(err)
-        return err
+        return Promise.reject(new Error(err))
       }
     }
   }
@@ -151,7 +151,7 @@ export default class UserModel {
         await wepy.authorize({scope: 'scope.camera'})
       } catch (err) {
         console.error(err)
-        return err
+        return Promise.reject(new Error(err))
       }
     }
   }

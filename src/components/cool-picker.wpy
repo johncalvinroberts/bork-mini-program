@@ -1,11 +1,21 @@
 <style lang="scss">
+  .cool-picker {
+    width: 100%;
+  }
+  .form-item--label__inline {
+    display: inline-block;
+    width:37%;
+  }
   .picker-choice{
+    display: inline-block;
+    width: 63%;
   }
 </style>
 <template>
-  <picker mode="selector" @change="handleChange" value="{{country}}" range="{{collection}}">
-    <view class="picker-choice">
-      {{label}}：{{selection}}
+  <picker mode="selector" @change="handleChange" value="{{country}}" range="{{collection}}" class="cool-picker">
+    <view class="form-item--label__inline">{{label}}</view>
+    <view class="form-item--input picker-choice">
+      {{selection}}
     </view>
   </picker>
 </template>
