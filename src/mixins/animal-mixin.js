@@ -34,6 +34,7 @@ export default class AnimalMixin extends wepy.mixin {
     const queryResults = await query.get(id)
     this.rawAnimalObj = queryResults
     this.animalInfo = queryResults.toJSON()
+    console.log(this.animalInfo)
     this.images = this.animalInfo.images || []
     this.$apply()
   }

@@ -1,0 +1,30 @@
+<style lang="scss">
+  .location--outer{}
+</style>
+<template>
+  <view class="location--outer">
+
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class LocationSelector extends wepy.component {
+    props = {
+      map: {
+        type: Boolean,
+        default: false
+      },
+      selected: {
+        type: String,
+        twoWay: true
+      }
+    }
+
+    data = {}
+
+    computed = {}
+
+    methods = {}
+  }
+</script>

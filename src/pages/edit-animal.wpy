@@ -161,6 +161,9 @@
         } else {
           return this.t.not_fixed
         }
+      },
+      animalFixed () {
+        return this.animalInfo && this.animalInfo.fixed
       }
     }
 
@@ -205,7 +208,6 @@
     }
 
     async handleSubmit () {
-      console.log(this.hasEmptyFields)
       if (this.hasEmptyFields) return this.handleSubmitError()
       const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'], ['gender'], ['fixed'])
       const images = this.images

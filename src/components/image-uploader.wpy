@@ -3,6 +3,7 @@
   .form--image-container {
     display:flex;
     background-color: $white;
+    border: $chunky-border;
   }
 
   .form--image-inner{
@@ -15,7 +16,22 @@
       justify-content: space-around;
       max-width: 600px;
       margin: 0 auto;
-      .first-image{
+      .form--image-upload{
+        // &:nth-child(1) {
+        //   border-top: none;
+        //   border-right: none;
+        // }
+        // &:nth-child(2) {
+        //   border-top: none;
+        //   border-right: none;
+        // }
+        // &:nth-child(3){
+        //   border-top:none;
+        //   border-bottom-color:transparent;
+        // }
+        // &:nth-child(4){
+        //   border-color: transparent;
+        // }
       }
     }
   }
@@ -36,6 +52,7 @@
     width: 50%;
     display: inline-block;
     margin: 0;
+    border: $chunky-border;
   }
 </style>
 <template>
