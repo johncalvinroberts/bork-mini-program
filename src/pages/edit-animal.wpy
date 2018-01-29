@@ -36,23 +36,9 @@
           </view>
             <radiolist2 :choices.sync="genderChoices" :currentchoice.sync="currentGender"/>
         </view>
-        <view class="form-item--default">
-          <view class="form-item--label">
-            <view class="form-item--label-inner">{{t.fixed}}</view>
-          </view>
-          <view class="form-item--switch-outer">
-            <switch @change="toggleFixed" class="form-item--switch" checked="{{animalFixed}}"/> {{fixedText}}
-          </view>
-        </view>
-        <view class="form-item--default">
-          <view class="form-item--label">
-            <view class="form-item--label-inner">
-              {{t.available_label}}
-            </view>
-          </view>
-          <view class="form-item--switch-outer">
-            <switch @change="toggleAvailable" class="form-item--switch" checked="{{animalAvailable}}"/> {{availableText}}
-          </view>
+        <view class="form--checkbox-group">
+          <coolcheckbox1 :checked.sync="animalAvailable">{{t.available}}</coolcheckbox1>
+          <coolcheckbox2 :checked.sync="animalFixed">{{t.fixed}}</coolcheckbox2>
         </view>
       </view>
       <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
@@ -71,6 +57,7 @@
   import RedirectModal from '@/components/redirect-modal'
   import ImageUploader from '@/components/image-uploader'
   import RadioList from '@/components/radiolist'
+  import CoolCheckBox from '@/components/cool-checkbox'
   import ErrorModal from '@/components/error-modal'
   import _isEmpty from 'lodash.isempty'
   import _pick from 'lodash.pick'
@@ -87,6 +74,8 @@
       currentType: '',
       currentGender: '',
       isEditing: false,
+      animalAvailable: false,
+      animalFixed: false,
       title: '',
       subtitle: '',
       images: []
@@ -100,7 +89,9 @@
       errormodal: ErrorModal,
       imageuploader: ImageUploader,
       radiolist2: RadioList,
-      radiolist: RadioList
+      radiolist: RadioList,
+      coolcheckbox1: CoolCheckBox,
+      coolcheckbox2: CoolCheckBox
     }
 
     watch = {
@@ -124,14 +115,21 @@
       animalInfo (newVal, oldVal) {
         this.currentGender = newVal.gender
         this.currentType = newVal.type
+        this.animalAvailable = this.animalInfo.available
+        this.animalFixed = this.animalInfo.fixed
         this.$apply()
       },
       currentType () {
-        console.log('now here')
         this.animalInfo.type = this.currentType
       },
       currentGender () {
         this.animalInfo.gender = this.currentGender
+      },
+      animalAvailable () {
+        this.animalInfo.available = this.animalAvailable
+      },
+      animalFixed () {
+        this.animalInfo.fixed = this.animalFixed
       }
     }
 
@@ -150,17 +148,6 @@
         }
         return ''
       },
-      availableText () {
-        if (_isEmpty(this.t)) return ''
-        if (this.animalInfo.available) {
-          return this.t.available
-        } else {
-          return this.t.not_available
-        }
-      },
-      animalAvailable () {
-        return this.animalInfo.available
-      },
       hasEmptyFields () {
         const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'])
         const emptyFields = Object.keys(fields).filter(field => {
@@ -170,17 +157,6 @@
           }
         })
         return _isEmpty(emptyFields) ? false : emptyFields
-      },
-      fixedText () {
-        if (_isEmpty(this.t)) return ''
-        if (this.animalInfo.fixed === true) {
-          return this.t.fixed
-        } else {
-          return this.t.not_fixed
-        }
-      },
-      animalFixed () {
-        return this.animalInfo && this.animalInfo.fixed
       }
     }
 
@@ -192,14 +168,6 @@
       handleName ({detail}) {
         this.animalInfo.name = detail.value
         this.$apply()
-      },
-      toggleAvailable ({detail}) {
-        this.animalInfo.available = detail.value
-        this.$apply()
-      },
-      toggleFixed ({detail}) {
-        this.animalInfo.fixed = detail.value
-        console.log(this.animalInfo.fixed)
       }
     }
 

@@ -1,0 +1,69 @@
+<style lang="scss">
+  @import '../styles/variables.scss';
+  .checkbox--group {
+    flex: 2;
+  }
+  .checkbox--outer{
+    display: block;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    color: $black;
+    position: relative;
+    margin-bottom: 0;
+    border-radius: 0;
+    box-shadow: $chunky-shadow;
+    margin-bottom: 10rpx;
+    &:before, &:after {
+      display: none;
+    }
+    .checkbox--box{
+      display: inline-block;
+      border-radius: 0rpx;
+      background-color: $black;
+      width:20px!important;
+      height:20px!important;
+      position: absolute;
+      left:40rpx;
+      top:7px;
+    }
+    .checkbox--label{
+      display: inline-block;
+      margin-left:-18px;
+    }
+  }
+  .checkbox--outer.checked {
+    opacity: 1;
+    .checkbox--box {
+      background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size: contain;
+    }
+  }
+</style>
+<template>
+  <button class="checkbox--outer {{checked ? 'checked' : ''}}" @tap="handleTap">
+      <view class="checkbox--box"></view>
+      <view class="checkbox--label">
+        <slot></slot>
+      </view>
+  </button>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class CoolCheckBox extends wepy.component {
+    props = {
+      checked: {
+        type: Boolean,
+        twoWay: true
+      }
+    }
+    methods = {
+      handleTap () {
+        this.checked = !this.checked
+        this.$apply()
+      }
+    }
+  }
+</script>
