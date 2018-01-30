@@ -16,7 +16,7 @@
     display:inline-block;
     margin: 0 10rpx;
     vertical-align:middle;
-    overflow: visible;
+    overflow: hidden;
     line-height: 50rpx;
     &:before, &:after{
       display: none;

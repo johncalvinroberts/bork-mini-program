@@ -24,6 +24,14 @@
           </view>
           <input type="text" class="form-item--input" @blur="handleIntro" confirm-type="next" maxlength="200" value="{{intro}}"/>
         </view>
+        <view class="form-item--default">
+          <view class="form-item--label">
+            <view class="form-item--label-inner">{{t.location}}</view>
+          </view>
+          <view class="form-item--input" @tap="handleMapOuterTap">
+            <locationselector :point.sync="animalPoint"/>
+          </view>
+        </view>
         <view class="form-item--radio">
           <view class="form-item--label">
             <view class="form-item--label-inner">{{t.type}}</view>
@@ -55,10 +63,11 @@
   import AnimalMixin from '@/mixins/animal-mixin'
   import FidoLoader from '@/components/fido-loader'
   import RedirectModal from '@/components/redirect-modal'
+  import ErrorModal from '@/components/error-modal'
   import ImageUploader from '@/components/image-uploader'
+  import LocationSelector from '@/components/location-selector'
   import RadioList from '@/components/radiolist'
   import CoolCheckBox from '@/components/cool-checkbox'
-  import ErrorModal from '@/components/error-modal'
   import _isEmpty from 'lodash.isempty'
   import _pick from 'lodash.pick'
 
@@ -74,12 +83,12 @@
       currentType: '',
       currentGender: '',
       isEditing: false,
-      animalAvailable: false,
-      animalFixed: false,
+      animalAvailable: true,
+      animalPoint: {},
+      animalFixed: true,
       title: '',
       subtitle: '',
       images: []
-
     }
 
     components = {
@@ -91,7 +100,8 @@
       radiolist2: RadioList,
       radiolist: RadioList,
       coolcheckbox1: CoolCheckBox,
-      coolcheckbox2: CoolCheckBox
+      coolcheckbox2: CoolCheckBox,
+      locationselector: LocationSelector
     }
 
     watch = {
@@ -117,6 +127,7 @@
         this.currentType = newVal.type
         this.animalAvailable = this.animalInfo.available
         this.animalFixed = this.animalInfo.fixed
+        this.animalPoint = this.animalInfo.location || {}
         this.$apply()
       },
       currentType () {
@@ -130,6 +141,10 @@
       },
       animalFixed () {
         this.animalInfo.fixed = this.animalFixed
+      },
+      animalPoint () {
+        this.animalInfo.location = this.animalPoint
+        this.$apply()
       }
     }
 
@@ -183,7 +198,7 @@
 
     async handleSubmit () {
       if (this.hasEmptyFields) return this.handleSubmitError()
-      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'], ['gender'], ['fixed'])
+      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'], ['gender'], ['fixed'], ['location'])
       const images = this.images
       const params = {images, ...fields}
       try {
@@ -195,6 +210,15 @@
         this.$invoke('redirectmodal', 'toggleModal', redirectParams)
       } catch (err) {
         this.handleSubmitError()
+      }
+    }
+
+    async handleMapOuterTap () {
+      await this.$parent.globalData.user.requestLocation()
+      if (_isEmpty(this.animalPoint)) {
+        const {latitude, longitude} = await wepy.getLocation()
+        this.animalPoint = {latitude, longitude}
+        this.$apply()
       }
     }
 
