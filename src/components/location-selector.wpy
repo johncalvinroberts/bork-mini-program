@@ -1,13 +1,61 @@
 <style lang="scss">
-  .location--outer{}
+  @import "../styles/variables.scss";
+  .smallmap--outer {
+    width: 100%;
+    height: 80rpx;
+  }
+
+  .bigmap--outer{
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    z-index: 99;
+    transition: all 0.2s ease;
+  }
+  .map-placeholder {
+    background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+    color: $black;
+    text-align: center;
+    width: 100%;
+    height: 80rpx;
+    display:inline-block;
+    vertical-align:middle;
+  }
 </style>
 <template>
-  <view class="location--outer">
-
+    <block wx:if="{{pointEmpty}}">
+      <view class="map-placeholder" @tap="showMap">{{chooseText}}</view>
+    </block>
+    <block wx:else>
+      <view class="smallmap--outer" style="display: {{open ? 'none' : 'block'}};">
+        <map id="smallmap"
+              show-location
+              style="width: 100%; height: 80rpx;"
+              scale="12"
+              markers="{{markers}}"
+              latitude = "{{point.latitude}}"
+              longitude = "{{point.longitude}}"
+              @tap="showMap"/>
+      </view>
+    </block>
+  <view class="bigmap--outer" style="top: {{open ? '0' : '-110vh'}};">
+    <map id="bigmap"
+          show-location
+          latitude = "{{point.latitude}}"
+          longitude = "{{point.longitude}}"
+          markers = "{{markers}}"
+          style="width: 100%; height: 100vh;"
+          scale="14"
+          bindregionchange="handleMapChange"
+          bindcontroltap="handleControlTap"
+          markers="{{markers}}"
+          controls="{{controls}}"/>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import _isEmpty from 'lodash.isempty'
 
   export default class LocationSelector extends wepy.component {
     props = {
@@ -15,16 +63,96 @@
         type: Boolean,
         default: false
       },
-      selected: {
-        type: String,
+      point: {
+        type: Object,
         twoWay: true
       }
     }
 
-    data = {}
+    data = {
+      open: false,
+      chooseText: '点击选择坐标',
+      mapCtx: {},
+      controls: [{
+        id: 1,
+        clickable: true,
+        iconPath: '../icons/close.png',
+        position: {
+          left: 20,
+          top: 20,
+          width: 30,
+          height: 30
+        }
+      }],
+      markers: []
+    }
 
-    computed = {}
+    watch = {
+      point (newVal, oldVal) {
+        if (_isEmpty(oldVal)) {
+          this.markers = [{
+            id: 0,
+            iconPath: '../icons/crown.png',
+            width: 30,
+            height: 30,
+            title: '',
+            latitude: newVal.latitude,
+            longitude: newVal.longitude
+          }]
+          this.$apply()
+        }
+      }
+    }
 
-    methods = {}
+    computed = {
+      pointEmpty () {
+        return _isEmpty(this.point)
+      }
+    }
+
+    methods = {
+      showMap () {
+        this.open = true
+        this.$apply()
+      },
+      hideMap () {
+        this.open = false
+        this.$apply()
+      },
+      handleControlTap ({controlId}) {
+        if (controlId === 1) {
+          this.open = false
+          this.$apply()
+        }
+      },
+      handleMapChange (e) {
+        if (e.type === 'end') {
+          this.mapCtx.getCenterLocation({
+            success: (res) => {
+              this.point.latitude = res.latitude
+              this.point.longitude = res.longitude
+              this.$apply()
+              this.mapCtx.translateMarker({
+                markerId: 0,
+                autoRotate: false,
+                duration: 500,
+                destination: {
+                  latitude: res.latitude,
+                  longitude: res.longitude
+                }
+              })
+            }
+          })
+        }
+      }
+    }
+
+    onLoad () {
+      this.mapCtx = wx.createMapContext('bigmap')
+      if (wepy.T.locale === 'en') {
+        this.chooseText = '(tap to choose location)'
+      }
+      this.$apply()
+    }
   }
 </script>
