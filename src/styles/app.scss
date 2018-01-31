@@ -50,10 +50,18 @@ page{
     font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
 }
 
-.container, .container__flex, .container__has-footer, .container__has-tabbar {
+.container, .container__flex, .container__flex-layout, .container__has-footer, .container__has-tabbar {
   height: 100%;
   min-height: 100vh;
   position: relative;
+}
+
+.container__flex-layout {
+  display:flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 
 .padbox--default {

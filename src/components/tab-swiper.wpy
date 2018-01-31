@@ -3,12 +3,17 @@
   .tabswiper{
     box-sizing: border-box;
     width:100%;
+    height: 852rpx;
+    // flex-grow: 1;
   }
   .tabswiper--tabs {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    padding: $default-padding;
+    padding: 20rpx $default-padding;
+    height:100rpx;
+    width:100%;
+    // flex-grow: 0;
   }
   .tabswiper--tab{
     font-size: $font-medium-title;

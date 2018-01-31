@@ -2,8 +2,8 @@
 @import "../styles/variables.scss";
   .profile-header--outer{
     display: block;
-    .avatar__large{
-    }
+    height:250rpx;
+    width:100%;
     .profile-header__info-outer{
       display: inline-block;
       vertical-align:top;

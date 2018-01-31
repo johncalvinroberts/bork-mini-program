@@ -128,8 +128,19 @@ export default class UserModel {
     console.log('fetch requests')
   }
 
-  async fetchRescues () {
-    console.log('fetch rescues')
+  async fetchRescues (page = 1) {
+    const skipAmt = (page * 10) - 10
+    const query = new Lean.Query('Animal')
+    query.equalTo('user', Lean.User.current())
+      .skip(skipAmt)
+      .limit(10)
+    try {
+      const queryRes = await query.find()
+      return queryRes.map(animal => animal.toJSON())
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
+    }
   }
 
   async requestLocation () {

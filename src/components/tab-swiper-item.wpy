@@ -3,13 +3,14 @@
     overflow: scroll;
     height: 100%;
     padding: 20rpx 0;
-    border: 1px solid black;
     box-sizing: border-box;
   }
 </style>
 <template>
   <swiper-item class="swiper-item--outer">
-    <slot></slot>
+    <scroll-view class="swiper-item--inner">
+      <slot></slot>
+    </scroll-view>
   </swiper-item>
 </template>
 <script>
