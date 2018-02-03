@@ -1,19 +1,23 @@
 <style lang="scss">
   @import "../styles/variables.scss";
-  .animal-list--outer{
+  .animal-list-item--outer{
     border-bottom: $section-border;
-    padding: 20rpx;
+    padding: 30rpx;
     display: flex;
     align-items:center;
     color: $black;
-    .animal--name{}
+    &:first-child{
+      border-top: $section-border;
+    }
+    .animal--name{
+    }
     .avatar__small{
       margin-right: 20rpx;
     }
   }
 </style>
 <template>
-  <view class="animal-list--outer">
+  <view class="animal-list-item--outer" @tap="navToAnimalProfile">
     <image class="avatar__small" src="{{animalObj.images[0]}}" />
     <view class="animal--name">{{animalObj.name}}</view>
   </view>
@@ -24,6 +28,11 @@
     props = {
       animalObj: {
         type: Object
+      }
+    }
+    methods = {
+      navToAnimalProfile () {
+        wepy.navigateTo({url: `animal-profile?animal=${this.animalObj.objectId}`})
       }
     }
     watch = {

@@ -16,7 +16,7 @@
   margin: 0 10rpx;
 }
 
-.avatar__small, .avatar__large {
+.avatar__small, .avatar__large, .avatar__xs {
   border-radius: 50%;
   width: 80rpx;
   height: 80rpx;
@@ -29,4 +29,9 @@
   width: 150rpx;
   height: 150rpx;
   margin: 0 20rpx;
+}
+
+.avatar__xs {
+  width: 40px;
+  height: 40px;
 }

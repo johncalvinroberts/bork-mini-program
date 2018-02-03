@@ -8,6 +8,7 @@
     <profileheader :userInfo.sync="userInfo"/>
     <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
       <tabswiperitem>
+        requests here
       </tabswiperitem>
       <tabswiperitem2>
         <repeat for="{{animals}}" index="index" item="animal" key="index">
@@ -67,15 +68,14 @@
     }
 
     onLoad ({tab}) {
-      console.log(tab)
       this.userInfo = this.$parent.globalData.user.attributes
       this.activetab = tab
       this.$apply()
     }
 
     onHide () {
-      this.animals = []
-      this.$apply()
+      // this.animals = []
+      // this.$apply()
     }
 
     async fetchRequests () {

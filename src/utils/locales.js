@@ -96,6 +96,12 @@ export default {
       "save": "Save",
       "success_message": "Nice!! You added a rescue 😁😁😁",
       "edit_success_message": "Updated 👌"
+    },
+    "animal-profile" : {
+      "fixed" : "Fixed✂️",
+      "neighborhood": "Neighborhood",
+      "available": "Available",
+      "not_available": "Not available"
     }
   },
   "zh_CN": {
@@ -193,6 +199,12 @@ export default {
       "save": "保存",
       "success_message": "牛逼！创建了一个小动物😁😁😁",
       "edit_success_message": "更新成功 👌"
+    },
+    "animal-profile" : {
+      "fixed" : "绝育",
+      "neighborhood": "街道",
+      "available": "可以领养",
+      "not_available": "暂时不可以领养"
     }
   }
 }

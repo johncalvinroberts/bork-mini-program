@@ -228,7 +228,7 @@
     }
 
     onLoad () {
-      wepy.navigateTo({url: 'rescuer-home?tab=rescues'})
+      wepy.navigateTo({url: 'animal-profile?animal=5a760457a22b9d00442fd43e'})
       wepy.setNavigationBarTitle({
         title: 'fido'
       })

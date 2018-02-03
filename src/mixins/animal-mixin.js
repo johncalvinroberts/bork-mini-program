@@ -1,6 +1,7 @@
 import wepy from 'wepy'
 import Lean from 'leancloud-storage'
 import { appId, appKey } from '@/secret_keys'
+import _isEmpty from 'lodash.isempty'
 
 export default class AnimalMixin extends wepy.mixin {
   /*
@@ -11,11 +12,16 @@ export default class AnimalMixin extends wepy.mixin {
 
   constructor () {
     super()
-    Lean.init({
-      appId: appId,
-      appKey: appKey
-    })
+    try {
+      Lean.init({
+        appId: appId,
+        appKey: appKey
+      })
+    } catch (err) {
+      console.log('it already dun initd')
+    }
   }
+
   computed ={}
 
   data = {
@@ -26,15 +32,23 @@ export default class AnimalMixin extends wepy.mixin {
       type: 'dog',
       available: true,
       fixed: true
-    }
+    },
+    genderIcon: ''
   }
 
-  async fetchAnimal (id) {
+  async fetchAnimal (id, selects = []) {
     const query = new Lean.Query('Animal')
-    const queryResults = await query.get(id)
-    this.rawAnimalObj = queryResults
-    this.animalInfo = queryResults.toJSON()
-    this.images = this.animalInfo.images || []
-    this.$apply()
+      .include(_isEmpty(selects) ? '' : 'user')
+      .select(selects)
+    try {
+      const queryResults = await query.get(id)
+      this.rawAnimalObj = queryResults
+      this.animalInfo = queryResults.toJSON()
+      this.images = this.animalInfo.images || []
+      this.$apply()
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
+    }
   }
 }

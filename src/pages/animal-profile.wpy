@@ -1,22 +1,122 @@
 <style lang="scss">
-  .something{
-    color: pink;
+  @import "../styles/variables.scss";
+  .animal--swiper-image {
+    width: 100%;
+    padding-top:100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .animal--header {
+    width: 100%;
+    padding: $default-padding;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .animal--big-name {
+    color: $black;
+    font-size: $font-big-title;
+    font-weight: 400;
+  }
+  .animal--status {
+    border-radius: 50%;
+  }
+  .animal--check {
+    margin-left: 20rpx;
+    &:before {
+      content: '';
+      border-radius: 50%;
+      width:40rpx!important;
+      height:40rpx!important;
+      background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
+      background-color: $light-grey;
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size:80%;
+      display:inline-block;
+      margin-right:10rpx;
+      vertical-align:middle;
+    }
+  }
+  .animal--check.checked {
+    &:before{
+      background-color: $color-primary;
+    }
   }
 </style>
 <template>
   <view class="container">
-    hey
+    <swiper class="animal--swiper"
+            indicator-dots="{{indicatorDots}}"
+            indicator-color="#0d0a31"
+            indicator-active-color="#ffffff"
+            style="height:{{calcHeight}}px;">
+      <repeat for="{{animalInfo.images}}" item="image" index="index" key="index">
+        <swiper-item>
+          <view class="animal--swiper-image" style="background-image:url({{image}});"></view>
+        </swiper-item>
+      </repeat>
+    </swiper>
+    <view class="animal--header flex--parent__horizontal">
+      <view class="animal--big-name">
+        {{animalInfo.name}}
+        <image class="icon--xs" src="{{animalInfo.gender === 'male' ? '../icons/male.svg' : '../icons/female.svg'}}"/>
+      </view>
+      <view class="animal--check {{animalInfo.fixed ? 'checked' : ''}}">{{t.fixed}}</view>
+    </view>
+    <view class="animal--quotation">
+      <image class="avatar__xs" src=""></image>
+    </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import AnimalMixin from '@/mixins/animal-mixin'
+  import LocalesMixin from '@/mixins/localesmixin'
   export default class AnimalProfile extends wepy.page {
-    data = {}
+    data = {
+      indicatorDots: true,
+      calcHeight: 0,
+      animal: '',
+      userId: '',
+      isOwner: false
+    }
     components = {}
-    mixins = []
+    mixins = [AnimalMixin, LocalesMixin]
     computed = {}
-    onLoad (options) {
-      console.log(options)
+
+    async onLoad ({animal}) {
+      this.animal = animal
+      this.setScreenHeight()
+      const userId = this.$parent.globalData.user.attributes.objectId
+      try {
+        const fields = [
+          'name',
+          'available',
+          'fixed',
+          'gender',
+          'images',
+          'neighborhood',
+          'type',
+          'intro',
+          'user.avatarUrl',
+          'user.nickName',
+          'user.objectId']
+        await this.fetchAnimal(animal, fields)
+      } catch (err) {
+        // handle this error, means the dog is not existing anymore probably
+        console.error(err)
+      }
+      const animalsOwner = this.animalInfo.user.objectId
+      if (animalsOwner === userId) {
+        this.isOwner = true
+      }
+      this.$apply()
+    }
+
+    setScreenHeight () {
+      const screenWidth = wx.getSystemInfoSync().screenWidth
+      this.calcHeight = screenWidth
+      this.$apply()
     }
   }
 </script>
