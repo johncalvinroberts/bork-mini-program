@@ -45,7 +45,7 @@
             <view class="form-item--label-inner">{{t.location}}</view>
           </view>
           <view class="form-item--input" @tap="handleMapOuterTap">
-            <!-- <locationselector :point.sync="animalPoint"/> -->
+            <locationselector :point.sync="animalPoint"/>
           </view>
         </view>
         <view class="form-item--radio">

@@ -1,22 +1,42 @@
 <style lang="scss">
-  .flash--outer{
+  @import "../styles/variables.scss";
+  .flash--sheet{
     display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: $default-padding;
+    background-color: $white;
+    color: $black;
+    text-align:center;
+    box-shadow: $normal-shadow;
+    transition: all 0.3s ease;
+    z-index:99;
   }
 </style>
-<template></template>
+<template>
+  <view class="flash--sheet"
+        style="transform:{{isOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -110%, 0)'}};">
+    {{currentMessage}}
+  </view>
+</template>
 <script>
   import wepy from 'wepy'
   export default class Flash extends wepy.component {
-    data = {}
-    props = {
-
+    data = {
+      currentMessage: '',
+      isOpen: false
     }
+    props = {}
     methods = {
       showMessage (message) {
-        console.log(message)
-      },
-      showError (errorMessage) {
-        console.log(errorMessage)
+        this.isOpen = true
+        this.currentMessage = message
+        setTimeout(() => {
+          this.isOpen = false
+          this.$apply()
+        }, 1500)
       }
     }
   }

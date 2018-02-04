@@ -112,6 +112,10 @@ export default {
       "adopt_cta": "adopt now",
       "share_cta": "share",
       "apply": "submit application",
+      "weeks": "weeks",
+      "months": "months",
+      "years": "years",
+      "you_are_the_owner": "Oops! You are this animals owner 😁"
     }
   },
   "zh_CN": {
@@ -224,7 +228,11 @@ export default {
       "like": "收藏",
       "adopt_cta": "我想领养",
       "share_cta": "分享",
-      "apply": "立即申请"
+      "apply": "立即申请",
+      "weeks": "周",
+      "months": "月",
+      "years": "年",
+      "you_are_the_owner": "诶啊 你已经是这个小动物的救助者 😁"
     }
   }
 }

@@ -134,7 +134,7 @@
           {{animalInfo.name}}
           <view class="icon--male" wx:if="{{animalInfo.gender === 'male'}}"/>
           <view class="icon--female" wx:if="{{animalInfo.gender === 'female'}}"/>
-          <view class="age">{{animalInfo.age}} {{t.years_old}}</view>
+          <view class="age">{{animalAgeText}}</view>
         </view>
       </view>
       <view class="animal--neighborhood">
@@ -175,12 +175,14 @@
     </button>
   </bottombar>
   <unregisteredmodal/>
+  <flash/>
 </template>
 <script>
   import wepy from 'wepy'
   import AnimalMixin from '@/mixins/animal-mixin'
   import LocalesMixin from '@/mixins/localesmixin'
   import BottomBar from '@/components/bottom-bar'
+  import Flash from '@/components/flash'
   import UnregisteredModal from '@/components/unregistered-modal'
   export default class AnimalProfile extends wepy.page {
     data = {
@@ -189,20 +191,32 @@
       animal: '',
       userId: '',
       isOwner: false,
-      isRegistered: false
+      isRegistered: false,
+      animalAgeText: ''
     }
     components = {
       bottombar: BottomBar,
-      unregisteredmodal: UnregisteredModal
+      unregisteredmodal: UnregisteredModal,
+      flash: Flash
     }
     mixins = [AnimalMixin, LocalesMixin]
+    watch = {
+      t () {
+
+      },
+      animalInfo () {
+        this.animalAgeText = `${this.animalInfo.age} ${this.t[this.animalInfo.ageUnit]}`
+        this.$apply()
+      }
+    }
     computed = {}
     methods = {
       likeAnimal () {
         if (!this.isRegistered) {
           this.$invoke('unregisteredmodal', 'openModal', '')
         } else if (this.isOwner) {
-          console.log('cant like your own animal')
+          const message = this.t.you_are_the_owner
+          this.$invoke('flash', 'showMessage', message)
         } else {
           console.log('do the like')
         }
@@ -211,7 +225,8 @@
         if (!this.isRegistered) {
           this.$invoke('unregisteredmodal', 'openModal', '')
         } else if (this.isOwner) {
-          console.log('cant adopt your own animal')
+          const message = this.t.you_are_the_owner
+          this.$invoke('flash', 'showMessage', message)
         } else {
           console.log('show the app')
         }
@@ -245,6 +260,7 @@
           'neighborhood',
           'type',
           'age',
+          'ageUnit',
           'intro',
           'user.avatarUrl',
           'user.nickName',
