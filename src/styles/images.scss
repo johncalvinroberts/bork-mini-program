@@ -17,7 +17,7 @@
   vertical-align:middle;
   margin: 0 10rpx;
 }
-.icon--male, .icon--female, .icon--location {
+.icon--male, .icon--female, .icon--location, .icon--like, .icon--apply, .icon--share{
   background-repeat: no-repeat;
   background-size:60%;
   background-position: center;
@@ -28,10 +28,28 @@
   vertical-align:middle;
   margin: 0 10rpx;
 }
+.icon--apply{
+  background-image: url('https://up.img.heidiancdn.com/o_1c5fr7ltr1qdvpls5up15d06d60send.svg');
+  background-size:100%;
+  margin-right: 10rpx;
+  opacity: 1;
+}
+.icon--like{
+  background-image: url('https://up.img.heidiancdn.com/o_1c5fqtd4cpmg1t8c18pd17f61i7b0a0star.svg');
+  background-size:100%;
+  margin-right: 10rpx;
+  opacity: 1;
+}
+.icon--share {
+  background-image: url('https://up.img.heidiancdn.com/o_1c5fs5k5519brqdu17161vev1ao20share.svg');
+  background-size: 100%;
+  margin: 0!important;
+  opacity: 1;
+}
 .icon--location {
   background-image: url('https://up.img.heidiancdn.com/o_1c5fivcnfug21s991nr71j31rh20cation.svg');
   width:60rpx;
-  background-size:80%;
+  background-size:75%;
 }
 .icon--male {
   background-color: $blue;

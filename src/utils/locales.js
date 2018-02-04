@@ -104,7 +104,11 @@ export default {
       "available": "Available🏃",
       "vaccines" : "Vaccinated💉",
       "rescuer": "Rescuer",
-      "years_old": "years"
+      "years_old": "years",
+      "like": "like",
+      "adopt_cta": "adopt now",
+      "share_cta": "share",
+      "apply": "submit application",
     }
   },
   "zh_CN": {
@@ -210,7 +214,11 @@ export default {
       "available": "现在可以领养🏃",
       "vaccines" : "疫苗💉",
       "rescuer": "救助者",
-      "years_old": "岁"
+      "years_old": "岁",
+      "like": "收藏",
+      "adopt_cta": "我想领养",
+      "share_cta": "分享",
+      "apply": "立即申请"
     }
   }
 }

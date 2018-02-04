@@ -57,3 +57,20 @@
     display: none;
   }
 }
+
+.bottom-bar-btn, .bottom-bar-btn__small{
+  background-color: $black;
+  color: $white;
+  border: 2px solid $white;
+  border-radius: 0;
+  flex: 1;
+  padding: 0 $default-padding / 2;
+  text-align: center;
+  margin: 10rpx;
+  &:before, &:after{
+    display: none;
+  }
+}
+.bottom-bar-btn__small {
+  flex:0 0 50px;
+}

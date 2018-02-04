@@ -1,0 +1,34 @@
+<style lang="scss">
+  @import "../styles/variables.scss";
+  .bottom-bar--outer{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    color: $white;
+    background-color: $black;
+    height: 55px;
+    z-index: 11;
+  }
+  .bottom-bar--inner{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    height:55px;
+  }
+</style>
+<template>
+  <view class="bottom-bar--outer">
+    <view class="bottom-bar--inner">
+      <slot></slot>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class BottomBar extends wepy.component {
+    props = {}
+    data = {}
+    methods = {}
+  }
+</script>

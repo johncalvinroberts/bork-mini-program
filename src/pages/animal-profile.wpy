@@ -1,5 +1,17 @@
 <style lang="scss">
   @import "../styles/variables.scss";
+  .animal--swiper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+  }
+  .animal--body {
+    z-index: 10;
+    background-color: $white;
+    position:relative;
+  }
   .animal--swiper-image {
     width: 100%;
     padding-top:100%;
@@ -51,12 +63,12 @@
   .animal--check {
     margin: 10rpx 0;
     color: $black;
+    text-decoration: line-through;
     &:before {
       content: '';
       border-radius: 50%;
       width:40rpx!important;
       height:40rpx!important;
-      background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
       background-color: $light-grey;
       background-repeat:no-repeat;
       background-position:center;
@@ -64,6 +76,14 @@
       display:inline-block;
       margin-right:10rpx;
       vertical-align:middle;
+    }
+  }
+  .animal--check.checked {
+    opacity: 1;
+    text-decoration: none;
+    &:before{
+      background-color: $color-primary;
+      background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
     }
   }
   .animal--quotation{
@@ -76,17 +96,12 @@
     .quote-begin{
       position: absolute;
       left:0;
-      top: 0;
+      top: 40rpx;
     }
     .quote-end{
       position: absolute;
       right: 0;
-      bottom:0;
-    }
-  }
-  .animal--check.checked {
-    &:before{
-      background-color: $color-primary;
+      bottom:40rpx;
     }
   }
   .animal--owner-info{
@@ -101,7 +116,7 @@
   }
 </style>
 <template>
-  <view class="container__has-tabbar">
+  <view class="container__has-tabbar" style="padding-top:{{calcHeight}}px;">
     <swiper class="animal--swiper"
             indicator-dots="{{indicatorDots}}"
             indicator-color="#0d0a31"
@@ -113,60 +128,112 @@
         </swiper-item>
       </repeat>
     </swiper>
-    <view class="animal--header flex--parent__horizontal">
-      <view class="animal--big-name">
-        {{animalInfo.name}}
-        <view class="icon--male" wx:if="{{animalInfo.gender === 'male'}}"/>
-        <view class="icon--female" wx:if="{{animalInfo.gender === 'female'}}"/>
-        <view class="age">{{animalInfo.age}} {{t.years_old}}</view>
+    <view class="animal--body">
+      <view class="animal--header flex--parent__horizontal">
+        <view class="animal--big-name">
+          {{animalInfo.name}}
+          <view class="icon--male" wx:if="{{animalInfo.gender === 'male'}}"/>
+          <view class="icon--female" wx:if="{{animalInfo.gender === 'female'}}"/>
+          <view class="age">{{animalInfo.age}} {{t.years_old}}</view>
+        </view>
       </view>
-    </view>
-    <view class="animal--neighborhood">
-      <view class="icon--location"/>
-      <view class="neighborhood">
-        {{animalInfo.neighborhood}}
+      <view class="animal--neighborhood">
+        <view class="icon--location"/>
+        <view class="neighborhood">
+          {{animalInfo.neighborhood}}
+        </view>
       </view>
-    </view>
-    <view class="animal--section">
-      <view class="animal--check {{animalInfo.fixed ? 'checked' : ''}}">{{t.fixed}}</view>
-      <view class="animal--check {{animalInfo.available ? 'checked' : ''}}">{{t.available}}</view>
-      <view class="animal--check {{animalInfo.vaccinated ? 'checked' : ''}}">{{t.vaccines}}</view>
-    </view>
-    <view class="animal--section">
-      <view class="animal--quotation">
-        <view class="quote-begin"/>
-        {{animalInfo.intro}}
-        <view class="quote-end"/>
+      <view class="animal--section">
+        <view class="animal--check {{animalInfo.fixed ? 'checked' : ''}}">{{t.fixed}}</view>
+        <view class="animal--check {{animalInfo.available ? 'checked' : ''}}">{{t.available}}</view>
+        <view class="animal--check {{animalInfo.vaccinated ? 'checked' : ''}}">{{t.vaccines}}</view>
       </view>
-      <view class="animal--owner-info">
-        <image class="avatar__large" src="{{animalInfo.user.avatarUrl}}"/>
-        <view class="owner--inner">
-          {{t.rescuer}}: {{animalInfo.user.nickName}}
+      <view class="animal--section">
+        <view class="animal--quotation">
+          <view class="quote-begin"/>
+          {{animalInfo.intro}}
+          <view class="quote-end"/>
+        </view>
+        <view class="animal--owner-info">
+          <image class="avatar__large" src="{{animalInfo.user.avatarUrl}}"/>
+          <view class="owner--inner">
+            {{t.rescuer}}: {{animalInfo.user.nickName}}
+          </view>
         </view>
       </view>
     </view>
   </view>
+  <bottombar>
+    <button class="bottom-bar-btn" @tap="likeAnimal">
+      <view class="icon--like"/>{{t.like}}
+    </button>
+    <button class="bottom-bar-btn" @tap="showApplication">
+      <view class="icon--apply"/>{{t.adopt_cta}}
+    </button>
+    <button class="bottom-bar-btn__small" @tap="showShare">
+      <view class="icon--share"/>
+    </button>
+  </bottombar>
+  <unregisteredmodal/>
 </template>
 <script>
   import wepy from 'wepy'
   import AnimalMixin from '@/mixins/animal-mixin'
   import LocalesMixin from '@/mixins/localesmixin'
+  import BottomBar from '@/components/bottom-bar'
+  import UnregisteredModal from '@/components/unregistered-modal'
   export default class AnimalProfile extends wepy.page {
     data = {
       indicatorDots: true,
       calcHeight: 0,
       animal: '',
       userId: '',
-      isOwner: false
+      isOwner: false,
+      isRegistered: false
     }
-    components = {}
+    components = {
+      bottombar: BottomBar,
+      unregisteredmodal: UnregisteredModal
+    }
     mixins = [AnimalMixin, LocalesMixin]
     computed = {}
-
+    methods = {
+      likeAnimal () {
+        if (!this.isRegistered) {
+          this.$invoke('unregisteredmodal', 'openModal', '')
+        } else if (this.isOwner) {
+          console.log('cant like your own animal')
+        } else {
+          console.log('do the like')
+        }
+      },
+      showApplication () {
+        if (!this.isRegistered) {
+          this.$invoke('unregisteredmodal', 'openModal', '')
+        } else if (this.isOwner) {
+          console.log('cant adopt your own animal')
+        } else {
+          console.log('show the app')
+        }
+      },
+      showShare () {
+        console.log('share')
+      }
+    }
     async onLoad ({animal}) {
       this.animal = animal
+      this.isRegistered = this.$parent.globalData.user.isRegistered
       this.setScreenHeight()
-      const userId = this.$parent.globalData.user.attributes.objectId
+      try {
+        await this.fetchAnimalDetails(animal)
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    }
+
+    async fetchAnimalDetails (animal) {
+      const userId = this.$parent.globalData.user.objectId
+      console.log(userId)
       try {
         const fields = [
           'name',
@@ -183,17 +250,16 @@
           'user.nickName',
           'user.objectId']
         await this.fetchAnimal(animal, fields)
+        const animalsOwner = this.animalInfo.user.objectId
+        if (animalsOwner === userId) {
+          this.isOwner = true
+        }
       } catch (err) {
         // handle this error, means the dog is not existing anymore probably
-        console.error(err)
-      }
-      const animalsOwner = this.animalInfo.user.objectId
-      if (animalsOwner === userId) {
-        this.isOwner = true
+        return Promise.reject(new Error(err))
       }
       this.$apply()
     }
-
     setScreenHeight () {
       const screenWidth = wx.getSystemInfoSync().screenWidth
       this.calcHeight = screenWidth

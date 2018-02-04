@@ -36,7 +36,11 @@ export default class UserModel {
   }
 
   get language () {
-    return this.data.attributes.language || 'zh_CN'
+    return this.data.language || 'zh_CN'
+  }
+
+  get objectId () {
+    return this.data.objectId || ''
   }
 
   async authorize () {
