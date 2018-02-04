@@ -39,7 +39,7 @@
   .form-item--label__paragraph{
     line-height: 1;
   }
-  .form-item--input {
+  .form-item--input, .form-item--input__half {
     display: inline-block;
     vertical-align:middle;
     line-height:1.4rem;
@@ -49,6 +49,12 @@
     transition: all 0.3s ease;
     flex:3;
   }
+  .form-item--input__half{
+    width:35%;
+    border-bottom: none;
+    vertical-align:middle;
+  }
+
   .form-item--input[focus] {
     border-bottom: 2px solid $color-primary;
   }
@@ -108,4 +114,36 @@
   padding: $default-padding / 2;
   padding-left: $default-padding;
   padding-right: 0;
+}
+
+.form-item--picker__half{
+  padding:0 30rpx;
+  display: inline-block;
+  position: relative;
+  vertical-align:middle;
+  &:after{
+    content: '';
+    width: 10rpx;
+    height: 2rpx;
+    transform: rotate(45deg);
+    background-color: $black;
+    position: absolute;
+    top:21rpx;
+    right:7rpx;
+  }
+  &:before{
+    content: '';
+    width: 10rpx;
+    height: 2rpx;
+    transform: rotate(-45deg);
+    background-color: $black;
+    position: absolute;
+    top:21rpx;
+    right:0;
+  }
+}
+
+.form-item--flex-item {
+  flex:3;
+  border-bottom: $section-border;
 }

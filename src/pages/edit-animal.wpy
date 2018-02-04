@@ -28,14 +28,24 @@
           <view class="form-item--label">
             <view class="form-item--label-inner">{{t.age}}</view>
           </view>
-          <input type="number" class="form-item--input" @blur="handleAge" confirm-type="next" maxlength="2" value="{{animalAge}}"/>
+          <view class="form-item--flex-item">
+            <input type="number" class="form-item--input__half" @blur="handleAge" confirm-type="next" maxlength="2" value="{{animalAge}}"/>
+            <picker mode="selector"
+                  @change="hanldeAgeUnit"
+                  value="{{currentAgeUnit}}"
+                  range="{{ageUnits}}"
+                  range-key="name"
+                  class="form-item--picker__half">
+              {{currentAgeUnitText}}
+            </picker>
+          </view>
         </view>
         <view class="form-item--default">
           <view class="form-item--label">
             <view class="form-item--label-inner">{{t.location}}</view>
           </view>
           <view class="form-item--input" @tap="handleMapOuterTap">
-            <locationselector :point.sync="animalPoint"/>
+            <!-- <locationselector :point.sync="animalPoint"/> -->
           </view>
         </view>
         <view class="form-item--radio">
@@ -96,7 +106,9 @@
       animalVaccinated: true,
       title: '',
       subtitle: '',
-      images: []
+      images: [],
+      ageUnits: [],
+      currentAgeUnit: 'years'
     }
 
     components = {
@@ -130,6 +142,10 @@
         this.genderChoices = [
           {name: this.t.male, value: 'male'},
           {name: this.t.female, value: 'female'}]
+        this.ageUnits = [
+          {name: this.t.weeks, value: 'weeks'},
+          {name: this.t.months, value: 'months'},
+          {name: this.t.years, value: 'years'}]
       },
       animalInfo (newVal, oldVal) {
         this.currentGender = newVal.gender
@@ -137,6 +153,7 @@
         this.animalAvailable = this.animalInfo.available
         this.animalFixed = this.animalInfo.fixed
         this.animalVaccinated = this.animalInfo.vaccinated
+        this.currentAgeUnit = this.animalInfo.ageUnit
         this.animalPoint = this.animalInfo.location || {}
         this.$apply()
       },
@@ -182,8 +199,13 @@
         }
         return ''
       },
+      currentAgeUnitText () {
+        if (_isEmpty(this.ageUnits)) return ''
+        const unitObj = this.ageUnits.find(unit => unit.value === this.currentAgeUnit)
+        return unitObj && unitObj.name
+      },
       hasEmptyFields () {
-        const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['location'], ['gender'], ['age'], [''])
+        const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['location'], ['gender'], ['age'])
         const emptyFields = Object.keys(fields).filter(field => {
           let value = fields[field]
           if (value === '' || value === ' ' || value === null) {
@@ -206,6 +228,12 @@
       handleAge ({detail}) {
         this.animalInfo.age = detail.value
         this.$apply()
+      },
+      hanldeAgeUnit ({detail}) {
+        const index = detail.value
+        const targetValue = this.ageUnits[index].value
+        this.animalInfo.ageUnit = targetValue
+        this.$apply()
       }
     }
 
@@ -222,7 +250,7 @@
     async handleSubmit () {
       console.log(this.hasEmptyFields)
       if (this.hasEmptyFields) return this.handleSubmitError()
-      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'], ['gender'], ['fixed'], ['location'], ['vaccinated'], ['age'])
+      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'], ['gender'], ['fixed'], ['location'], ['vaccinated'], ['age'], ['ageUnit'])
       const images = this.images
       const params = {images, ...fields}
       try {
