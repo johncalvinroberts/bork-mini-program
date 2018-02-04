@@ -31,9 +31,9 @@ export default class AnimalMixin extends wepy.mixin {
       gender: 'male',
       type: 'dog',
       available: true,
-      fixed: true
-    },
-    genderIcon: ''
+      fixed: true,
+      vaccinated: true
+    }
   }
 
   async fetchAnimal (id, selects = []) {

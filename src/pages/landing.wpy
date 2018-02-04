@@ -228,7 +228,7 @@
     }
 
     onLoad () {
-      wepy.navigateTo({url: 'animal-profile?animal=5a760457a22b9d00442fd43e'})
+      wepy.navigateTo({url: 'animal-profile?animal=5a768a3a128fe1005d5a9222'})
       wepy.setNavigationBarTitle({
         title: 'fido'
       })

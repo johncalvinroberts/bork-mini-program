@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 .icon--default {
   width: 40px;
   height: 40px;
@@ -9,11 +11,51 @@
   vertical-align:middle;
 }
 
-.icon--xs{
+.icon--xs {
   width: 15px;
   height: 15px;
   vertical-align:middle;
   margin: 0 10rpx;
+}
+.icon--male, .icon--female, .icon--location {
+  background-repeat: no-repeat;
+  background-size:60%;
+  background-position: center;
+  opacity: 0.8;
+  display: inline-block;
+  width:40rpx;
+  height:40rpx;
+  vertical-align:middle;
+  margin: 0 10rpx;
+}
+.icon--location {
+  background-image: url('https://up.img.heidiancdn.com/o_1c5fivcnfug21s991nr71j31rh20cation.svg');
+  width:60rpx;
+  background-size:80%;
+}
+.icon--male {
+  background-color: $blue;
+  background-image: url('https://up.img.heidiancdn.com/o_1c5fihndje2hfo8rq10d6c2l0male.svg');
+}
+
+.icon--female {
+  background-color: $pink;
+  background-image: url('https://up.img.heidiancdn.com/o_1c5fihndisdl1qh6lda10v81ght0female.svg');
+}
+
+.quote-begin{
+  background-image: url("https://up.img.heidiancdn.com/o_1c5fm0jl01bj912kt1351r3durm0tion01.svg");
+  opacity: 0.4;
+  width: 40rpx;
+  height: 40rpx;
+  background-size:contain;
+}
+.quote-end{
+  background-image: url("https://up.img.heidiancdn.com/o_1c5fm0jl21cv71g6659mb9edo90tion02.svg");
+  opacity: 0.4;
+  width: 40rpx;
+  height: 40rpx;
+  background-size:contain;
 }
 
 .avatar__small, .avatar__large, .avatar__xs {

@@ -26,6 +26,12 @@
         </view>
         <view class="form-item--default">
           <view class="form-item--label">
+            <view class="form-item--label-inner">{{t.age}}</view>
+          </view>
+          <input type="number" class="form-item--input" @blur="handleAge" confirm-type="next" maxlength="2" value="{{animalAge}}"/>
+        </view>
+        <view class="form-item--default">
+          <view class="form-item--label">
             <view class="form-item--label-inner">{{t.location}}</view>
           </view>
           <view class="form-item--input" @tap="handleMapOuterTap">
@@ -47,6 +53,7 @@
         <view class="form--checkbox-group">
           <coolcheckbox1 :checked.sync="animalAvailable">{{t.available}}</coolcheckbox1>
           <coolcheckbox2 :checked.sync="animalFixed">{{t.fixed}}</coolcheckbox2>
+          <coolcheckbox3 :checked.sync="animalVaccinated">{{t.vaccines}}</coolcheckbox3>
         </view>
       </view>
       <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
@@ -80,12 +87,13 @@
       animalId: '',
       typeChoices: [],
       genderChoices: [],
-      currentType: '',
-      currentGender: '',
+      currentType: 'dog',
+      currentGender: 'male',
       isEditing: false,
       animalAvailable: true,
       animalPoint: {},
       animalFixed: true,
+      animalVaccinated: true,
       title: '',
       subtitle: '',
       images: []
@@ -101,6 +109,7 @@
       radiolist: RadioList,
       coolcheckbox1: CoolCheckBox,
       coolcheckbox2: CoolCheckBox,
+      coolcheckbox3: CoolCheckBox,
       locationselector: LocationSelector
     }
 
@@ -127,6 +136,7 @@
         this.currentType = newVal.type
         this.animalAvailable = this.animalInfo.available
         this.animalFixed = this.animalInfo.fixed
+        this.animalVaccinated = this.animalInfo.vaccinated
         this.animalPoint = this.animalInfo.location || {}
         this.$apply()
       },
@@ -141,6 +151,9 @@
       },
       animalFixed () {
         this.animalInfo.fixed = this.animalFixed
+      },
+      animalVaccinated () {
+        this.animalInfo.vaccinated = this.animalVaccinated
       },
       animalPoint () {
         this.animalInfo.location = this.animalPoint
@@ -163,8 +176,14 @@
         }
         return ''
       },
+      animalAge () {
+        if (this.animalInfo && this.animalInfo.age) {
+          return this.animalInfo.age
+        }
+        return ''
+      },
       hasEmptyFields () {
-        const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'])
+        const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['location'], ['gender'], ['age'], [''])
         const emptyFields = Object.keys(fields).filter(field => {
           let value = fields[field]
           if (value === '' || value === ' ' || value === null) {
@@ -183,6 +202,10 @@
       handleName ({detail}) {
         this.animalInfo.name = detail.value
         this.$apply()
+      },
+      handleAge ({detail}) {
+        this.animalInfo.age = detail.value
+        this.$apply()
       }
     }
 
@@ -197,8 +220,9 @@
     }
 
     async handleSubmit () {
+      console.log(this.hasEmptyFields)
       if (this.hasEmptyFields) return this.handleSubmitError()
-      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'], ['gender'], ['fixed'], ['location'])
+      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'], ['gender'], ['fixed'], ['location'], ['vaccinated'], ['age'])
       const images = this.images
       const params = {images, ...fields}
       try {
@@ -223,6 +247,7 @@
     }
 
     handleSubmitError () {
+      console.log('this is handle submit error')
       const params = {
         header: this.t.submit_error_header,
         message: this.t.submit_error_message

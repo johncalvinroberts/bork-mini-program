@@ -77,7 +77,7 @@ export default {
       "edit_subtitle": "The information about your animal",
       "images": "Photographs",
       "name": "Name",
-      "gender": "gender",
+      "age": "age 🍫",
       "animal_intro": "Intro",
       "animal_intro_explanation": "description",
       "basic_info": "Basic info",
@@ -90,6 +90,7 @@ export default {
       "male":"Male",
       "female":"Female",
       "available":"Available for adoption",
+      "vaccines" : "Vaccinated💉",
       "fixed":"Neutered/Spayed",
       "submit_error_header": "Incomplete 💁",
       "submit_error_message": "Please fill in the form",
@@ -100,8 +101,10 @@ export default {
     "animal-profile" : {
       "fixed" : "Fixed✂️",
       "neighborhood": "Neighborhood",
-      "available": "Available",
-      "not_available": "Not available"
+      "available": "Available🏃",
+      "vaccines" : "Vaccinated💉",
+      "rescuer": "Rescuer",
+      "years_old": "years"
     }
   },
   "zh_CN": {
@@ -180,7 +183,7 @@ export default {
       "edit_subtitle": "帮小宝宝编辑一下资料",
       "images": "照片",
       "name": "昵称",
-      "gender": "性别",
+      "age": "年龄🍫",
       "animal_intro": "介绍",
       "animal_intro_explanation": "一句介绍",
       "basic_info": "基本信息",
@@ -193,6 +196,7 @@ export default {
       "male":"男",
       "female":"女",
       "available":"现在可以被领养",
+      "vaccines" : "疫苗💉",
       "fixed":"已绝育",
       "submit_error_header": "信息不全💁",
       "submit_error_message": "请填全了再提交",
@@ -203,8 +207,10 @@ export default {
     "animal-profile" : {
       "fixed" : "绝育",
       "neighborhood": "街道",
-      "available": "可以领养",
-      "not_available": "暂时不可以领养"
+      "available": "现在可以领养🏃",
+      "vaccines" : "疫苗💉",
+      "rescuer": "救助者",
+      "years_old": "岁"
     }
   }
 }

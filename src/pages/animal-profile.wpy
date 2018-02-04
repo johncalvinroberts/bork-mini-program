@@ -8,20 +8,49 @@
   }
   .animal--header {
     width: 100%;
-    padding: $default-padding;
+    padding: $default-padding / 2 $default-padding;
     justify-content:space-between;
     align-items:center;
+    .age{
+      display:inline-block;
+      padding: 10rpx;
+      background-color: $black;
+      color: $white;
+      font-size: $font-small;
+      vertical-align:middle;
+    }
   }
   .animal--big-name {
     color: $black;
     font-size: $font-big-title;
-    font-weight: 400;
+    font-weight: 500;
   }
+  .animal--neighborhood{
+    padding: 0 $default-padding;
+    margin-left:-20rpx;
+    .icon--location{
+      vertical-align:top;
+      margin: 0;
+    }
+    .neighborhood {
+      color: $black;
+      font-size: $font-small;
+      font-weight: 200;
+      display:inline-block;
+    }
+  }
+
   .animal--status {
     border-radius: 50%;
   }
+
+  .animal--section{
+    padding: $default-padding / 2 $default-padding;
+  }
+
   .animal--check {
-    margin-left: 20rpx;
+    margin: 10rpx 0;
+    color: $black;
     &:before {
       content: '';
       border-radius: 50%;
@@ -37,14 +66,42 @@
       vertical-align:middle;
     }
   }
+  .animal--quotation{
+    padding: $default-padding;
+    position: relative;
+    text-align: center;
+    font-size: $font-medium-title;
+    color: $black;
+    font-style: italic;
+    .quote-begin{
+      position: absolute;
+      left:0;
+      top: 0;
+    }
+    .quote-end{
+      position: absolute;
+      right: 0;
+      bottom:0;
+    }
+  }
   .animal--check.checked {
     &:before{
       background-color: $color-primary;
     }
   }
+  .animal--owner-info{
+    text-align:center;
+    color: $black;
+    padding: $default-padding / 2 0;
+  }
+  .owner--inner{
+    text-align: center;
+    padding:20rpx;
+    color: $black;
+  }
 </style>
 <template>
-  <view class="container">
+  <view class="container__has-tabbar">
     <swiper class="animal--swiper"
             indicator-dots="{{indicatorDots}}"
             indicator-color="#0d0a31"
@@ -59,12 +116,34 @@
     <view class="animal--header flex--parent__horizontal">
       <view class="animal--big-name">
         {{animalInfo.name}}
-        <image class="icon--xs" src="{{animalInfo.gender === 'male' ? '../icons/male.svg' : '../icons/female.svg'}}"/>
+        <view class="icon--male" wx:if="{{animalInfo.gender === 'male'}}"/>
+        <view class="icon--female" wx:if="{{animalInfo.gender === 'female'}}"/>
+        <view class="age">{{animalInfo.age}} {{t.years_old}}</view>
       </view>
-      <view class="animal--check {{animalInfo.fixed ? 'checked' : ''}}">{{t.fixed}}</view>
     </view>
-    <view class="animal--quotation">
-      <image class="avatar__xs" src=""></image>
+    <view class="animal--neighborhood">
+      <view class="icon--location"/>
+      <view class="neighborhood">
+        {{animalInfo.neighborhood}}
+      </view>
+    </view>
+    <view class="animal--section">
+      <view class="animal--check {{animalInfo.fixed ? 'checked' : ''}}">{{t.fixed}}</view>
+      <view class="animal--check {{animalInfo.available ? 'checked' : ''}}">{{t.available}}</view>
+      <view class="animal--check {{animalInfo.vaccinated ? 'checked' : ''}}">{{t.vaccines}}</view>
+    </view>
+    <view class="animal--section">
+      <view class="animal--quotation">
+        <view class="quote-begin"/>
+        {{animalInfo.intro}}
+        <view class="quote-end"/>
+      </view>
+      <view class="animal--owner-info">
+        <image class="avatar__large" src="{{animalInfo.user.avatarUrl}}"/>
+        <view class="owner--inner">
+          {{t.rescuer}}: {{animalInfo.user.nickName}}
+        </view>
+      </view>
     </view>
   </view>
 </template>
@@ -93,10 +172,12 @@
           'name',
           'available',
           'fixed',
+          'vaccinated',
           'gender',
           'images',
           'neighborhood',
           'type',
+          'age',
           'intro',
           'user.avatarUrl',
           'user.nickName',
