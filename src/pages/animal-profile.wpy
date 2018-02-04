@@ -176,6 +176,7 @@
   </bottombar>
   <unregisteredmodal/>
   <flash/>
+  <bottomdrawer :items.sync="shareDrawerItems" @itemtap.user="handleShareItem"/>
 </template>
 <script>
   import wepy from 'wepy'
@@ -183,6 +184,7 @@
   import LocalesMixin from '@/mixins/localesmixin'
   import BottomBar from '@/components/bottom-bar'
   import Flash from '@/components/flash'
+  import BottomDrawer from '@/components/bottom-drawer'
   import UnregisteredModal from '@/components/unregistered-modal'
   export default class AnimalProfile extends wepy.page {
     data = {
@@ -192,17 +194,24 @@
       userId: '',
       isOwner: false,
       isRegistered: false,
-      animalAgeText: ''
+      animalAgeText: '',
+      shareDrawerItems: []
     }
     components = {
       bottombar: BottomBar,
       unregisteredmodal: UnregisteredModal,
-      flash: Flash
+      flash: Flash,
+      bottomdrawer: BottomDrawer
     }
     mixins = [AnimalMixin, LocalesMixin]
     watch = {
       t () {
-
+        console.log('here')
+        this.shareDrawerItems = [
+          {name: this.t.send_friends, value: 'send_friends'},
+          {name: this.t.qr_code, value: 'qr_code'}]
+        this.$apply()
+        console.log(this.shareDrawerItems)
       },
       animalInfo () {
         this.animalAgeText = `${this.animalInfo.age} ${this.t[this.animalInfo.ageUnit]}`
@@ -232,7 +241,14 @@
         }
       },
       showShare () {
-        console.log('share')
+        this.$invoke('bottomdrawer', 'showDrawer', '')
+      },
+      handleShareItem (param) {
+        if (param === 'send_friends') {
+          wepy.showShareMenu()
+            .then(res => console.log(res))
+            .catch(err => console.error(err))
+        }
       }
     }
     async onLoad ({animal}) {

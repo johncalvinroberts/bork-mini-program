@@ -10,7 +10,7 @@
     background-color: $white;
     color: $black;
     text-align:center;
-    box-shadow: $normal-shadow;
+    box-shadow:0 10px 30px 0 rgba(0,0,0,0.1);
     transition: all 0.3s ease;
     z-index:99;
   }
