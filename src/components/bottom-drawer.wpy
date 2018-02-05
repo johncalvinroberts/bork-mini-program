@@ -26,6 +26,9 @@
   .drawer--item{
     padding: $default-padding;
     border-bottom: $section-border;
+    &:before, &:after{
+      display: none;
+    }
   }
 </style>
 <template>
@@ -34,7 +37,14 @@
   <view class="bottom-drawer--drawer"
         style="transform:{{isOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, 110%, 0)'}};">
       <repeat for="{{items}}" key="index" item="item" index="index">
-        <view class="drawer--item" @tap="handleItemTap" id="{{item.value}}">{{item.name}}</view>
+        <button class="drawer--item"
+                @tap="handleItemTap"
+                id="{{item.value}}"
+                wx:if="{{item.isShare}}">{{item.name}}</button>
+        <button class="drawer--item"
+                @tap="handleItemTap"
+                id="{{item.value}}"
+                wx:else>{{item.name}}</button>
       </repeat>
   </view>
 </template>

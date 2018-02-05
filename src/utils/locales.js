@@ -117,7 +117,8 @@ export default {
       "years": "years",
       "you_are_the_owner": "Oops! You are this animals owner 😁",
       "send_friends": "share to wechat friends",
-      "qr_code": "copy qr code"
+      "qr_code": "copy qr code",
+      "successful_share": "sent 👍"
     }
   },
   "zh_CN": {
@@ -236,7 +237,8 @@ export default {
       "years": "年",
       "you_are_the_owner": "诶啊 你已经是这个小动物的救助者 😁",
       "send_friends": "发送给好友",
-      "qr_code": "复制二维码"
+      "qr_code": "复制二维码",
+      "successful_share": "转发成功 👍"
     }
   }
 }

@@ -208,8 +208,8 @@
       t () {
         console.log('here')
         this.shareDrawerItems = [
-          {name: this.t.send_friends, value: 'send_friends'},
-          {name: this.t.qr_code, value: 'qr_code'}]
+          {name: this.t.send_friends, value: 'send_friends', isShare: true},
+          {name: this.t.qr_code, value: 'qr_code', isShare: false}]
         this.$apply()
         console.log(this.shareDrawerItems)
       },
@@ -251,6 +251,7 @@
         }
       }
     }
+
     async onLoad ({animal}) {
       this.animal = animal
       this.isRegistered = this.$parent.globalData.user.isRegistered
@@ -260,6 +261,24 @@
       } catch (err) {
         return Promise.reject(new Error(err))
       }
+    }
+
+    onShareAppMessage (res) {
+      let self = this
+      return {
+        title: this.animalInfo.name,
+        path: `page/animal-profile?animal=${this.animal}`,
+        imageUrl: this.animalInfo.images[0],
+        success () {
+          self.$invoke('flash', 'showMessage', self.t.successful_share)
+        }
+      }
+    }
+
+    setScreenHeight () {
+      const screenWidth = wx.getSystemInfoSync().screenWidth
+      this.calcHeight = screenWidth
+      this.$apply()
     }
 
     async fetchAnimalDetails (animal) {
@@ -290,11 +309,6 @@
         // handle this error, means the dog is not existing anymore probably
         return Promise.reject(new Error(err))
       }
-      this.$apply()
-    }
-    setScreenHeight () {
-      const screenWidth = wx.getSystemInfoSync().screenWidth
-      this.calcHeight = screenWidth
       this.$apply()
     }
   }

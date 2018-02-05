@@ -1,0 +1,28 @@
+<style lang="scss">
+  .something {
+    color: pink;
+  }
+</style>
+<template>
+  <scroll-view class="container" scroll-y="{{scrollY}}">
+
+  </scroll-view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import LocalesMixin from '@/mixins/localesmixin'
+  import AnimalMixin from '@/mixins/animal-mixin'
+
+  export default class Animals extends wepy.page {
+    mixins = [LocalesMixin, AnimalMixin]
+    components = {}
+    data = {
+      scrollY: true
+    }
+    watch = {}
+    methods = {}
+    onLoad ({type}) {
+      console.log(type)
+    }
+  }
+</script>
