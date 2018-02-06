@@ -1,0 +1,13 @@
+<style lang="scss"></style>
+<template>
+  <view class="container"></view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class ApplicationDetail extends wepy.page {
+    data = {}
+    onLoad ({id}) {
+      console.log(id)
+    }
+  }
+</script>

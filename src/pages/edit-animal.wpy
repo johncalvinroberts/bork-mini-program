@@ -226,6 +226,7 @@
         this.$apply()
       },
       handleAge ({detail}) {
+        if (!detail.value) return
         this.animalInfo.age = detail.value
         this.$apply()
       },
