@@ -178,6 +178,7 @@
     </button>
   </bottombar>
   <unregisteredmodal/>
+  <applicationmodal @submit.user="handleAppSubmit"/>
   <flash/>
   <bottomdrawer :items.sync="shareDrawerItems" @itemtap.user="handleShareItem"/>
 </template>
@@ -187,6 +188,7 @@
   import LocalesMixin from '@/mixins/localesmixin'
   import BottomBar from '@/components/bottom-bar'
   import Flash from '@/components/flash'
+  import ApplicationModal from '@/components/application-modal'
   import BottomDrawer from '@/components/bottom-drawer'
   import UnregisteredModal from '@/components/unregistered-modal'
   import _isEmpty from 'lodash.isempty'
@@ -204,12 +206,15 @@
       hasLiked: false,
       hasApplied: false
     }
+
     components = {
       bottombar: BottomBar,
       unregisteredmodal: UnregisteredModal,
       flash: Flash,
-      bottomdrawer: BottomDrawer
+      bottomdrawer: BottomDrawer,
+      applicationmodal: ApplicationModal
     }
+
     mixins = [AnimalMixin, LocalesMixin]
     watch = {
       t () {
@@ -247,7 +252,12 @@
           const message = this.t.you_are_the_owner
           this.$invoke('flash', 'showMessage', message)
         } else {
-          console.log('show the app')
+          if (!this.hasApplied) {
+            this.$invoke('applicationmodal', 'showModal', this.animalInfo.name)
+          } else {
+            const message = this.t.you_already_submitted
+            this.$invoke('flash', 'showMessage', message)
+          }
         }
       },
       showShare () {
@@ -259,6 +269,9 @@
             .then(res => console.log(res))
             .catch(err => console.error(err))
         }
+      },
+      handleAppSubmit (message) {
+        console.log(message)
       }
     }
 
@@ -330,6 +343,7 @@
       }
       this.$apply()
     }
+
     async handleLike () {
       try {
         await this.$parent.globalData.user.submitLike(this.animal)
@@ -339,6 +353,7 @@
         console.error(err)
       }
     }
+
     async handleUnLike () {
       try {
         await this.$parent.globalData.user.submitUnLike(this.animal)

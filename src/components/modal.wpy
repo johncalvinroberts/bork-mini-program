@@ -48,7 +48,7 @@
 <template>
   <view class="modal--blur" style="visibility: {{isopen ? 'visible' : 'hidden'}};">
     <view class="container__flex modal--mask" @tap="maskTap" id="modalmask">
-      <view class="modal--body" style="transform: {{isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)'}};">
+      <view class="modal--body" style="transform: {{isopen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -100%, 0)'}}; margin-top:{{topOffset}};">
         <image class="modal--close" src="../icons/close.svg" @tap="maskTap" wx:if="{{hasclose}}"></image>
         <view class="modal--title" wx:if="{{title}}">{{title}}</view>
         <view class="modal--subtitle"wx:if="{{subtitle}}">{{subtitle}}</view>
@@ -68,6 +68,10 @@
       title: {
         type: String,
         default: null
+      },
+      topOffset: {
+        type: String,
+        default: 0
       },
       isopen: {
         type: Boolean

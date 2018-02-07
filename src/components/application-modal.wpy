@@ -1,0 +1,104 @@
+<style lang="scss">
+  @import '../styles/variables.scss';
+  @import "../styles/mixins.scss";
+  .app--header{
+    @include titletext;
+  }
+  .app--subheader{
+    @include subtitletext;
+  }
+  .app--textarea{
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 10rpx;
+    margin-bottom: 80rpx;
+  }
+</style>
+<template>
+  <modal :isopen.sync="appModalOpen" @masktap.user="hideModal" :topOffset.sync="topOffset">
+    <view class="app--header">{{headerText}}{{animalName}}</view>
+    <view class="app--subheader">{{subHeaderText}}</view>
+    <input type="text"
+          class="app--textarea"
+          placeholder="{{textAreaPlaceholder}}"
+          focus="{{focus}}"
+          @focus="handleFocus"
+          @input="handleInput"
+          @blur="handleBlur"/>
+    <button class="btn--default__medium" disabled="{{submitDisabled}}" @tap="submitApp">{{submitText}}</button>
+  </modal>
+</template>
+<script>
+  import wepy from 'wepy'
+  import Modal from '@/components/modal'
+  export default class ApplicationModal extends wepy.component {
+    data = {
+      appModalOpen: false,
+      headerText: '申请领养 ',
+      subHeaderText: '给救助者留一个小message. 如果救助者给你通过的话，你可以通过微信进行联系',
+      textAreaPlaceholder: '请输入你的message 💗',
+      animalName: '',
+      focus: false,
+      message: '',
+      submitText: '提交申请',
+      topOffset: ''
+    }
+    watch = {
+      focus () {
+        if (this.focus) {
+          this.topOffset = '-300rpx'
+        } else {
+          this.topOffset = '0'
+        }
+      }
+    }
+    components ={
+      modal: Modal
+    }
+
+    computed = {
+      submitDisabled () {
+        return this.message === ''
+      }
+    }
+
+    methods = {
+      showModal (params) {
+        this.animalName = params
+        this.appModalOpen = true
+        setTimeout(() => {
+          this.focus = true
+          this.$apply()
+        }, 500)
+        this.$apply()
+      },
+      hideModal () {
+        this.appModalOpen = false
+        this.focus = false
+        this.$apply()
+      },
+      handleBlur ({detail}) {
+        this.focus = false
+        this.$apply()
+      },
+      handleFocus () {
+        this.focus = true
+        this.$apply()
+      },
+      handleInput ({detail}) {
+        this.message = detail.value
+      },
+      submitApp () {
+        this.$emit('submit', this.message)
+      }
+    }
+    onLoad () {
+      if (wepy.T.locale === 'en') {
+        this.headerText = 'Apply to adopt '
+        this.subHeaderText = 'Leave a message to the rescuer. If they agree, you can get in touch through their wechat id'
+        this.textAreaPlaceholder = 'enter your message 💗'
+        this.submitText = 'Submit application'
+      }
+    }
+  }
+</script>
