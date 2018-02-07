@@ -1,7 +1,7 @@
 import Lean from '@/utils/av-weapp-min'
 import { appId, appKey } from '@/secret_keys'
 import wepy from 'wepy'
-import isEmpty from 'lodash.isempty'
+import _isEmpty from 'lodash.isempty'
 
 export default class UserModel {
   constructor () {
@@ -10,6 +10,10 @@ export default class UserModel {
       appKey: appKey
     })
     this.data = {}
+    this.rescues = []
+    this.likes = []
+    this.applications = []
+    this.requests = []
     this.id = null
     this.currentUser()
   }
@@ -22,17 +26,17 @@ export default class UserModel {
     }
     return current
   }
-
+  // GETTERS
   get isRegistered () {
-    return !isEmpty(this.data)
+    return !_isEmpty(this.data)
   }
 
   get isRescuer () {
-    return !isEmpty(this.data) && this.data.isRescuer
+    return !_isEmpty(this.data) && this.data.isRescuer
   }
 
   get attributes () {
-    return isEmpty(this.data) ? null : this.data
+    return _isEmpty(this.data) ? null : this.data
   }
 
   get language () {
@@ -43,6 +47,7 @@ export default class UserModel {
     return this.data.objectId || ''
   }
 
+  // AUTHORIZATION & LOGIN SHIT
   async authorize () {
     const authData = await wepy.getSetting()
     if (!authData.authSetting['scope.userInfo']) {
@@ -93,7 +98,33 @@ export default class UserModel {
       return Promise.reject(new Error(err))
     }
   }
+  // WX AUTHORIZATION STUFF
 
+  async requestLocation () {
+    const authData = await wepy.getSetting()
+    if (!authData.authSetting['scope.userLocation']) {
+      try {
+        await wepy.authorize({scope: 'scope.userLocation'})
+      } catch (err) {
+        console.error(err)
+        return Promise.reject(new Error(err))
+      }
+    }
+  }
+
+  async requestPicture () {
+    const authData = await wepy.getSetting()
+    if (!authData.authSetting['scope.camera']) {
+      try {
+        await wepy.authorize({scope: 'scope.camera'})
+      } catch (err) {
+        console.error(err)
+        return Promise.reject(new Error(err))
+      }
+    }
+  }
+
+  // RESCUES
   async createRescue () {
     const animal = new Lean.Object('Animal')
     const user = Lean.User.current()
@@ -120,19 +151,45 @@ export default class UserModel {
     this.data = {}
   }
 
-  async fetchLikes () {
-    console.log('anahsfhas')
+  // FETCH DIFFERENT USER RELATED OBJECTS
+  async fetchLikes (refresh = false) {
+    if (!_isEmpty(this.likes) && !refresh) return this.likes
+    try {
+      const query = new Lean.Query('Like')
+        .equalTo('user', Lean.User.current())
+        .include('animal')
+        .select(['id', 'animal.id'])
+      const queryRes = await query.find()
+      this.likes = queryRes.map(like => like.toJSON())
+      return this.likes
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
+    }
   }
 
-  async fetchApplications () {
-    console.log('haha...')
+  async fetchApplications (refresh = false) {
+    if (!_isEmpty(this.applications) && !refresh) return this.applications
+    try {
+      const query = new Lean.Query('Application')
+        .equalTo('user', Lean.User.current())
+        .include('animal')
+        .select(['id', 'animal.id'])
+      const appsRes = await query.find()
+      this.applications = appsRes.map(app => app.toJSON())
+      return this.applications
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
+    }
   }
 
   async fetchRequests () {
     console.log('fetch requests')
   }
 
-  async fetchRescues (page = 1) {
+  async fetchRescues (page = 1, refresh = false) {
+    if (!_isEmpty(this.rescues) && !refresh) return this.rescues
     const skipAmt = (page * 10) - 10
     const query = new Lean.Query('Animal')
     query.equalTo('user', Lean.User.current())
@@ -140,34 +197,38 @@ export default class UserModel {
       .limit(10)
     try {
       const queryRes = await query.find()
-      return queryRes.map(animal => animal.toJSON())
+      queryRes.map(animal => this.rescues.push(animal.toJSON()))
+      return this.rescues
     } catch (err) {
       console.error(err)
       return Promise.reject(new Error(err))
     }
   }
 
-  async requestLocation () {
-    const authData = await wepy.getSetting()
-    if (!authData.authSetting['scope.userLocation']) {
-      try {
-        await wepy.authorize({scope: 'scope.userLocation'})
-      } catch (err) {
-        console.error(err)
-        return Promise.reject(new Error(err))
-      }
+  async submitLike (animalId) {
+    const like = new Lean.Object('Like')
+    const user = Lean.User.current()
+    const animal = Lean.Object.createWithoutData('Animal', animalId)
+    like.set({user, animal})
+    try {
+      const likeRes = await like.save()
+      this.likes.push(likeRes.toJSON())
+      return likeRes
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
     }
   }
 
-  async requestPicture () {
-    const authData = await wepy.getSetting()
-    if (!authData.authSetting['scope.camera']) {
-      try {
-        await wepy.authorize({scope: 'scope.camera'})
-      } catch (err) {
-        console.error(err)
-        return Promise.reject(new Error(err))
-      }
+  async submitUnLike (animalId) {
+    const likeId = this.likes.find(like => like.animal.objectId === animalId).objectId
+    const like = Lean.Object.createWithoutData('Like', likeId)
+    try {
+      const destroyRes = await like.destroy()
+      return destroyRes
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
     }
   }
 }

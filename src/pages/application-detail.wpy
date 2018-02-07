@@ -1,4 +1,6 @@
-<style lang="scss"></style>
+<style lang="scss">
+  .something{}
+</style>
 <template>
   <view class="container"></view>
 </template>

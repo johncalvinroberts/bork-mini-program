@@ -164,8 +164,11 @@
     </view>
   </view>
   <bottombar>
-    <button class="bottom-bar-btn" @tap="likeAnimal">
+    <button class="bottom-bar-btn" @tap="likeAnimal" wx:if="{{!hasLiked}}">
       <view class="icon--like"/>{{t.like}}
+    </button>
+    <button class="bottom-bar-btn" @tap="likeAnimal" wx:if="{{hasLiked}}">
+      <view class="icon--like"/>{{t.already_liked}}
     </button>
     <button class="bottom-bar-btn" @tap="showApplication">
       <view class="icon--apply"/>{{t.adopt_cta}}
@@ -186,6 +189,8 @@
   import Flash from '@/components/flash'
   import BottomDrawer from '@/components/bottom-drawer'
   import UnregisteredModal from '@/components/unregistered-modal'
+  import _isEmpty from 'lodash.isempty'
+
   export default class AnimalProfile extends wepy.page {
     data = {
       indicatorDots: true,
@@ -195,7 +200,9 @@
       isOwner: false,
       isRegistered: false,
       animalAgeText: '',
-      shareDrawerItems: []
+      shareDrawerItems: [],
+      hasLiked: false,
+      hasApplied: false
     }
     components = {
       bottombar: BottomBar,
@@ -211,7 +218,6 @@
           {name: this.t.send_friends, value: 'send_friends', isShare: true},
           {name: this.t.qr_code, value: 'qr_code', isShare: false}]
         this.$apply()
-        console.log(this.shareDrawerItems)
       },
       animalInfo () {
         this.animalAgeText = `${this.animalInfo.age} ${this.t[this.animalInfo.ageUnit]}`
@@ -227,7 +233,11 @@
           const message = this.t.you_are_the_owner
           this.$invoke('flash', 'showMessage', message)
         } else {
-          console.log('do the like')
+          if (!this.hasLiked) {
+            this.handleLike()
+          } else {
+            this.handleUnLike()
+          }
         }
       },
       showApplication () {
@@ -252,15 +262,12 @@
       }
     }
 
-    async onLoad ({animal}) {
+    onLoad ({animal}) {
       this.animal = animal
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.setScreenHeight()
-      try {
-        await this.fetchAnimalDetails(animal)
-      } catch (err) {
-        return Promise.reject(new Error(err))
-      }
+      this.checkLikesAndApps()
+      this.fetchAnimalDetails(animal)
     }
 
     onShareAppMessage (res) {
@@ -280,10 +287,22 @@
       this.calcHeight = screenWidth
       this.$apply()
     }
+    async checkLikesAndApps () {
+      try {
+        const likesReq = this.$parent.globalData.user.fetchLikes()
+        const appsReq = this.$parent.globalData.user.fetchApplications()
+        const [likes, apps] = await Promise.all([likesReq, appsReq])
+
+        this.hasLiked = !_isEmpty(likes.find(like => like.animal.objectId === this.animal))
+        this.hasApplied = !_isEmpty(apps.find(app => app.animal.Id === this.animal))
+        this.$apply()
+      } catch (err) {
+        console.error(err)
+      }
+    }
 
     async fetchAnimalDetails (animal) {
       const userId = this.$parent.globalData.user.objectId
-      console.log(userId)
       try {
         const fields = [
           'name',
@@ -310,6 +329,24 @@
         return Promise.reject(new Error(err))
       }
       this.$apply()
+    }
+    async handleLike () {
+      try {
+        await this.$parent.globalData.user.submitLike(this.animal)
+        this.hasLiked = true
+        this.$apply()
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    async handleUnLike () {
+      try {
+        await this.$parent.globalData.user.submitUnLike(this.animal)
+        this.hasLiked = false
+        this.$apply()
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 </script>
