@@ -121,7 +121,8 @@ export default {
       "send_friends": "share to wechat friends",
       "qr_code": "copy qr code",
       "successful_share": "sent 👍",
-      "you_already_submitted": "You already applied for this guy 💥"
+      "you_already_submitted": "You already applied for this guy 💥",
+      "successfully_applied": "Successfully submitted application 🎉🎉🎉"
     }
   },
   "zh_CN": {
@@ -244,7 +245,8 @@ export default {
       "send_friends": "发送给好友",
       "qr_code": "复制二维码",
       "successful_share": "转发成功 👍",
-      "you_already_submitted": "你已经申请过 💥"
+      "you_already_submitted": "你已经申请过 💥",
+      "successfully_applied": "申请成功 🎉🎉🎉"
     }
   }
 }

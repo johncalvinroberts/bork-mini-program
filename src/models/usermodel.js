@@ -22,10 +22,11 @@ export default class UserModel {
     const current = Lean.User.current()
     if (current) {
       this.id = current.id
-      this.data = current.toJSON() // should switch this to current.toJSON()
+      this.data = current.toJSON()
     }
     return current
   }
+
   // GETTERS
   get isRegistered () {
     return !_isEmpty(this.data)
@@ -98,8 +99,13 @@ export default class UserModel {
       return Promise.reject(new Error(err))
     }
   }
-  // WX AUTHORIZATION STUFF
 
+  async logOut () {
+    await wepy.clearStorage()
+    this.data = {}
+  }
+
+  // WX AUTHORIZATION STUFF
   async requestLocation () {
     const authData = await wepy.getSetting()
     if (!authData.authSetting['scope.userLocation']) {
@@ -146,48 +152,6 @@ export default class UserModel {
     }
   }
 
-  async logOut () {
-    await wepy.clearStorage()
-    this.data = {}
-  }
-
-  // FETCH DIFFERENT USER RELATED OBJECTS
-  async fetchLikes (refresh = false) {
-    if (!_isEmpty(this.likes) && !refresh) return this.likes
-    try {
-      const query = new Lean.Query('Like')
-        .equalTo('user', Lean.User.current())
-        .include('animal')
-        .select(['id', 'animal.id'])
-      const queryRes = await query.find()
-      this.likes = queryRes.map(like => like.toJSON())
-      return this.likes
-    } catch (err) {
-      console.error(err)
-      return Promise.reject(new Error(err))
-    }
-  }
-
-  async fetchApplications (refresh = false) {
-    if (!_isEmpty(this.applications) && !refresh) return this.applications
-    try {
-      const query = new Lean.Query('Application')
-        .equalTo('user', Lean.User.current())
-        .include('animal')
-        .select(['id', 'animal.id'])
-      const appsRes = await query.find()
-      this.applications = appsRes.map(app => app.toJSON())
-      return this.applications
-    } catch (err) {
-      console.error(err)
-      return Promise.reject(new Error(err))
-    }
-  }
-
-  async fetchRequests () {
-    console.log('fetch requests')
-  }
-
   async fetchRescues (page = 1, refresh = false) {
     if (!_isEmpty(this.rescues) && !refresh) return this.rescues
     const skipAmt = (page * 10) - 10
@@ -199,6 +163,59 @@ export default class UserModel {
       const queryRes = await query.find()
       queryRes.map(animal => this.rescues.push(animal.toJSON()))
       return this.rescues
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
+    }
+  }
+
+  // APPLICATIONS
+  async fetchApplications (refresh = false) {
+    if (!_isEmpty(this.applications) && !refresh) return this.applications
+    console.log('actually fetchin')
+    try {
+      const query = new Lean.Query('Application')
+        .equalTo('applicant', Lean.User.current())
+        .include('animal')
+        .select(['id', 'animal.id'])
+      const appsRes = await query.find()
+      this.applications = appsRes.map(app => app.toJSON())
+      return this.applications
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
+    }
+  }
+  async submitApplication (animalId, ownerId, applicantMessage) {
+    const application = new Lean.Object('Application')
+    const applicant = Lean.User.current()
+    const animal = Lean.Object.createWithoutData('Animal', animalId)
+    const owner = Lean.Object.createWithoutData('User', ownerId)
+    application.set({applicant, owner, animal, applicantMessage})
+    try {
+      const appRes = await application.save()
+      this.applications.push(appRes.toJSON())
+      return appRes.toJSON()
+    } catch (err) {
+      return Promise.reject(new Error(err))
+    }
+  }
+
+  async fetchRequests () {
+    console.log('fetch requests')
+  }
+
+  // LIKES
+  async fetchLikes (refresh = false) {
+    if (!_isEmpty(this.likes) && !refresh) return this.likes
+    try {
+      const query = new Lean.Query('Like')
+        .equalTo('user', Lean.User.current())
+        .include('animal')
+        .select(['id', 'animal.id'])
+      const queryRes = await query.find()
+      this.likes = queryRes.map(like => like.toJSON())
+      return this.likes
     } catch (err) {
       console.error(err)
       return Promise.reject(new Error(err))

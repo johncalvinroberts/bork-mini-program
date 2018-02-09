@@ -180,6 +180,7 @@
   <unregisteredmodal/>
   <applicationmodal @submit.user="handleAppSubmit"/>
   <flash/>
+  <fidoloader/>
   <bottomdrawer :items.sync="shareDrawerItems" @itemtap.user="handleShareItem"/>
 </template>
 <script>
@@ -191,11 +192,13 @@
   import ApplicationModal from '@/components/application-modal'
   import BottomDrawer from '@/components/bottom-drawer'
   import UnregisteredModal from '@/components/unregistered-modal'
+  import FidoLoader from '@/components/fido-loader'
   import _isEmpty from 'lodash.isempty'
 
   export default class AnimalProfile extends wepy.page {
     data = {
       indicatorDots: true,
+      loading: false,
       calcHeight: 0,
       animal: '',
       userId: '',
@@ -212,13 +215,20 @@
       unregisteredmodal: UnregisteredModal,
       flash: Flash,
       bottomdrawer: BottomDrawer,
-      applicationmodal: ApplicationModal
+      applicationmodal: ApplicationModal,
+      fidoloader: FidoLoader
     }
 
     mixins = [AnimalMixin, LocalesMixin]
     watch = {
+      loading () {
+        if (this.loading) {
+          this.$invoke('fidoloader', 'showLoading', '')
+        } else {
+          this.$invoke('fidoloader', 'hideLoading', '')
+        }
+      },
       t () {
-        console.log('here')
         this.shareDrawerItems = [
           {name: this.t.send_friends, value: 'send_friends', isShare: true},
           {name: this.t.qr_code, value: 'qr_code', isShare: false}]
@@ -271,16 +281,31 @@
         }
       },
       handleAppSubmit (message) {
-        console.log(message)
+        this.loading = true
+        this.$invoke('applicationmodal', 'hideModal', '')
+        const owner = this.animalInfo.user.objectId
+        this.$parent.globalData.user.submitApplication(this.animal, owner, message)
+          .then(res => {
+            const successMessage = this.t.successfully_applied
+            this.hasApplied = true
+            setTimeout(() => {
+              this.loading = false
+              this.$invoke('flash', 'showMessage', successMessage)
+              this.$apply()
+            }, 500)
+            console.log(res)
+          })
+          .catch(err => console.error(err))
       }
     }
 
     onLoad ({animal}) {
+      console.log('onload hehe')
+      this.loading = true
       this.animal = animal
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.setScreenHeight()
       this.checkLikesAndApps()
-      this.fetchAnimalDetails(animal)
     }
 
     onShareAppMessage (res) {
@@ -303,11 +328,15 @@
     async checkLikesAndApps () {
       try {
         const likesReq = this.$parent.globalData.user.fetchLikes()
-        const appsReq = this.$parent.globalData.user.fetchApplications()
-        const [likes, apps] = await Promise.all([likesReq, appsReq])
-
+        const appsReq = this.$parent.globalData.user.fetchApplications(true)
+        const animalReq = this.fetchAnimalDetails(this.animal)
+        const [likes, apps] = await Promise.all([likesReq, appsReq, animalReq])
         this.hasLiked = !_isEmpty(likes.find(like => like.animal.objectId === this.animal))
-        this.hasApplied = !_isEmpty(apps.find(app => app.animal.Id === this.animal))
+        this.hasApplied = !_isEmpty(apps.find(app => app.animal.objectId === this.animal))
+        setTimeout(() => {
+          this.loading = false
+          this.$apply()
+        }, 500)
         this.$apply()
       } catch (err) {
         console.error(err)
@@ -341,7 +370,6 @@
         // handle this error, means the dog is not existing anymore probably
         return Promise.reject(new Error(err))
       }
-      this.$apply()
     }
 
     async handleLike () {
