@@ -74,3 +74,6 @@
 .bottom-bar-btn__small {
   flex:0 0 50px;
 }
+.bottom-bar-btn[disabled], .bottom-bar-btn__small[disabled]{
+  color: $black;
+}

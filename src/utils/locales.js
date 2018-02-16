@@ -60,7 +60,9 @@ export default {
       "rescuer": "rescuer",
       "adopter": "adopter",
       "requests": "requests",
-      "rescues": "my rescues"
+      "rescues": "my rescues",
+      "rescues_empty": "You haven't added any animals yet🐶🐱",
+      "requests_empty": "No requests...yet🤔"
     },
     "become-rescuer": {
       "title": "Become a rescuer",
@@ -184,7 +186,9 @@ export default {
       "rescuer": "救助者",
       "adopter": "领养者",
       "requests": "申请收件箱",
-      "rescues": "我的贝贝们"
+      "rescues": "我的贝贝们",
+      "rescues_empty": "你还没有添加小动物🐶🐱",
+      "requests_empty": "还没有申请🤔"
     },
     "become-rescuer":{
       "title": "成为救助者",

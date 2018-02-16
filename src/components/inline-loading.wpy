@@ -1,0 +1,50 @@
+<style lang="scss">
+  @import "../styles/variables.scss";
+  .inline-loading--outer{
+    padding:40rpx;
+    text-align:center;
+  }
+  .inline-loading--inner{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow:hidden;
+    margin:0 auto;
+  }
+  .loader--moving-background{
+    background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+    width: 300%;
+    height: 100px;
+    animation: backgroundAnimation 1s linear infinite;
+    animation-direction: alternate;
+    position:relative;
+    top:-50px;
+    left:-50px;
+  }
+  @keyframes backgroundAnimation {
+    from {transform: rotate(0deg);}
+    to { transform: rotate(100deg);}
+  }
+  @keyframes shuffling {
+    from { left: -15%; transform: scale(random(1)); top: 10px;}
+    to { left: 100%; transform: scale(random(120)); opacity: 0.3;}
+  }
+</style>
+<template>
+  <view class="inline-loading--outer" style="display: {{isopen ? 'block' : 'none'}};">
+    <view class="inline-loading--inner">
+      <view class="loader--moving-background"></view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class InlineLoading extends wepy.component {
+    props = {
+      isopen: {
+        type: Boolean,
+        default: false
+      }
+    }
+  }
+</script>

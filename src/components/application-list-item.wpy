@@ -1,0 +1,112 @@
+<style lang="scss">
+  @import "../styles/variables.scss";
+  .app--outer{
+    border-bottom: $section-border;
+    padding: 30rpx;
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    color: $black;
+    &:first-child{
+      border-top: $section-border;
+    }
+    .app__status {
+      width: 40rpx;
+      height: 40rpx;
+      border-radius: 50%;
+    }
+    .app__status.pending {
+      background-color: $yellow;
+    }
+    .app__status.approved {
+      background-color: $color-primary;
+    }
+  }
+  .app--applicant-avatar {
+    position: relative;
+    .app__status {
+      position: absolute;
+      right: 2rpx;
+      bottom: -10rpx;
+    }
+  }
+</style>
+<template>
+  <view class="app--outer" @tap="handletap">
+    <image class="avatar__large" src="{{application.animal.images[0]}}"/>
+    <!-- THIS IS IF IT'S IN THE REQUESTS TAB...RESCUER VIEW -->
+    <block wx:if="{{isowner}}">
+      <view class="app--animal__name">
+        {{applicantSent}}
+      </view>
+      <view class="app--applicant-avatar">
+        <image class="avatar__xs" src="{{application.applicant.avatarUrl}}"/>
+        <view class="app__status pending" wx:if="{{status === 'pending'}}">
+          <view class="icon--dash"/>
+        </view>
+        <view class="app__status approved" wx:if="{{status === 'approved'}}">
+          <view class="icon--dash"/>
+        </view>
+        <view class="app__status approved" wx:if="{{status === 'rejected'}}">
+          <view class="icon--ex"/>
+        </view>
+      </view>
+    </block>
+    <!-- THIS IS IF IT'S IN THE APPLICATIONS TAB...ADOPTER VIEW -->
+    <block wx:else>
+      <view class="app--animal__name">{{application.animal.name}}</view>
+      <view class="app--status">
+      </view>
+    </block>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class ApplicationListItem extends wepy.component {
+    props = {
+      application: {
+        type: Object
+      },
+      isowner: {
+        type: Boolean,
+        default: false
+      }
+    }
+    watch = {
+      application () {
+        console.log(this.application)
+      }
+    }
+    data = {
+      // applicantSent: ''
+    }
+    computed = {
+      applicantSent () {
+        if (!this.application) return ''
+        if (wepy.T.locale === 'zh_CN') {
+          return `用户${this.application.applicant.nickName}对${this.application.animal.name}发起了请求`
+        } else {
+          return `User ${this.application.applicant.nickName} applied to adopt ${this.application.animal.name}`
+        }
+      },
+      status () {
+        if (!this.application) return 'pending'
+        if (this.application.approved) {
+          return 'approved'
+        } else if (!this.application.approved && this.application.rejected) {
+          return 'rejected'
+        } else if (!this.application.approved && !this.application.reject) {
+          return 'pending'
+        }
+      }
+    }
+    methods = {
+      handletap () {
+        console.log(this.application)
+      }
+    }
+    onLoad () {
+    }
+  }
+</script>

@@ -153,6 +153,7 @@ export default class UserModel {
   }
 
   async fetchRescues (page = 1, refresh = false) {
+    console.log('here')
     if (!_isEmpty(this.rescues) && !refresh) return this.rescues
     const skipAmt = (page * 10) - 10
     const query = new Lean.Query('Animal')
@@ -171,6 +172,7 @@ export default class UserModel {
 
   // APPLICATIONS
   async fetchApplications (refresh = false) {
+    console.log('here')
     if (!_isEmpty(this.applications) && !refresh) return this.applications
     console.log('actually fetchin')
     try {
@@ -201,8 +203,26 @@ export default class UserModel {
     }
   }
 
-  async fetchRequests () {
-    console.log('fetch requests')
+  // REQUESTS
+  async fetchRequests (refresh = false) {
+    if (!_isEmpty(this.requests) && !refresh) return this.requests
+    try {
+      const query = new Lean.Query('Application')
+        .equalTo('owner', Lean.User.current())
+        .include(['animal', 'applicant'])
+        .select([
+          'animal.name',
+          'animal.images',
+          'applicantMessage',
+          'applicant.nickName',
+          'applicant.avatarUrl'])
+      const appsRes = await query.find()
+      this.requests = appsRes.map(app => app.toJSON())
+      return this.requests
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
+    }
   }
 
   // LIKES

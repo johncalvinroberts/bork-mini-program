@@ -164,10 +164,16 @@
     </view>
   </view>
   <bottombar>
-    <button class="bottom-bar-btn" @tap="likeAnimal" wx:if="{{!hasLiked}}">
+    <button class="bottom-bar-btn"
+            @tap="likeAnimal"
+            wx:if="{{!hasLiked}}"
+            disabled="{{likeButtonDisabled}}">
       <view class="icon--like"/>{{t.like}}
     </button>
-    <button class="bottom-bar-btn" @tap="likeAnimal" wx:if="{{hasLiked}}">
+    <button class="bottom-bar-btn"
+            @tap="likeAnimal"
+            wx:if="{{hasLiked}}"
+            disabled="{{likeButtonDisabled}}">
       <view class="icon--like"/>{{t.already_liked}}
     </button>
     <button class="bottom-bar-btn" @tap="showApplication">
@@ -207,7 +213,8 @@
       animalAgeText: '',
       shareDrawerItems: [],
       hasLiked: false,
-      hasApplied: false
+      hasApplied: false,
+      likeButtonDisabled: false
     }
 
     components = {
@@ -374,8 +381,10 @@
 
     async handleLike () {
       try {
+        this.likeButtonDisabled = true
         await this.$parent.globalData.user.submitLike(this.animal)
         this.hasLiked = true
+        this.likeButtonDisabled = false
         this.$apply()
       } catch (err) {
         console.error(err)
@@ -384,7 +393,9 @@
 
     async handleUnLike () {
       try {
+        this.likeButtonDisabled = true
         await this.$parent.globalData.user.submitUnLike(this.animal)
+        this.likeButtonDisabled = false
         this.hasLiked = false
         this.$apply()
       } catch (err) {

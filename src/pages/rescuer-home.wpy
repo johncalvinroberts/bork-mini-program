@@ -8,9 +8,15 @@
     <profileheader :userInfo.sync="userInfo"/>
     <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
       <tabswiperitem>
-        requests here
+        <inlineloading1 :isopen.sync="requestsLoading"/>
+        <view class="home--blank" wx:if="{{requestsEmpty && !requestsLoading}}">{{t.requests_empty}}</view>
+        <repeat for="{{requests}}" index="index" item="item" key="index">
+          <applicationlistitem :application.sync="item" :isowner.sync="isOwner"/>
+        </repeat>
       </tabswiperitem>
       <tabswiperitem2>
+        <view class="home--blank" wx:if="{{rescuesEmpty && !rescuesLoading}}">{{t.rescues_empty}}</view>
+        <inlineloading2 :isopen.sync="rescuesLoading"/>
         <repeat for="{{animals}}" index="index" item="animal" key="index">
           <animallistitem :animalObj.sync="animal"/>
         </repeat>
@@ -24,7 +30,9 @@
   import ProfileHeader from '@/components/profile-header'
   import TabSwiper from '@/components/tab-swiper'
   import TabSwiperItem from '@/components/tab-swiper-item'
+  import InlineLoading from '@/components/inline-loading'
   import AnimalListItem from '@/components/animal-list-item'
+  import ApplicationListItem from '@/components/application-list-item'
 
   export default class RescuerHome extends wepy.page {
     data = {
@@ -33,8 +41,14 @@
       userInfo: {},
       tabs: [],
       animals: [],
+      requests: [],
       currentRescuePage: 1,
-      lastRescueFetched: 0
+      lastRescueFetched: 0,
+      rescuesLoading: false,
+      requestsLoading: false,
+      rescuesEmpty: false,
+      requestsEmpty: false,
+      isOwner: true
     }
 
     components = {
@@ -42,7 +56,10 @@
       tabswiper: TabSwiper,
       tabswiperitem: TabSwiperItem,
       tabswiperitem2: TabSwiperItem,
-      animallistitem: AnimalListItem
+      animallistitem: AnimalListItem,
+      inlineloading1: InlineLoading,
+      inlineloading2: InlineLoading,
+      applicationlistitem: ApplicationListItem
     }
 
     mixins = [LocalesMixin]
@@ -79,16 +96,28 @@
     }
 
     async fetchRequests () {
-      console.log('ahahahsfhas')
+      this.requestsLoading = true
+      try {
+        const requests = await this.$parent.globalData.user.fetchRequests()
+        this.requests = requests
+        this.requestsEmpty = requests.length < 1
+        this.requestsLoading = false
+        this.$apply()
+      } catch (err) {
+        console.log(err)
+      }
     }
 
     async fetchRescues () {
       if (!this.canFetchRescues) return
+      this.rescuesLoading = true
+      this.$apply()
       try {
         const animals = await this.$parent.globalData.user.fetchRescues(this.currentRescuePage)
         animals.map(animal => this.animals.push(animal))
-        console.log(this.animals)
         this.lastRescueFetched = this.lastRescueFetched + 1
+        this.rescuesEmpty = animals.length < 1
+        this.rescuesLoading = false
         this.$apply()
       } catch (err) {
         console.log('ohhh dear')

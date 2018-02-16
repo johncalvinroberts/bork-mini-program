@@ -35,11 +35,6 @@
         wepy.navigateTo({url: `animal-profile?animal=${this.animalObj.objectId}`})
       }
     }
-    watch = {
-      animalObj () {
-        console.log('ahh')
-      }
-    }
     computed = {}
   }
 </script>
