@@ -1,15 +1,55 @@
 <style lang="scss">
-  .something{}
+  @import "../styles/variables.scss";
+  .application-detail {
+    padding: $default-padding;
+  }
+  .detail--applicant__outer {
+    border: $section-border;
+  }
 </style>
 <template>
-  <view class="container"></view>
+  <view class="container__flex-layout application-detail">
+    <view class="detail--applicant__outer">
+      <profileheader1 :userInfo.sync="applicant"/>
+    </view>
+    <view class="" wx:if="{{isOwner}}">Response box here</view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import LocalesMixin from '@/mixins/localesmixin'
+  import ProfileHeader from '@/components/profile-header'
+  import _isEmpty from 'lodash.isempty'
   export default class ApplicationDetail extends wepy.page {
-    data = {}
-    onLoad ({id}) {
-      console.log(id)
+    data = {
+      application: {},
+      isOwner: false
+    }
+    components = {
+      profileheader1: ProfileHeader
+    }
+    mixins = [LocalesMixin]
+    methods = {}
+    computed = {
+      applicant () {
+        if (_isEmpty(this.application)) return {}
+        return this.application.applicant
+      }
+    }
+
+    async onLoad ({id}) {
+      try {
+        const application = await this.$parent.globalData.user.fetchApplication(id)
+        const userId = this.$parent.globalData.user.objectId
+        if (application.owner.objectId === userId) {
+          this.isOwner = true
+        }
+        this.application = application
+        this.$apply()
+      } catch (err) {
+        console.log('fuckbra')
+        console.log(err)
+      }
     }
   }
 </script>

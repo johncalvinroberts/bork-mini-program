@@ -10,12 +10,20 @@
     opacity: 0.8;
     font-size: $font-small;
     padding:20rpx 10rpx;
+  padding-left:40px;
+  }
+  .error--top {
+    .icon--ex{
+      display: inline-block;
+      width: 30px !important;
+      height: 30px !important;
+    }
   }
 </style>
 <template>
   <modal :isopen.sync="errorModalOpen" @masktap.user="handleTap">
     <view class="error--top">
-      <image class="icon--inline" src="../icons/error.svg"/>
+      <view class="icon--ex"/>
       <view class="error--title">{{header}}</view>
       <view class="error--body">{{message}}</view>
       <button class="btn--default__small pull-right" @tap="handleTap">ok</button>

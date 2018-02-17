@@ -63,14 +63,14 @@
 }
 
 .icon--check {
-  background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
+  background-image: url('https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png');
   background-repeat:no-repeat;
   background-position:center;
   background-size:80%;
 }
 
 .icon--dash {
-  background-image: url("https://up.img.heidiancdn.com/o_1c6fjus5nn631qcutap174si6h0dash.svg");
+  background-image: url('https://up.img.heidiancdn.com/o_1c6fjus5nn631qcutap174si6h0dash.svg');
   background-repeat:no-repeat;
   background-position:center;
   background-size:80%;
@@ -80,7 +80,10 @@
 }
 
 .icon--ex {
-
+  background-image: url('https://up.img.heidiancdn.com/o_1c6gpqeo9dasrq81qbj9851t7v0error.svg');
+  width: 20px;
+  height: 20px;
+  background-size: contain;
 }
 .quote-begin{
   background-image: url("https://up.img.heidiancdn.com/o_1c5fm0jl01bj912kt1351r3durm0tion01.svg");

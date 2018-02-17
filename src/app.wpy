@@ -19,7 +19,8 @@ export default class extends wepy.app {
       'pages/animal-profile',
       'pages/edit-profile',
       'pages/edit-animal',
-      'pages/animals'
+      'pages/animals',
+      'pages/application-detail'
     ],
     window: {
       backgroundTextStyle: 'dark',

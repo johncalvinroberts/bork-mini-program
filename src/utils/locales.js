@@ -125,6 +125,11 @@ export default {
       "successful_share": "sent 👍",
       "you_already_submitted": "You already applied for this guy 💥",
       "successfully_applied": "Successfully submitted application 🎉🎉🎉"
+    },
+    "application-detail" : {
+      "pending": "Pending",
+      "approved": "Approved 🎉",
+      "rejected": "Rescuer did not accept"
     }
   },
   "zh_CN": {
@@ -251,6 +256,11 @@ export default {
       "successful_share": "转发成功 👍",
       "you_already_submitted": "你已经申请过 💥",
       "successfully_applied": "申请成功 🎉🎉🎉"
+    },
+    "application-detail" : {
+      "pending": "等待救助者回复",
+      "approved": "救助者已通过你的申请 🎉",
+      "rejected": "救助者未通过你的申请"
     }
   }
 }

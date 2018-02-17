@@ -172,7 +172,6 @@ export default class UserModel {
 
   // APPLICATIONS
   async fetchApplications (refresh = false) {
-    console.log('here')
     if (!_isEmpty(this.applications) && !refresh) return this.applications
     console.log('actually fetchin')
     try {
@@ -188,12 +187,56 @@ export default class UserModel {
       return Promise.reject(new Error(err))
     }
   }
+
+  async fetchApplication (id) {
+    const query = new Lean.Query('Application')
+      .include(['animal', 'applicant', 'owner'])
+      .select([
+        'status',
+        'ownerMessage',
+        'applicantMessage',
+        'applicant.objectId',
+        'applicant.nickName',
+        'applicant.avatarUrl',
+        'applicant.age',
+        'applicant.province',
+        'applicant.city',
+        'applicant.gender',
+        'applicant.isRescuer',
+        'owner.nickName',
+        'owner.objectId',
+        'owner.avatarUrl',
+        'owner.age',
+        'owner.province',
+        'owner.city',
+        'owner.gender',
+        'animal.name',
+        'owner.isRescuer',
+        'animal.objectId',
+        'animal.images',
+        'animal.age',
+        'animal.ageUnit',
+        'animal.neighborhood',
+        'animal.type'
+      ])
+    try {
+      const application = await query.get(id)
+      return application.toJSON()
+    } catch (err) {
+      return Promise.reject(new Error(err))
+    }
+  }
+
   async submitApplication (animalId, ownerId, applicantMessage) {
     const application = new Lean.Object('Application')
     const applicant = Lean.User.current()
     const animal = Lean.Object.createWithoutData('Animal', animalId)
     const owner = Lean.Object.createWithoutData('User', ownerId)
+    const acl = new Lean.ACL()
+    acl.setWriteAccess(ownerId, true)
+    acl.setWriteAccess(this.objectId, true)
     application.set({applicant, owner, animal, applicantMessage})
+    application.setACL(acl)
     try {
       const appRes = await application.save()
       this.applications.push(appRes.toJSON())
@@ -214,6 +257,7 @@ export default class UserModel {
           'animal.name',
           'animal.images',
           'applicantMessage',
+          'status',
           'applicant.nickName',
           'applicant.avatarUrl'])
       const appsRes = await query.find()
