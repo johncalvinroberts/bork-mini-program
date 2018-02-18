@@ -7,8 +7,13 @@
   <view class="container">
     <profileheader :userInfo.sync="userInfo"/>
     <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
-      <tabswiperitem></tabswiperitem>
-      <tabswiperitem></tabswiperitem>
+      <tabswiperitem1>
+      </tabswiperitem1>
+      <tabswiperitem2>
+        <repeat for="{{apps}}" index="index" item="app" key="index">
+          <applicationlistitem :application.sync="app" :isowner.sync="isOwner"/>
+        </repeat>
+      </tabswiperitem2>
     </tabswiper>
   </view>
 </template>
@@ -18,19 +23,24 @@
   import ProfileHeader from '@/components/profile-header'
   import TabSwiper from '@/components/tab-swiper'
   import TabSwiperItem from '@/components/tab-swiper-item'
+  import ApplicationListItem from '@/components/application-list-item'
 
   export default class AdopterHome extends wepy.page {
     data = {
       activetab: '',
       loading: true,
+      isOwner: false,
       userInfo: {},
-      tabs: []
+      tabs: [],
+      apps: []
     }
 
     components = {
       profileheader: ProfileHeader,
       tabswiper: TabSwiper,
-      tabswiperitem: TabSwiperItem
+      tabswiperitem1: TabSwiperItem,
+      tabswiperitem2: TabSwiperItem,
+      applicationlistitem: ApplicationListItem
     }
 
     mixins = [LocalesMixin]
@@ -65,7 +75,8 @@
 
     async fetchApps () {
       const apps = await this.$parent.globalData.user.fetchApplications()
-      console.log(apps)
+      this.apps = apps
+      this.$apply()
     }
   }
 </script>

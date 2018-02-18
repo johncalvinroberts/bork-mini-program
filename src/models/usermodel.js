@@ -177,8 +177,13 @@ export default class UserModel {
     try {
       const query = new Lean.Query('Application')
         .equalTo('applicant', Lean.User.current())
-        .include('animal')
-        .select(['id', 'animal.id'])
+        .include(['animal', 'applicant', 'owner'])
+        .select(['objectId',
+          'status',
+          'animal.objectId',
+          'animal.images',
+          'animal.name'
+          ])
       const appsRes = await query.find()
       this.applications = appsRes.map(app => app.toJSON())
       return this.applications

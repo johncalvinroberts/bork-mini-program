@@ -4,26 +4,114 @@
     padding:40rpx;
     text-align:center;
   }
-  .inline-loading--inner{
+  .inline-loading--inner, .inline-loading--inner-inner{
     border-radius: 50%;
     width: 50px;
     height: 50px;
     overflow:hidden;
     margin:0 auto;
+    position: relative;
   }
   .loader--moving-background{
     background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
     width: 300%;
-    height: 100px;
-    animation: backgroundAnimation 1s linear infinite;
+    height: 200px;
+    animation: backgroundAnimation 4s linear infinite;
     animation-direction: alternate;
-    position:relative;
+    position: relative;
     top:-50px;
     left:-50px;
+    transition: all 03s ease;
+  }
+  .loader--other-spinner, .loader--spinner-2, .loader--spinner-3, .loader--spinner-4, .loader--spinner-5{
+    background-color: transparent;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: solid 2px $white;
+    box-shadow: $normal-shadow;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    animation: spin 2s linear infinite;
+    z-index: 99;
+    &:after{
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      z-index: 999;
+      background-color: $purpley;
+      border-radius: 50%;
+      border: solid 2px $white;
+    }
+  }
+
+  .loader--spinner-2{
+    animation: spin2 3s cubic-bezier(.17,.67,.83,.01) infinite;
+    width: 40px;
+    height: 40px;
+    top: 5px;
+    left: 5px;
+  }
+  .loader--spinner-3 {
+    animation: spin2 3s cubic-bezier(.65,.67,.44,.3) infinite;
+    width: 20px;
+    height: 20px;
+    top: 15px;
+    left: 15px;
+  }
+  .loader--spinner-4 {
+    animation: spin5 7s linear infinite;
+    width:30px;
+    height:30px;
+    top:10px;
+    left:10px;
+  }
+  .loader--spinner-5 {
+    border-color: transparent;
+    width: 50px;
+    height: 50px;
+    animation: spin 3s cubic-bezier(.9,.55,.3,.6) infinite;
+    top: 0;
+    left: 0;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin2 {
+      0%  {transform: rotate(0deg);}
+      100%{transform: rotate(360deg);}
+  }
+
+  @keyframes spin3 {
+      0%  {transform: rotate(0deg);}
+      60%  {transform: rotate(165deg);}
+      70%  {transform: rotate(42deg);}
+      100%{transform: rotate(360deg);}
+  }
+  @keyframes spin5 {
+      0%  {transform: rotate(0deg);}
+      10%  {transform: rotate(-25deg);}
+      20%  {transform: rotate(47deg);}
+      30%  {transform: rotate(-125deg);}
+      100%{transform: rotate(360deg);}
   }
   @keyframes backgroundAnimation {
-    from {transform: rotate(0deg);}
-    to { transform: rotate(100deg);}
+    0% {
+      left: -20px;
+      top: -12px;
+    }
+    100% {
+      left: -80px;
+      top: -100px;
+    }
   }
   @keyframes shuffling {
     from { left: -15%; transform: scale(random(1)); top: 10px;}
@@ -32,8 +120,16 @@
 </style>
 <template>
   <view class="inline-loading--outer" style="display: {{isopen ? 'block' : 'none'}};">
+  <!-- <view class="inline-loading--outer" style="display: {{isopen ? 'block' : 'block'}};"> -->
     <view class="inline-loading--inner">
-      <view class="loader--moving-background"></view>
+      <!-- <view class="inline-loading--inner-inner"> -->
+        <view class="loader--moving-background"></view>
+        <view class="loader--other-spinner"></view>
+        <view class="loader--spinner-2"></view>
+        <view class="loader--spinner-3"></view>
+        <view class="loader--spinner-4"></view>
+        <view class="loader--spinner-5"></view>
+      <!-- </view> -->
     </view>
   </view>
 </template>
