@@ -90,6 +90,12 @@
       this.$apply()
     }
 
+    onShow () {
+      if (this.activetab === 'requests') {
+        this.fetchRequests()
+      }
+    }
+
     onHide () {
       // this.animals = []
       // this.$apply()
@@ -98,7 +104,7 @@
     async fetchRequests () {
       this.requestsLoading = true
       try {
-        const requests = await this.$parent.globalData.user.fetchRequests()
+        const requests = await this.$parent.globalData.user.fetchRequests(true)
         this.requests = requests
         this.requestsEmpty = requests.length < 1
         this.requestsLoading = false

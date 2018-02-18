@@ -229,8 +229,9 @@
 
     onLoad () {
       // wepy.navigateTo({url: 'animal-profile?animal=5a768a3a128fe1005d5a9222'})
-      // wepy.navigateTo({url: 'rescuer-home?tab=requests'})
-      wepy.navigateTo({url: 'application-detail?id=5a86b14417d0090035385b14'})
+      wepy.navigateTo({url: 'rescuer-home?tab=requests'})
+      // wepy.navigateTo({url: 'application-detail?id=5a86b14417d0090035385b14'})
+      // wepy.navigateTo({url: 'application-detail?id=5a8699d0ac502e003290f42f'})
       wepy.setNavigationBarTitle({
         title: 'fido'
       })

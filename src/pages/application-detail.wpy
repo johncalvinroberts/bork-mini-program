@@ -3,47 +3,410 @@
   .application-detail {
     padding: $default-padding;
   }
-  .detail--applicant__outer {
+  .detail--section__outer {
     border: $section-border;
+    padding-bottom:20rpx;
+    margin-bottom: 40rpx;
+    position: relative;
+    .undo-btn {
+      top:20rpx;
+      right:20rpx;
+      position: absolute;
+      width: 40rpx;
+      height: 40rpx;
+    }
+    .detail--applicant__top {
+      display: flex;
+      justify-content: space-between;
+      .profile-header--outer {
+        height: auto;
+      }
+      .checkboxes--outer{
+        width: 180px;
+        padding-top: 60rpx;
+      }
+    }
+    .detail--message__outer {
+      padding: $default-padding;
+      position: relative;
+      .quote-begin{
+        position: absolute;
+        left: 20rpx;
+        top: 20rpx;
+      }
+      .quote-end{
+        position: absolute;
+        right: 20rpx;
+        bottom: 20rpx;
+      }
+      .message--body {
+        text-align: center;
+        padding: 10rpx;
+        font-size:35rpx;
+        color: $black;
+      }
+    }
   }
+  .detail--info {
+    padding: $default-padding;
+    position: relative;
+  }
+  .detail--info-box{
+    text-align: right;
+    color: $black;
+    position: absolute;
+    right: 20rpx;
+    opacity: 0.8;
+  }
+.detail--submit-outer{
+  text-align: right;
+}
+.detail--status {
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 20rpx;
+  .icon--dash, .icon--ex, .icon--check, .icon--rejected, .icon--approved {
+    display: inline-block;
+    vertical-align:middle;
+    margin-right: 10px;
+  }
+  text {
+    vertical-align:middle;
+    font-weight: bolder;
+  }
+  .detail--info-box {
+    position:relative;
+    right:unset;
+    margin: 5rpx;
+    text-align: center;
+  }
+}
+
+.detail--options {
+  padding:20rpx 10rpx;
+  color: $black;
+  text-align:center;
+}
+.longpress-reminder{
+  opacity: 0.8;
+  color: $black;
+  font-size: 20rpx;
+}
+.detail--response-btns{
+  padding-top: $default-padding;
+  text-align: right;
+}
+.cancel-btns {
+  display: flex;
+  padding: 20rpx 0 0;
+  text-align: center;
+  justify-content: space-around;
+  font-size:10px;
+  button {
+    max-width: 160rpx;
+    flex: 1;
+    font-size: 10px;
+  }
+}
 </style>
 <template>
   <view class="container__flex-layout application-detail">
-    <view class="detail--applicant__outer">
-      <profileheader1 :userInfo.sync="applicant"/>
+    <view class="detail--section__outer">
+      <view class="detail--applicant__top">
+        <profileheader1 :userInfo.sync="applicant"/>
+        <view class="checkboxes--outer">
+          <view class="icon--check__round {{applicant.adoptVerified ? 'checked' : ''}}">{{t.id_verified}}</view>
+        </view>
+      </view>
+      <view class="detail--message__outer">
+        <!-- <view class="quote-begin"></view> -->
+        <view class="message--body">
+          "{{application.applicantMessage}}"
+        </view>
+        <!-- <view class="quote-end"></view> -->
+      </view>
+      <view class="detail--info">
+        <view class="detail--info-box">
+          {{t.submitted}} {{applicationDate}}
+        </view>
+      </view>
     </view>
-    <view class="" wx:if="{{isOwner}}">Response box here</view>
+    <view class="" wx:if="{{isOwner}}">
+      <!-- OWNER HASN'T RESPONDED YET THEY SEE THIS -->
+      <view wx:if="{{application.status === 1}}">
+        <form id="ownerResponse" @submit="handleOwnerSubmit">
+          <view class="detail--section__outer padbox--half">
+            <input type="text"
+                  name="ownerMessage"
+                  placeholder="{{t.input_placeholder}}"
+                  focus="{{focusInput}}"
+                  @blur="{{handleBlur}}"/>
+            <view class="detail--response-btns">
+              <radiolist :choices.sync="radioChoices"
+                        :currentchoice.sync="response"
+                        :style.sync="radioStyle"/>
+            </view>
+          </view>
+          <view class="detail--submit-outer">
+            <button class="btn--default__medium__mids" formType="submit">
+              {{t.submit}}
+            </button>
+          </view>
+        </form>
+      </view>
+      <view wx:else>
+        <!-- WHAT THE OWNER SEES IF THEY HAVE ALREADY RESPONDED -->
+        <view class="detail--section__outer padbox--half">
+          <view class="detail--message__outer" wx:if="{{application.status === 2}}">
+            <view class="detail--status">
+              <view class="icon--approved"/>
+              <text>{{t.approved}}</text>
+              <view class="detail--info-box">{{updatedTime}}</view>
+            </view>
+            <view class="message--body">
+              "{{application.ownerMessage}}"
+            </view>
+            <view class="detail--options">
+              {{t.you_approved}}
+              <clipboardcopier :value.sync="applicantWechat" @copySuccess.user="handleCopySuccess"/>
+              <view class="longpress-reminder">({{t.longpress_reminder}})</view>
+            </view>
+          </view>
+
+          <view class="detail--message__outer" wx:if="{{application.status === 3}}">
+            <view class="detail--status">
+              <view class="icon--rejected"/>
+              <text>{{t.rejected}}</text>
+              <view class="detail--info-box">{{updatedTime}}</view>
+            </view>
+            <view class="message--body">
+              "{{application.ownerMessage}}"
+            </view>
+            <view class="detail--options">
+            </view>
+          </view>
+
+          <image class="undo-btn" @tap="toggleUndoModal" src="../icons/close.svg" mode="aspectFit"/>
+        </view>
+      </view>
+    </view>
+
+    <view class="" wx:if="{{!isOwner}}">
+      <!-- ADOPTER STATUS SECTION -->
+      <view class="detail--section__outer padbox--half">
+
+        <view class="detail--message__outer" wx:if="{{application.status === 1}}">
+          <view class="detail--status">
+            <view class="icon--dash"/>
+            <text>{{t.pending}}</text>
+          </view>
+        </view>
+
+        <view class="detail--message__outer" wx:if="{{application.status === 2}}">
+          <view class="detail--status">
+            <view class="icon--approved"/>
+            <text>{{t.approved}}</text>
+            <view class="detail--info-box">{{updatedTime}}</view>
+          </view>
+          <view class="message--body">
+            "{{application.ownerMessage}}"
+          </view>
+          <view class="detail--options">
+            {{t.you_were_approved}}
+            <clipboardcopier :value.sync="applicantWechat" @copySuccess.user="handleCopySuccess"/>
+            <view class="longpress-reminder">({{t.longpress_reminder}})</view>
+          </view>
+        </view>
+
+        <view class="detail--message__outer" wx:if="{{application.status === 3}}">
+          <view class="detail--status">
+            <view class="icon--rejected"/>
+            <text>{{t.rejected}}</text>
+            <view class="detail--info-box">{{updatedTime}}</view>
+          </view>
+          <view class="message--body">
+            "{{application.ownerMessage}}"
+          </view>
+          <view class="detail--options">
+          </view>
+        </view>
+
+      </view>
+    </view>
   </view>
+  <modal :isopen.sync="undoModalOpen" @masktap.user="toggleUndoModal">
+    <view class="text-center">
+      {{t.confirm_undo}}
+    </view>
+    <view class="cancel-btns">
+      <button class="btn--blank" @tap="toggleUndoModal">{{t.cancel}}</button>
+      <button class="btn--default__small" @tap="confirmUndo">{{t.confirm}}</button>
+    </view>
+  </modal>
+  <errormodal/>
+  <fidoloader/>
+  <flash/>
 </template>
 <script>
   import wepy from 'wepy'
+  import {formatTime} from '@/utils/utils.js'
   import LocalesMixin from '@/mixins/localesmixin'
   import ProfileHeader from '@/components/profile-header'
+  import RadioList from '@/components/radiolist'
+  import ErrorModal from '@/components/error-modal'
+  import FidoLoader from '@/components/fido-loader'
+  import Flash from '@/components/flash'
+  import ClipboardCopier from '@/components/clipboardcopier'
+  import Modal from '@/components/modal'
   import _isEmpty from 'lodash.isempty'
   export default class ApplicationDetail extends wepy.page {
     data = {
       application: {},
-      isOwner: false
+      isOwner: false,
+      focusInput: false,
+      radioChoices: [],
+      radioStyle: 'stoplights',
+      response: 1,
+      ownerMessage: '',
+      applicantWechat: '',
+      ownerWechat: '',
+      undoModalOpen: false
     }
     components = {
-      profileheader1: ProfileHeader
+      profileheader1: ProfileHeader,
+      radiolist: RadioList,
+      errormodal: ErrorModal,
+      fidoloader: FidoLoader,
+      clipboardcopier: ClipboardCopier,
+      flash: Flash,
+      modal: Modal
     }
     mixins = [LocalesMixin]
-    methods = {}
+
+    watch = {
+      t () {
+        this.radioChoices = [{
+          name: this.t.reject,
+          value: 3
+        }, {
+          name: this.t.accept,
+          value: 2
+        }]
+        this.$apply()
+      },
+      response () {
+        if (this.response === 2 && this.isOwner) {
+          this.fetchApplicantWechat()
+        } else if (this.response === 2 && !this.isOwner) {
+          this.fetchOwnerWechat()
+        }
+      }
+    }
+
     computed = {
       applicant () {
         if (_isEmpty(this.application)) return {}
         return this.application.applicant
+      },
+      applicationDate () {
+        if (_isEmpty(this.application)) return ''
+        const formatted = formatTime(new Date(this.application.createdAt))
+        return formatted
+      },
+      updatedTime () {
+        if (_isEmpty(this.application)) return ''
+        const formatted = formatTime(new Date(this.application.updatedAt))
+        return formatted
+      }
+    }
+
+    methods = {
+      handleBlur () {
+        this.focusInput = false
+        this.$apply()
+      },
+      handleOwnerSubmit ({detail}) {
+        this.ownerMessage = detail.value.ownerMessage
+        if (this.response === 1 || this.ownerMessage === '') {
+          const params = {
+            header: this.t.submit_error_header,
+            message: this.response === 1 ? this.t.submit_error_no_response : this.t.submit_error_no_message
+          }
+          return this.$invoke('errormodal', 'showMessage', params)
+        } else {
+          this.submitResponse()
+        }
+      },
+      toggleUndoModal () {
+        this.undoModalOpen = !this.undoModalOpen
+        this.$apply()
+      },
+      confirmUndo () {
+        this.undoModalOpen = !this.undoModalOpen
+        this.response = 1
+        this.$apply()
+        this.submitResponse()
+      },
+      handleCopySuccess () {
+        this.$invoke('flash', 'showMessage', this.t.copied_successfully)
+      }
+    }
+
+    async submitResponse () {
+      this.$invoke('fidoloader', 'showLoading', '')
+      try {
+        const params = {status: this.response, ownerMessage: this.ownerMessage}
+        const newApp = await this.$parent.globalData.user.respondToRequest(this.application.objectId, params)
+        this.application.ownerMessage = newApp.ownerMessage
+        this.application.status = newApp.status
+        this.$apply()
+        setTimeout(() => this.$invoke('fidoloader', 'hideLoading', ''), 500)
+      } catch (err) {
+        console.log(err)
+        this.$invoke('fidoloader', 'hideLoading', '')
+      }
+    }
+
+    async fetchApplicantWechat () {
+      try {
+        const id = this.application.objectId
+        const res = await this.$parent.globalData.user.fetchApplicationWechat(id, false)
+        this.applicantWechat = this.ownerWechat = res.applicant.wxUsername
+        console.log(this.applicantWechat)
+        this.$apply()
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    async fetchOwnerWechat () {
+      try {
+        const id = this.application.objectId
+        const res = await this.$parent.globalData.user.fetchApplicationWechat(id, true)
+        this.ownerWechat = res.owner.wxUsername
+        console.log(this.ownerWechat)
+        this.$apply()
+      } catch (err) {
+        console.error(err)
       }
     }
 
     async onLoad ({id}) {
+      this.$invoke('fidoloader', 'showLoading', '')
       try {
         const application = await this.$parent.globalData.user.fetchApplication(id)
         const userId = this.$parent.globalData.user.objectId
+        if (userId !== application.applicant.objectId && userId !== application.owner.objectId) {
+          return wepy.navigateBack()
+        }
         if (application.owner.objectId === userId) {
           this.isOwner = true
         }
+        this.response = application.status
+        setTimeout(() => {
+          this.focusInput = true
+          this.$invoke('fidoloader', 'hideLoading', '')
+        }, 500)
         this.application = application
         this.$apply()
       } catch (err) {

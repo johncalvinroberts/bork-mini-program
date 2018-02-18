@@ -129,7 +129,23 @@ export default {
     "application-detail" : {
       "pending": "Pending",
       "approved": "Approved 🎉",
-      "rejected": "Rescuer did not accept"
+      "rejected": "Rescuer did not accept",
+      "id_verified": "Verified",
+      "submitted": "Submitted: ",
+      "input_placeholder": "Send a reply🎙to the applicant",
+      "reject": "Reject",
+      "accept": "Accept",
+      "submit": "Submit",
+      "submit_error_header": "uhmm 🤦‍",
+      "submit_error_no_message": "Please enter a response",
+      "submit_error_no_response": "Please choose if you want to reject or accept the application",
+      "confirm_undo": "Are you sure you want to undo?",
+      "confirm": "Okay",
+      "cancel": "cancel",
+      "you_approved": "You approved, you can contact the adopter through WeChat",
+      "you_were_approved": "The rescuer approved you to adopt, you can contact the resucer through WeChat",
+      "longpress_reminder": "Long press to copy WeChat",
+      "copied_successfully": "Username added to clipboard📎"
     }
   },
   "zh_CN": {
@@ -260,7 +276,23 @@ export default {
     "application-detail" : {
       "pending": "等待救助者回复",
       "approved": "救助者已通过你的申请 🎉",
-      "rejected": "救助者未通过你的申请"
+      "rejected": "救助者未通过你的申请",
+      "id_verified": "身份验证",
+      "submitted": "提交于：",
+      "input_placeholder": "对申请者说🎙点什么吧 ",
+      "reject": "拒绝",
+      "accept": "通过",
+      "submit": "发送",
+      "submit_error_header": "哎🤦‍",
+      "submit_error_no_message": "你得输入一个回复",
+      "submit_error_no_response": "请选择你要拒绝还是通过这个申请",
+      "confirm_undo": "确定撤销？",
+      "confirm": "确定",
+      "cancel": "取消",
+      "you_approved": "你已经通过了这个领养者, 你可以随时通过微信联系领养者",
+      "longpress_reminder": "长按复制微信",
+      "you_were_approved": "救助者已经通过了你的领养申请, 你可以随时通过微信联系救助者",
+      "copied_successfully": "已经复制成功📎"
     }
   }
 }

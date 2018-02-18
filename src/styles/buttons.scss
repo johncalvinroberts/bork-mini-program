@@ -1,6 +1,6 @@
 @import "./variables.scss";
 
-.btn--default, .btn--default__medium, .btn--default__small, .btn--default__dark, .btn--default__fixed {
+.btn--default, .btn--default__medium, .btn--default__medium__mids, .btn--default__small, .btn--default__dark, .btn--default__fixed {
   background: $color-primary;
   color: $black;
   border-radius: 0;
@@ -11,17 +11,24 @@
   }
 }
 
-.btn--default[disabled], .btn--default__medium[disabled], .btn--default__dark[disabled], .btn--default__fixed[disabled] {
+.btn--default[disabled], .btn--default__medium[disabled],.btn--default__medium__mids[disabled], .btn--default__dark[disabled], .btn--default__fixed[disabled] {
   opacity: 0.8;
 }
 
-.btn--default__medium{
+.btn--default__medium, .btn--default__medium__mids{
   border: 2px solid $black;
   padding: $default-padding / 2;
   box-shadow: $chunky-shadow;
   background-color: $white;
   max-width: 230px;
   margin: 10px;
+}
+.btn--default__medium__mids {
+  max-width: 150px;
+  width: 150px;
+  display:inline-block;
+  padding: 10rpx;
+  line-height:1;
 }
 
 .btn--default__fixed {

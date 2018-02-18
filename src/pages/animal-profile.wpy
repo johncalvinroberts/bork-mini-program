@@ -60,32 +60,6 @@
     padding: $default-padding / 2 $default-padding;
   }
 
-  .animal--check {
-    margin: 10rpx 0;
-    color: $black;
-    text-decoration: line-through;
-    &:before {
-      content: '';
-      border-radius: 50%;
-      width:40rpx!important;
-      height:40rpx!important;
-      background-color: $light-grey;
-      background-repeat:no-repeat;
-      background-position:center;
-      background-size:80%;
-      display:inline-block;
-      margin-right:10rpx;
-      vertical-align:middle;
-    }
-  }
-  .animal--check.checked {
-    opacity: 1;
-    text-decoration: none;
-    &:before{
-      background-color: $color-primary;
-      background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
-    }
-  }
   .animal--quotation{
     padding: $default-padding;
     position: relative;
@@ -144,9 +118,9 @@
         </view>
       </view>
       <view class="animal--section">
-        <view class="animal--check {{animalInfo.fixed ? 'checked' : ''}}">{{t.fixed}}</view>
-        <view class="animal--check {{animalInfo.available ? 'checked' : ''}}">{{t.available}}</view>
-        <view class="animal--check {{animalInfo.vaccinated ? 'checked' : ''}}">{{t.vaccines}}</view>
+        <view class="icon--check__round {{animalInfo.fixed ? 'checked' : ''}}">{{t.fixed}}</view>
+        <view class="icon--check__round {{animalInfo.available ? 'checked' : ''}}">{{t.available}}</view>
+        <view class="icon--check__round {{animalInfo.vaccinated ? 'checked' : ''}}">{{t.vaccines}}</view>
       </view>
       <view class="animal--section">
         <view class="animal--quotation">

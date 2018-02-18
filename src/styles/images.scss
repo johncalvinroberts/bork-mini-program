@@ -119,3 +119,43 @@
   width: 40px;
   height: 40px;
 }
+
+.icon--check__round {
+  margin: 10rpx 0;
+  color: $black;
+  text-decoration: line-through;
+  &:before {
+    content: '';
+    border-radius: 50%;
+    width:40rpx!important;
+    height:40rpx!important;
+    background-color: $light-grey;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:80%;
+    display:inline-block;
+    margin-right:10rpx;
+    vertical-align:middle;
+  }
+}
+.icon--check__round.checked {
+  opacity: 1;
+  text-decoration: none;
+  &:before{
+    background-color: $color-primary;
+    background-image: url("https://up.img.heidiancdn.com/o_1c0o37aq312v91kk4mrdbobb0k0hecked.png");
+  }
+}
+
+.icon--rejected {
+  background-color: $red;
+  width: 35rpx;
+  height: 35rpx;
+  border-radius: 50%;
+}
+.icon--approved {
+  background-color: $color-primary;
+  width: 35rpx;
+  height: 35rpx;
+  border-radius: 50%;
+}

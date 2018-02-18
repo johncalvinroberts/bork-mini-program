@@ -17,7 +17,7 @@
 </style>
 <template>
   <view class="flash--sheet"
-        style="transform:{{isOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -110%, 0)'}};">
+        style="transform:{{isOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -200%, 0)'}};">
     {{currentMessage}}
   </view>
 </template>

@@ -1,0 +1,44 @@
+<style lang="scss">
+  @import "../styles/variables.scss";
+  .copy-btn{
+    text-align:center;
+    padding:10rpx;
+    vertical-align:middle;
+    line-height:1;
+    margin:15px;
+    margin-bottom: 5rpx;
+    border-radius: 0;
+    background-color: rgba($blue, 0.3);
+    &:before, &:after{
+      border-radius: 0;
+    }
+  }
+</style>
+<template>
+  <!-- <input type="text" class="copy-input"name="copier" @input="handleInput" value="{{value}}" @focus="handleFocus"/> -->
+  <button class="copy-btn" @longpress="handleShit">{{value}}</button>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class ClipboardCopier extends wepy.component {
+    props = {
+      value: {
+        type: String
+      }
+    }
+    methods = {
+      handleInput () {
+        this.value = this.value
+        this.$apply()
+      },
+      handleShit () {
+        wepy.setClipboardData({data: this.value})
+          .then(res => {
+            console.log('fuckm8')
+            this.$emit('copySuccess', this.value)
+          })
+          .catch(err => console.error(err))
+      }
+    }
+  }
+</script>

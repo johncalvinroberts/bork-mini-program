@@ -67,7 +67,9 @@ page{
 .padbox--default {
   padding: $default-padding;
 }
-
+.padbox--half {
+  padding: $default-padding / 2;
+}
 .container__has-footer {
   padding-bottom: 100px;
 }
@@ -128,4 +130,6 @@ page{
   padding: $default-padding;
   text-align:center;
 }
-
+.text-center{
+  text-align: center;
+}

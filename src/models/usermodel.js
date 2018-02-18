@@ -203,6 +203,7 @@ export default class UserModel {
         'applicant.city',
         'applicant.gender',
         'applicant.isRescuer',
+        'applicant.adoptVerified',
         'owner.nickName',
         'owner.objectId',
         'owner.avatarUrl',
@@ -235,6 +236,8 @@ export default class UserModel {
     const acl = new Lean.ACL()
     acl.setWriteAccess(ownerId, true)
     acl.setWriteAccess(this.objectId, true)
+    acl.setReadAccess(ownerId, true)
+    acl.setReadAccess(this.objectId, true)
     application.set({applicant, owner, animal, applicantMessage})
     application.setACL(acl)
     try {
@@ -249,6 +252,7 @@ export default class UserModel {
   // REQUESTS
   async fetchRequests (refresh = false) {
     if (!_isEmpty(this.requests) && !refresh) return this.requests
+    console.log('actuallytyya')
     try {
       const query = new Lean.Query('Application')
         .equalTo('owner', Lean.User.current())
@@ -262,11 +266,32 @@ export default class UserModel {
           'applicant.avatarUrl'])
       const appsRes = await query.find()
       this.requests = appsRes.map(app => app.toJSON())
+      console.log(this.requests)
       return this.requests
     } catch (err) {
       console.error(err)
       return Promise.reject(new Error(err))
     }
+  }
+
+  async respondToRequest (id, {status, ownerMessage}) {
+    try {
+      const application = Lean.Object.createWithoutData('Application', id)
+      application.set({status, ownerMessage})
+      const applicationRes = await application.save()
+      return applicationRes.toJSON()
+    } catch (err) {
+      return Promise.reject(new Error(err))
+    }
+  }
+
+  async fetchApplicationWechat (id, isOwner) {
+    const selects = ['applicant.wxUsername', 'owner.wxUsername']
+    const query = new Lean.Query('Application')
+      .include(['animal', 'applicant', 'owner'])
+      .select(selects)
+    const res = await query.get(id)
+    return res.toJSON()
   }
 
   // LIKES

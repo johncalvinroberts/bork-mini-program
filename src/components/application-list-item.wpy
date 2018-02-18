@@ -21,6 +21,9 @@
     .app__status.approved {
       background-color: $color-primary;
     }
+    .app__status.rejected {
+      background-color: $red;
+    }
   }
   .app--applicant-avatar {
     position: relative;
@@ -45,10 +48,10 @@
           <view class="icon--dash"/>
         </view>
         <view class="app__status approved" wx:if="{{application.status === 2}}">
-          <view class="icon--dash"/>
+          <view class="icon--approved"/>
         </view>
-        <view class="app__status approved" wx:if="{{application.status === 3}}">
-          <view class="icon--ex"/>
+        <view class="app__status rejected" wx:if="{{application.status === 3}}">
+          <view class="icon--rejected"/>
         </view>
       </view>
     </block>
