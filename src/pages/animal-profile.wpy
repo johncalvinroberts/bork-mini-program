@@ -94,10 +94,9 @@
   .swiper-counter--outer {
     background-color: #E5E5E5;
     opacity: 0.8;
-    position: absolute;
-    bottom: 20rpx;
-    left: 20rpx;
-    z-index:99;
+    position: fixed;
+    left: 10px;
+    z-index:10;
     color: $black;
     padding: 5rpx 10rpx;
   }
@@ -108,7 +107,7 @@
 <template>
   <view class="container__has-tabbar" style="padding-top:{{calcHeight}}px;">
     <view class="animal--swiper__outer">
-      <view class="swiper-counter--outer">
+      <view class="swiper-counter--outer" style="top:{{calcHeight - 30}}px;">
         <view class="icon--image"/>
         {{currentSlide}}/{{animalInfo.images.length}}
       </view>
