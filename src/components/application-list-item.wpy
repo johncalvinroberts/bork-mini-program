@@ -1,14 +1,14 @@
 <style lang="scss">
   @import "../styles/variables.scss";
   .app--outer{
-    border-bottom: $section-border;
     padding: 30rpx;
     display: flex;
     align-items:center;
     justify-content: space-between;
     color: $black;
-    &:first-child{
-      border-top: $section-border;
+    border-top: $section-border;
+    &:last-child{
+      border-bottom: $section-border;
     }
     .app__status {
       width: 40rpx;
@@ -27,6 +27,8 @@
   }
   .app--animal__name{
     min-width: 300rpx;
+    max-width:300rpx;
+    font-weight:bold;
   }
   .app__status--outer{
     position: relative;

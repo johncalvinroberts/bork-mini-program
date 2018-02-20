@@ -10,15 +10,17 @@
       <tabswiperitem1>
         <view class="home--blank" wx:if="{{likesEmpty && !likesLoading}}">{{t.likes_empty}}</view>
         <inlineloading1 :isopen.sync="likesLoading"/>
-        <repeat for="{{likes}}" index="index" item="like" key="index">
-          <animallistitem :animalObj.sync="like"/>
-        </repeat>
+        <view class="padbox--half">
+          <repeat for="{{likes}}" index="index" item="like" key="index">
+            <animallistitem :animalObj.sync="like"/>
+          </repeat>
+        </view>
       </tabswiperitem1>
       <tabswiperitem2>
         <inlineloading2 :isopen.sync="appsLoading"/>
-        <repeat for="{{apps}}" index="index" item="app" key="index">
-          <applicationlistitem :application.sync="app" :isowner.sync="isOwner"/>
-        </repeat>
+          <repeat for="{{apps}}" index="index" item="app" key="index">
+            <applicationlistitem :application.sync="app" :isowner.sync="isOwner"/>
+          </repeat>
       </tabswiperitem2>
     </tabswiper>
   </view>
@@ -44,8 +46,8 @@
       likes: [],
       likesEmpty: false,
       appsEmpty: false,
-      appsLoading: false,
-      likesLoading: false
+      appsLoading: true,
+      likesLoading: true
     }
 
     components = {

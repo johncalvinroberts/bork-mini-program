@@ -213,7 +213,7 @@
           </view>
           <view class="detail--options">
             {{t.you_were_approved}}
-            <clipboardcopier :value.sync="applicantWechat" @copySuccess.user="handleCopySuccess"/>
+            <clipboardcopier :value.sync="ownerWechat" @copySuccess.user="handleCopySuccess"/>
             <view class="longpress-reminder">({{t.longpress_reminder}})</view>
           </view>
         </view>

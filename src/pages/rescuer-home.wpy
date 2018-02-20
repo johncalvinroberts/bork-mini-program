@@ -12,9 +12,11 @@
       <tabswiperitem2>
         <view class="home--blank" wx:if="{{rescuesEmpty && !rescuesLoading}}">{{t.rescues_empty}}</view>
         <inlineloading2 :isopen.sync="rescuesLoading"/>
-        <repeat for="{{animals}}" index="index" item="animal" key="index">
-          <animallistitem :animalObj.sync="animal"/>
-        </repeat>
+        <view class="padbox--half">
+          <repeat for="{{animals}}" index="index" item="animal" key="index">
+            <animallistitem :animalObj.sync="animal" :isOwner.sync="isOwner"/>
+          </repeat>
+        </view>
       </tabswiperitem2>
     </tabswiper>
   </view>
@@ -39,8 +41,8 @@
       requests: [],
       currentRescuePage: 1,
       lastRescueFetched: 0,
-      rescuesLoading: false,
-      requestsLoading: false,
+      rescuesLoading: true,
+      requestsLoading: true,
       rescuesEmpty: false,
       requestsEmpty: false,
       isOwner: true

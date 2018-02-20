@@ -44,7 +44,9 @@
           <view class="form-item--label">
             <view class="form-item--label-inner">{{t.location}}</view>
           </view>
-          <view class="form-item--input" @tap="handleMapOuterTap">
+          <view class="form-item--input"
+                @tap="handleMapOuterTap"
+                wx:if="{{mapVisible}}">
             <locationselector :point.sync="animalPoint"/>
           </view>
         </view>
@@ -64,6 +66,9 @@
           <coolcheckbox1 :checked.sync="animalAvailable">{{t.available}}</coolcheckbox1>
           <coolcheckbox2 :checked.sync="animalFixed">{{t.fixed}}</coolcheckbox2>
           <coolcheckbox3 :checked.sync="animalVaccinated">{{t.vaccines}}</coolcheckbox3>
+          <coolcheckbox4 :checked.sync="microchipped">{{t.microchipped}}</coolcheckbox4>
+          <coolcheckbox5 :checked.sync="dewormed">{{t.dewormed}}</coolcheckbox5>
+          <coolcheckbox6 :checked.sync="deflead">{{t.deflead}}</coolcheckbox6>
         </view>
       </view>
       <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
@@ -104,11 +109,15 @@
       animalPoint: {},
       animalFixed: true,
       animalVaccinated: true,
+      microchipped: true,
+      deflead: true,
+      dewormed: true,
       title: '',
       subtitle: '',
       images: [],
       ageUnits: [],
-      currentAgeUnit: 'years'
+      currentAgeUnit: 'years',
+      mapVisible: true
     }
 
     components = {
@@ -122,6 +131,9 @@
       coolcheckbox1: CoolCheckBox,
       coolcheckbox2: CoolCheckBox,
       coolcheckbox3: CoolCheckBox,
+      coolcheckbox4: CoolCheckBox,
+      coolcheckbox5: CoolCheckBox,
+      coolcheckbox6: CoolCheckBox,
       locationselector: LocationSelector
     }
 
@@ -153,6 +165,9 @@
         this.animalAvailable = this.animalInfo.available
         this.animalFixed = this.animalInfo.fixed
         this.animalVaccinated = this.animalInfo.vaccinated
+        this.microchipped = this.animalInfo.microchipped
+        this.dewormed = this.animalInfo.dewormed
+        this.deflead = this.animalInfo.deflead
         this.currentAgeUnit = this.animalInfo.ageUnit
         this.animalPoint = this.animalInfo.location || {}
         this.$apply()
@@ -174,6 +189,17 @@
       },
       animalPoint () {
         this.animalInfo.location = this.animalPoint
+        this.$apply()
+      },
+      deflead () {
+        this.animalInfo.deflead = this.deflead
+        this.$apply()
+      },
+      dewormed () {
+        this.animalInfo.dewormed = this.dewormed
+      },
+      microchipped () {
+        this.animalInfo.microchipped = this.microchipped
         this.$apply()
       }
     }
@@ -251,16 +277,30 @@
     async handleSubmit () {
       console.log(this.hasEmptyFields)
       if (this.hasEmptyFields) return this.handleSubmitError()
-      const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['available'], ['gender'], ['fixed'], ['location'], ['vaccinated'], ['age'], ['ageUnit'])
+      const fields = _pick(this.animalInfo,
+        ['name'],
+        ['intro'],
+        ['type'],
+        ['available'],
+        ['gender'],
+        ['fixed'],
+        ['location'],
+        ['vaccinated'],
+        ['dewormed'],
+        ['deflead'],
+        ['microchipped'],
+        ['age'],
+        ['ageUnit'])
       const images = this.images
       const params = {images, ...fields}
       try {
         const updatedAnimal = await this.$parent.globalData.user.updateRescue(this.animalId, params)
         this.animalInfo = updatedAnimal
-        this.$apply()
         const message = this.isEditing ? this.t.edit_success_message : this.t.success_message
         const redirectParams = {message}
+        this.mapVisible = false
         this.$invoke('redirectmodal', 'toggleModal', redirectParams)
+        this.$apply()
       } catch (err) {
         this.handleSubmitError()
       }
@@ -281,6 +321,8 @@
         header: this.t.submit_error_header,
         message: this.t.submit_error_message
       }
+      this.mapVisible = false
+      this.$apply()
       return this.$invoke('errormodal', 'showMessage', params)
     }
   }

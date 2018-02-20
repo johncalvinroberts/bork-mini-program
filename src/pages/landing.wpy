@@ -23,7 +23,7 @@
   .sideslider-item {
     margin: 20rpx 0;
   }
-  .icon--xs {
+  .icon--xs, .icon--edit {
     float: left;
     margin-top:15px;
   }
@@ -105,7 +105,7 @@
               {{t.add_animal}}
             </button>
           <button class="btn--blank sideslider-item" @tap="handleEdit">
-            <image class="icon--xs" src="../icons/edit.svg" mode="aspectFit"/>
+            <view class="icon--edit"/>
             {{t.edit_profile}}
           </button>
         </view>
@@ -228,10 +228,12 @@
     }
 
     onLoad () {
-      // wepy.navigateTo({url: 'animal-profile?animal=5a768a3a128fe1005d5a9222'})
-      wepy.navigateTo({url: 'adopter-home?tab=applications'})
+      wepy.navigateTo({url: 'animal-profile?animal=5a7a8bec2f301e003650da89'})
+      // wepy.navigateTo({url: 'edit-animal?id=5a7a8bec2f301e003650da89&edit=true'})
+      // wepy.navigateTo({url: 'adopter-home?tab=applications'})
+      // wepy.navigateTo({url: 'rescuer-home?tab=rescues'})
       // wepy.navigateTo({url: 'application-detail?id=5a86b14417d0090035385b14'})
-      // wepy.navigateTo({url: 'application-detail?id=5a8699d0ac502e003290f42f'})
+      // wepy.navigateTo({url: 'application-detail?id=5a891186ac502e00329bb8ad'})
       wepy.setNavigationBarTitle({
         title: 'fido'
       })

@@ -1,15 +1,16 @@
 <style lang="scss">
   @import "../styles/variables.scss";
   .animal-list-item--outer{
-    border-bottom: $section-border;
     padding: 30rpx;
     display: flex;
     align-items:center;
     color: $black;
-    &:first-child{
-      border-top: $section-border;
-    }
-    .animal--name{
+    box-shadow: $section-shadow;
+    margin-bottom: 10rpx;
+    justify-content: space-between;
+    // border-top: $section-border;
+    &:last-child{
+    // border-bottom: $section-border;
     }
     .avatar__small{
       margin-right: 20rpx;
@@ -17,9 +18,12 @@
   }
 </style>
 <template>
-  <view class="animal-list-item--outer" @tap="navToAnimalProfile">
+  <view class="animal-list-item--outer" @tap="navToAnimalProfile" data-type="profile">
     <image class="avatar__small" src="{{animalObj.images[0]}}" />
-    <view class="animal--name">{{animalObj.name}}</view>
+    <view class="name">{{animalObj.name}}</view>
+    <view class="icon--edit"
+          data-type="edit"
+          wx:if="{{isOwner}}"/>
   </view>
 </template>
 <script>
@@ -28,11 +32,19 @@
     props = {
       animalObj: {
         type: Object
+      },
+      isOwner: {
+        type: Boolean,
+        default: false
       }
     }
     methods = {
-      navToAnimalProfile () {
-        wepy.navigateTo({url: `animal-profile?animal=${this.animalObj.objectId}`})
+      navToAnimalProfile ({target}) {
+        if (target.dataset.type === 'edit') {
+          wepy.navigateTo({url: `edit-animal?id=${this.animalObj.objectId}&edit=true`})
+        } else {
+          wepy.navigateTo({url: `animal-profile?animal=${this.animalObj.objectId}`})
+        }
       }
     }
     computed = {}

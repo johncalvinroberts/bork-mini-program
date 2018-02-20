@@ -121,6 +121,8 @@
   display: inline-block;
   position: relative;
   vertical-align:middle;
+  height:30px;
+  line-height:2.3;
   &:after{
     content: '';
     width: 10rpx;
@@ -128,7 +130,7 @@
     transform: rotate(45deg);
     background-color: $black;
     position: absolute;
-    top:21rpx;
+    top:15px;
     right:7rpx;
   }
   &:before{
@@ -138,7 +140,7 @@
     transform: rotate(-45deg);
     background-color: $black;
     position: absolute;
-    top:21rpx;
+    top:15px;
     right:0;
   }
 }

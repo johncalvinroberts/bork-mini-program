@@ -100,6 +100,17 @@
   background-size:contain;
 }
 
+.icon--edit {
+  background-image: url('https://up.img.heidiancdn.com/o_1c6p9pn3r16do1c4june6esk290edit.svg');
+  width: 15px;
+  height: 15px;
+  vertical-align:middle;
+  margin: 0 10rpx;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 .avatar__small, .avatar__large, .avatar__xs {
   border-radius: 50%;
   width: 80rpx;
@@ -107,6 +118,7 @@
   display: inline-block;
   vertical-align:middle;
   margin: 0 10rpx;
+  background-color: $light-grey;
 }
 
 .avatar__large {

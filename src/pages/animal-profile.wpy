@@ -1,5 +1,8 @@
 <style lang="scss">
   @import "../styles/variables.scss";
+  .animal-page {
+    height: 100%;
+  }
   .animal--swiper {
     position: fixed;
     top: 0;
@@ -88,20 +91,40 @@
     padding:20rpx;
     color: $black;
   }
+  .swiper-counter--outer {
+    background-color: #E5E5E5;
+    opacity: 0.8;
+    position: absolute;
+    bottom: 20rpx;
+    left: 20rpx;
+    z-index:99;
+    color: $black;
+    padding: 5rpx 10rpx;
+  }
+  .animal--swiper__outer{
+    position: relative;
+  }
 </style>
 <template>
   <view class="container__has-tabbar" style="padding-top:{{calcHeight}}px;">
-    <swiper class="animal--swiper"
-            indicator-dots="{{indicatorDots}}"
-            indicator-color="#0d0a31"
-            indicator-active-color="#ffffff"
-            style="height:{{calcHeight}}px;">
-      <repeat for="{{animalInfo.images}}" item="image" index="index" key="index">
-        <swiper-item>
-          <view class="animal--swiper-image" style="background-image:url({{image}});"></view>
-        </swiper-item>
-      </repeat>
-    </swiper>
+    <view class="animal--swiper__outer">
+      <view class="swiper-counter--outer">
+        <view class="icon--image"/>
+        {{currentSlide}}/{{animalInfo.images.length}}
+      </view>
+      <swiper class="animal--swiper"
+              indicator-dots="{{indicatorDots}}"
+              indicator-color="#0d0a31"
+              indicator-active-color="#ffffff"
+              @change="swiperChange"
+              style="height:{{calcHeight}}px;">
+        <repeat for="{{animalInfo.images}}" item="image" index="index" key="index">
+          <swiper-item>
+            <view class="animal--swiper-image" style="background-image:url({{image}});"></view>
+          </swiper-item>
+        </repeat>
+      </swiper>
+    </view>
     <view class="animal--body">
       <view class="animal--header flex--parent__horizontal">
         <view class="animal--big-name">
@@ -118,9 +141,19 @@
         </view>
       </view>
       <view class="animal--section">
-        <view class="icon--check__round {{animalInfo.fixed ? 'checked' : ''}}">{{t.fixed}}</view>
-        <view class="icon--check__round {{animalInfo.available ? 'checked' : ''}}">{{t.available}}</view>
-        <view class="icon--check__round {{animalInfo.vaccinated ? 'checked' : ''}}">{{t.vaccines}}</view>
+        <view class="flex--parent__horizontal">
+          <view class="">
+            <view class="icon--check__round {{animalInfo.available ? 'checked' : ''}}">{{t.available}}</view>
+            <view class="icon--check__round {{animalInfo.fixed ? 'checked' : ''}}">{{t.fixed}}</view>
+            <view class="icon--check__round {{animalInfo.vaccinated ? 'checked' : ''}}">{{t.vaccines}}</view>
+          </view>
+          <view class="">
+            <view class="icon--check__round {{animalInfo.microchipped ? 'checked' : ''}}">{{t.microchipped}}</view>
+            <view class="icon--check__round {{animalInfo.dewormed ? 'checked' : ''}}">{{t.dewormed}}</view>
+            <view class="icon--check__round {{animalInfo.deflead ? 'checked' : ''}}">{{t.deflead}}</view>
+          </view>
+        </view>
+
       </view>
       <view class="animal--section">
         <view class="animal--quotation">
@@ -177,7 +210,7 @@
 
   export default class AnimalProfile extends wepy.page {
     data = {
-      indicatorDots: true,
+      indicatorDots: false,
       loading: false,
       calcHeight: 0,
       animal: '',
@@ -188,7 +221,9 @@
       shareDrawerItems: [],
       hasLiked: false,
       hasApplied: false,
-      likeButtonDisabled: false
+      likeButtonDisabled: false,
+      currentSlide: 1,
+      scrolly: true
     }
 
     components = {
@@ -260,6 +295,13 @@
             .then(res => console.log(res))
             .catch(err => console.error(err))
         }
+      },
+      swiperChange ({detail}) {
+        this.currentSlide = detail.current + 1
+        this.$apply()
+      },
+      handleScroll (e) {
+        console.log(e)
       },
       handleAppSubmit (message) {
         this.loading = true
