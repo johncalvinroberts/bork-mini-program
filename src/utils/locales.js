@@ -54,7 +54,9 @@ export default {
       "rescuer": "rescuer",
       "adopter": "adopter",
       "likes": "likes",
-      "applications": "applications"
+      "applications": "applications",
+      "likes_empty": "You haven't liked any animals yet",
+      "apps_empty": "You haven't applied to adopt any 🐈🐕 animals yet"
     },
     "rescuer-home": {
       "rescuer": "rescuer",
@@ -201,7 +203,10 @@ export default {
       "rescuer": "救助者",
       "adopter": "领养者",
       "likes": "我的点赞",
-      "applications": "我的申请"
+      "applications": "我的申请",
+      "app_status": "申请状态",
+      "likes_empty": "你还没有給小动物点赞",
+      "apps_empty": "你还没有申请领养 🐈🐕 小动物"
     },
     "rescuer-home": {
       "rescuer": "救助者",

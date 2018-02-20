@@ -8,8 +8,14 @@
     <profileheader :userInfo.sync="userInfo"/>
     <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
       <tabswiperitem1>
+        <view class="home--blank" wx:if="{{likesEmpty && !likesLoading}}">{{t.likes_empty}}</view>
+        <inlineloading1 :isopen.sync="likesLoading"/>
+        <repeat for="{{likes}}" index="index" item="like" key="index">
+          <animallistitem :animalObj.sync="like"/>
+        </repeat>
       </tabswiperitem1>
       <tabswiperitem2>
+        <inlineloading2 :isopen.sync="appsLoading"/>
         <repeat for="{{apps}}" index="index" item="app" key="index">
           <applicationlistitem :application.sync="app" :isowner.sync="isOwner"/>
         </repeat>
@@ -23,7 +29,9 @@
   import ProfileHeader from '@/components/profile-header'
   import TabSwiper from '@/components/tab-swiper'
   import TabSwiperItem from '@/components/tab-swiper-item'
+  import InlineLoading from '@/components/inline-loading'
   import ApplicationListItem from '@/components/application-list-item'
+  import AnimalListItem from '@/components/animal-list-item'
 
   export default class AdopterHome extends wepy.page {
     data = {
@@ -32,7 +40,12 @@
       isOwner: false,
       userInfo: {},
       tabs: [],
-      apps: []
+      apps: [],
+      likes: [],
+      likesEmpty: false,
+      appsEmpty: false,
+      appsLoading: false,
+      likesLoading: false
     }
 
     components = {
@@ -40,7 +53,10 @@
       tabswiper: TabSwiper,
       tabswiperitem1: TabSwiperItem,
       tabswiperitem2: TabSwiperItem,
-      applicationlistitem: ApplicationListItem
+      applicationlistitem: ApplicationListItem,
+      animallistitem: AnimalListItem,
+      inlineloading1: InlineLoading,
+      inlineloading2: InlineLoading
     }
 
     mixins = [LocalesMixin]
@@ -69,13 +85,20 @@
     }
 
     async fetchLikes () {
-      const likes = await this.$parent.globalData.user.fetchLikes()
-      console.log(likes)
+      this.likesLoading = true
+      const likes = await this.$parent.globalData.user.fetchLikes(true)
+      this.likes = likes.map(like => like.animal)
+      this.likesEmpty = likes.length < 1
+      this.likesLoading = false
+      this.$apply()
     }
 
     async fetchApps () {
-      const apps = await this.$parent.globalData.user.fetchApplications()
+      this.appsLoading = true
+      const apps = await this.$parent.globalData.user.fetchApplications(true)
       this.apps = apps
+      this.appsEmpty = apps.length < 1
+      this.appsLoading = false
       this.$apply()
     }
   }

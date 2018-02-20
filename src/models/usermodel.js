@@ -182,8 +182,9 @@ export default class UserModel {
           'status',
           'animal.objectId',
           'animal.images',
-          'animal.name'
-          ])
+          'animal.name',
+          'applicant.nickName'
+        ])
       const appsRes = await query.find()
       this.applications = appsRes.map(app => app.toJSON())
       return this.applications
@@ -306,7 +307,7 @@ export default class UserModel {
       const query = new Lean.Query('Like')
         .equalTo('user', Lean.User.current())
         .include('animal')
-        .select(['id', 'animal.id'])
+        .select(['id', 'animal.id', 'animal.images', 'animal.name'])
       const queryRes = await query.find()
       this.likes = queryRes.map(like => like.toJSON())
       return this.likes

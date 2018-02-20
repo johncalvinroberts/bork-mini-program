@@ -25,6 +25,21 @@
       background-color: $red;
     }
   }
+  .app--animal__name{
+    min-width: 300rpx;
+  }
+  .app__status--outer{
+    position: relative;
+    text-align: center;
+    .app__status--text{
+      opacity: 0.5;
+      text-align: center;
+    }
+    .app__status {
+      display:inline-block;
+      margin-top:10rpx;
+    }
+  }
   .app--applicant-avatar {
     position: relative;
     .app__status {
@@ -58,7 +73,17 @@
     <!-- THIS IS IF IT'S IN THE APPLICATIONS TAB...ADOPTER VIEW -->
     <block wx:else>
       <view class="app--animal__name">{{application.animal.name}}</view>
-      <view class="app--status">
+      <view class="app__status--outer">
+        <view class="app__status--text">{{appStatusText}}</view>
+        <view class="app__status pending" wx:if="{{application.status === 1}}">
+          <view class="icon--dash"/>
+        </view>
+        <view class="app__status approved" wx:if="{{application.status === 2}}">
+          <view class="icon--approved"/>
+        </view>
+        <view class="app__status rejected" wx:if="{{application.status === 3}}">
+          <view class="icon--rejected"/>
+        </view>
       </view>
     </block>
   </view>
@@ -76,7 +101,9 @@
         default: false
       }
     }
-    data = {}
+    data = {
+      appStatusText: '申请状态'
+    }
     computed = {
       applicantSent () {
         if (!this.application) return ''
@@ -90,6 +117,11 @@
     methods = {
       handletap () {
         wepy.navigateTo({url: `application-detail?id=${this.application.objectId}`})
+      }
+    }
+    onLoad () {
+      if (wepy.T.locale === 'en') {
+        this.appStatusText = 'Status'
       }
     }
   }
