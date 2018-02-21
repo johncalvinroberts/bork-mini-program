@@ -269,7 +269,8 @@ export default class UserModel {
     const application = Lean.Object.createWithoutData('Application', objectId)
     try {
       const deleteRes = await application.destroy()
-      this.applications = _isEmpty(this.applications) ? [] : this.appplications.filter(app => app.objectId !== objectId)
+      this.applications = this.applications ? this.appplications.filter(app => app.objectId !== objectId) : []
+      console.log(this.applications)
       return deleteRes
     } catch (err) {
       return Promise.reject(new Error(err))

@@ -113,7 +113,9 @@
           </view>
         </view>
       </view>
-      <button class="btn--danger" @tap="toggleDeleteModal">{{t.cancel_application}}</button>
+      <button class="btn--danger"
+              @tap="toggleDeleteModal"
+              wx:if="{{!isOwner}}">{{t.cancel_application}}</button>
     </view>
     <view class="" wx:if="{{isOwner}}">
       <!-- OWNER HASN'T RESPONDED YET THEY SEE THIS -->
@@ -392,7 +394,7 @@
     async confirmDelete () {
       this.$invoke('fidoloader', 'showLoading', '')
       try {
-        const deleteRes = await this.$parent.globalData.user.deleteApplication(this.application.owner.objectId)
+        await this.$parent.globalData.user.deleteApplication(this.application.objectId)
         this.$invoke('fidoloader', 'hideLoading', '')
         wepy.navigateBack()
       } catch (err) {

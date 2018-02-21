@@ -17,6 +17,7 @@
         </view>
       </tabswiperitem1>
       <tabswiperitem2>
+        <view class="home--blank" wx:if="{{appsEmpty && !appsLoading}}">{{t.apps_empty}}</view>
         <inlineloading2 :isopen.sync="appsLoading"/>
           <repeat for="{{apps}}" index="index" item="app" key="index">
             <applicationlistitem :application.sync="app" :isowner.sync="isOwner"/>
