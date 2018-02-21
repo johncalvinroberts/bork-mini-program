@@ -140,6 +140,17 @@ export default class UserModel {
     return savedAnimal
   }
 
+  async deleteRescue (objectId) {
+    const animal = Lean.Object.createWithoutData('Animal', objectId)
+    try {
+      const deleteRes = await animal.destroy()
+      return deleteRes
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(new Error(err))
+    }
+  }
+
   async updateRescue (objectId, params) {
     const animal = Lean.Object.createWithoutData('Animal', objectId)
     animal.set(params)

@@ -96,18 +96,6 @@
   padding-top: $default-padding;
   text-align: right;
 }
-.cancel-btns {
-  display: flex;
-  padding: 20rpx 0 0;
-  text-align: center;
-  justify-content: space-around;
-  font-size:10px;
-  button {
-    max-width: 160rpx;
-    flex: 1;
-    font-size: 10px;
-  }
-}
 </style>
 <template>
   <view class="container__flex-layout application-detail {{preload ? 'loading-blur' : ''}}">

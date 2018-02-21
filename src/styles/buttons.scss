@@ -1,14 +1,24 @@
 @import "./variables.scss";
 
-.btn--default, .btn--default__medium, .btn--default__medium__mids, .btn--default__small, .btn--default__dark, .btn--default__fixed {
+.btn--default, .btn--default__medium, .btn--default__medium__mids, .btn--default__small, .btn--default__dark, .btn--default__fixed, .btn--danger {
   background: $color-primary;
   color: $black;
   border-radius: 0;
   border: 2px solid $black;
   box-shadow: $chunky-shadow;
-  &:after{
+  &:after, &:before{
     display: none;
   }
+}
+
+.btn--danger {
+  background-color: $red;
+  border: $white;
+  margin: 0 auto;
+  width: 200px;
+  margin-top: 40rpx;
+  margin-bottom: 40rpx;
+  font-size: 12px;
 }
 
 .btn--default[disabled], .btn--default__medium[disabled],.btn--default__medium__mids[disabled], .btn--default__dark[disabled], .btn--default__fixed[disabled] {

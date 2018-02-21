@@ -72,11 +72,21 @@
         </view>
       </view>
       <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
+      <button class="btn--danger" @tap="toggleDeleteModal" wx:if="{{isEditing}}">{{t.delete_animal}}</button>
     </formparent>
   </view>
   <errormodal/>
   <redirectmodal :navBack="navBack"/>
   <fidoloader/>
+  <modal :isopen.sync="deleteConfirmOpen" @masktap.user="toggleDeleteModal">
+    <view class="text-center">
+      {{t.confirm_delete}}
+    </view>
+    <view class="cancel-btns">
+      <button class="btn--blank" @tap="toggleDeleteModal">{{t.cancel}}</button>
+      <button class="btn--default__small" @tap="handleDelete">{{t.confirm}}</button>
+    </view>
+  </modal>
 </template>
 <script>
   import wepy from 'wepy'
@@ -85,6 +95,7 @@
   import AnimalMixin from '@/mixins/animal-mixin'
   import FidoLoader from '@/components/fido-loader'
   import RedirectModal from '@/components/redirect-modal'
+  import Modal from '@/components/modal'
   import ErrorModal from '@/components/error-modal'
   import ImageUploader from '@/components/image-uploader'
   import LocationSelector from '@/components/location-selector'
@@ -118,7 +129,8 @@
       ageUnits: [],
       currentAgeUnit: 'years',
       mapVisible: true,
-      navBack: true
+      navBack: true,
+      deleteConfirmOpen: false
     }
 
     components = {
@@ -135,7 +147,8 @@
       coolcheckbox4: CoolCheckBox,
       coolcheckbox5: CoolCheckBox,
       coolcheckbox6: CoolCheckBox,
-      locationselector: LocationSelector
+      locationselector: LocationSelector,
+      modal: Modal
     }
 
     watch = {
@@ -262,6 +275,10 @@
         const targetValue = this.ageUnits[index].value
         this.animalInfo.ageUnit = targetValue
         this.$apply()
+      },
+      toggleDeleteModal () {
+        this.deleteConfirmOpen = !this.deleteConfirmOpen
+        this.$apply()
       }
     }
 
@@ -313,6 +330,19 @@
         const {latitude, longitude} = await wepy.getLocation()
         this.animalPoint = {latitude, longitude}
         this.$apply()
+      }
+    }
+
+    async handleDelete () {
+      this.$invoke('fidoloader', 'showLoading', '')
+      this.deleteConfirmOpen = !this.deleteConfirmOpen
+      try {
+        await this.$parent.globalData.user.deleteRescue(this.animalInfo.objectId)
+        this.$invoke('fidoloader', 'hideLoading', '')
+        wepy.navigateBack()
+      } catch (err) {
+        this.$invoke('fidoloader', 'hideLoading', '')
+        console.error(err)
       }
     }
 

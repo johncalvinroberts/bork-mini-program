@@ -12,7 +12,6 @@
   <view class="form--outer">
     <slot></slot>
   </view>
-  <view class="form--bottom-padding"></view>
 </template>
 <script>
   import wepy from 'wepy'

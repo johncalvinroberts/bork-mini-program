@@ -106,7 +106,11 @@ export default {
       "submit_error_message": "Please fill in the form",
       "save": "Save",
       "success_message": "Nice!! You added a rescue 😁😁😁",
-      "edit_success_message": "Updated 👌"
+      "edit_success_message": "Updated 👌",
+      "delete_animal": "Delete This Rescue",
+      "confirm_delete": "Are you sure you want do delete this rescue? Deleted Rescues cannot be recovered.",
+      "confirm": "Delete it💢",
+      "cancel": "cancel"
     },
     "animal-profile" : {
       "neighborhood": "Neighborhood",
@@ -262,7 +266,11 @@ export default {
       "submit_error_message": "请填全了再提交",
       "save": "保存",
       "success_message": "牛逼！创建了一个小动物😁😁😁",
-      "edit_success_message": "更新成功 👌"
+      "edit_success_message": "更新成功 👌",
+      "delete_animal": "删除这个小动物",
+      "confirm_delete": "你确定要删除这个小动物吗？一旦删除再也回不来",
+      "confirm": "确定删除💢",
+      "cancel": "取消"
     },
     "animal-profile" : {
       "neighborhood": "街道",

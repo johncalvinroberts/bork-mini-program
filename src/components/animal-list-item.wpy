@@ -7,10 +7,7 @@
     box-shadow: $section-shadow;
     margin-bottom: 10rpx;
     justify-content: space-between;
-    // border-top: $section-border;
-    &:last-child{
-    // border-bottom: $section-border;
-    }
+    &:last-child{}
     .avatar__large{
       margin-right: 40rpx;
     }
@@ -66,11 +63,6 @@
         } else {
           wepy.navigateTo({url: `animal-profile?animal=${this.animalObj.objectId}`})
         }
-      }
-    }
-    watch = {
-      animalObj () {
-        console.log('HEY<< CHANGED')
       }
     }
     computed = {
