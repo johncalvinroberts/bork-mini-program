@@ -107,6 +107,12 @@ page{
 .pull-left {
   float: left;
 }
+// loading thing
+
+.loading-blur {
+  filter: blur(2px);
+}
+
 
 //  profile stuff
 
@@ -125,7 +131,14 @@ page{
 .role-rescuer {
   background-color: $red;
 }
-
+.age{
+  display:inline-block;
+  padding: 10rpx;
+  background-color: $black;
+  color: $white;
+  font-size: $font-small;
+  vertical-align:middle;
+}
 .home--blank {
   padding: $default-padding;
   text-align:center;

@@ -3,7 +3,6 @@
   .animal-list-item--outer{
     padding: 30rpx;
     display: flex;
-    align-items:center;
     color: $black;
     box-shadow: $section-shadow;
     margin-bottom: 10rpx;
@@ -12,15 +11,34 @@
     &:last-child{
     // border-bottom: $section-border;
     }
-    .avatar__small{
-      margin-right: 20rpx;
+    .avatar__large{
+      margin-right: 40rpx;
+    }
+    .animal-info {
+      flex: 1;
+      .name {
+        margin-bottom: 10rpx;
+      }
+      .icon--male, .icon--female {
+        // margin-left: 0;
+      }
     }
   }
 </style>
 <template>
   <view class="animal-list-item--outer" @tap="navToAnimalProfile" data-type="profile">
-    <image class="avatar__small" src="{{animalObj.images[0]}}" />
-    <view class="name">{{animalObj.name}}</view>
+    <image class="avatar__large" src="{{animalObj.images[0]}}" mode="aspectFill"/>
+    <view class="animal-info">
+      <view class="name">{{animalObj.name}}</view>
+      <view class="age" wx:if="{{isEnglish}}">{{animalObj.age}} {{animalObj.ageUnit}}</view>
+      <block wx:else>
+        <view class="age" wx:if="{{animalObj.ageUnit === 'weeks'}}">{{animalObj.age}}周</view>
+        <view class="age" wx:if="{{animalObj.ageUnit === 'months'}}">{{animalObj.age}}月</view>
+        <view class="age" wx:if="{{animalObj.ageUnit === 'years'}}">{{animalObj.age}}岁</view>
+      </block>
+      <view class="icon--female" wx:if="{{animalObj.gender === 'female'}}"/>
+      <view class="icon--male" wx:if="{{animalObj.gender === 'male'}}"/>
+    </view>
     <view class="icon--edit"
           data-type="edit"
           wx:if="{{isOwner}}"/>
@@ -38,6 +56,9 @@
         default: false
       }
     }
+    data = {
+      // animalAgeText: ''
+    }
     methods = {
       navToAnimalProfile ({target}) {
         if (target.dataset.type === 'edit') {
@@ -47,6 +68,18 @@
         }
       }
     }
-    computed = {}
+    watch = {
+      animalObj () {
+        console.log('HEY<< CHANGED')
+      }
+    }
+    computed = {
+      isEnglish () {
+        return wepy.T.locale === 'en'
+      }
+    }
+    onLoad () {
+      console.log(this.animalObj)
+    }
   }
 </script>

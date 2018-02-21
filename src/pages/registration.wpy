@@ -90,7 +90,7 @@
     </formparent>
   </view>
   <redirectmodal/>
-  <errormodal/>
+  <redirectmodal :navBack="navBack"/>
   <fidoloader/>
 </template>
 <script>
@@ -123,7 +123,8 @@
       country: 'China',
       fullName: '',
       isRescuer: false,
-      fullWidthButton: true
+      fullWidthButton: true,
+      navBack: true
     }
 
     mixins = [LocalesMixin]

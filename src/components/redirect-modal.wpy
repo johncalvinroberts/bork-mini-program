@@ -25,6 +25,10 @@
       linkname: {
         type: String,
         default: '回到首页'
+      },
+      navBack: {
+        type: Boolean,
+        default: false
       }
     }
 
@@ -39,7 +43,11 @@
     }
     methods = {
       redirect () {
-        wepy.navigateTo({url: this.link})
+        if (!this.navBack) {
+          wepy.navigateTo({url: this.link})
+        } else {
+          wepy.navigateBack()
+        }
       },
       toggleModal ({message}) {
         this.message = message

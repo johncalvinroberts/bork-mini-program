@@ -75,7 +75,7 @@
     </formparent>
   </view>
   <errormodal/>
-  <redirectmodal/>
+  <redirectmodal :navBack="navBack"/>
   <fidoloader/>
 </template>
 <script>
@@ -117,7 +117,8 @@
       images: [],
       ageUnits: [],
       currentAgeUnit: 'years',
-      mapVisible: true
+      mapVisible: true,
+      navBack: true
     }
 
     components = {

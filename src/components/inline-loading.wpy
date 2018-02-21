@@ -29,7 +29,6 @@
     height: 10px;
     border-radius: 50%;
     border: solid 2px $white;
-    box-shadow: $normal-shadow;
     position: absolute;
     top: 20px;
     left: 20px;
@@ -120,16 +119,13 @@
 </style>
 <template>
   <view class="inline-loading--outer" style="display: {{isopen ? 'block' : 'none'}};">
-  <!-- <view class="inline-loading--outer" style="display: {{isopen ? 'block' : 'block'}};"> -->
     <view class="inline-loading--inner">
-      <!-- <view class="inline-loading--inner-inner"> -->
-        <view class="loader--moving-background"></view>
-        <view class="loader--other-spinner"></view>
-        <view class="loader--spinner-2"></view>
-        <view class="loader--spinner-3"></view>
-        <view class="loader--spinner-4"></view>
-        <view class="loader--spinner-5"></view>
-      <!-- </view> -->
+        <view class="loader--moving-background"/>
+        <view class="loader--other-spinner"/>
+        <view class="loader--spinner-2"/>
+        <view class="loader--spinner-3"/>
+        <view class="loader--spinner-4"/>
+        <view class="loader--spinner-5"/>
     </view>
   </view>
 </template>

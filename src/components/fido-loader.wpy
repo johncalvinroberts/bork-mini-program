@@ -13,14 +13,13 @@
   }
   .loader-outer{
     transition: transform 0.3s ease;
-    padding: $default-padding;
-    padding-top: 0;
+    padding-bottom: 10rpx;
     background-color: $white;
     position:relative;
     border: 2px solid $black;
     box-shadow: $normal-shadow;
     width: 100%;
-    max-width: 600px;
+    max-width:150px;
     margin: 0 auto;
     z-index:200;
     overflow: hidden !important;
@@ -33,49 +32,15 @@
     text-align: center;
     margin-top: 10px;
     z-index: 201;
+    font-size: $font-xs;
     position:relative;
-    color: $white;
+    color: $black;
   }
-  .cloud{
-    border-radius: 50%;
-    position: absolute;
-    background-color: $white;
-    padding: 10px;
-    opacity: 0.8;
-    top: 10px;
-    left: 0px;
-    z-index: 201;
-    animation-delay: (random(2) * 1s);
-    animation: shuffling 3s linear infinite alternate;
-    &:before, &:after{
-      display: none;
-    }
-  }
-  .loader--moving-background{
-    position: absolute;
-    background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
-    width: 300%;
-    height: 500px;
-    animation: backgroundAnimation 4s linear infinite;
-    animation-direction: alternate;
-  }
-  @keyframes backgroundAnimation {
-    from { left: 0%; top: -80px; transform: rotate(0deg);}
-    to { left: -90%; top: -10px; transform: rotate(100deg);}
-  }
-  @keyframes shuffling {
-    from { left: -15%; transform: scale(random(1)); top: 10px;}
-    to { left: 100%; transform: scale(random(120)); opacity: 0.3;}
-  }
-
 </style>
 <template>
   <view class="loader-container container__flex" style="visibility:{{visible ? 'visible' : 'hidden'}};">
-    <view class="loader-outer">
-      <view class="loader-inner">
-        <view class="cloud"></view>
-      </view>
-      <view class="loader--moving-background"></view>
+    <view class="loader-outer" style="display:{{visible ? 'block' : 'none'}};">
+      <inlineloading :isopen="isopen"/>
       <view class="loader-text">
         {{message}}
       </view>
@@ -84,28 +49,40 @@
 </template>
 <script>
   import wepy from 'wepy'
+  import InlineLoading from '@/components/inline-loading'
   export default class FidoLoader extends wepy.component {
     props = {}
 
     data = {
       visible: false,
-      message: '小狗正在跑赶来。。。'
+      message: '小狗正在跑赶来。。。',
+      isopen: true
     }
+
+    components = {
+      inlineloading: InlineLoading
+    }
+
     methods = {
       showLoading (message) {
         if (message && message !== '') {
           this.message = message
         }
         this.visible = true
+        this.isopen = true
         this.$apply()
       },
       hideLoading () {
         this.visible = false
+        this.isopen = false
         this.$apply()
       }
     }
 
     onLoad () {
+      if (wepy.T.locale === 'en') {
+        this.message = 'Roof roof....roof!!!'
+      }
     }
 
     watch = {}

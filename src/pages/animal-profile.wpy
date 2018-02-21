@@ -26,14 +26,6 @@
     padding: $default-padding / 2 $default-padding;
     justify-content:space-between;
     align-items:center;
-    .age{
-      display:inline-block;
-      padding: 10rpx;
-      background-color: $black;
-      color: $white;
-      font-size: $font-small;
-      vertical-align:middle;
-    }
   }
   .animal--big-name {
     color: $black;
@@ -105,7 +97,8 @@
   }
 </style>
 <template>
-  <view class="container__has-tabbar" style="padding-top:{{calcHeight}}px;">
+  <view class="container__has-tabbar {{loading ? 'loading-blur' : ''}}"
+        style="padding-top:{{calcHeight}}px;">
     <view class="animal--swiper__outer">
       <view class="swiper-counter--outer" style="top:{{calcHeight - 30}}px;">
         <view class="icon--image"/>

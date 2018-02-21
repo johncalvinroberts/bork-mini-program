@@ -110,7 +110,7 @@
 }
 </style>
 <template>
-  <view class="container__flex-layout application-detail">
+  <view class="container__flex-layout application-detail {{preload ? 'loading-blur' : ''}}">
     <view class="detail--section__outer">
       <view class="detail--applicant__top">
         <profileheader1 :userInfo.sync="applicant"/>
@@ -270,7 +270,8 @@
       ownerMessage: '',
       applicantWechat: '',
       ownerWechat: '',
-      undoModalOpen: false
+      undoModalOpen: false,
+      preload: true
     }
     components = {
       profileheader1: ProfileHeader,
@@ -405,6 +406,8 @@
         this.response = application.status
         setTimeout(() => {
           this.focusInput = true
+          this.preload = false
+          this.$apply()
           this.$invoke('fidoloader', 'hideLoading', '')
         }, 500)
         this.application = application
