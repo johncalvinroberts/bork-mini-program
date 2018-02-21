@@ -8,12 +8,12 @@
     padding-bottom:20rpx;
     margin-bottom: 40rpx;
     position: relative;
-    .undo-btn {
-      top:20rpx;
+    .btn--danger{
+      width: 150rpx;
+      bottom:-20rpx;
       right:20rpx;
       position: absolute;
-      width: 40rpx;
-      height: 40rpx;
+      box-shadow: none;
     }
     .detail--applicant__top {
       display: flex;
@@ -48,14 +48,11 @@
     }
   }
   .detail--info {
-    padding: $default-padding;
-    position: relative;
+    padding-bottom:20px;
   }
   .detail--info-box{
-    text-align: right;
+    text-align: center;
     color: $black;
-    position: absolute;
-    right: 20rpx;
     opacity: 0.8;
   }
 .detail--submit-outer{
@@ -107,17 +104,16 @@
         </view>
       </view>
       <view class="detail--message__outer">
-        <!-- <view class="quote-begin"></view> -->
         <view class="message--body">
           "{{application.applicantMessage}}"
         </view>
-        <!-- <view class="quote-end"></view> -->
-      </view>
-      <view class="detail--info">
-        <view class="detail--info-box">
-          {{t.submitted}} {{applicationDate}}
+        <view class="detail--info">
+          <view class="detail--info-box">
+            {{t.submitted}} {{applicationDate}}
+          </view>
         </view>
       </view>
+      <button class="btn--danger" @tap="toggleDeleteModal">{{t.cancel_application}}</button>
     </view>
     <view class="" wx:if="{{isOwner}}">
       <!-- OWNER HASN'T RESPONDED YET THEY SEE THIS -->
@@ -173,8 +169,7 @@
             <view class="detail--options">
             </view>
           </view>
-
-          <image class="undo-btn" @tap="toggleUndoModal" src="../icons/close.svg" mode="aspectFit"/>
+          <button class="btn--danger" @tap="toggleUndoModal">{{t.undo}}</button>
         </view>
       </view>
     </view>
@@ -222,7 +217,7 @@
       </view>
     </view>
   </view>
-  <modal :isopen.sync="undoModalOpen" @masktap.user="toggleUndoModal">
+  <modal :isopen.sync="undoModalOpen" @masktap.user="toggleUndoModal" wx:if="{{isOwner}}">
     <view class="text-center">
       {{t.confirm_undo}}
     </view>
@@ -231,6 +226,15 @@
       <button class="btn--default__small" @tap="confirmUndo">{{t.confirm}}</button>
     </view>
   </modal>
+  <modal2 :isopen.sync="deleteModalOpen" @masktap.user="toggleDeleteModal" wx:if="{{!isOwner}}">
+    <view class="text-center">
+      {{t.confirm_cancel}}
+    </view>
+    <view class="cancel-btns">
+      <button class="btn--blank" @tap="toggleDeleteModal">{{t.cancel}}</button>
+      <button class="btn--default__small" @tap="confirmDelete">{{t.confirm}}</button>
+    </view>
+  </modal2>
   <errormodal/>
   <fidoloader/>
   <flash/>
@@ -259,6 +263,7 @@
       applicantWechat: '',
       ownerWechat: '',
       undoModalOpen: false,
+      deleteModalOpen: false,
       preload: true
     }
     components = {
@@ -268,7 +273,8 @@
       fidoloader: FidoLoader,
       clipboardcopier: ClipboardCopier,
       flash: Flash,
-      modal: Modal
+      modal: Modal,
+      modal2: Modal
     }
     mixins = [LocalesMixin]
 
@@ -338,6 +344,10 @@
       },
       handleCopySuccess () {
         this.$invoke('flash', 'showMessage', this.t.copied_successfully)
+      },
+      toggleDeleteModal () {
+        this.deleteModalOpen = !this.deleteModalOpen
+        this.$apply()
       }
     }
 
@@ -375,6 +385,16 @@
         this.ownerWechat = res.owner.wxUsername
         console.log(this.ownerWechat)
         this.$apply()
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    async confirmDelete () {
+      this.$invoke('fidoloader', 'showLoading', '')
+      try {
+        const deleteRes = await this.$parent.globalData.user.deleteApplication(this.application.owner.objectId)
+        this.$invoke('fidoloader', 'hideLoading', '')
+        wepy.navigateBack()
       } catch (err) {
         console.error(err)
       }

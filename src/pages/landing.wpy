@@ -230,10 +230,10 @@
     onLoad () {
       // wepy.navigateTo({url: 'animal-profile?animal=5a7a8bec2f301e003650da89'})
       // wepy.navigateTo({url: 'edit-animal?id=5a7a8bec2f301e003650da89&edit=true'})
-      // wepy.navigateTo({url: 'adopter-home?tab=applications'})
-      wepy.navigateTo({url: 'rescuer-home?tab=rescues'})
+      // wepy.navigateTo({url: 'adopter-home?tab=likes'})
+      // wepy.navigateTo({url: 'rescuer-home?tab=rescues'})
       // wepy.navigateTo({url: 'application-detail?id=5a86b14417d0090035385b14'})
-      // wepy.navigateTo({url: 'application-detail?id=5a891186ac502e00329bb8ad'})
+      wepy.navigateTo({url: 'application-detail?id=5a891186ac502e00329bb8ad'})
       wepy.setNavigationBarTitle({
         title: 'fido'
       })

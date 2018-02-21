@@ -265,7 +265,16 @@ export default class UserModel {
       return Promise.reject(new Error(err))
     }
   }
-
+  async deleteApplication (objectId) {
+    const application = Lean.Object.createWithoutData('Application', objectId)
+    try {
+      const deleteRes = await application.destroy()
+      this.applications = _isEmpty(this.applications) ? [] : this.appplications.filter(app => app.objectId !== objectId)
+      return deleteRes
+    } catch (err) {
+      return Promise.reject(new Error(err))
+    }
+  }
   // REQUESTS
   async fetchRequests (refresh = false) {
     if (!_isEmpty(this.requests) && !refresh) return this.requests
@@ -318,7 +327,13 @@ export default class UserModel {
       const query = new Lean.Query('Like')
         .equalTo('user', Lean.User.current())
         .include('animal')
-        .select(['id', 'animal.id', 'animal.images', 'animal.name'])
+        .select(['id',
+          'animal.objectId',
+          'animal.images',
+          'animal.name',
+          'animal.gender',
+          'animal.ageUnit',
+          'animal.age'])
       const queryRes = await query.find()
       this.likes = queryRes.map(like => like.toJSON())
       return this.likes
