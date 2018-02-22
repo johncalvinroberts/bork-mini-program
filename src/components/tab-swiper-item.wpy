@@ -8,7 +8,11 @@
 </style>
 <template>
   <swiper-item class="swiper-item--outer">
-    <scroll-view class="swiper-item--inner">
+    <scroll-view class="swiper-item--inner"
+                  style="overflow: auto; height: {{calcHeight}} px;"
+                  bindscrolltolower="scrollBottom"
+                  bindscroll="handleScroll"
+                  scroll-y="scrollY">
       <slot></slot>
     </scroll-view>
   </swiper-item>
@@ -18,7 +22,22 @@
 
   export default class TabSwiperItem extends wepy.component {
     props = {}
-    data = {}
-    methods = {}
+    data = {
+      calcHeight: 0,
+      scrollY: true
+    }
+    methods = {
+      scrollBottom () {
+        console.log('got to bottom')
+        this.$emit('scrollBottom')
+      },
+      handleScroll (e) {
+        console.log('scrolling...')
+      }
+    }
+    onLoad () {
+      const screenHeight = wx.getSystemInfoSync().screenHeight
+      this.calcHeight = screenHeight - 175
+    }
   }
 </script>

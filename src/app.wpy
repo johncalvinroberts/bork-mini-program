@@ -26,7 +26,8 @@ export default class extends wepy.app {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#FFFFFF',
       navigationBarTitleText: 'fido',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'black',
+      enablePullDownRefresh: true
     }
   }
 
@@ -74,10 +75,6 @@ export default class extends wepy.app {
     } catch (err) {
       console.error(err)
     }
-  }
-
-  onShow () {
-    // wepy.navigateTo({url: 'pages/rescuer-registration'})
   }
 
   onLaunch () {

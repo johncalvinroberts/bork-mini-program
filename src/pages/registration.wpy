@@ -221,6 +221,10 @@
       }
     }
 
+    onPullDownRefresh () {
+      wepy.stopPullDownRefresh()
+    }
+
     async getWeChat () {
       this.$invoke('fidoloader', 'showLoading', '')
       try {

@@ -44,5 +44,10 @@
     onShow () {
       this.isRegistered = this.$parent.globalData.user.isRegistered
     }
+
+    onPullDownRefresh () {
+      wepy.stopPullDownRefresh()
+    }
+
   }
 </script>

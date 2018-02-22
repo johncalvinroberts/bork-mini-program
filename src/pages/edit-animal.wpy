@@ -292,6 +292,10 @@
       this.$parent.globalData.user.requestPicture()
     }
 
+    onPullDownRefresh () {
+      wepy.stopPullDownRefresh()
+    }
+
     async handleSubmit () {
       console.log(this.hasEmptyFields)
       if (this.hasEmptyFields) return this.handleSubmitError()

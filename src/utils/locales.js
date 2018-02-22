@@ -160,7 +160,8 @@ export default {
       "you_approved": "You approved, you can contact the adopter through WeChat",
       "you_were_approved": "The rescuer approved you to adopt, you can contact the resucer through WeChat",
       "longpress_reminder": "Long press to copy WeChat",
-      "copied_successfully": "Username added to clipboard📎"
+      "copied_successfully": "Username added to clipboard📎",
+      "wait_patiently": "The rescuer hasn't responded yet 💁 Just hang tight, be patient!⏱️"
     }
   },
   "zh_CN": {
@@ -323,7 +324,8 @@ export default {
       "you_approved": "你已经通过了这个领养者, 你可以随时通过微信联系领养者",
       "longpress_reminder": "长按复制微信",
       "you_were_approved": "救助者已经通过了你的领养申请, 你可以随时通过微信联系救助者",
-      "copied_successfully": "已经复制成功📎"
+      "copied_successfully": "已经复制成功📎",
+      "wait_patiently": "对方还没回复 💁 请耐心等待!⏱️"
     }
   }
 }

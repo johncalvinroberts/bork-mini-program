@@ -18,5 +18,8 @@
     onLoad (options) {
       console.log(options)
     }
+    onPullDownRefresh () {
+      wepy.stopPullDownRefresh()
+    }
   }
 </script>

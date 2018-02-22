@@ -61,12 +61,7 @@
 
     mixins = [LocalesMixin]
 
-    computed = {
-      canFetchRescues () {
-        const unFetchedPage = this.currentRescuePage !== this.lastRescueFetched
-        return unFetchedPage
-      }
-    }
+    computed = {}
 
     watch = {
       t () {
@@ -90,12 +85,14 @@
     onShow () {
       if (this.activetab === 'requests') {
         this.fetchRequests()
+      } else if (!this.rescuesLoading) {
+        this.fetchRescues()
       }
     }
 
-    onHide () {
-      // this.animals = []
-      // this.$apply()
+    onPullDownRefresh () {
+      this.onShow()
+      setTimeout(() => wepy.stopPullDownRefresh(), 500)
     }
 
     async fetchRequests () {
@@ -112,13 +109,11 @@
     }
 
     async fetchRescues () {
-      if (!this.canFetchRescues) return
       this.rescuesLoading = true
-      this.$apply()
       try {
-        const animals = await this.$parent.globalData.user.fetchRescues(this.currentRescuePage)
-        animals.map(animal => this.animals.push(animal))
-        this.lastRescueFetched = this.lastRescueFetched + 1
+        const animals = await this.$parent.globalData.user.fetchRescues(this.currentRescuePage, true)
+        this.animals = animals
+        this.lastRescueFetched = this.currentRescuePage
         this.rescuesEmpty = animals.length < 1
         this.rescuesLoading = false
         this.$apply()

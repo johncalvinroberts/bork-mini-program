@@ -118,7 +118,7 @@
               wx:if="{{!isOwner}}">{{t.cancel_application}}</button>
     </view>
     <view class="" wx:if="{{isOwner}}">
-      <!-- OWNER HASN'T RESPONDED YET THEY SEE THIS -->
+      <!-- OWNER HASN'T RESPONDED YET, OWNER SEES THIS -->
       <view wx:if="{{application.status === 1}}">
         <form id="ownerResponse" @submit="handleOwnerSubmit">
           <view class="detail--section__outer padbox--half">
@@ -177,13 +177,14 @@
     </view>
 
     <view class="" wx:if="{{!isOwner}}">
-      <!-- ADOPTER STATUS SECTION -->
+      <!-- ADOPTER STATUS SECTION. WHAT THE ADOPTER SEES -->
       <view class="detail--section__outer padbox--half">
 
         <view class="detail--message__outer" wx:if="{{application.status === 1}}">
           <view class="detail--status">
             <view class="icon--dash"/>
             <text>{{t.pending}}</text>
+            <view class="text-center">{{t.wait_patiently}}</view>
           </view>
         </view>
 
@@ -402,8 +403,7 @@
       }
     }
 
-    async onLoad ({id}) {
-      this.$invoke('fidoloader', 'showLoading', '')
+    async fetchApplication (id) {
       try {
         const application = await this.$parent.globalData.user.fetchApplication(id)
         const userId = this.$parent.globalData.user.objectId
@@ -426,6 +426,16 @@
         console.log('fuckbra')
         console.log(err)
       }
+    }
+
+    onPullDownRefresh () {
+      setTimeout(() => wepy.stopPullDownRefresh(), 500)
+      this.fetchApplication(this.application.objectId)
+    }
+
+    async onLoad ({id}) {
+      this.$invoke('fidoloader', 'showLoading', '')
+      this.fetchApplication(id)
     }
   }
 </script>

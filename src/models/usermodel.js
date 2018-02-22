@@ -164,8 +164,10 @@ export default class UserModel {
   }
 
   async fetchRescues (page = 1, refresh = false) {
-    console.log('here')
+    // Return the rescues array if refresh is not required
     if (!_isEmpty(this.rescues) && !refresh) return this.rescues
+    // Reset the array if it's on page 1
+    if (page === 1) this.rescues.length = 0
     const skipAmt = (page * 10) - 10
     const query = new Lean.Query('Animal')
     query.equalTo('user', Lean.User.current())
@@ -279,7 +281,6 @@ export default class UserModel {
   // REQUESTS
   async fetchRequests (refresh = false) {
     if (!_isEmpty(this.requests) && !refresh) return this.requests
-    console.log('actuallytyya')
     try {
       const query = new Lean.Query('Application')
         .equalTo('owner', Lean.User.current())
@@ -293,7 +294,6 @@ export default class UserModel {
           'applicant.avatarUrl'])
       const appsRes = await query.find()
       this.requests = appsRes.map(app => app.toJSON())
-      console.log(this.requests)
       return this.requests
     } catch (err) {
       console.error(err)

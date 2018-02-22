@@ -33,6 +33,10 @@
 
     methods = {}
 
+    onPullDownRefresh () {
+      wepy.stopPullDownRefresh()
+    }
+
     async submitForm () {
       this.$invoke('fidoloader', 'showLoading', '')
       try {

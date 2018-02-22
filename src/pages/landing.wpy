@@ -256,7 +256,9 @@
       this.sideSliderOpen = false
       this.$apply()
     }
-
+    onPullDownRefresh () {
+      wepy.stopPullDownRefresh()
+    }
     async createAnimal () {
       this.sideSliderOpen = false
       this.$invoke('fidoloader', 'showLoading', '')
