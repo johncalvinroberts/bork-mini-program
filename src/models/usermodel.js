@@ -151,9 +151,12 @@ export default class UserModel {
     }
   }
 
-  async updateRescue (objectId, params) {
+  async updateRescue (objectId, rawParams) {
+    const {location, ...params} = rawParams
+    const geoPoint = new Lean.GeoPoint(location)
     const animal = Lean.Object.createWithoutData('Animal', objectId)
     animal.set(params)
+    animal.set({location: geoPoint})
     try {
       const animalRes = await animal.save()
       return animalRes.toJSON()
@@ -190,6 +193,7 @@ export default class UserModel {
       const query = new Lean.Query('Application')
         .equalTo('applicant', Lean.User.current())
         .include(['animal', 'applicant', 'owner'])
+        // .exists('animal.name') // filter out applications that have had the animal deleted
         .select(['objectId',
           'status',
           'animal.objectId',
@@ -270,7 +274,8 @@ export default class UserModel {
     const application = Lean.Object.createWithoutData('Application', objectId)
     try {
       const deleteRes = await application.destroy()
-      this.applications = this.applications ? this.appplications.filter(app => app.objectId !== objectId) : []
+      const newApps = this.applications ? this.applications.filter(app => app.objectId !== objectId) : []
+      this.applications = newApps
       console.log(this.applications)
       return deleteRes
     } catch (err) {
@@ -284,6 +289,7 @@ export default class UserModel {
       const query = new Lean.Query('Application')
         .equalTo('owner', Lean.User.current())
         .include(['animal', 'applicant'])
+        // .exists('animal') // filter out applications that have had the animal deleted
         .select([
           'animal.name',
           'animal.images',
@@ -292,7 +298,7 @@ export default class UserModel {
           'applicant.nickName',
           'applicant.avatarUrl'])
       const appsRes = await query.find()
-      this.requests = appsRes.map(app => app.toJSON())
+      this.requests = appsRes.map(app => app.toJSON()).filter(app => app.animal)
       return this.requests
     } catch (err) {
       console.error(err)

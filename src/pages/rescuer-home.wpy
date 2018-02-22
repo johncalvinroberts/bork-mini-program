@@ -71,8 +71,10 @@
         this.$apply()
       },
       activetab (newVal, oldVal) {
-        if (newVal === 'requests') return this.fetchRequests()
-        if (newVal === 'rescues') return this.fetchRescues()
+        if (oldVal !== '') {
+          if (newVal === 'requests') return this.fetchRequests()
+          if (newVal === 'rescues') return this.fetchRescues()
+        }
       }
     }
 
@@ -83,11 +85,8 @@
     }
 
     onShow () {
-      if (this.activetab === 'requests') {
-        this.fetchRequests()
-      } else if (!this.rescuesLoading) {
-        this.fetchRescues()
-      }
+      if (this.activetab === 'requests') return this.fetchRequests()
+      if (this.activetab === 'rescues') return this.fetchRescues()
     }
 
     onPullDownRefresh () {

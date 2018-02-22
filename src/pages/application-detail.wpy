@@ -9,7 +9,7 @@
     margin-bottom: 40rpx;
     position: relative;
     .btn--danger{
-      width: 150rpx;
+      width: 168rpx;
       bottom:-20rpx;
       right:20rpx;
       position: absolute;
@@ -48,7 +48,7 @@
     }
   }
   .detail--info {
-    padding-bottom:20px;
+    padding-bottom:$default-padding;
   }
   .detail--info-box{
     text-align: center;
@@ -394,6 +394,7 @@
       }
     }
     async confirmDelete () {
+      this.deleteModalOpen = !this.deleteModalOpen
       this.$invoke('fidoloader', 'showLoading', '')
       try {
         await this.$parent.globalData.user.deleteApplication(this.application.objectId)

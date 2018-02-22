@@ -109,7 +109,7 @@ export default {
       "edit_success_message": "Updated 👌",
       "delete_animal": "Delete This Rescue",
       "confirm_delete": "Are you sure you want do delete this rescue? Deleted Rescues cannot be recovered.",
-      "confirm": "Delete it💢",
+      "confirm": "Delete💢",
       "cancel": "cancel"
     },
     "animal-profile" : {
@@ -273,7 +273,7 @@ export default {
       "edit_success_message": "更新成功 👌",
       "delete_animal": "删除这个小动物",
       "confirm_delete": "你确定要删除这个小动物吗？一旦删除再也回不来",
-      "confirm": "确定删除💢",
+      "confirm": "删除💢",
       "cancel": "取消"
     },
     "animal-profile" : {

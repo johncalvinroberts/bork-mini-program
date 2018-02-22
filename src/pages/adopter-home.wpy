@@ -72,8 +72,10 @@
         this.$apply()
       },
       activetab (newVal, oldVal) {
-        if (newVal === 'likes') return this.fetchLikes()
-        if (newVal === 'applications') return this.fetchApps()
+        if (oldVal !== '') {
+          if (newVal === 'likes') return this.fetchLikes()
+          if (newVal === 'applications') return this.fetchApps()
+        }
       }
     }
 
@@ -85,6 +87,11 @@
       this.userInfo = this.$parent.globalData.user.attributes
       this.activetab = tab
       this.$apply()
+    }
+
+    onShow () {
+      if (this.activetab === 'likes') return this.fetchLikes()
+      if (this.activetab === 'applications') return this.fetchApps()
     }
 
     async fetchLikes () {
