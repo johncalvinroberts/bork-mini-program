@@ -186,7 +186,6 @@ export default class UserModel {
   // APPLICATIONS
   async fetchApplications (refresh = false) {
     if (!_isEmpty(this.applications) && !refresh) return this.applications
-    console.log('actually fetchin')
     try {
       const query = new Lean.Query('Application')
         .equalTo('applicant', Lean.User.current())

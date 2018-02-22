@@ -11,7 +11,7 @@
     position: fixed;
     left: 0;
     z-index: 99;
-    transition: all 0.2s ease;
+    transition: all 0.4s ease;
   }
   .map-placeholder {
     background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
@@ -28,7 +28,7 @@
       <view class="map-placeholder" @tap="showMap">{{chooseText}}</view>
     </block>
     <block wx:else>
-      <view class="smallmap--outer" style="display: {{open ? 'none' : 'block'}};">
+      <view class="smallmap--outer" style="display: {{open ? 'none' : 'block'}}; top: {{open ? '0' : '-150vh'}};">
         <map id="smallmap"
               show-location
               style="width: 100%; height: 80rpx;"

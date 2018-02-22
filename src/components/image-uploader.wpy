@@ -17,21 +17,7 @@
       max-width: 600px;
       margin: 0 auto;
       .form--image-upload{
-        // &:nth-child(1) {
-        //   border-top: none;
-        //   border-right: none;
-        // }
-        // &:nth-child(2) {
-        //   border-top: none;
-        //   border-right: none;
-        // }
-        // &:nth-child(3){
-        //   border-top:none;
-        //   border-bottom-color:transparent;
-        // }
-        // &:nth-child(4){
-        //   border-color: transparent;
-        // }
+        position: relative;
       }
     }
   }
@@ -54,16 +40,42 @@
     margin: 0;
     border: $chunky-border;
   }
+  .form--image-upload .image-loading {
+    width: 30px;
+    height: 30px;
+  }
 </style>
 <template>
   <view class="form--image-container">
-    <button class="first-image" id="0" @tap="chooseImage" style="{{firstImageStyle}}"></button>
+    <button class="first-image" id="0" @tap="chooseImage" style="{{firstImageStyle}}">
+      <view class="image-loading" wx:if="{{loadingArray[0].loading}}"/>
+    </button>
     <view class="form--image-inner">
       <view class="form--image__flex-box">
-        <button class="form--image-upload" id="1" @tap="chooseImage" style="{{secondImageStyle}}"/>
-        <button class="form--image-upload" id="2" @tap="chooseImage" style="{{thirdImageStyle}}"/>
-        <button class="form--image-upload" id="3" @tap="chooseImage" style="{{fourthImageStyle}}"/>
-        <button class="form--image-upload" id="4" @tap="chooseImage" style="{{fifthImageStyle}}"/>
+        <button class="form--image-upload"
+                id="1"
+                @tap="chooseImage"
+                style="{{secondImageStyle}}">
+          <view class="image-loading" wx:if="{{loadingArray[1].loading}}"/>
+        </button>
+        <button class="form--image-upload"
+                id="2"
+                @tap="chooseImage"
+                style="{{thirdImageStyle}}">
+          <view class="image-loading" wx:if="{{loadingArray[2].loading}}"/>
+        </button>
+        <button class="form--image-upload"
+                id="3"
+                @tap="chooseImage"
+                style="{{fourthImageStyle}}">
+          <view class="image-loading" wx:if="{{loadingArray[3].loading}}"/>
+        </button>
+        <button class="form--image-upload"
+                id="4"
+                @tap="chooseImage"
+                style="{{fifthImageStyle}}">
+          <view class="image-loading" wx:if="{{loadingArray[4].loading}}"/>
+        </button>
       </view>
     </view>
   </view>
@@ -82,25 +94,41 @@
         type: String
       }
     }
-    data = {}
+    data = {
+      loadingArray: [
+        {loading: false},
+        {loading: false},
+        {loading: false},
+        {loading: false},
+        {loading: false}
+      ]
+    }
     methods = {
       chooseImage ({target}) {
-        const index = target.id
+        const index = parseInt(target.id)
+        this.loadingArray[index].loading = true
+        this.$apply()
         wepy.chooseImage({count: 1})
           .then(({tempFilePaths}) => {
-            const file = new Lean.File(index, {
+            const name = `${this.animalId}_${index.toString()}`
+            const file = new Lean.File(name, {
               blob: {
                 uri: tempFilePaths[0]
               }
             })
-            file.set({animalId: this.animalId, index: parseInt(index)})
+            file.set({animalId: this.animalId, index: index})
             return file.save()
           })
           .then(savedFile => {
-            this.images.push(savedFile.attributes.url)
+            this.images[index] = savedFile.attributes.url
+            this.loadingArray[index].loading = false
             this.$apply()
           })
-          .catch(err => console.error(err))
+          .catch(err => {
+            this.loadingArray[index].loading = false
+            this.$apply()
+            console.error(err)
+          })
       }
     }
 
@@ -129,14 +157,14 @@
 
     generateStyle (index) {
       const image = this.images[index]
+      if (this.loadingArray[index].loading) {
+        return `background-color: transparent;`
+      }
       if (image) {
         return `background: url(${image}) no-repeat center; background-size: cover; background-color: #E5E5E5;`
       } else {
         return `background: url("http://ac-tSaB7MBC.clouddn.com/9a00a48126f37fc1b73b.svg") no-repeat center; background-size: contain;`
       }
-    }
-
-    onLoad () {
     }
   }
 </script>

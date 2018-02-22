@@ -36,7 +36,7 @@
         setTimeout(() => {
           this.isOpen = false
           this.$apply()
-        }, 1500)
+        }, 2000)
       }
     }
   }

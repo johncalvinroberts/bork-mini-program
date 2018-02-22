@@ -282,11 +282,17 @@
       }
     }
 
-    onLoad ({id, edit}) {
+    async onLoad ({id, edit}) {
       this.animalId = id
       this.isEditing = JSON.parse(edit)
       if (this.isEditing) {
-        this.fetchAnimal(id)
+        try {
+          this.$invoke('fidoloader', 'showLoading', '')
+          await this.fetchAnimal(id)
+          this.$invoke('fidoloader', 'hideLoading', '')
+        } catch (err) {
+          console.error(err)
+        }
       }
       this.$apply()
       this.$parent.globalData.user.requestPicture()

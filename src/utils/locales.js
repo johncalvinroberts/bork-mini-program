@@ -78,7 +78,7 @@ export default {
       "add_title": "Add a rescue",
       "add_subtitle": "Provide information about your little bundle of love",
       "edit_title": "Edit a rescue",
-      "edit_subtitle": "The information about your animal",
+      "edit_subtitle": "Update information about your animal",
       "images": "Photographs",
       "name": "Name",
       "age": "age 🍫",

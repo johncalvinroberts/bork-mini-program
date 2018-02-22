@@ -70,6 +70,7 @@
   text {
     vertical-align:middle;
     font-weight: bolder;
+    margin-top:10px;
   }
   .detail--info-box {
     position:relative;
@@ -429,8 +430,8 @@
     }
 
     onPullDownRefresh () {
-      setTimeout(() => wepy.stopPullDownRefresh(), 500)
       this.fetchApplication(this.application.objectId)
+      setTimeout(() => wepy.stopPullDownRefresh(), 500)
     }
 
     async onLoad ({id}) {
