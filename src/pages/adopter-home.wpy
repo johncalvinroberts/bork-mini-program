@@ -1,13 +1,8 @@
-<style lang="scss">
-  .something{
-    color: pink;
-  }
-</style>
 <template>
-  <view class="container">
+  <view class="container__no-overflow">
     <profileheader :userInfo.sync="userInfo"/>
     <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
-      <tabswiperitem1>
+      <tabswiperitem1 @scrollBottom.user="appendLikes">
         <view class="home--blank" wx:if="{{likesEmpty && !likesLoading}}">{{t.likes_empty}}</view>
         <inlineloading1 :isopen.sync="likesLoading"/>
         <view class="padbox--half">
@@ -16,7 +11,7 @@
           </repeat>
         </view>
       </tabswiperitem1>
-      <tabswiperitem2>
+      <tabswiperitem2 @scrollBottom.user="appendApps">
         <view class="home--blank" wx:if="{{appsEmpty && !appsLoading}}">{{t.apps_empty}}</view>
         <inlineloading2 :isopen.sync="appsLoading"/>
           <repeat for="{{apps}}" index="index" item="app" key="index">
@@ -79,7 +74,14 @@
       }
     }
 
-    methods = {}
+    methods = {
+      appendLikes (e) {
+        console.log('append lieks....')
+      },
+      appendApps (e) {
+        console.log('appendApps')
+      }
+    }
 
     computed = {}
 

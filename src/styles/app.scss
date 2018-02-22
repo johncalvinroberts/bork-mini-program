@@ -50,7 +50,7 @@ page{
     font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
 }
 
-.container, .container__flex, .container__flex-layout, .container__has-footer, .container__has-tabbar {
+.container, .container__flex, .container__flex-layout, .container__has-footer, .container__has-tabbar, .container__no-overflow {
   height: 100%;
   min-height: 100vh;
   position: relative;
@@ -77,7 +77,10 @@ page{
 .container__has-tabbar{
   padding-bottom: 55px;
 }
-
+.container__no-overflow {
+  height: 100vh;
+  overflow: hidden;
+}
 .container__flex {
   display: flex;
   align-items: center;

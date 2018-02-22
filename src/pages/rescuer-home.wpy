@@ -1,22 +1,22 @@
 <template>
-  <view class="container__flex-layout">
+  <view class="container__no-overflow">
     <profileheader :userInfo.sync="userInfo"/>
     <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
-      <tabswiperitem>
-        <inlineloading1 :isopen.sync="requestsLoading"/>
+      <tabswiperitem @scrollBottom.user="appendRequests">
         <view class="home--blank" wx:if="{{requestsEmpty && !requestsLoading}}">{{t.requests_empty}}</view>
         <repeat for="{{requests}}" index="index" item="item" key="index">
           <applicationlistitem :application.sync="item" :isowner.sync="isOwner"/>
         </repeat>
+        <inlineloading1 :isopen.sync="requestsLoading"/>
       </tabswiperitem>
-      <tabswiperitem2>
+      <tabswiperitem2 @scrollBottom.user="appendRescues">
         <view class="home--blank" wx:if="{{rescuesEmpty && !rescuesLoading}}">{{t.rescues_empty}}</view>
-        <inlineloading2 :isopen.sync="rescuesLoading"/>
         <view class="padbox--half">
           <repeat for="{{animals}}" index="index" item="animal" key="index">
             <animallistitem :animalObj.sync="animal" :isOwner.sync="isOwner"/>
           </repeat>
         </view>
+        <inlineloading2 :isopen.sync="rescuesLoading"/>
       </tabswiperitem2>
     </tabswiper>
   </view>
@@ -77,7 +77,14 @@
         }
       }
     }
-
+    methods = {
+      appendRequests () {
+        console.log('yoooo')
+      },
+      appendRescues () {
+        console.log('append rescues')
+      }
+    }
     onLoad ({tab}) {
       this.userInfo = this.$parent.globalData.user.attributes
       this.activetab = tab

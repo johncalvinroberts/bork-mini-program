@@ -2,7 +2,7 @@
 @import "../styles/variables.scss";
   .profile-header--outer{
     display: block;
-    height:250rpx;
+    height:125px;
     width:100%;
     .profile-header__info-outer{
       display: inline-block;

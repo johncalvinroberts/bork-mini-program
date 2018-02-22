@@ -4,7 +4,11 @@
   }
 </style>
 <template>
-  <scroll-view class="container" scroll-y="{{scrollY}}" style="height:{{calcHeight}}px;">
+  <scroll-view class="container"
+              scroll-y="{{scrollY}}"
+              bindscroll="handleScroll"
+              bindscrolltolower="scrollBottom"
+              style="height:{{calcHeight}}px;">
 
   </scroll-view>
 </template>
@@ -14,22 +18,32 @@
   import AnimalMixin from '@/mixins/animal-mixin'
   import AnimalListItem from '@/components/animal-list-item'
   import LocationSelector from '@/components/location-selector'
+  import InlineLoading from '@/components/inline-loading'
 
   export default class Animals extends wepy.page {
     mixins = [LocalesMixin, AnimalMixin]
 
     components = {
       animallistitem: AnimalListItem,
-      locationselector: LocationSelector
+      locationselector: LocationSelector,
+      inlineloading: InlineLoading
     }
     data = {
       scrollY: true,
-      calcHeight: 0
+      calcHeight: 500,
+      currentPage: 0
     }
     watch = {}
-    methods = {}
+    methods = {
+      handleScroll (e) {
+        console.log(e)
+      },
+      scrollBottom () {
+        console.log('hit bottom')
+      }
+    }
     onLoad ({type}) {
-      const screenHeight = wx.getSystemInfoSync().screenHeight
+      const screenHeight = wx.getSystemInfoSync().windowHeight
       this.calcHeight = screenHeight - 100
     }
   }
