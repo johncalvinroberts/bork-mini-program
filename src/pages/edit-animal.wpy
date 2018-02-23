@@ -303,8 +303,10 @@
     }
 
     async handleSubmit () {
-      console.log(this.hasEmptyFields)
+      this.mapVisible = false
+      this.$invoke('fidoloader', 'showLoading', '')
       if (this.hasEmptyFields) return this.handleSubmitError()
+      // refactor to use destructuring...should be fine
       const fields = _pick(this.animalInfo,
         ['name'],
         ['intro'],
@@ -326,7 +328,7 @@
         this.animalInfo = updatedAnimal
         const message = this.isEditing ? this.t.edit_success_message : this.t.success_message
         const redirectParams = {message}
-        this.mapVisible = false
+        this.$invoke('fidoloader', 'hideLoading', '')
         this.$invoke('redirectmodal', 'toggleModal', redirectParams)
         this.$apply()
       } catch (err) {

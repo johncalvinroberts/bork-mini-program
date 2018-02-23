@@ -11,6 +11,7 @@ export default class UserModel {
     })
     this.data = {}
     this.rescues = []
+    this.rescueCount = null
     this.likes = []
     this.applications = []
     this.requests = []
@@ -46,6 +47,10 @@ export default class UserModel {
 
   get objectId () {
     return this.data.objectId || ''
+  }
+
+  get lastRescuePage () {
+    return Math.ceil(this.rescueCount / 10)
   }
 
   // AUTHORIZATION & LOGIN SHIT
@@ -169,7 +174,6 @@ export default class UserModel {
   async fetchRescues (page = 1, refresh = false) {
     // Return the rescues array if refresh is not required
     if (!_isEmpty(this.rescues) && !refresh) return this.rescues
-    // Reset the array if it's on page 1
     if (page === 1) this.rescues.length = 0
     const skipAmt = (page * 10) - 10
     const query = new Lean.Query('Animal')
@@ -177,8 +181,11 @@ export default class UserModel {
       .skip(skipAmt)
       .limit(10)
     try {
-      const queryRes = await query.find()
-      queryRes.map(animal => this.rescues.push(animal.toJSON()))
+      const countQuery = this.rescues ? setTimeout(() => console.log(this.rescueCount), 0) : query.count()
+      const findQuery = query.find()
+      const [countRes, findRes] = await Promise.all([countQuery, findQuery])
+      this.rescueCount = countRes
+      findRes.map(animal => this.rescues.push(animal.toJSON()))
       return this.rescues
     } catch (err) {
       console.error(err)

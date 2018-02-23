@@ -82,7 +82,11 @@
         console.log('yoooo')
       },
       appendRescues () {
-        console.log('append rescues')
+        if (this.currentRescuePage === this.$parent.globalData.user.lastRescuePage) return
+        if (this.lastRescueFetched === this.currentRescuePage) {
+          this.currentRescuePage++
+          this.fetchRescues()
+        }
       }
     }
     onLoad ({tab}) {

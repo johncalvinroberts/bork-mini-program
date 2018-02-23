@@ -97,7 +97,10 @@
   }
 </style>
 <template>
-  <view class="container__has-tabbar {{loading ? 'loading-blur' : ''}}"
+  <view
+        class="container__has-tabbar {{loading ? 'loading-blur' : ''}}"
+        bindscroll="handleScroll"
+        scroll-y="{{true}}"
         style="padding-top:{{calcHeight}}px;">
     <view class="animal--swiper__outer">
       <view class="swiper-counter--outer" style="top:{{calcHeight - 30}}px;">
@@ -203,7 +206,7 @@
   export default class AnimalProfile extends wepy.page {
     data = {
       indicatorDots: false,
-      loading: false,
+      loading: true,
       calcHeight: 0,
       animal: '',
       userId: '',
@@ -228,6 +231,7 @@
     }
 
     mixins = [AnimalMixin, LocalesMixin]
+
     watch = {
       loading () {
         if (this.loading) {
@@ -315,8 +319,7 @@
     }
 
     onLoad ({animal}) {
-      console.log('onload hehe')
-      this.loading = true
+      this.$invoke('fidoloader', 'showLoading', '')
       this.animal = animal
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.setScreenHeight()
@@ -344,6 +347,7 @@
       this.calcHeight = screenWidth
       this.$apply()
     }
+
     async checkLikesAndApps () {
       try {
         const likesReq = this.$parent.globalData.user.fetchLikes()
