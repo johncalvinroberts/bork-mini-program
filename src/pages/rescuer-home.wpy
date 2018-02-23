@@ -82,7 +82,7 @@
         console.log('yoooo')
       },
       appendRescues () {
-        if (this.currentRescuePage === this.$parent.globalData.user.lastRescuePage) return
+        if (this.currentRescuePage === this.$parent.globalData.user.lastRescuePage) return ''
         if (this.lastRescueFetched === this.currentRescuePage) {
           this.currentRescuePage++
           this.fetchRescues()

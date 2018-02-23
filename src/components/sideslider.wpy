@@ -42,11 +42,13 @@
 }
 #sideslider-close{
   position: absolute;
-  top:-40rpx;
-  right: 0;
+  bottom:0px;
+  right:-40px;
+  background-color: $white;
+  padding: 2px;
   z-index:99;
-  width: 40rpx;
-  height: 40rpx;
+  width:60rpx;
+  height:60rpx;
 }
 </style>
 <template>

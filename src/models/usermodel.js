@@ -180,11 +180,13 @@ export default class UserModel {
     query.equalTo('user', Lean.User.current())
       .skip(skipAmt)
       .limit(10)
+      .descending('createdAt')
     try {
-      const countQuery = this.rescues ? setTimeout(() => console.log(this.rescueCount), 0) : query.count()
+      const countQuery = this.rescueCount ? setTimeout(() => console.log(this.rescueCount), 0) : query.count()
       const findQuery = query.find()
       const [countRes, findRes] = await Promise.all([countQuery, findQuery])
       this.rescueCount = countRes
+      console.log('here')
       findRes.map(animal => this.rescues.push(animal.toJSON()))
       return this.rescues
     } catch (err) {
@@ -200,7 +202,6 @@ export default class UserModel {
       const query = new Lean.Query('Application')
         .equalTo('applicant', Lean.User.current())
         .include(['animal', 'applicant', 'owner'])
-        // .exists('animal.name') // filter out applications that have had the animal deleted
         .select(['objectId',
           'status',
           'animal.objectId',
@@ -208,6 +209,7 @@ export default class UserModel {
           'animal.name',
           'applicant.nickName'
         ])
+        .descending('createdAt')
       const appsRes = await query.find()
       this.applications = appsRes.map(app => app.toJSON())
       return this.applications
@@ -296,7 +298,6 @@ export default class UserModel {
       const query = new Lean.Query('Application')
         .equalTo('owner', Lean.User.current())
         .include(['animal', 'applicant'])
-        // .exists('animal') // filter out applications that have had the animal deleted
         .select([
           'animal.name',
           'animal.images',
@@ -304,6 +305,7 @@ export default class UserModel {
           'status',
           'applicant.nickName',
           'applicant.avatarUrl'])
+        .descending('createdAt')
       const appsRes = await query.find()
       this.requests = appsRes.map(app => app.toJSON()).filter(app => app.animal)
       return this.requests
@@ -340,6 +342,7 @@ export default class UserModel {
       const query = new Lean.Query('Like')
         .equalTo('user', Lean.User.current())
         .include('animal')
+        .descending('createdAt')
         .select(['id',
           'animal.objectId',
           'animal.images',
