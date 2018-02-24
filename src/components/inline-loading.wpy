@@ -127,6 +127,9 @@
         <view class="loader--spinner-4"/>
         <view class="loader--spinner-5"/>
     </view>
+    <view class="text-center">
+      <slot></slot>
+    </view>
   </view>
 </template>
 <script>

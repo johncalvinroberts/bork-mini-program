@@ -119,16 +119,25 @@
     }
 
     async fetchRescues () {
-      this.rescuesLoading = true
-      try {
-        const animals = await this.$parent.globalData.user.fetchRescues(this.currentRescuePage, true)
-        this.animals = animals
-        this.lastRescueFetched = this.currentRescuePage
-        this.rescuesEmpty = animals.length < 1
-        this.rescuesLoading = false
-        this.$apply()
-      } catch (err) {
-        console.log('ohhh dear')
+      /*
+        When calling this, make sure that currentRescuePage has been iterated up
+        Will not run if currentRescuePage is the same as lastrescuefetched
+        this.$parent.globalData.user.lastRescuePage <-- amount of rescue pages total
+        this.currentRescuePage <--Page to fetch
+        this.lastRescueFetched <--current page that is on the page
+      */
+      if (this.currentRescuePage !== this.lastRescueFetched) {
+        this.rescuesLoading = true
+        try {
+          const animals = await this.$parent.globalData.user.fetchRescues(this.currentRescuePage, true)
+          this.animals = animals
+          this.lastRescueFetched = this.currentRescuePage
+          this.rescuesEmpty = animals.length < 1
+          this.rescuesLoading = false
+          this.$apply()
+        } catch (err) {
+          console.log('ohhh dear')
+        }
       }
     }
   }

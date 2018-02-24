@@ -136,7 +136,9 @@ export default {
       "qr_code": "copy qr code",
       "successful_share": "sent 👍",
       "you_already_submitted": "You already applied for this guy 💥",
-      "successfully_applied": "Successfully submitted application 🎉🎉🎉"
+      "successfully_applied": "Successfully submitted application 🎉🎉🎉",
+      "error_header": "Ope! 🤦‍",
+      "animal_gone": "Animal has been deleted🤦‍🤦‍🤦‍"
     },
     "application-detail" : {
       "pending": "Pending",
@@ -162,6 +164,10 @@ export default {
       "longpress_reminder": "Long press to copy WeChat",
       "copied_successfully": "Username added to clipboard📎",
       "wait_patiently": "The rescuer hasn't responded yet 💁 Just hang tight, be patient!⏱️"
+    },
+    "animals": {
+      "loading_animals": "the animals are running through the pipes🐕🐈🐄🐻🐁🐆🐅🐘🦄",
+      "you_are_the_owner": "Oops! You are this animals owner 😁"
     }
   },
   "zh_CN": {
@@ -300,7 +306,9 @@ export default {
       "qr_code": "复制二维码",
       "successful_share": "转发成功 👍",
       "you_already_submitted": "你已经申请过 💥",
-      "successfully_applied": "申请成功 🎉🎉🎉"
+      "successfully_applied": "申请成功 🎉🎉🎉",
+      "error_header": "哎🤦‍",
+      "animal_gone": "这个小动物已经被救助者删除了🤦‍🤦‍🤦‍"
     },
     "application-detail" : {
       "pending": "等待救助者回复",
@@ -326,6 +334,10 @@ export default {
       "you_were_approved": "救助者已经通过了你的领养申请, 你可以随时通过微信联系救助者",
       "copied_successfully": "已经复制成功📎",
       "wait_patiently": "对方还没回复 💁 请耐心等待!⏱️"
+    },
+    "animals": {
+      "loading_animals": "小动物们正在小跑上来🐕🐈🐄🐻🐁🐆🐅🐘🦄",
+      "you_are_the_owner": "诶啊 你已经是这个小动物的救助者 😁"
     }
   }
 }

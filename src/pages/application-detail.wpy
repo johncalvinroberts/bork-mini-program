@@ -393,6 +393,7 @@
         console.error(err)
       }
     }
+
     async confirmDelete () {
       this.deleteModalOpen = !this.deleteModalOpen
       this.$invoke('fidoloader', 'showLoading', '')
@@ -415,6 +416,9 @@
         if (application.owner.objectId === userId) {
           this.isOwner = true
         }
+        if (!application.animal.objectId) {
+          throw new Error('Animal doesn\'t exist anymore')
+        }
         this.response = application.status
         setTimeout(() => {
           this.focusInput = true
@@ -425,9 +429,19 @@
         this.application = application
         this.$apply()
       } catch (err) {
-        console.log('fuckbra')
-        console.log(err)
+        this.handleFetchError(err)
       }
+    }
+
+    handleFetchError (err) {
+      console.error(err)
+      this.$invoke('fidoloader', 'hideLoading', '')
+      const params = {
+        header: this.t.submit_error_header,
+        message: err.message,
+        navBack: true
+      }
+      return this.$invoke('errormodal', 'showMessage', params)
     }
 
     onPullDownRefresh () {

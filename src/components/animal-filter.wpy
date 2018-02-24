@@ -1,0 +1,20 @@
+<style lang="scss">
+@import "../styles/variables.scss";
+  .animal-filter--top{
+    height: 100px;
+    padding: $default-padding;
+  }
+</style>
+<template>
+  <view class="animal-filter--top">
+    filter here
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class AnimalFilter extends wepy.component {
+    props = {}
+    methods ={}
+  }
+</script>

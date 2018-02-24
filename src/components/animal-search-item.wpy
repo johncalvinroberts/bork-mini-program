@@ -1,0 +1,88 @@
+<style lang="scss">
+  @import "../styles/variables.scss";
+  .animal-search-item--outer{
+    background-size: cover;
+    background-position: center;
+    padding: $default-padding;
+    height: 200px;
+    display: flex;
+    color: $black;
+    box-shadow: $section-shadow;
+    margin-bottom: 10rpx;
+    justify-content: space-between;
+    background-color: $light-grey;
+    position: relative;
+    .animal--text{
+      background-color:$whitegrey;
+      opacity: 0.8;
+      padding: 5rpx 10rpx;
+      text-align: left;
+    }
+    .icon--like {
+      position: absolute;
+      bottom: 40rpx;
+      right: 40rpx;
+      opacity: 0.8;
+    }
+  }
+</style>
+<template>
+  <view class="animal-search-item--outer"
+        style="background-image: url({{animal.images[0]}});"
+        @tap="navToAnimalProfile">
+    <view class="animal--info">
+      <view class="name animal--text">{{animal.name}}</view>
+      <view class="age" wx:if="{{isEnglish}}">{{animal.age}} {{animal.ageUnit}}</view>
+      <block wx:else>
+        <view class="age" wx:if="{{animal.ageUnit === 'weeks'}}">{{animal.age}}周</view>
+        <view class="age" wx:if="{{animal.ageUnit === 'months'}}">{{animal.age}}月</view>
+        <view class="age" wx:if="{{animal.ageUnit === 'years'}}">{{animal.age}}岁</view>
+      </block>
+      <view class="icon--female" wx:if="{{animal.gender === 'female'}}"/>
+      <view class="icon--male" wx:if="{{animal.gender === 'male'}}"/>
+    </view>
+    <view class="animal--distance">
+      <view class="animal--text">{{distanceFromYou}}{{animal.distance}}km</view>
+    </view>
+    <view class="icon--like" id="likebutton" @tap="handleLike"/>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class AnimalSearchItem extends wepy.component {
+    props = {
+      animal: {
+        type: Object
+      },
+      isOwner: {
+        type: Boolean,
+        default: false
+      }
+    }
+    data = {
+      distanceFromYou: '距离：'}
+    methods = {
+      navToAnimalProfile ({target}) {
+        if (target.id !== 'likebutton') {
+          wepy.navigateTo({url: `animal-profile?animal=${this.animal.objectId}`})
+        }
+      },
+      handleLike () {
+        const params = {owner: this.animal.user.objectId, animal: this.animal.objectId}
+        this.$emit('like', params)
+      }
+    }
+
+    computed = {
+      isEnglish () {
+        return wepy.T.locale === 'en'
+      }
+    }
+
+    onLoad () {
+      if (this.isEnglish) {
+        this.distanceFromYou = 'Distance: '
+      }
+    }
+  }
+</script>

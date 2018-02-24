@@ -24,7 +24,7 @@
 </style>
 <template>
   <view class="animal-list-item--outer" @tap="navToAnimalProfile" data-type="profile">
-    <image class="{{search ? 'avatar__square': 'avatar__large'}}" src="{{animalObj.images[0]}}" mode="aspectFill"/>
+    <image class="avatar__large" src="{{animalObj.images[0]}}" mode="aspectFill"/>
     <view class="animal-info">
       <view class="name">{{animalObj.name}}</view>
       <view class="age" wx:if="{{isEnglish}}">{{animalObj.age}} {{animalObj.ageUnit}}</view>
@@ -49,10 +49,6 @@
         type: Object
       },
       isOwner: {
-        type: Boolean,
-        default: false
-      },
-      search: {
         type: Boolean,
         default: false
       }

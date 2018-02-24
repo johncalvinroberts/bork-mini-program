@@ -84,7 +84,7 @@
     color: $black;
   }
   .swiper-counter--outer {
-    background-color: #E5E5E5;
+    background-color: $whitegrey;
     opacity: 0.8;
     position: fixed;
     left: 10px;
@@ -189,6 +189,7 @@
   <applicationmodal @submit.user="handleAppSubmit"/>
   <flash/>
   <fidoloader/>
+  <errormodal/>
   <bottomdrawer :items.sync="shareDrawerItems" @itemtap.user="handleShareItem"/>
 </template>
 <script>
@@ -198,6 +199,7 @@
   import BottomBar from '@/components/bottom-bar'
   import Flash from '@/components/flash'
   import ApplicationModal from '@/components/application-modal'
+  import ErrorModal from '@/components/error-modal'
   import BottomDrawer from '@/components/bottom-drawer'
   import UnregisteredModal from '@/components/unregistered-modal'
   import FidoLoader from '@/components/fido-loader'
@@ -227,7 +229,8 @@
       flash: Flash,
       bottomdrawer: BottomDrawer,
       applicationmodal: ApplicationModal,
-      fidoloader: FidoLoader
+      fidoloader: FidoLoader,
+      errormodal: ErrorModal
     }
 
     mixins = [AnimalMixin, LocalesMixin]
@@ -362,7 +365,7 @@
         }, 500)
         this.$apply()
       } catch (err) {
-        console.error(err)
+        return this.handleFetchError(err)
       }
     }
 
@@ -394,7 +397,18 @@
         return Promise.reject(new Error(err))
       }
     }
-
+    handleFetchError (err) {
+      let message = err.message
+      if (message === 'Error: Error: Object not found.') message = this.t.animal_gone
+      const params = {
+        header: this.t.error_header,
+        message,
+        navBack: true
+      }
+      this.$invoke('fidoloader', 'hideLoading', '')
+      this.$invoke('errormodal', 'showMessage', params)
+      console.error(err)
+    }
     async handleLike () {
       try {
         this.likeButtonDisabled = true

@@ -34,6 +34,12 @@
   import wepy from 'wepy'
   import Modal from '@/components/modal'
   export default class ErrorModal extends wepy.component {
+    props = {
+      refresh: {
+        type: Boolean,
+        default: false
+      }
+    }
     components ={
       modal: Modal
     }
@@ -41,7 +47,7 @@
       errorModalOpen: false,
       header: null,
       message: null,
-      refresh: false
+      navBack: false
     }
     methods = {
       showMessage (param) {
@@ -49,6 +55,7 @@
         this.header = param.header
         this.message = param.message
         this.refresh = param.refresh || false
+        this.navBack = param.navBack || false
         this.$apply()
       },
       handleTap () {
@@ -56,6 +63,8 @@
         if (this.refresh) {
           this.$emit('modaltap')
           wepy.reLaunch()
+        } else if (this.navBack) {
+          wepy.navigateBack()
         }
       }
     }

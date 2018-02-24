@@ -1,37 +1,60 @@
 <style lang="scss">
-  .something {
-    color: pink;
+  @import "../styles/variables.scss";
+  .animals--list-outer {
+    padding: $default-padding;
   }
 </style>
 <template>
-  <scroll-view class="container"
-              scroll-y="{{scrollY}}"
-              bindscroll="handleScroll"
-              bindscrolltolower="scrollBottom"
-              style="height:{{calcHeight}}px;">
-
-  </scroll-view>
+  <view class="container__no-overflow">
+    <animalfilter>
+      <locationselector :point="params.currentCoordinates" :map="hasMap"/>
+    </animalfilter>
+    <scroll-view class="animals--list-outer"
+                scroll-y="{{scrollY}}"
+                bindscroll="handleScroll"
+                bindscrolltolower="scrollBottom"
+                style="height: {{calcHeight}}px;">
+      <inlineloading :isopen.sync="animalsLoading">
+        {{t.loading_animals}}
+      </inlineloading>
+      <repeat for="{{rawAnimals}}" key="index" item="animal" index="index">
+        <animalsearchitem :animal.sync="animal" @like.user="handleLike"/>
+      </repeat>
+    </scroll-view>
+  </view>
+  <flash/>
+  <unregisteredmodal/>
 </template>
 <script>
   import wepy from 'wepy'
   import LocalesMixin from '@/mixins/localesmixin'
   import AnimalMixin from '@/mixins/animal-mixin'
-  import AnimalListItem from '@/components/animal-list-item'
+  import AnimalSearchItem from '@/components/animal-search-item'
+  import AnimalFilter from '@/components/animal-filter'
+  import Flash from '@/components/flash'
   import LocationSelector from '@/components/location-selector'
   import InlineLoading from '@/components/inline-loading'
+  import UnregisteredModal from '@/components/unregistered-modal'
+  import _isEmpty from 'lodash.isempty'
 
   export default class Animals extends wepy.page {
     mixins = [LocalesMixin, AnimalMixin]
 
     components = {
-      animallistitem: AnimalListItem,
+      animalsearchitem: AnimalSearchItem,
       locationselector: LocationSelector,
-      inlineloading: InlineLoading
+      inlineloading: InlineLoading,
+      animalfilter: AnimalFilter,
+      flash: Flash,
+      unregisteredmodal: UnregisteredModal
     }
     data = {
       scrollY: true,
       calcHeight: 500,
-      currentPage: 0
+      currentPage: 0,
+      animalsLoading: true,
+      animals: [],
+      hasMap: true
     }
     watch = {}
     methods = {
@@ -40,11 +63,53 @@
       },
       scrollBottom () {
         console.log('hit bottom')
+      },
+      handleLike (params) {
+        const userId = this.$parent.globalData.user.objectId
+        if (!this.$parent.globalData.user.isRegistered) {
+          return this.$invoke('unregisteredmodal', 'openModal', '')
+        } else if (params.owner === userId) {
+          const message = this.t.you_are_the_owner
+          this.$invoke('flash', 'showMessage', message)
+        } else {
+          return this.submitLike(params.animal)
+        }
       }
     }
-    onLoad ({type}) {
+
+    async submitLike (id) {
+      try {
+        const likes = await this.$parent.globalData.user.fetchLikes()
+        const hasLiked = !_isEmpty(likes.find(like => like.animal.objectId === this.animal))
+        if (hasLiked) return this.submitUnLike(id)
+        await this.$parent.globalData.user.submitLike(id)
+        this.hasLiked = true
+        this.$apply()
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    async submitUnLike (id) {
+      try {
+        await this.$parent.globalData.user.submitUnLike(id)
+        this.hasLiked = false
+        this.$apply()
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    async onLoad ({type}) {
+      this.params.type = type
       const screenHeight = wx.getSystemInfoSync().windowHeight
+      await this.$parent.globalData.user.requestLocation()
+      const {latitude, longitude} = await wepy.getLocation()
+      this.params.currentCoordinates = {latitude, longitude}
       this.calcHeight = screenHeight - 100
+      await this.fetchAnimals()
+      this.animalsLoading = false
+      this.$apply()
     }
   }
 </script>

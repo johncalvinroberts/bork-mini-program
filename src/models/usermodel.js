@@ -186,7 +186,6 @@ export default class UserModel {
       const findQuery = query.find()
       const [countRes, findRes] = await Promise.all([countQuery, findQuery])
       this.rescueCount = countRes
-      console.log('here')
       findRes.map(animal => this.rescues.push(animal.toJSON()))
       return this.rescues
     } catch (err) {
