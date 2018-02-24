@@ -17,6 +17,7 @@
       opacity: 0.8;
       padding: 5rpx 10rpx;
       text-align: left;
+      max-width:245rpx;
     }
     .icon--like {
       position: absolute;

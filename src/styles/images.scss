@@ -102,7 +102,7 @@
   background-size:contain;
 }
 
-.icon--edit {
+.icon--edit, .icon--filter {
   background-image: url('https://up.img.heidiancdn.com/o_1c6p9pn3r16do1c4june6esk290edit.svg');
   width: 15px;
   height: 15px;
@@ -111,6 +111,11 @@
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+.icon--filter {
+  background-image: url('https://up.img.heidiancdn.com/o_1c73mbv8hlp6fgrgs3bdrlu0ttings.svg');
+  display: inline-block;
 }
 
 .avatar__small, .avatar__large, .avatar__xs, .avatar__square {

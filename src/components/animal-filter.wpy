@@ -1,20 +1,46 @@
 <style lang="scss">
 @import "../styles/variables.scss";
   .animal-filter--top{
-    height: 100px;
+    height: 50px;
     padding: $default-padding;
+    text-align: right;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    .slot--outer{
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
   }
 </style>
 <template>
   <view class="animal-filter--top">
-    filter here
+    <view class="icon--filter" @tap="handleIconTap"/>
+    <view class="slot--outer" style="height: {{isOpen ? '100': '0'}}px;">
+      <slot></slot>
+    </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
 
   export default class AnimalFilter extends wepy.component {
-    props = {}
-    methods ={}
+    props = {
+      isOpen: {
+        type: Boolean,
+        default: false,
+        twoWay: true
+      }
+    }
+    data = {
+      message: ''
+    }
+    methods ={
+      handleIconTap () {
+        this.isOpen = !this.isOpen
+        this.$apply()
+      }
+    }
   }
 </script>
