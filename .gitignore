@@ -9,5 +9,7 @@ yarn.lock
 .wepycache
 
 src/secret_keys.js
+scripts/keys.js
+
 
 .wepycache
