@@ -357,8 +357,8 @@
         const appsReq = this.$parent.globalData.user.fetchApplications(true)
         const animalReq = this.fetchAnimalDetails(this.animal)
         const [likes, apps] = await Promise.all([likesReq, appsReq, animalReq])
-        this.hasLiked = !_isEmpty(likes.find(like => like.animal.objectId === this.animal))
-        this.hasApplied = !_isEmpty(apps.find(app => app.animal.objectId === this.animal))
+        this.hasLiked = !_isEmpty(likes.find(like => like.animal && like.animal.objectId === this.animal))
+        this.hasApplied = !_isEmpty(apps.find(app => app.animal && app.animal.objectId === this.animal))
         setTimeout(() => {
           this.loading = false
           this.$apply()
@@ -377,6 +377,9 @@
           'available',
           'fixed',
           'vaccinated',
+          'dewormed',
+          'deflead',
+          'microchipped',
           'gender',
           'images',
           'neighborhood',

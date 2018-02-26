@@ -111,7 +111,7 @@ class SeedBuilder {
   async createAnimal (user) {
     const animal = new Lean.Object('Animal')
     const location = new Lean.GeoPoint({
-      latitude: parseFloat((Math.random() * (33 - 29 + 1) + 29).toFixed(5)),
+      latitude: parseFloat((Math.random() * (35 - 27 + 1) + 27).toFixed(5)),
       longitude: parseFloat((Math.random() * (130 - 120 + 1) + 120).toFixed(5))
     })
     const ageUnitNum = Math.floor(Math.random() * 3 + 1)

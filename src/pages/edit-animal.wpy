@@ -304,9 +304,9 @@
 
     async handleSubmit () {
       this.mapVisible = false
-      this.$invoke('fidoloader', 'showLoading', '')
       if (this.hasEmptyFields) return this.handleSubmitError()
-      // refactor to use destructuring...should be fine
+      this.$invoke('fidoloader', 'showLoading', '')
+      // refactor to use destructuring, just leaving out the things I don't want...sHoUlD bE FiEnE
       const fields = _pick(this.animalInfo,
         ['name'],
         ['intro'],
