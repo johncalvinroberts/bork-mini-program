@@ -5,9 +5,9 @@ import _isEmpty from 'lodash.isempty'
 
 export default class AnimalMixin extends wepy.mixin {
   /*
-    okay so this kind of sucks but i am just going to use this mixin
+    okay soooo i am just going to use this mixin
     for fetching data when the user is not logged in
-    and/or just fetching animal stuff
+    and/or just fetching animal stuff.
   */
 
   constructor () {
@@ -35,14 +35,15 @@ export default class AnimalMixin extends wepy.mixin {
       vaccinated: true
     },
     page: 1,
+    rawAnimals: [],
+    lastPage: false,
     params: {
       currentCoordinates: {},
       location: true,
       type: 'dog',
       age: false,
       gender: 0
-    },
-    rawAnimals: []
+    }
   }
   async fetchAnimal (id, selects = []) {
     const query = new Lean.Query('Animal')
@@ -61,7 +62,6 @@ export default class AnimalMixin extends wepy.mixin {
   }
 
   async fetchAnimals () {
-    console.log(this.params.type)
     const skipAmt = (this.page * 10) - 10
     const query = new Lean.Query('Animal')
       .near('location', this.params.currentCoordinates)
@@ -72,6 +72,9 @@ export default class AnimalMixin extends wepy.mixin {
       .limit(10)
     if (this.params.type !== 'all') query.equalTo('type', this.params.type)
     const animalsRes = await query.find()
+    if (_isEmpty(animalsRes)) {
+      this.lastPage = true
+    }
     animalsRes.map(animal => {
       const animalObj = animal.toJSON()
       const animalPoint = new Lean.GeoPoint(animalObj.location)

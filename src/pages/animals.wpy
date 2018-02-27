@@ -4,25 +4,40 @@
     padding: $default-padding;
     transition: all 0.3s ease;
   }
+  .animals--location-picker {
+    position: fixed;
+    transition: all 0.3s ease;
+    left: 0;
+    right: 0;
+  }
+  .animals--loading{
+    position: fixed;
+    background-color: $white;
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
 </style>
 <template>
   <view class="container__no-overflow">
+    <locationselector :point.sync="defaultCoordinates" :stickyMap.sync="stickyMap"/>
     <animalfilter :isOpen.sync="filterOpen">
       stuff here
-      <!-- <locationselector :point="defaultCoordinates" :map="hasMap"/> -->
     </animalfilter>
     <scroll-view class="animals--list-outer"
                 scroll-y="{{scrollY}}"
                 bindscroll="handleScroll"
                 bindscrolltolower="scrollBottom"
-                style="height: 100vh; padding-top: {{filterOpen ? '100' : '50'}}px;">
-      <inlineloading :isopen.sync="animalsLoading">
-        {{t.loading_animals}}
-      </inlineloading>
+                style="height: {{animalsLoading ? '95vh': '100vh'}}; padding-top: {{filterOpen ? '100' : '50'}}px;">
       <repeat for="{{rawAnimals}}" key="index" item="animal" index="index">
         <animalsearchitem :animal.sync="animal" @like.user="handleLike"/>
       </repeat>
     </scroll-view>
+    <view class="animals--loading" style="bottom: {{preload ? '50%' : '0' }}; display: {{animalsLoading ? 'block' : 'none'}};">
+      <inlineloading :isopen.sync="animalsLoading">
+        {{t.loading_animals}}
+      </inlineloading>
+    </view>
   </view>
   <flash/>
   <unregisteredmodal/>
@@ -55,13 +70,11 @@
       calcHeight: 500,
       currentPage: 0,
       animalsLoading: true,
+      preload: true,
       animals: [],
-      hasMap: true,
+      stickyMap: true,
       filterOpen: false,
-      defaultCoordinates: {
-        latitude: 21,
-        longitude: 131
-      }
+      defaultCoordinates: {}
     }
     watch = {
       defaultCoordinates () {
@@ -70,7 +83,6 @@
       },
       params (newVal, oldVal) {
         if (newVal.currentCoordinates !== oldVal.currentCoordinates) {
-          console.log('changing coordinates')
           this.defaultCoordinates = this.params.currentCoordinates
           this.$apply()
         }
@@ -79,9 +91,6 @@
     methods = {
       handleScroll (e) {
         console.log(e)
-      },
-      scrollBottom () {
-        console.log('hit bottom')
       },
       handleLike (params) {
         const userId = this.$parent.globalData.user.objectId
@@ -93,6 +102,17 @@
         } else {
           return this.submitLike(params.animal)
         }
+      }
+    }
+
+    async scrollBottom () {
+      if (!this.animalsLoading && !this.lastPage) {
+        this.animalsLoading = true
+        this.page++
+        this.$apply()
+        await this.fetchAnimals()
+        this.animalsLoading = false
+        this.$apply()
       }
     }
 
@@ -123,12 +143,17 @@
       this.params.type = type
       const screenHeight = wx.getSystemInfoSync().windowHeight
       this.calcHeight = screenHeight - 50
-      await this.$parent.globalData.user.requestLocation()
-      const {latitude, longitude} = await wepy.getLocation()
-      this.params.currentCoordinates = {latitude, longitude}
-      await this.fetchAnimals()
-      this.animalsLoading = false
-      this.$apply()
+      try {
+        await this.$parent.globalData.user.requestLocation()
+        const {latitude, longitude} = await wepy.getLocation()
+        this.params.currentCoordinates = {latitude, longitude}
+        await this.fetchAnimals()
+        this.preload = false
+        this.animalsLoading = false
+        this.$apply()
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 </script>

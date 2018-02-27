@@ -24,7 +24,6 @@
 </template>
 <script>
   import wepy from 'wepy'
-
   export default class AnimalFilter extends wepy.component {
     props = {
       isOpen: {

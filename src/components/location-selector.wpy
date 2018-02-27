@@ -22,22 +22,40 @@
     display:inline-block;
     vertical-align:middle;
   }
+  .map-location {
+    border-radius: 50%;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    box-shadow: $normal-shadow;
+    z-index: 999;
+    background-color: $white;
+    width: 40px;
+    height: 40px;
+    opacity: 1;
+    transition: all 0.3s ease;
+  }
 </style>
 <template>
-    <block wx:if="{{pointEmpty}}">
-      <view class="map-placeholder" @tap="showMap">{{chooseText}}</view>
+    <block wx:if="{{stickyMap}}">
+      <view class="icon--location map-location" @tap="showMap" style="display: {{open ? 'none' : 'block'}};"></view>
     </block>
     <block wx:else>
-      <view class="smallmap--outer" style="display: {{open ? 'none' : 'block'}}; top: {{open ? '0' : '-150vh'}};">
-        <map id="smallmap"
-              show-location
-              style="width: 100%; height: 80rpx;"
-              scale="12"
-              markers="{{markers}}"
-              latitude = "{{point.latitude}}"
-              longitude = "{{point.longitude}}"
-              @tap="showMap"/>
-      </view>
+      <block wx:if="{{pointEmpty}}">
+        <view class="map-placeholder" @tap="showMap">{{chooseText}}</view>
+      </block>
+      <block wx:else>
+        <view class="smallmap--outer" style="display: {{open ? 'none' : 'block'}}; top: {{open ? '0' : '-150vh'}};">
+          <map id="smallmap"
+                show-location
+                style="width: 100%; height: 80rpx;"
+                scale="12"
+                markers="{{markers}}"
+                latitude = "{{point.latitude}}"
+                longitude = "{{point.longitude}}"
+                @tap="showMap"/>
+        </view>
+      </block>
     </block>
   <view class="bigmap--outer" style="top: {{open ? '0' : '-150vh'}};">
     <map id="bigmap"
@@ -59,7 +77,7 @@
 
   export default class LocationSelector extends wepy.component {
     props = {
-      map: {
+      stickyMap: {
         type: Boolean,
         default: false
       },

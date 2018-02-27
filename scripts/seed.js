@@ -44,7 +44,7 @@ class SeedBuilder {
 
   async createUsers () {
     let count = 0
-    while (count < 2) {
+    while (count < 1) {
       if (count % 2 > 0) {
         faker.locale = 'zh_CN'
       } else {
@@ -95,7 +95,7 @@ class SeedBuilder {
   async createAnimals () {
     for (const user of this.users) {
       let count = Math.floor(Math.random() * 8 + 1)
-      while (count < 15) {
+      while (count < 30) {
         if (count % 2 > 0) {
           faker.locale = 'zh_CN'
         } else {
