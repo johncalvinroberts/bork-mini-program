@@ -26,9 +26,8 @@
     </animalfilter>
     <scroll-view class="animals--list-outer"
                 scroll-y="{{scrollY}}"
-                bindscroll="handleScroll"
                 bindscrolltolower="scrollBottom"
-                style="height: {{animalsLoading ? '95vh': '100vh'}}; padding-top: {{filterOpen ? '100' : '50'}}px;">
+                style="height: 100vh; padding-top: {{filterOpen ? '50px' : '50px'}};">
       <repeat for="{{rawAnimals}}" key="index" item="animal" index="index">
         <animalsearchitem :animal.sync="animal" @like.user="handleLike"/>
       </repeat>
@@ -52,6 +51,7 @@
   import LocationSelector from '@/components/location-selector'
   import InlineLoading from '@/components/inline-loading'
   import UnregisteredModal from '@/components/unregistered-modal'
+  import RadioList from '@/components/radiolist'
   import _isEmpty from 'lodash.isempty'
 
   export default class Animals extends wepy.page {
@@ -63,8 +63,10 @@
       inlineloading: InlineLoading,
       animalfilter: AnimalFilter,
       flash: Flash,
-      unregisteredmodal: UnregisteredModal
+      unregisteredmodal: UnregisteredModal,
+      radiolist: RadioList
     }
+
     data = {
       scrollY: true,
       calcHeight: 500,
@@ -74,12 +76,22 @@
       animals: [],
       stickyMap: true,
       filterOpen: false,
-      defaultCoordinates: {}
+      defaultCoordinates: {},
+      filterChoices: []
     }
+
     watch = {
-      defaultCoordinates () {
-        this.params.currentCoordinates = this.defaultCoordinates
-        this.$apply()
+      t () {
+        this.filterChoices = [
+          // {name: this.t.}
+        ]
+      },
+      defaultCoordinates (newVal, oldVal) {
+        if (!_isEmpty(oldVal)) {
+          this.params.currentCoordinates = this.defaultCoordinates
+          this.resetParamsAndFetch()
+          this.$apply()
+        }
       },
       params (newVal, oldVal) {
         if (newVal.currentCoordinates !== oldVal.currentCoordinates) {
@@ -89,9 +101,6 @@
       }
     }
     methods = {
-      handleScroll (e) {
-        console.log(e)
-      },
       handleLike (params) {
         const userId = this.$parent.globalData.user.objectId
         if (!this.$parent.globalData.user.isRegistered) {
@@ -100,7 +109,7 @@
           const message = this.t.you_are_the_owner
           this.$invoke('flash', 'showMessage', message)
         } else {
-          return this.submitLike(params.animal)
+          this.submitLike(params.animal)
         }
       }
     }

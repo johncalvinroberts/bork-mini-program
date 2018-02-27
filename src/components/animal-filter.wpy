@@ -1,26 +1,33 @@
 <style lang="scss">
 @import "../styles/variables.scss";
   .animal-filter--top{
-    height: 50px;
-    padding: $default-padding;
+    padding:20rpx 40rpx;
     text-align: right;
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
+    z-index:999;
+    background-color:#fff;
+    transition: all 0.3s ease;
     .slot--outer{
-      transition: all 0.3s ease;
+      // transition: all 0.3s ease;
       overflow: hidden;
+      z-index: 999;
+      background-color: $white;
     }
+  }
+  .animal-filter--top.shadow {
+    box-shadow: $normal-shadow;
   }
 </style>
 <template>
-  <view class="animal-filter--top">
+  <scroll-view class="animal-filter--top {{isOpen ? 'shadow' : ''}}" style="height: {{isOpen ? '220px': '50px'}};">
     <view class="icon--filter" @tap="handleIconTap"/>
-    <view class="slot--outer" style="height: {{isOpen ? '100': '0'}}px;">
+    <view class="slot--outer" style="height: {{isOpen ? 'auto': '0'}};">
       <slot></slot>
     </view>
-  </view>
+  </scroll-view>
 </template>
 <script>
   import wepy from 'wepy'

@@ -82,5 +82,13 @@ export default class AnimalMixin extends wepy.mixin {
       animalObj.distance = distance
       this.rawAnimals.push(animalObj)
     })
+    this.$apply()
+  }
+
+  async resetParamsAndFetch () {
+    this.rawAnimals = []
+    this.page = 1
+    this.$apply()
+    this.fetchAnimals()
   }
 }
