@@ -166,8 +166,17 @@ export default {
       "wait_patiently": "The rescuer hasn't responded yet 💁 Just hang tight, be patient!⏱️"
     },
     "animals": {
-      "loading_animals": "the animals are running through the pipes🐕🐈🐄🐻🐁🐆🐅🐘🦄",
-      "you_are_the_owner": "Oops! You are this animals owner 😁"
+      "loading_animals": "the animals are coming 🐕🐈🐄🐁🐆🐅🐘🦄",
+      "you_are_the_owner": "Oops! You are this animals owner 😁",
+      "dogs": "dogs 🐕",
+      "cats": "cats 🐈",
+      "other": "other🐂",
+      "all_types": "all",
+      "type": "Type",
+      "gender":"Gender",
+      "male":"Male",
+      "female":"Female",
+      "all_genders": "all"
     }
   },
   "zh_CN": {
@@ -337,7 +346,16 @@ export default {
     },
     "animals": {
       "loading_animals": "小动物们正在小跑上来🐕🐈🐄🐻🐁🐆🐅🐘🦄",
-      "you_are_the_owner": "诶啊 你已经是这个小动物的救助者 😁"
+      "you_are_the_owner": "诶啊 你已经是这个小动物的救助者 😁",
+      "dogs": "狗 🐕",
+      "cats": "猫 🐈",
+      "other": "其他 🐄",
+      "all_types": "全部",
+      "type": "种类",
+      "gender":"性别",
+      "male":"男",
+      "female":"女",
+      "all_genders": "全部"
     }
   }
 }

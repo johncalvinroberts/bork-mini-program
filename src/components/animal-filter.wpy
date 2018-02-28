@@ -7,14 +7,15 @@
     top: 0;
     right: 0;
     left: 0;
-    z-index:999;
+    z-index:9;
     background-color:#fff;
     transition: all 0.3s ease;
     .slot--outer{
-      // transition: all 0.3s ease;
       overflow: hidden;
+      transition: all 0.3s ease;
       z-index: 999;
       background-color: $white;
+      padding: 40rpx 0;
     }
   }
   .animal-filter--top.shadow {
@@ -22,9 +23,9 @@
   }
 </style>
 <template>
-  <scroll-view class="animal-filter--top {{isOpen ? 'shadow' : ''}}" style="height: {{isOpen ? '220px': '50px'}};">
+  <scroll-view class="animal-filter--top {{isOpen ? 'shadow' : ''}}" style="height: {{isOpen ? '400px': '50px'}};">
     <view class="icon--filter" @tap="handleIconTap"/>
-    <view class="slot--outer" style="height: {{isOpen ? 'auto': '0'}};">
+    <view class="slot--outer" style="height: {{isOpen ? 'auto': '0'}}; opacity: {{isOpen ? '1' : '0'}};">
       <slot></slot>
     </view>
   </scroll-view>

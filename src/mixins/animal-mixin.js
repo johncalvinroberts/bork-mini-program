@@ -42,7 +42,7 @@ export default class AnimalMixin extends wepy.mixin {
       location: true,
       type: 'dog',
       age: false,
-      gender: 0
+      gender: 'all'
     }
   }
   async fetchAnimal (id, selects = []) {

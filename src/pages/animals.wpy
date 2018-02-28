@@ -3,6 +3,7 @@
   .animals--list-outer {
     padding: $default-padding;
     transition: all 0.3s ease;
+    padding-top: 50px;
   }
   .animals--location-picker {
     position: fixed;
@@ -17,17 +18,34 @@
     left: 0;
     right: 0;
   }
+  .animals--filter-item {
+    display: flex;
+    text-align: left;
+    padding: 10rpx 0;
+    .animals--filter-label {
+      vertical-align: middle;
+      line-height:2;
+      flex: 100rpx 0 0;
+    }
+  }
 </style>
 <template>
   <view class="container__no-overflow">
     <locationselector :point.sync="defaultCoordinates" :stickyMap.sync="stickyMap"/>
     <animalfilter :isOpen.sync="filterOpen">
-      stuff here
+      <view class="animals--filter-item">
+        <view class="animals--filter-label">{{t.type}}</view>
+        <radiolist1 :currentchoice.sync="currentType" :choices.sync="typeChoices"/>
+      </view>
+      <view class="animals--filter-item">
+        <view class="animals--filter-label">{{t.gender}}</view>
+        <radiolist2 :currentchoice.sync="currentGender" :choices.sync="genderChoices"/>
+      </view>
     </animalfilter>
     <scroll-view class="animals--list-outer"
                 scroll-y="{{scrollY}}"
                 bindscrolltolower="scrollBottom"
-                style="height: 100vh; padding-top: {{filterOpen ? '50px' : '50px'}};">
+                style="height: 100vh;">
       <repeat for="{{rawAnimals}}" key="index" item="animal" index="index">
         <animalsearchitem :animal.sync="animal" @like.user="handleLike"/>
       </repeat>
@@ -64,7 +82,8 @@
       animalfilter: AnimalFilter,
       flash: Flash,
       unregisteredmodal: UnregisteredModal,
-      radiolist: RadioList
+      radiolist1: RadioList,
+      radiolist2: RadioList
     }
 
     data = {
@@ -77,13 +96,24 @@
       stickyMap: true,
       filterOpen: false,
       defaultCoordinates: {},
-      filterChoices: []
+      genderChoices: [],
+      typeChoices: [],
+      currentType: '',
+      currentGender: 'all'
     }
 
     watch = {
       t () {
-        this.filterChoices = [
-          // {name: this.t.}
+        this.genderChoices = [
+          {name: this.t.male, value: 'male'},
+          {name: this.t.female, value: 'female'},
+          {name: this.t.all_genders, value: 'all'}
+        ]
+        this.typeChoices = [
+          {name: this.t.dogs, value: 'dog'},
+          {name: this.t.cats, value: 'cat'},
+          {name: this.t.other, value: 'other'},
+          {name: this.t.all_types, value: 'all'}
         ]
       },
       defaultCoordinates (newVal, oldVal) {
@@ -94,8 +124,22 @@
         }
       },
       params (newVal, oldVal) {
-        if (newVal.currentCoordinates !== oldVal.currentCoordinates) {
-          this.defaultCoordinates = this.params.currentCoordinates
+        this.defaultCoordinates = this.params.currentCoordinates
+        this.currentGender = this.params.gender
+        this.currentType = this.params.type
+        this.$apply()
+      },
+      currentGender (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.params.gender = this.currentGender
+          this.resetParamsAndFetch()
+          this.$apply()
+        }
+      },
+      currentType (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.params.type = this.currentType
+          this.resetParamsAndFetch()
           this.$apply()
         }
       }
