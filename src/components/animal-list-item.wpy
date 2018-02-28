@@ -27,12 +27,7 @@
     <image class="avatar__large" src="{{animalObj.images[0]}}" mode="aspectFill"/>
     <view class="animal-info">
       <view class="name">{{animalObj.name}}</view>
-      <view class="age" wx:if="{{isEnglish}}">{{animalObj.age}} {{animalObj.ageUnit}}</view>
-      <block wx:else>
-        <view class="age" wx:if="{{animalObj.ageUnit === 'weeks'}}">{{animalObj.age}}周</view>
-        <view class="age" wx:if="{{animalObj.ageUnit === 'months'}}">{{animalObj.age}}月</view>
-        <view class="age" wx:if="{{animalObj.ageUnit === 'years'}}">{{animalObj.age}}岁</view>
-      </block>
+      <view class="age">{{animalObj.age}}</view>
       <view class="icon--female" wx:if="{{animalObj.gender === 'female'}}"/>
       <view class="icon--male" wx:if="{{animalObj.gender === 'male'}}"/>
     </view>
@@ -53,9 +48,7 @@
         default: false
       }
     }
-    data = {
-      // animalAgeText: ''
-    }
+    data = {}
     methods = {
       navToAnimalProfile ({target}) {
         if (target.dataset.type === 'edit') {
@@ -65,10 +58,6 @@
         }
       }
     }
-    computed = {
-      isEnglish () {
-        return wepy.T.locale === 'en'
-      }
-    }
+    computed = {}
   }
 </script>

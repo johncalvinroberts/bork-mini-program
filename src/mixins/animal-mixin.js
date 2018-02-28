@@ -2,6 +2,7 @@ import wepy from 'wepy'
 import Lean from 'leancloud-storage'
 import { appId, appKey } from '@/secret_keys'
 import _isEmpty from 'lodash.isempty'
+import {_daysToString} from '@/utils/age-fns'
 
 export default class AnimalMixin extends wepy.mixin {
   /*
@@ -52,7 +53,9 @@ export default class AnimalMixin extends wepy.mixin {
     try {
       const queryResults = await query.get(id)
       this.rawAnimalObj = queryResults
-      this.animalInfo = queryResults.toJSON()
+      const animalInfo = queryResults.toJSON()
+      animalInfo.age = _daysToString(animalInfo.age)
+      this.animalInfo = animalInfo
       this.images = this.animalInfo.images || []
       this.$apply()
     } catch (err) {
@@ -77,6 +80,7 @@ export default class AnimalMixin extends wepy.mixin {
     }
     animalsRes.map(animal => {
       const animalObj = animal.toJSON()
+      animalObj.age = _daysToString(animalObj.age)
       const animalPoint = new Lean.GeoPoint(animalObj.location)
       const distance = animalPoint.kilometersTo(this.params.currentCoordinates).toFixed(3)
       animalObj.distance = distance

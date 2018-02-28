@@ -2,6 +2,7 @@ import Lean from '@/utils/av-weapp-min'
 import { appId, appKey } from '@/secret_keys'
 import wepy from 'wepy'
 import _isEmpty from 'lodash.isempty'
+import {_daysToString} from '@/utils/age-fns'
 
 export default class UserModel {
   constructor () {
@@ -186,7 +187,11 @@ export default class UserModel {
       const findQuery = query.find()
       const [countRes, findRes] = await Promise.all([countQuery, findQuery])
       this.rescueCount = countRes
-      findRes.map(animal => this.rescues.push(animal.toJSON()))
+      findRes.map(animal => {
+        const animalObj = animal.toJSON()
+        animalObj.age = _daysToString(animalObj.age)
+        this.rescues.push(animalObj)
+      })
       return this.rescues
     } catch (err) {
       console.error(err)
@@ -350,7 +355,11 @@ export default class UserModel {
           'animal.ageUnit',
           'animal.age'])
       const queryRes = await query.find()
-      this.likes = queryRes.map(like => like.toJSON())
+      this.likes = queryRes.map(like => {
+        const likeObj = like.toJSON()
+        likeObj.age = _daysToString(likeObj.age)
+        return likeObj
+      })
       return this.likes
     } catch (err) {
       console.error(err)

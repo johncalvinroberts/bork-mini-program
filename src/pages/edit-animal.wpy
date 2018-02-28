@@ -29,7 +29,7 @@
             <view class="form-item--label-inner">{{t.age}}</view>
           </view>
           <view class="form-item--flex-item">
-            <input type="number" class="form-item--input__half" @blur="handleAge" confirm-type="next" maxlength="2" value="{{animalAge}}"/>
+            <input type="number" class="form-item--input__half" @blur="handleAge" confirm-type="next" maxlength="10" value="{{animalAge}}"/>
             <picker mode="selector"
                   @change="hanldeAgeUnit"
                   value="{{currentAgeUnit}}"
@@ -103,6 +103,7 @@
   import CoolCheckBox from '@/components/cool-checkbox'
   import _isEmpty from 'lodash.isempty'
   import _pick from 'lodash.pick'
+  import {_getUnit, _unitToDays, _unitAndDaysToNumber} from '@/utils/age-fns'
 
   export default class EditAnimal extends wepy.page {
     config = {
@@ -115,6 +116,7 @@
       genderChoices: [],
       currentType: 'dog',
       currentGender: 'male',
+      preload: true,
       isEditing: false,
       animalAvailable: true,
       animalPoint: {},
@@ -130,7 +132,8 @@
       currentAgeUnit: 'years',
       mapVisible: true,
       navBack: true,
-      deleteConfirmOpen: false
+      deleteConfirmOpen: false,
+      animalAge: ''
     }
 
     components = {
@@ -182,8 +185,14 @@
         this.microchipped = this.animalInfo.microchipped
         this.dewormed = this.animalInfo.dewormed
         this.deflead = this.animalInfo.deflead
-        this.currentAgeUnit = this.animalInfo.ageUnit
         this.animalPoint = this.animalInfo.location || {}
+        if (this.animalInfo.age && this.preload) {
+          this.currentAgeUnit = _getUnit(this.animalInfo.age)
+        }
+        if (this.animalInfo.age) {
+          this.animalAge = _unitAndDaysToNumber(this.currentAgeUnit, this.animalInfo.age)
+        }
+        this.preload = false
         this.$apply()
       },
       currentType () {
@@ -233,16 +242,19 @@
         }
         return ''
       },
-      animalAge () {
-        if (this.animalInfo && this.animalInfo.age) {
-          return this.animalInfo.age
+      // animalAge () {
+      //   if (this.animalInfo && this.animalInfo.age) {
+      //     console.log('here in animal age computed')
+      //     return _unitAndDaysToNumber(this.currentAgeUnit, this.animalInfo.age)
+      //   }
+      //   return ''
+      // },
+      currentAgeUnitText () {
+        if (!_isEmpty(this.ageUnits)) {
+          const unitObj = this.ageUnits.find(unit => unit.value === this.currentAgeUnit)
+          return unitObj && unitObj.name
         }
         return ''
-      },
-      currentAgeUnitText () {
-        if (_isEmpty(this.ageUnits)) return ''
-        const unitObj = this.ageUnits.find(unit => unit.value === this.currentAgeUnit)
-        return unitObj && unitObj.name
       },
       hasEmptyFields () {
         const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['location'], ['gender'], ['age'])
@@ -266,14 +278,18 @@
         this.$apply()
       },
       handleAge ({detail}) {
-        if (!detail.value) return
-        this.animalInfo.age = detail.value
-        this.$apply()
+        if (detail.value) {
+          const age = _unitToDays(this.currentAgeUnit, detail.value)
+          console.log(age)
+          this.animalInfo.age = age
+          this.$apply()
+        }
       },
       hanldeAgeUnit ({detail}) {
         const index = detail.value
         const targetValue = this.ageUnits[index].value
-        this.animalInfo.ageUnit = targetValue
+        this.currentAgeUnit = targetValue
+        this.animalInfo.age = _unitToDays(targetValue, this.animalAge)
         this.$apply()
       },
       toggleDeleteModal () {
@@ -319,8 +335,7 @@
         ['dewormed'],
         ['deflead'],
         ['microchipped'],
-        ['age'],
-        ['ageUnit'])
+        ['age'])
       const images = this.images
       const params = {images, ...fields}
       try {
@@ -359,7 +374,7 @@
     }
 
     handleSubmitError () {
-      console.log('this is handle submit error')
+      this.$invoke('fidoloader', 'hideLoading', '')
       const params = {
         header: this.t.submit_error_header,
         message: this.t.submit_error_message

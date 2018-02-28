@@ -126,7 +126,7 @@
           {{animalInfo.name}}
           <view class="icon--male" wx:if="{{animalInfo.gender === 'male'}}"/>
           <view class="icon--female" wx:if="{{animalInfo.gender === 'female'}}"/>
-          <view class="age">{{animalAgeText}}</view>
+          <view class="age">{{animalInfo.age}}</view>
         </view>
       </view>
       <view class="animal--neighborhood">
@@ -214,7 +214,6 @@
       userId: '',
       isOwner: false,
       isRegistered: false,
-      animalAgeText: '',
       shareDrawerItems: [],
       hasLiked: false,
       hasApplied: false,
@@ -247,10 +246,6 @@
         this.shareDrawerItems = [
           {name: this.t.send_friends, value: 'send_friends', isShare: true},
           {name: this.t.qr_code, value: 'qr_code', isShare: false}]
-        this.$apply()
-      },
-      animalInfo () {
-        this.animalAgeText = `${this.animalInfo.age} ${this.t[this.animalInfo.ageUnit]}`
         this.$apply()
       }
     }

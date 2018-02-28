@@ -95,7 +95,7 @@ class SeedBuilder {
   async createAnimals () {
     for (const user of this.users) {
       let count = Math.floor(Math.random() * 8 + 1)
-      while (count < 30) {
+      while (count < 60) {
         if (count % 2 > 0) {
           faker.locale = 'zh_CN'
         } else {
@@ -111,13 +111,9 @@ class SeedBuilder {
   async createAnimal (user) {
     const animal = new Lean.Object('Animal')
     const location = new Lean.GeoPoint({
-      latitude: parseFloat((Math.random() * (35 - 27 + 1) + 27).toFixed(5)),
-      longitude: parseFloat((Math.random() * (130 - 120 + 1) + 120).toFixed(5))
+      latitude: parseFloat((Math.random() * (40 - 27 + 1) + 27).toFixed(5)),
+      longitude: parseFloat((Math.random() * (150 - 110 + 1) + 110).toFixed(5))
     })
-    const ageUnitNum = Math.floor(Math.random() * 3 + 1)
-    let ageUnit = 'weeks'
-    if (ageUnitNum === 2) ageUnit = 'months'
-    if (ageUnitNum === 3) ageUnit = 'years'
     const images = []
     let imageCount = Math.floor(Math.random() * (5 - 1) + 1)
     while (imageCount < 7) {
@@ -127,7 +123,6 @@ class SeedBuilder {
     const animalInfo = {
       images,
       user,
-      ageUnit,
       location,
       available: true,
       name: faker.name.firstName(),
@@ -139,7 +134,7 @@ class SeedBuilder {
       dewormed: Math.floor(Math.random() * 2 + 1) === 1,
       microchipped: Math.floor(Math.random() * 2 + 1) === 1,
       deflead: Math.floor(Math.random() * 2 + 1) === 1,
-      age: Math.floor(Math.random() * 12 + 1).toString()
+      age: parseInt((Math.random() * (400 - 20 + 1) + 20).toFixed())
     }
     animal.set(animalInfo)
     const acl = new Lean.ACL()

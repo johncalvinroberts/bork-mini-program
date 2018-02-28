@@ -10,7 +10,12 @@
         <inlineloading1 :isopen.sync="requestsLoading"/>
       </tabswiperitem>
       <tabswiperitem2 @scrollBottom.user="appendRescues">
-        <view class="home--blank" wx:if="{{rescuesEmpty && !rescuesLoading}}">{{t.rescues_empty}}</view>
+        <block wx:if="{{rescuesEmpty && !rescuesLoading}}">
+          <view class="home--blank">{{t.rescues_empty}}</view>
+          <view class="padbox--default">
+            <button class="btn--default__dark" @tap="createRescue">{{t.create_a_rescue}}</button>
+          </view>
+        </block>
         <view class="padbox--half">
           <repeat for="{{animals}}" index="index" item="animal" key="index">
             <animallistitem :animalObj.sync="animal" :isOwner.sync="isOwner"/>
@@ -20,6 +25,7 @@
       </tabswiperitem2>
     </tabswiper>
   </view>
+  <fidoloader/>
 </template>
 <script>
   import wepy from 'wepy'
@@ -30,6 +36,7 @@
   import InlineLoading from '@/components/inline-loading'
   import AnimalListItem from '@/components/animal-list-item'
   import ApplicationListItem from '@/components/application-list-item'
+  import FidoLoader from '@/components/fido-loader'
 
   export default class RescuerHome extends wepy.page {
     data = {
@@ -56,7 +63,8 @@
       animallistitem: AnimalListItem,
       inlineloading1: InlineLoading,
       inlineloading2: InlineLoading,
-      applicationlistitem: ApplicationListItem
+      applicationlistitem: ApplicationListItem,
+      fidoloader: FidoLoader
     }
 
     mixins = [LocalesMixin]
@@ -116,6 +124,13 @@
       } catch (err) {
         console.log(err)
       }
+    }
+
+    async createRescue () {
+      this.$invoke('fidoloader', 'showLoading', '')
+      const animal = await this.$parent.globalData.user.createRescue()
+      wepy.navigateTo({url: `edit-animal?id=${animal.id}&edit=false`})
+      this.$invoke('fidoloader', 'hideLoading', '')
     }
 
     async fetchRescues () {

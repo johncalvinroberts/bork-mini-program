@@ -190,6 +190,7 @@
       },
       handleMinChange ({detail}) {
         const selection = detail.value
+        // this is the point where I realized I need to switch to days for age unit
         console.log(selection)
       }
     }

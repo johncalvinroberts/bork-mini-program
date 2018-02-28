@@ -33,12 +33,7 @@
         @tap="navToAnimalProfile">
     <view class="animal--info">
       <view class="name animal--text">{{animal.name}}</view>
-      <view class="age" wx:if="{{isEnglish}}">{{animal.age}} {{animal.ageUnit}}</view>
-      <block wx:else>
-        <view class="age" wx:if="{{animal.ageUnit === 'weeks'}}">{{animal.age}}周</view>
-        <view class="age" wx:if="{{animal.ageUnit === 'months'}}">{{animal.age}}月</view>
-        <view class="age" wx:if="{{animal.ageUnit === 'years'}}">{{animal.age}}岁</view>
-      </block>
+      <view class="age">{{animal.age}}</view>
       <view class="icon--female" wx:if="{{animal.gender === 'female'}}"/>
       <view class="icon--male" wx:if="{{animal.gender === 'male'}}"/>
     </view>
@@ -61,7 +56,8 @@
       }
     }
     data = {
-      distanceFromYou: '距离：'}
+      distanceFromYou: '距离：'
+    }
     methods = {
       navToAnimalProfile ({target}) {
         if (target.id !== 'likebutton') {
