@@ -25,7 +25,7 @@
     .animals--filter-label {
       vertical-align: middle;
       line-height:2;
-      flex: 0 0 100rpx;
+      flex: 0 0 80rpx;
     }
   }
   .slider--label{
@@ -62,6 +62,15 @@
                   block-color="#333333"/>
           <view class="slider--amount">{{minAgeText}}</view>
       </view>
+      <view class="animals--filter-item">
+        <view class="slider--label">{{t.age_range_maximum}}</view>
+          <slider @change="handleMaxChange"
+                  class="animals--slider"
+                  backgroundColor="#E5E5E5"
+                  activeColor="#3D3B5A"
+                  block-color="#333333"/>
+          <view class="slider--amount">{{maxAgeText}}</view>
+      </view>
     </animalfilter>
     <scroll-view class="animals--list-outer"
                 scroll-y="{{scrollY}}"
@@ -92,6 +101,7 @@
   import UnregisteredModal from '@/components/unregistered-modal'
   import RadioList from '@/components/radiolist'
   import _isEmpty from 'lodash.isempty'
+  import {_daysToString} from '@/utils/age-fns'
 
   export default class Animals extends wepy.page {
     mixins = [LocalesMixin, AnimalMixin]
@@ -172,7 +182,16 @@
 
     computed = {
       minAgeText () {
-        return 'yooo'
+        if (this.params.minAge) {
+          return _daysToString(this.params.minAge.toFixed())
+        }
+        return ''
+      },
+      maxAgeText () {
+        if (this.params.maxAge) {
+          return _daysToString(this.params.maxAge.toFixed())
+        }
+        return ''
       }
     }
 
@@ -189,9 +208,28 @@
         }
       },
       handleMinChange ({detail}) {
-        const selection = detail.value
-        // this is the point where I realized I need to switch to days for age unit
-        console.log(selection)
+        let x = parseInt(detail.value)
+        console.log(x)
+        if (x !== 0) {
+          x = ((x - 1) * 36.72727272) + 14
+        } else {
+          x = false
+        }
+        this.params.minAge = x
+        this.$apply()
+        this.resetParamsAndFetch()
+      },
+      handleMaxChange ({detail}) {
+        let x = parseInt(detail.value)
+        console.log(x)
+        if (x !== 0) {
+          x = ((x - 1) * 36.72727272) + 14
+        } else {
+          x = false
+        }
+        this.params.maxAge = x
+        this.$apply()
+        this.resetParamsAndFetch()
       }
     }
 

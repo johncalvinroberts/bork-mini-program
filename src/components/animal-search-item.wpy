@@ -60,6 +60,7 @@
     }
     methods = {
       navToAnimalProfile ({target}) {
+        this.$emit('tap', '')
         if (target.id !== 'likebutton') {
           wepy.navigateTo({url: `animal-profile?animal=${this.animal.objectId}`})
         }

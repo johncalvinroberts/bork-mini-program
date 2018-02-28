@@ -42,8 +42,9 @@ export default class AnimalMixin extends wepy.mixin {
       currentCoordinates: {},
       location: true,
       type: 'dog',
-      age: false,
-      gender: 'all'
+      gender: 'all',
+      minAge: null,
+      maxAge: null
     }
   }
   async fetchAnimal (id, selects = []) {
@@ -73,6 +74,8 @@ export default class AnimalMixin extends wepy.mixin {
       .select(['name', 'images', 'gender', 'age', 'ageUnit', 'objectId', 'location', 'user.objectId'])
       .skip(skipAmt)
       .limit(10)
+    if (this.params.minAge) query.greaterThan('age', this.params.minAge)
+    if (this.params.maxAge) query.lessThanOrEqualTo('age', this.params.maxAge)
     if (this.params.type !== 'all') query.equalTo('type', this.params.type)
     const animalsRes = await query.find()
     if (_isEmpty(animalsRes)) {

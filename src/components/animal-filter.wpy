@@ -23,7 +23,7 @@
   }
 </style>
 <template>
-  <scroll-view class="animal-filter--top {{isOpen ? 'shadow' : ''}}" style="height: {{isOpen ? '400px': '50px'}};">
+  <scroll-view class="animal-filter--top {{isOpen ? 'shadow' : ''}}" style="height: {{isOpen ? '250px': '50px'}};">
     <view class="icon--filter" @tap="handleIconTap"/>
     <view class="slot--outer" style="height: {{isOpen ? 'auto': '0'}}; opacity: {{isOpen ? '1' : '0'}};">
       <slot></slot>
@@ -46,6 +46,10 @@
     methods ={
       handleIconTap () {
         this.isOpen = !this.isOpen
+        this.$apply()
+      },
+      closeFilter () {
+        this.filterOpen = false
         this.$apply()
       }
     }
