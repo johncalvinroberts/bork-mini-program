@@ -176,7 +176,9 @@ export default {
       "gender":"Gender",
       "male":"Male",
       "female":"Female",
-      "all_genders": "all"
+      "all_genders": "all",
+      "age_range_minimum": "Minimum age🍫",
+      "age_range_maximum": "Maximum age👴"
     }
   },
   "zh_CN": {
@@ -355,7 +357,9 @@ export default {
       "gender":"性别",
       "male":"男",
       "female":"女",
-      "all_genders": "全部"
+      "all_genders": "全部",
+      "age_range_minimum": "最小年龄🍫",
+      "age_range_maximum": "最大年龄👴"
     }
   }
 }

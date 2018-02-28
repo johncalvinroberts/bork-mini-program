@@ -25,8 +25,20 @@
     .animals--filter-label {
       vertical-align: middle;
       line-height:2;
-      flex: 100rpx 0 0;
+      flex: 0 0 100rpx;
     }
+  }
+  .slider--label{
+    vertical-align: middle;
+    line-height:2;
+  }
+  .slider--amount {
+    font-size: $font-xs;
+    vertical-align: middle;
+    line-height:2;
+  }
+  .animals--slider {
+    flex-grow: 1;
   }
 </style>
 <template>
@@ -40,6 +52,15 @@
       <view class="animals--filter-item">
         <view class="animals--filter-label">{{t.gender}}</view>
         <radiolist2 :currentchoice.sync="currentGender" :choices.sync="genderChoices"/>
+      </view>
+      <view class="animals--filter-item">
+        <view class="slider--label">{{t.age_range_minimum}}</view>
+          <slider @change="handleMinChange"
+                  class="animals--slider"
+                  backgroundColor="#E5E5E5"
+                  activeColor="#3D3B5A"
+                  block-color="#333333"/>
+          <view class="slider--amount">{{minAgeText}}</view>
       </view>
     </animalfilter>
     <scroll-view class="animals--list-outer"
@@ -99,7 +120,11 @@
       genderChoices: [],
       typeChoices: [],
       currentType: '',
-      currentGender: 'all'
+      currentGender: 'all',
+      currentAgeRange: {
+        min: 10,
+        max: 20
+      }
     }
 
     watch = {
@@ -144,6 +169,13 @@
         }
       }
     }
+
+    computed = {
+      minAgeText () {
+        return 'yooo'
+      }
+    }
+
     methods = {
       handleLike (params) {
         const userId = this.$parent.globalData.user.objectId
@@ -155,6 +187,10 @@
         } else {
           this.submitLike(params.animal)
         }
+      },
+      handleMinChange ({detail}) {
+        const selection = detail.value
+        console.log(selection)
       }
     }
 
