@@ -22,10 +22,11 @@
     display: flex;
     text-align: left;
     padding: 10rpx 0;
+    color: $black!important;
     .animals--filter-label {
       vertical-align: middle;
       line-height:2;
-      flex: 0 0 80rpx;
+      flex:0 0 80rpx;
     }
   }
   .slider--label{
@@ -35,10 +36,13 @@
   .slider--amount {
     font-size: $font-xs;
     vertical-align: middle;
-    line-height:2;
+    line-height: 3;
   }
   .animals--slider {
     flex-grow: 1;
+  }
+  .animals--blank {
+    margin-top: 30vh;
   }
 </style>
 <template>
@@ -79,6 +83,7 @@
       <repeat for="{{rawAnimals}}" key="index" item="animal" index="index">
         <animalsearchitem :animal.sync="animal" @like.user="handleLike"/>
       </repeat>
+      <view class="home--blank animals--blank" wx:if="{{rawAnimals.length === 0 && !preload && !animalsLoading}}">{{t.no_results}}</view>
     </scroll-view>
     <view class="animals--loading" style="bottom: {{preload ? '50%' : '0' }}; display: {{animalsLoading ? 'block' : 'none'}};">
       <inlineloading :isopen.sync="animalsLoading">
@@ -121,7 +126,6 @@
       scrollY: true,
       calcHeight: 500,
       currentPage: 0,
-      animalsLoading: true,
       preload: true,
       animals: [],
       stickyMap: true,
@@ -130,11 +134,7 @@
       genderChoices: [],
       typeChoices: [],
       currentType: '',
-      currentGender: 'all',
-      currentAgeRange: {
-        min: 10,
-        max: 20
-      }
+      currentGender: 'all'
     }
 
     watch = {
@@ -184,14 +184,17 @@
       minAgeText () {
         if (this.params.minAge) {
           return _daysToString(this.params.minAge.toFixed())
+        } else {
+          return this.t && this.t.no_limit ? this.t.no_limit : ''
         }
-        return ''
       },
       maxAgeText () {
+        if (!this.t) return ''
         if (this.params.maxAge) {
           return _daysToString(this.params.maxAge.toFixed())
+        } else {
+          return this.t && this.t.no_limit ? this.t.no_limit : ''
         }
-        return ''
       }
     }
 
@@ -209,9 +212,8 @@
       },
       handleMinChange ({detail}) {
         let x = parseInt(detail.value)
-        console.log(x)
         if (x !== 0) {
-          x = ((x - 1) * 36.72727272) + 14
+          x = this.calcAgeFactor(x)
         } else {
           x = false
         }
@@ -221,9 +223,8 @@
       },
       handleMaxChange ({detail}) {
         let x = parseInt(detail.value)
-        console.log(x)
         if (x !== 0) {
-          x = ((x - 1) * 36.72727272) + 14
+          x = this.calcAgeFactor(x)
         } else {
           x = false
         }
@@ -231,6 +232,15 @@
         this.$apply()
         this.resetParamsAndFetch()
       }
+    }
+
+    calcAgeFactor (x) {
+      let y = 36.7272727272727272 // only when x is over 90
+      if (x < 30) y = 2
+      if (x > 30 && x < 50) y = 8
+      if (x > 50 && x < 70) y = 16
+      if (x > 70 && x < 90) y = 32
+      return ((x - 1) * y) + 14
     }
 
     async scrollBottom () {
@@ -277,7 +287,6 @@
         this.params.currentCoordinates = {latitude, longitude}
         await this.fetchAnimals()
         this.preload = false
-        this.animalsLoading = false
         this.$apply()
       } catch (err) {
         console.error(err)

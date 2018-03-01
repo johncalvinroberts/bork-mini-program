@@ -17,6 +17,31 @@
       background-color: $white;
       padding: 40rpx 0;
     }
+    .animal-filter--close{
+      color: $black;
+      position: relative;
+      padding-right:10px;
+      &:after{
+        content: '';
+        width: 10rpx;
+        height: 2rpx;
+        transform: rotate(-45deg);
+        background-color: $black;
+        position: absolute;
+        top:15rpx;
+        right:7rpx;
+      }
+      &:before{
+        content: '';
+        width: 10rpx;
+        height: 2rpx;
+        transform: rotate(45deg);
+        background-color: $black;
+        position: absolute;
+        top:15rpx;
+        right:0;
+      }
+    }
   }
   .animal-filter--top.shadow {
     box-shadow: $normal-shadow;
@@ -24,7 +49,8 @@
 </style>
 <template>
   <scroll-view class="animal-filter--top {{isOpen ? 'shadow' : ''}}" style="height: {{isOpen ? '250px': '50px'}};">
-    <view class="icon--filter" @tap="handleIconTap"/>
+    <view class="animal-filter--close" @tap="handleIconTap" wx:if="{{isOpen}}">{{closeText}}</view>
+    <view class="icon--filter" @tap="handleIconTap" wx:if="{{!isOpen}}"/>
     <view class="slot--outer" style="height: {{isOpen ? 'auto': '0'}}; opacity: {{isOpen ? '1' : '0'}};">
       <slot></slot>
     </view>
@@ -41,7 +67,8 @@
       }
     }
     data = {
-      message: ''
+      message: '',
+      closeText: '收起'
     }
     methods ={
       handleIconTap () {
@@ -51,6 +78,11 @@
       closeFilter () {
         this.filterOpen = false
         this.$apply()
+      }
+    }
+    onLoad () {
+      if (wepy.T.locale === 'en') {
+        this.closeText = 'close'
       }
     }
   }

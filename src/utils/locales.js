@@ -132,7 +132,7 @@ export default {
       "weeks": "weeks",
       "months": "months",
       "years": "years",
-      "you_are_the_owner": "Oops! You are this animals owner 😁",
+      "you_are_the_owner": "Oops! You are this animal's owner 😁",
       "send_friends": "share to wechat friends",
       "qr_code": "copy qr code",
       "successful_share": "sent 👍",
@@ -169,8 +169,8 @@ export default {
     "animals": {
       "loading_animals": "the animals are coming 🐕🐈🐄🐁🐆🐅🐘🦄",
       "you_are_the_owner": "Oops! You are this animals owner 😁",
-      "dogs": "dogs 🐕",
-      "cats": "cats 🐈",
+      "dogs": "dogs🐕",
+      "cats": "cats🐈",
       "other": "other🐂",
       "all_types": "all",
       "type": "Type",
@@ -179,7 +179,9 @@ export default {
       "female":"Female",
       "all_genders": "all",
       "age_range_minimum": "Minimum age🍫",
-      "age_range_maximum": "Maximum age👴"
+      "age_range_maximum": "Maximum age👴",
+      "no_limit": "No limit",
+      "no_results": "Currently no animals that fit your search🙇‍"
     }
   },
   "zh_CN": {
@@ -351,9 +353,9 @@ export default {
     "animals": {
       "loading_animals": "小动物们正在小跑上来🐕🐈🐄🐻🐁🐆🐅🐘🦄",
       "you_are_the_owner": "诶啊 你已经是这个小动物的救助者 😁",
-      "dogs": "狗 🐕",
-      "cats": "猫 🐈",
-      "other": "其他 🐄",
+      "dogs": "狗🐕",
+      "cats": "猫🐈",
+      "other": "其他🐄",
       "all_types": "全部",
       "type": "种类",
       "gender":"性别",
@@ -361,7 +363,9 @@ export default {
       "female":"女",
       "all_genders": "全部",
       "age_range_minimum": "最小年龄🍫",
-      "age_range_maximum": "最大年龄👴"
+      "age_range_maximum": "最大年龄👴",
+      "no_limit": "无限制",
+      "no_results": "暂时没有符合这些条件的小动物🙇‍"
     }
   }
 }

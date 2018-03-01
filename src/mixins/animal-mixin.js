@@ -35,6 +35,7 @@ export default class AnimalMixin extends wepy.mixin {
       fixed: true,
       vaccinated: true
     },
+    animalsLoading: true,
     page: 1,
     rawAnimals: [],
     lastPage: false,
@@ -66,6 +67,8 @@ export default class AnimalMixin extends wepy.mixin {
   }
 
   async fetchAnimals () {
+    this.animalsLoading = true
+    this.$apply()
     const skipAmt = (this.page * 10) - 10
     const query = new Lean.Query('Animal')
       .near('location', this.params.currentCoordinates)
@@ -77,6 +80,7 @@ export default class AnimalMixin extends wepy.mixin {
     if (this.params.minAge) query.greaterThan('age', this.params.minAge)
     if (this.params.maxAge) query.lessThanOrEqualTo('age', this.params.maxAge)
     if (this.params.type !== 'all') query.equalTo('type', this.params.type)
+    if (this.params.gender !== 'all') query.equalTo('gender', this.params.gender)
     const animalsRes = await query.find()
     if (_isEmpty(animalsRes)) {
       this.lastPage = true
@@ -85,10 +89,11 @@ export default class AnimalMixin extends wepy.mixin {
       const animalObj = animal.toJSON()
       animalObj.age = _daysToString(animalObj.age)
       const animalPoint = new Lean.GeoPoint(animalObj.location)
-      const distance = animalPoint.kilometersTo(this.params.currentCoordinates).toFixed(3)
+      const distance = animalPoint.kilometersTo(this.params.currentCoordinates).toFixed(2)
       animalObj.distance = distance
       this.rawAnimals.push(animalObj)
     })
+    this.animalsLoading = false
     this.$apply()
   }
 

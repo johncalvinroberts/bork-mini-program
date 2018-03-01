@@ -1,9 +1,13 @@
-/* eslint camelcase: 0 */
+/*
+  Various functions used for handling age in days of animals
+  the main useful function is _daysToString, which takes days and returns a
+  localized string in weeks, months, or years
+*/
+
 import wepy from 'wepy'
 import locales from './date-locales'
 
 export const _unitToDays = (unit, number) => {
-  console.log(`in _unitToDays, unit is: ${unit}, number in that unit: ${number}`)
   if (unit === 'weeks') {
     return parseInt(number) * 7
   } else if (unit === 'months') {
@@ -25,7 +29,6 @@ export const _unitAndDaysToNumber = (unit, days) => {
 
 export const _daysToString = (days) => {
   const locale = (wepy.T.locale === 'en') ? locales['en'] : locales['zh_CN']
-  console.log(days)
   if (days < 50) {
     const weeks = Math.floor(parseInt(days) / 7)
     return `${weeks} ${locale['weeks']}`
@@ -33,7 +36,6 @@ export const _daysToString = (days) => {
     const months = Math.floor(parseInt(days) / 30)
     return `${months} ${locale['months']}`
   } else {
-    console.log('here')
     const years = Math.floor(parseInt(days) / 365)
     return `${years} ${locale['years']}`
   }

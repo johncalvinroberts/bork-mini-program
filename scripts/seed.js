@@ -120,15 +120,19 @@ class SeedBuilder {
       images.push(this.images[Math.floor(Math.random() * this.images.length)])
       imageCount++
     }
+    const typeFac = Math.floor(Math.random() * 3 + 1)
+    let type = 'dog'
+    if (typeFac === 2) type = 'cat'
+    if (typeFac === 3) type = 'other'
     const animalInfo = {
       images,
       user,
       location,
+      type,
       available: true,
       name: faker.name.firstName(),
       intro: faker.lorem.sentence(),
       vaccinated: Math.floor(Math.random() * 2 + 1) === 1,
-      type: Math.floor(Math.random() * 2 + 1) === 1 ? 'dog' : 'cat',
       gender: Math.floor(Math.random() * 2 + 1) === 1 ? 'male' : 'female',
       fixed: Math.floor(Math.random() * 2 + 1) === 1,
       dewormed: Math.floor(Math.random() * 2 + 1) === 1,
