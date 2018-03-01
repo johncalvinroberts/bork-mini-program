@@ -20,7 +20,8 @@ export default {
       "become_rescuer": "become a rescuer",
       "about": "about fido",
       "logout": "log out",
-      "confirm_logout": "Confirm logout"
+      "confirm_logout": "Confirm logout",
+      "navbar_text": "fido | home"
     },
     "registration": {
       "title_rescuer": "Become A Rescuer",
@@ -139,7 +140,10 @@ export default {
       "you_already_submitted": "You already applied for this guy 💥",
       "successfully_applied": "Successfully submitted application 🎉🎉🎉",
       "error_header": "Ope! 🤦‍",
-      "animal_gone": "Animal has been deleted🤦‍🤦‍🤦‍"
+      "animal_gone": "Animal has been deleted🤦‍🤦‍🤦‍",
+      "dog": "doggo",
+      "cat": "cat/kitty",
+      "other": "Animal"
     },
     "application-detail" : {
       "pending": "Pending",
@@ -181,7 +185,8 @@ export default {
       "age_range_minimum": "Minimum age🍫",
       "age_range_maximum": "Maximum age👴",
       "no_limit": "No limit",
-      "no_results": "Currently no animals that fit your search🙇‍"
+      "no_results": "Currently no animals that fit your search🙇‍",
+      "navbar_text": "fido | Rescues nearby"
     }
   },
   "zh_CN": {
@@ -203,7 +208,8 @@ export default {
       "become_rescuer": "成为救助者",
       "about": "关于fido",
       "logout": "登出",
-      "confirm_logout": "确认登出"
+      "confirm_logout": "确认登出",
+      "navbar_text": "fido | 首页"
     },
     "registration": {
       "title_rescuer": "成为救助者",
@@ -323,7 +329,10 @@ export default {
       "you_already_submitted": "你已经申请过 💥",
       "successfully_applied": "申请成功 🎉🎉🎉",
       "error_header": "哎🤦‍",
-      "animal_gone": "这个小动物已经被救助者删除了🤦‍🤦‍🤦‍"
+      "animal_gone": "这个小动物已经被救助者删除了🤦‍🤦‍🤦‍",
+      "dog": "狗狗",
+      "cat": "猫咪",
+      "other": "小动物"
     },
     "application-detail" : {
       "pending": "等待救助者回复",
@@ -365,7 +374,8 @@ export default {
       "age_range_minimum": "最小年龄🍫",
       "age_range_maximum": "最大年龄👴",
       "no_limit": "无限制",
-      "no_results": "暂时没有符合这些条件的小动物🙇‍"
+      "no_results": "暂时没有符合这些条件的小动物🙇‍",
+      "navbar_text": "fido | 你附近的小动物"
     }
   }
 }

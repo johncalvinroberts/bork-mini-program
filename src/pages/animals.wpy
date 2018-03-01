@@ -110,7 +110,9 @@
 
   export default class Animals extends wepy.page {
     mixins = [LocalesMixin, AnimalMixin]
-
+    config = {
+      navigationBarTitleText: 'loading...'
+    }
     components = {
       animalsearchitem: AnimalSearchItem,
       locationselector: LocationSelector,
@@ -165,14 +167,14 @@
         this.$apply()
       },
       currentGender (newVal, oldVal) {
-        if (newVal !== oldVal) {
+        if (newVal !== oldVal && !this.preload) {
           this.params.gender = this.currentGender
           this.resetParamsAndFetch()
           this.$apply()
         }
       },
       currentType (newVal, oldVal) {
-        if (newVal !== oldVal) {
+        if (newVal !== oldVal && !this.preload) {
           this.params.type = this.currentType
           this.resetParamsAndFetch()
           this.$apply()
@@ -249,7 +251,9 @@
         this.page++
         this.$apply()
         await this.fetchAnimals()
-        this.animalsLoading = false
+        setTimeout(() => {
+          this.animalsLoading = false
+        }, 700)
         this.$apply()
       }
     }
@@ -277,6 +281,11 @@
       }
     }
 
+    onShow () {
+      const title = this.t.navbar_text
+      wepy.setNavigationBarTitle({title})
+    }
+
     async onLoad ({type}) {
       this.params.type = type
       const screenHeight = wx.getSystemInfoSync().windowHeight
@@ -286,6 +295,8 @@
         const {latitude, longitude} = await wepy.getLocation()
         this.params.currentCoordinates = {latitude, longitude}
         await this.fetchAnimals()
+        const title = this.t.navbar_text
+        wepy.setNavigationBarTitle({title})
         this.preload = false
         this.$apply()
       } catch (err) {

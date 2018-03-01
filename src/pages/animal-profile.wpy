@@ -206,6 +206,9 @@
   import _isEmpty from 'lodash.isempty'
 
   export default class AnimalProfile extends wepy.page {
+    config = {
+      navigationBarTitleText: 'loading...'
+    }
     data = {
       indicatorDots: false,
       loading: true,
@@ -355,6 +358,10 @@
         this.hasLiked = !_isEmpty(likes.find(like => like.animal && like.animal.objectId === this.animal))
         this.hasApplied = !_isEmpty(apps.find(app => app.animal && app.animal.objectId === this.animal))
         setTimeout(() => {
+          const type = this.t[this.animalInfo.type]
+          wepy.setNavigationBarTitle({
+            title: `${type} | ${this.animalInfo.name}`
+          })
           this.loading = false
           this.$apply()
         }, 500)
@@ -395,6 +402,7 @@
         return Promise.reject(new Error(err))
       }
     }
+
     handleFetchError (err) {
       let message = err.message
       if (message === 'Error: Error: Object not found.') message = this.t.animal_gone
@@ -407,6 +415,7 @@
       this.$invoke('errormodal', 'showMessage', params)
       console.error(err)
     }
+
     async handleLike () {
       try {
         this.likeButtonDisabled = true

@@ -348,7 +348,7 @@ export default class UserModel {
   }
 
   // LIKES
-  async fetchLikes (refresh = false) {
+  async fetchLikes (refresh = false, animalPage = false) {
     if (!_isEmpty(this.likes) && !refresh) return this.likes
     try {
       const query = new Lean.Query('Like')
@@ -363,11 +363,15 @@ export default class UserModel {
           'animal.ageUnit',
           'animal.age'])
       const queryRes = await query.find()
-      this.likes = queryRes.map(like => {
-        const likeObj = like.toJSON()
-        likeObj.animal.age = _daysToString(likeObj.animal.age)
-        return likeObj
-      })
+      const likes = queryRes.map(like => like.toJSON())
+      if (animalPage) {
+        likes.map(like => {
+          like.animal.age = _daysToString(like.animal.age)
+          return like
+        })
+      }
+      this.likes = likes
+
       return this.likes
     } catch (err) {
       console.error(err)
