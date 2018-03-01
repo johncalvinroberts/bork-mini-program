@@ -287,12 +287,7 @@
         this.$invoke('bottomdrawer', 'showDrawer', '')
       },
       handleShareItem (param) {
-        if (param === 'send_friends') {
-          console.log('yea boi')
-          // wepy.showShareMenu()
-          //   .then(res => console.log(res))
-          //   .catch(err => console.error(err))
-        }
+        console.log('yea boi')
       },
       swiperChange ({detail}) {
         this.currentSlide = detail.current + 1

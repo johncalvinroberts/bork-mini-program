@@ -364,6 +364,7 @@ export default class UserModel {
           'animal.age'])
       const queryRes = await query.find()
       const likes = queryRes.map(like => like.toJSON())
+        .filter(like => like.animal && !_isEmpty(like.animal))
       if (animalPage) {
         likes.map(like => {
           like.animal.age = _daysToString(like.animal.age)
@@ -371,7 +372,6 @@ export default class UserModel {
         })
       }
       this.likes = likes
-
       return this.likes
     } catch (err) {
       console.error(err)

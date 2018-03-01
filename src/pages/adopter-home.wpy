@@ -98,7 +98,7 @@
 
     async fetchLikes () {
       this.likesLoading = true
-      const likes = await this.$parent.globalData.user.fetchLikes(true)
+      const likes = await this.$parent.globalData.user.fetchLikes(true, true)
       this.likes = likes.map(like => like.animal)
       this.likesEmpty = likes.length < 1
       this.likesLoading = false

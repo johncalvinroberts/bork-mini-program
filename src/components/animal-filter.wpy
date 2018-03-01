@@ -1,5 +1,14 @@
 <style lang="scss">
 @import "../styles/variables.scss";
+  .animal-filter--drop {
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 8;
+  }
   .animal-filter--top{
     padding:20rpx 40rpx;
     text-align: right;
@@ -48,6 +57,9 @@
   }
 </style>
 <template>
+  <view class="animal-filter--drop"
+        style="display: {{isOpen ? 'block' : 'none'}}"
+        @tap="handleIconTap"/>
   <scroll-view class="animal-filter--top {{isOpen ? 'shadow' : ''}}" style="height: {{isOpen ? '250px': '50px'}};">
     <view class="animal-filter--close" @tap="handleIconTap" wx:if="{{isOpen}}">{{closeText}}</view>
     <view class="icon--filter" @tap="handleIconTap" wx:if="{{!isOpen}}"/>
