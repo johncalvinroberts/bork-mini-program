@@ -288,9 +288,10 @@
       },
       handleShareItem (param) {
         if (param === 'send_friends') {
-          wepy.showShareMenu()
-            .then(res => console.log(res))
-            .catch(err => console.error(err))
+          console.log('yea boi')
+          // wepy.showShareMenu()
+          //   .then(res => console.log(res))
+          //   .catch(err => console.error(err))
         }
       },
       swiperChange ({detail}) {
@@ -332,12 +333,13 @@
     }
 
     onShareAppMessage (res) {
-      let self = this
+      const self = this
       return {
         title: this.animalInfo.name,
         path: `page/animal-profile?animal=${this.animal}`,
         imageUrl: this.animalInfo.images[0],
         success () {
+          self.$invoke('bottomdrawer', 'hideDrawer', '')
           self.$invoke('flash', 'showMessage', self.t.successful_share)
         }
       }

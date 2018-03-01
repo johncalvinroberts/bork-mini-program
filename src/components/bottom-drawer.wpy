@@ -40,6 +40,7 @@
         <button class="drawer--item"
                 @tap="handleItemTap"
                 id="{{item.value}}"
+                open-type="share"
                 wx:if="{{item.isShare}}">{{item.name}}</button>
         <button class="drawer--item"
                 @tap="handleItemTap"
