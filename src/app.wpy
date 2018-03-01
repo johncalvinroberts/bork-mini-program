@@ -40,16 +40,6 @@ export default class extends wepy.app {
     super()
     this.use('requestfix')
     this.use('promisify')
-    this.intercept('$route', {
-      config (p) {
-        console.log('XXXXXXXX config route')
-        return p
-      },
-      success (p) {
-        console.log('XXXXXXXX route success')
-        return p
-      }
-    })
   }
 
   registerLocales () {

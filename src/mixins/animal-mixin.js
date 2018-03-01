@@ -48,7 +48,7 @@ export default class AnimalMixin extends wepy.mixin {
       maxAge: null
     }
   }
-  async fetchAnimal (id, selects = []) {
+  async fetchAnimal (id, selects = [], editPage = false) {
     const query = new Lean.Query('Animal')
       .include(_isEmpty(selects) ? '' : 'user')
       .select(selects)
@@ -56,7 +56,7 @@ export default class AnimalMixin extends wepy.mixin {
       const queryResults = await query.get(id)
       this.rawAnimalObj = queryResults
       const animalInfo = queryResults.toJSON()
-      animalInfo.age = _daysToString(animalInfo.age)
+      if (!editPage) animalInfo.age = _daysToString(animalInfo.age)
       this.animalInfo = animalInfo
       this.images = this.animalInfo.images || []
       this.$apply()

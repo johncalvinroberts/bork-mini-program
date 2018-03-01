@@ -24,7 +24,7 @@
       },
       linkname: {
         type: String,
-        default: '回到首页'
+        default: '返回'
       },
       navBack: {
         type: Boolean,
@@ -52,6 +52,12 @@
       toggleModal ({message}) {
         this.message = message
         this.isChildOpen = !this.isChildOpen
+        this.$apply()
+      }
+    }
+    onLoad () {
+      if (wepy.T.locale === 'en') {
+        this.linkname = 'Back'
         this.$apply()
       }
     }

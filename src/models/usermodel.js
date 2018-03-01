@@ -215,7 +215,11 @@ export default class UserModel {
         ])
         .descending('createdAt')
       const appsRes = await query.find()
-      this.applications = appsRes.map(app => app.toJSON())
+      /*
+        filter out applications which have a ghost node to an animal that has been deleted.
+        In the future, refactor to move animals to deleted model or mark as deleted.
+      */
+      this.applications = appsRes.map(app => app.toJSON()).filter(app => app.animal)
       return this.applications
     } catch (err) {
       console.error(err)
@@ -311,6 +315,10 @@ export default class UserModel {
           'applicant.avatarUrl'])
         .descending('createdAt')
       const appsRes = await query.find()
+      /*
+        AGAIN filter out requests which have a ghost node to an animal that has been deleted.
+        In the future, refactor to move animals to deleted model or mark as deleted.
+      */
       this.requests = appsRes.map(app => app.toJSON()).filter(app => app.animal)
       return this.requests
     } catch (err) {
@@ -357,7 +365,7 @@ export default class UserModel {
       const queryRes = await query.find()
       this.likes = queryRes.map(like => {
         const likeObj = like.toJSON()
-        likeObj.age = _daysToString(likeObj.age)
+        likeObj.animal.age = _daysToString(likeObj.animal.age)
         return likeObj
       })
       return this.likes

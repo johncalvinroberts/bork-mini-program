@@ -190,7 +190,8 @@
           this.currentAgeUnit = _getUnit(this.animalInfo.age)
         }
         if (this.animalInfo.age) {
-          this.animalAge = _unitAndDaysToNumber(this.currentAgeUnit, this.animalInfo.age)
+          const age = Math.floor(_unitAndDaysToNumber(this.currentAgeUnit, this.animalInfo.age))
+          this.animalAge = age
         }
         this.preload = false
         this.$apply()
@@ -242,13 +243,6 @@
         }
         return ''
       },
-      // animalAge () {
-      //   if (this.animalInfo && this.animalInfo.age) {
-      //     console.log('here in animal age computed')
-      //     return _unitAndDaysToNumber(this.currentAgeUnit, this.animalInfo.age)
-      //   }
-      //   return ''
-      // },
       currentAgeUnitText () {
         if (!_isEmpty(this.ageUnits)) {
           const unitObj = this.ageUnits.find(unit => unit.value === this.currentAgeUnit)
@@ -304,7 +298,7 @@
       if (this.isEditing) {
         try {
           this.$invoke('fidoloader', 'showLoading', '')
-          await this.fetchAnimal(id)
+          await this.fetchAnimal(id, [], true)
           this.$invoke('fidoloader', 'hideLoading', '')
         } catch (err) {
           console.error(err)
