@@ -287,7 +287,9 @@
         this.$invoke('bottomdrawer', 'showDrawer', '')
       },
       handleShareItem (param) {
-        console.log('yea boi')
+        if (param === 'qr_code') {
+          this.generateQrCode()
+        }
       },
       swiperChange ({detail}) {
         this.currentSlide = detail.current + 1
@@ -331,13 +333,17 @@
       const self = this
       return {
         title: this.animalInfo.name,
-        path: `page/animal-profile?animal=${this.animal}`,
+        path: `/pages/animal-profile?animal=${this.animal}`,
         imageUrl: this.animalInfo.images[0],
         success () {
           self.$invoke('bottomdrawer', 'hideDrawer', '')
           self.$invoke('flash', 'showMessage', self.t.successful_share)
         }
       }
+    }
+
+    generateQrCode () {
+      wx.navigateTo({url: `landing`})
     }
 
     setScreenHeight () {

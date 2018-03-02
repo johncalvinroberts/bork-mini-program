@@ -237,11 +237,16 @@
     }
 
     calcAgeFactor (x) {
-      let y = 36.7272727272727272 // only when x is over 90
+      let y
       if (x < 30) y = 2
-      if (x > 30 && x < 50) y = 8
-      if (x > 50 && x < 70) y = 16
-      if (x > 70 && x < 90) y = 32
+      if (x >= 30 && x < 50) y = 8
+      if (x >= 50 && x < 60) y = 16
+      if (x >= 60 && x < 65) y = 20
+      if (x >= 65 && x < 70) y = 24
+      if (x >= 70 && x < 75) y = 28
+      if (x >= 75 && x < 80) y = 30
+      if (x >= 80 && x < 90) y = 32
+      if (x >= 90) y = 36.7272727272727272
       return ((x - 1) * y) + 14
     }
 

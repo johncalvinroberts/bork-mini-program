@@ -16,7 +16,7 @@
     right: 0;
     min-height: 100rpx;
     padding: 0;
-    background-color: $white;
+    background-color: $whitegrey;
     color: $black;
     text-align:center;
     box-shadow:0 -10px 30px 0 rgba(0,0,0,0.1);
@@ -24,11 +24,17 @@
     z-index:99;
   }
   .drawer--item{
-    padding: $default-padding;
+    padding: 10rpx 10rpx;
     border-bottom: $section-border;
+    border-radius: 0;
+    background-color: $white;
+    font-size: 16px;
     &:before, &:after{
       display: none;
     }
+  }
+  .drawer--item.cancel {
+    margin-top: 8rpx;
   }
 </style>
 <template>
@@ -47,6 +53,7 @@
                 id="{{item.value}}"
                 wx:else>{{item.name}}</button>
       </repeat>
+      <button class="drawer--item cancel" @tap="hideDrawer">{{cancelText}}</button>
   </view>
 </template>
 <script>
@@ -58,9 +65,12 @@
         default: [{name: '1', value: '1'}]
       }
     }
+
     data = {
-      isOpen: false
+      isOpen: false,
+      cancelText: '取消'
     }
+
     methods = {
       showDrawer () {
         this.isOpen = true
@@ -78,6 +88,12 @@
         if (isTarget) {
           this.isOpen = false
         }
+      }
+    }
+
+    onLoad () {
+      if (wepy.T.locale === 'en') {
+        this.cancelText = 'cancel'
       }
     }
   }

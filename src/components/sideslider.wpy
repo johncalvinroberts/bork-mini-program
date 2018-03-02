@@ -21,7 +21,7 @@
   right: 0;
 }
 .sideslider--sheet{
-  transition: all 0.3s ease-in-out;
+  // transition: all 0.3s ease-in-out;
   position: absolute;
   left: 0;
   top: 0;
@@ -52,9 +52,15 @@
 }
 </style>
 <template>
-  <view class="sideslider--outer" style="visibility: {{isopen ? 'visible' : 'hidden'}};" @tap="handleTapSheet">
+  <view class="sideslider--outer"
+        style="visibility: {{isopen ? 'visible' : 'hidden'}};"
+        catchtouchmove="handleTouch"
+        catchtouchend="handleTouchEnd"
+        id="sheetmaster"
+        @tap="handleTapSheet">
     <view class="sideslider--mask" id="sheetmask"></view>
-    <view class="sideslider--sheet" style="transform:{{isopen ? 'translate3d(0%,0,0)' : 'translate3d(-100%, 0, 0)'}}; -webkit-transform:{{isopen ? 'translate3d(0%,0,0)' : 'translate3d(-100%, 0, 0)'}};">
+    <view class="sideslider--sheet"
+          style="transform:{{isopen ? translate : 'translate3d(-100%, 0, 0)'}};">
       <view class="sideslider--inner">
         <image class="icon--default" src="../icons/close.svg" @tap="handleTapBtn" id="sideslider-close"/>
         <slot></slot>
@@ -68,6 +74,12 @@
     props = {
       isopen: {}
     }
+
+    data = {
+      translate: 'translate3d(0%,0,0)',
+      screenWidth: 0
+    }
+
     methods = {
       handleTapSheet (e) {
         const isTarget = e.target.id === 'sheetmask'
@@ -77,6 +89,38 @@
       },
       handleTapBtn (e) {
         this.$emit('tapsheet', null)
+      },
+      handleTouch ({currentTarget, touches}) {
+        // start altering when touch spot is < 65% of screen
+        const touchXRatio = touches[0].clientX / this.screenWidth
+        if (touchXRatio <= 0.65) {
+          const offset = parseFloat((touchXRatio * 100).toFixed(2)) - 65
+          this.translate = `translate3d(${offset}%,0,0)`
+          this.$apply()
+        } else {
+          this.translate = 'translate3d(0%,0,0)'
+          this.$apply()
+        }
+        if (touchXRatio <= 0.1) {
+          this.isopen = false
+          this.$apply()
+        }
+      },
+      handleTouchEnd ({changedTouches}) {
+        const touchXRatio = changedTouches[0].clientX / this.screenWidth
+        this.isopen = touchXRatio > 0.1
+        this.translate = 'translate3d(0%,0,0)'
+        this.$apply()
+      }
+    }
+
+    async onLoad () {
+      try {
+        const {windowWidth} = await wepy.getSystemInfo()
+        this.screenWidth = windowWidth
+        this.$apply()
+      } catch (err) {
+        console.error(err)
       }
     }
   }
