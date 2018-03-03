@@ -47,7 +47,10 @@
 </style>
 <template>
   <view class="container__no-overflow">
-    <locationselector :point.sync="defaultCoordinates" :stickyMap.sync="stickyMap"/>
+    <locationselector :point.sync="defaultCoordinates"
+                      :stickyMap.sync="stickyMap"
+                      :markers.sync="animalMarkers"
+                      @markertap.user="navToAnimal"/>
     <animalfilter :isOpen.sync="filterOpen">
       <view class="animals--filter-item">
         <view class="animals--filter-label">{{t.type}}</view>
@@ -136,7 +139,8 @@
       genderChoices: [],
       typeChoices: [],
       currentType: '',
-      currentGender: 'all'
+      currentGender: 'all',
+      animalMarkers: []
     }
 
     watch = {
@@ -179,6 +183,19 @@
           this.resetParamsAndFetch()
           this.$apply()
         }
+      },
+      rawAnimals (newVal, oldVal) {
+        this.animalMarkers = this.rawAnimals.map(animal => {
+          return {
+            iconPath: '../icons/crown.png',
+            latitude: animal.location.latitude,
+            longitude: animal.location.longitude,
+            id: animal.objectId,
+            width: 30,
+            height: 30
+          }
+        })
+        this.$apply()
       }
     }
 
@@ -233,6 +250,10 @@
         this.params.maxAge = x
         this.$apply()
         this.resetParamsAndFetch()
+      },
+      navToAnimal (id) {
+        // this method only used for handling a tap from a marker on the map
+        wepy.navigateTo({url: `animal-profile?animal=${id}`})
       }
     }
 

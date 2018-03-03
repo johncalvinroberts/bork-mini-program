@@ -47,7 +47,7 @@
           <view class="form-item--input"
                 @tap="handleMapOuterTap"
                 wx:if="{{mapVisible}}">
-            <locationselector :point.sync="animalPoint"/>
+            <locationselector :point.sync="animalPoint" :stickyMap.sync="stickyMap"/>
           </view>
         </view>
         <view class="form-item--radio">
@@ -133,7 +133,8 @@
       mapVisible: true,
       navBack: true,
       deleteConfirmOpen: false,
-      animalAge: ''
+      animalAge: '',
+      stickyMap: false
     }
 
     components = {
