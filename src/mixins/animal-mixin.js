@@ -103,4 +103,17 @@ export default class AnimalMixin extends wepy.mixin {
     this.$apply()
     this.fetchAnimals()
   }
+
+  async generateQrCode (id) {
+    try {
+      this.$invoke('fidoloader', 'showLoading', '')
+      const qrCode = await Lean.Cloud.run('generateQrCode', {id})
+      this.$invoke('fidoloader', 'hideLoading', '')
+      // returns a binary stream
+      console.log(qrCode)
+      return qrCode
+    } catch (err) {
+      Promise.reject(err)
+    }
+  }
 }

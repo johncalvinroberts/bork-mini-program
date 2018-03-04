@@ -228,8 +228,8 @@
     }
 
     onLoad () {
-      wepy.navigateTo({url: 'animals?type=cat'})
-      // wepy.navigateTo({url: 'animal-profile?animal=5a97c7daee920a788081b44a'})
+      // wepy.navigateTo({url: 'animals?type=cat'})
+      wepy.navigateTo({url: 'animal-profile?animal=5a9ba96afe88c21c80bf62f4'})
       // wepy.navigateTo({url: 'edit-animal?id=5a97bcd4756571454f251020&edit=true'})
       // wepy.navigateTo({url: 'adopter-home?tab=likes'})
       // wepy.navigateTo({url: 'rescuer-home?tab=rescues'})

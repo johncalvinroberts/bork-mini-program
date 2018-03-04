@@ -97,8 +97,7 @@
   }
 </style>
 <template>
-  <view
-        class="container__has-tabbar {{loading ? 'loading-blur' : ''}}"
+  <view class="container__has-tabbar {{loading ? 'loading-blur' : ''}}"
         bindscroll="handleScroll"
         scroll-y="{{true}}"
         style="padding-top:{{calcHeight}}px;">
@@ -288,7 +287,7 @@
       },
       handleShareItem (param) {
         if (param === 'qr_code') {
-          this.generateQrCode()
+          this.generateQrCode(this.animalInfo.objectId)
         }
       },
       swiperChange ({detail}) {
@@ -340,10 +339,6 @@
           self.$invoke('flash', 'showMessage', self.t.successful_share)
         }
       }
-    }
-
-    generateQrCode () {
-      wx.navigateTo({url: `landing`})
     }
 
     setScreenHeight () {
