@@ -287,7 +287,7 @@
       },
       handleShareItem (param) {
         if (param === 'qr_code') {
-          this.generateQrCode(this.animalInfo.objectId)
+          this.displayQrCode(this.animalInfo.objectId)
         }
       },
       swiperChange ({detail}) {
@@ -382,6 +382,7 @@
           'microchipped',
           'gender',
           'images',
+          'qrCodeUrl',
           'neighborhood',
           'type',
           'age',

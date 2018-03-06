@@ -46,7 +46,8 @@ export default class AnimalMixin extends wepy.mixin {
       gender: 'all',
       minAge: null,
       maxAge: null
-    }
+    },
+    savePhotoSuccess: '图片已保存到相册📷'
   }
   async fetchAnimal (id, selects = [], editPage = false) {
     const query = new Lean.Query('Animal')
@@ -104,16 +105,23 @@ export default class AnimalMixin extends wepy.mixin {
     this.fetchAnimals()
   }
 
-  async generateQrCode (id) {
+  async displayQrCode (id) {
     try {
       this.$invoke('fidoloader', 'showLoading', '')
-      const qrCode = await Lean.Cloud.run('generateQrCode', {id})
+      await this.$parent.globalData.user.requestWritePhoto()
+      const {path} = await wepy.getImageInfo({src: this.animalInfo.qrCodeUrl})
+      await wepy.saveImageToPhotosAlbum({filePath: path})
       this.$invoke('fidoloader', 'hideLoading', '')
-      // returns a binary stream
-      console.log(qrCode)
-      return qrCode
+      this.$invoke('flash', 'showMessage', this.savePhotoSuccess)
     } catch (err) {
       Promise.reject(err)
+    }
+  }
+
+  onLoad () {
+    if (wepy.T.locale === 'en') {
+      this.savePhotoSuccess = 'Photo saved in your phone 📷'
+      this.$apply()
     }
   }
 }

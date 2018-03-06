@@ -136,6 +136,18 @@ export default class UserModel {
     }
   }
 
+  async requestWritePhoto () {
+    const authData = await wepy.getSetting()
+    if (!authData.authSetting['scope.writePhotosAlbum']) {
+      try {
+        await wepy.authorize({scope: 'scope.writePhotosAlbum'})
+      } catch (err) {
+        console.error(err)
+        return Promise.reject(new Error(err))
+      }
+    }
+  }
+
   // RESCUES
   async createRescue () {
     const animal = new Lean.Object('Animal')

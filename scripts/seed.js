@@ -25,7 +25,10 @@ class SeedBuilder {
       await this.createUsers()
       await this.createAnimals()
       await this.collectData()
-      console.log(`SWEET! Made ${this.users.length} users and ${this.animals.length} animals 😄`)
+      setTimeout(async () => {
+        await Lean.Cloud.run('updateAnimalAges')
+        console.log(`SWEET! Made ${this.users.length} users and ${this.animals.length} animals 😄`)
+      }, 2000)
     } catch (err) {
       console.log('oh fuuhh...error!!!!!!!')
       console.error(err)
@@ -95,7 +98,7 @@ class SeedBuilder {
   async createAnimals () {
     for (const user of this.users) {
       let count = Math.floor(Math.random() * 8 + 1)
-      while (count < 60) {
+      while (count < 100) {
         if (count % 2 > 0) {
           faker.locale = 'zh_CN'
         } else {
@@ -172,5 +175,4 @@ class SeedBuilder {
 }
 
 const guy = new SeedBuilder()
-
 exports.default = guy
