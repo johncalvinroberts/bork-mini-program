@@ -131,9 +131,9 @@
       },
       handleTouchEnd ({changedTouches}) {
         const touchXRatio = changedTouches[0].clientX / this.screenWidth
-        this.isopen = touchXRatio > 0.1
-        this.issliding = false
         this.transition = 'all 0.3s ease'
+        this.issliding = false
+        this.isopen = touchXRatio > 0.1
         this.$apply()
       }
     }

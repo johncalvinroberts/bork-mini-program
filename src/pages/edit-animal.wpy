@@ -45,9 +45,11 @@
             <view class="form-item--label-inner">{{t.location}}</view>
           </view>
           <view class="form-item--input"
-                @tap="handleMapOuterTap"
                 wx:if="{{mapVisible}}">
-            <locationselector :point.sync="animalPoint" :stickyMap.sync="stickyMap"/>
+            <locationselector :point.sync="animalPoint"
+                              :stickyMap.sync="stickyMap"
+                              :isPicker.sync="isPicker"
+                              :neighborhood.sync="animalNeighborhood"/>
           </view>
         </view>
         <view class="form-item--radio">
@@ -125,6 +127,7 @@
       microchipped: true,
       deflead: true,
       dewormed: true,
+      animalNeighborhood: '',
       title: '',
       subtitle: '',
       images: [],
@@ -134,7 +137,8 @@
       navBack: true,
       deleteConfirmOpen: false,
       animalAge: '',
-      stickyMap: false
+      stickyMap: false,
+      isPicker: true
     }
 
     components = {
@@ -186,6 +190,7 @@
         this.microchipped = this.animalInfo.microchipped
         this.dewormed = this.animalInfo.dewormed
         this.deflead = this.animalInfo.deflead
+        this.animalNeighborhood = this.animalInfo.neighborhood ? this.animalInfo.neighborhood : ''
         this.animalPoint = this.animalInfo.location || {}
         if (this.animalInfo.age && this.preload) {
           this.currentAgeUnit = _getUnit(this.animalInfo.age)
@@ -215,6 +220,14 @@
       animalPoint () {
         this.animalInfo.location = this.animalPoint
         this.$apply()
+      },
+      animalNeighborhood () {
+        if (this.animalNeighborhood && this.animalNeighborhood !== '') {
+          console.log('setting neighborhood')
+          this.animalInfo.neighborhood = this.animalNeighborhood
+          this.$apply()
+          console.log(this.animalInfo.neighborhood)
+        }
       },
       deflead () {
         this.animalInfo.deflead = this.deflead
@@ -330,8 +343,10 @@
         ['dewormed'],
         ['deflead'],
         ['microchipped'],
+        ['neighborhood'],
         ['age'])
       const images = this.images
+      console.log(fields)
       const params = {images, ...fields}
       try {
         const updatedAnimal = await this.$parent.globalData.user.updateRescue(this.animalId, params)
@@ -346,6 +361,7 @@
       }
     }
 
+    // DELETE THIS IF THE PICKER WORKS
     async handleMapOuterTap () {
       await this.$parent.globalData.user.requestLocation()
       if (_isEmpty(this.animalPoint)) {

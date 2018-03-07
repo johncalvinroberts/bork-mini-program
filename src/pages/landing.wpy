@@ -205,7 +205,7 @@
         wepy.navigateTo({url: 'registration?target=rescuer'})
       },
       handleEdit () {
-        console.log('fuckbra')
+        wepy.navigateTo({url: 'edit-profile'})
       },
       navToProfile () {
         console.log('nav to profile')
@@ -228,13 +228,18 @@
     }
 
     onLoad () {
-      // wepy.navigateTo({url: 'animals?type=cat'})
+      // wepy.navigateTo({url: 'edit-profile'})
       // wepy.navigateTo({url: 'animal-profile?animal=5a9e588b0b616019f39f3812'})
-      // wepy.navigateTo({url: 'edit-animal?id=5a97bcd4756571454f251020&edit=true'})
+      wepy.navigateTo({url: 'edit-animal?id=5a9e6ecfa22b9d00445661e6&edit=true'})
       // wepy.navigateTo({url: 'adopter-home?tab=likes'})
       // wepy.navigateTo({url: 'rescuer-home?tab=rescues'})
       // wepy.navigateTo({url: 'application-detail?id=5a86b14417d0090035385b14'})
       // wepy.navigateTo({url: 'application-detail?id=5a891186ac502e00329bb8ad'})
+    }
+
+    onShow () {
+      const title = this.t.navbar_text
+      wepy.setNavigationBarTitle({title})
       this.isRegistered = this.$parent.globalData.user.isRegistered
       this.isRescuer = this.$parent.globalData.user.isRescuer
       if (this.isRescuer) {
@@ -246,18 +251,13 @@
       this.$apply()
     }
 
-    onUnload () {
-      console.log('landing unload')
-    }
-
     onHide () {
       this.sideSliderOpen = false
       this.$apply()
     }
 
-    onShow () {
-      const title = this.t.navbar_text
-      wepy.setNavigationBarTitle({title})
+    onUnload () {
+      console.log('landing unload')
     }
 
     onPullDownRefresh () {

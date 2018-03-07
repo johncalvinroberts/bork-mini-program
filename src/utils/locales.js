@@ -187,6 +187,10 @@ export default {
       "no_limit": "No limit",
       "no_results": "Currently no animals that fit your search🙇‍",
       "navbar_text": "fido | Rescues nearby"
+    },
+    "edit-profile": {
+      "title": "Edit profile",
+      "subtitle": "Edit your public information and/or login credentials"
     }
   },
   "zh_CN": {
@@ -376,6 +380,10 @@ export default {
       "no_limit": "无限制",
       "no_results": "暂时没有符合这些条件的小动物🙇‍",
       "navbar_text": "fido | 你附近的小动物"
+    },
+    "edit-profile": {
+      "title": "编辑个人资料",
+      "subtitle": "编辑你的公开个人信息以及你的个人登录名和密码"
     }
   }
 }

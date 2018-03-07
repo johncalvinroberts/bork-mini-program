@@ -50,9 +50,9 @@
     <block wx:if="{{stickyMap}}">
       <view class="icon--location map-location" @tap="showMap" style="display: {{open ? 'none' : 'block'}};"></view>
     </block>
-    <block wx:else>
+    <block wx:if="{{isPicker}}">
       <block wx:if="{{pointEmpty}}">
-        <view class="map-placeholder" @tap="showMap">{{chooseText}}</view>
+        <view class="map-placeholder" @tap="showPicker">{{chooseText}}</view>
       </block>
       <block wx:else>
         <view class="smallmap--outer" style="display: {{open ? 'none' : 'block'}}; top: {{open ? '0' : '-150vh'}};">
@@ -63,11 +63,11 @@
                 markers="{{markers}}"
                 latitude = "{{point.latitude}}"
                 longitude = "{{point.longitude}}"
-                @tap="showMap"/>
+                @tap="showPicker"/>
         </view>
       </block>
     </block>
-  <view class="bigmap--outer" style="top: {{open ? '0' : '-150vh'}};">
+  <view class="bigmap--outer" style="top: {{open ? '0' : '-150vh'}};" wx:if="{{isFullMap}}">
     <map id="bigmap"
           show-location
           latitude = "{{point.latitude}}"
@@ -103,6 +103,18 @@
       markers: {
         type: Array,
         default: []
+      },
+      isPicker: {
+        type: Boolean,
+        default: false
+      },
+      isFullMap: {
+        type: Boolean,
+        default: false
+      },
+      neighborhood: {
+        type: String,
+        twoWay: true
       }
     }
 
@@ -161,6 +173,25 @@
             }
           })
         }
+      },
+      showPicker () {
+        this._showPicker()
+      }
+    }
+
+    async _showPicker () {
+      try {
+        await this.$parent.$parent.globalData.user.requestLocation()
+        const res = await wepy.chooseLocation()
+        this.point.latitude = res.latitude
+        this.point.longitude = res.longitude
+        if (res.name && res.name !== '') {
+          console.log(res.name)
+          this.neighborhood = res.name
+        }
+        this.$apply()
+      } catch (err) {
+        console.error(err)
       }
     }
 

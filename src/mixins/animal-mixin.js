@@ -113,7 +113,9 @@ export default class AnimalMixin extends wepy.mixin {
       await wepy.saveImageToPhotosAlbum({filePath: path})
       this.$invoke('fidoloader', 'hideLoading', '')
       this.$invoke('flash', 'showMessage', this.savePhotoSuccess)
+      this.$invoke('bottomdrawer', 'hideDrawer', '')
     } catch (err) {
+      this.$invoke('fidoloader', 'hideLoading', '')
       Promise.reject(err)
     }
   }

@@ -1,23 +1,30 @@
-<style lang="scss">
-  .something{
-    color: pink;
-  }
+<style lang="scss" src="../styles/_forms.scss">
 </style>
 <template>
-  <view class="container">
-    hey
+  <view class="container padbox--default">
+    <view class="form--title">{{t.title}}</view>
+    <view class="form--subtitle">{{t.subtitle}}</view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import LocalesMixin from '@/mixins/localesmixin'
+  import FormParent from '@/components/form-parent'
   export default class EditProfile extends wepy.page {
     data = {}
-    components = {}
-    mixins = []
-    computed = {}
-    onLoad (options) {
-      console.log(options)
+
+    components = {
+      formparent: FormParent
     }
+
+    mixins = [LocalesMixin]
+
+    computed = {}
+
+    onLoad () {
+      console.log(this.$parent.globalData.user.data)
+    }
+
     onPullDownRefresh () {
       wepy.stopPullDownRefresh()
     }

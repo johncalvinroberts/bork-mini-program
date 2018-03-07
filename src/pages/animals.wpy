@@ -50,6 +50,8 @@
     <locationselector :point.sync="defaultCoordinates"
                       :stickyMap.sync="stickyMap"
                       :markers.sync="animalMarkers"
+                      :isFullMap.sync="isFullMap"
+                      :neighborhood.sunc="neighborhood"
                       @markertap.user="navToAnimal"/>
     <animalfilter :isOpen.sync="filterOpen">
       <view class="animals--filter-item">
@@ -140,7 +142,9 @@
       typeChoices: [],
       currentType: '',
       currentGender: 'all',
-      animalMarkers: []
+      animalMarkers: [],
+      isFullMap: true,
+      neighborhood: ''
     }
 
     watch = {
