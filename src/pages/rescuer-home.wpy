@@ -141,18 +141,17 @@
         this.currentRescuePage <--Page to fetch
         this.lastRescueFetched <--current page that is on the page
       */
-      if (this.currentRescuePage !== this.lastRescueFetched) {
-        this.rescuesLoading = true
-        try {
-          const animals = await this.$parent.globalData.user.fetchRescues(this.currentRescuePage, true)
-          this.animals = animals
-          this.lastRescueFetched = this.currentRescuePage
-          this.rescuesEmpty = animals.length < 1
-          this.rescuesLoading = false
-          this.$apply()
-        } catch (err) {
-          console.log('ohhh dear')
-        }
+      // if (this.currentRescuePage !== this.lastRescueFetched) {}
+      this.rescuesLoading = true
+      try {
+        const animals = await this.$parent.globalData.user.fetchRescues(this.currentRescuePage, true)
+        this.animals = animals
+        this.lastRescueFetched = this.currentRescuePage
+        this.rescuesEmpty = animals.length < 1
+        this.rescuesLoading = false
+        this.$apply()
+      } catch (err) {
+        console.log('ohhh dear')
       }
     }
   }

@@ -330,9 +330,10 @@
 
     onShareAppMessage (res) {
       const self = this
+      const path = `/pages/landing?redirect=animal-profile&paramname=animal&paramvalue=${this.animal}`
       return {
         title: this.animalInfo.name,
-        path: `/pages/animal-profile?animal=${this.animal}`,
+        path,
         imageUrl: this.animalInfo.images[0],
         success () {
           self.$invoke('bottomdrawer', 'hideDrawer', '')

@@ -188,6 +188,8 @@
         if (res.name && res.name !== '') {
           console.log(res.name)
           this.neighborhood = res.name
+        } else {
+          this.neighborhood = ''
         }
         this.$apply()
       } catch (err) {

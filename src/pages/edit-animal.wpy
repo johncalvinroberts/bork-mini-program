@@ -106,6 +106,7 @@
   import _isEmpty from 'lodash.isempty'
   import _pick from 'lodash.pick'
   import {_getUnit, _unitToDays, _unitAndDaysToNumber} from '@/utils/age-fns'
+  import {alphaNumeric} from '@/utils/regex'
 
   export default class EditAnimal extends wepy.page {
     config = {
@@ -265,13 +266,16 @@
         return ''
       },
       hasEmptyFields () {
-        const fields = _pick(this.animalInfo, ['name'], ['intro'], ['type'], ['location'], ['gender'], ['age'])
+        const fields = this.serializeFields()
         const emptyFields = Object.keys(fields).filter(field => {
           let value = fields[field]
-          if (value === '' || value === ' ' || value === null) {
-            return field
-          }
+          if (value === null) return field
+          if (value === '') return field
+          if (_isEmpty(field)) return field
+          if (typeof value === 'object' && Object.keys(value).length === 0) return field
+          if (typeof value === 'string' && !value.match(alphaNumeric)) return field
         })
+        console.log(emptyFields)
         return _isEmpty(emptyFields) ? false : emptyFields
       }
     }
@@ -306,48 +310,30 @@
       }
     }
 
-    async onLoad ({id, edit}) {
-      this.animalId = id
-      this.isEditing = JSON.parse(edit)
-      if (this.isEditing) {
-        try {
-          this.$invoke('fidoloader', 'showLoading', '')
-          await this.fetchAnimal(id, [], true)
-          this.$invoke('fidoloader', 'hideLoading', '')
-        } catch (err) {
-          console.error(err)
-        }
-      }
-      this.$apply()
-      this.$parent.globalData.user.requestPicture()
-    }
-
-    onPullDownRefresh () {
-      wepy.stopPullDownRefresh()
+    serializeFields () {
+      const fields = _pick(this.animalInfo,
+        ['name'],
+        ['intro'],
+        ['age'],
+        ['type'],
+        ['gender'],
+        ['location'],
+        ['available'],
+        ['fixed'],
+        ['vaccinated'],
+        ['dewormed'],
+        ['deflead'],
+        ['microchipped'],
+        ['neighborhood'])
+      const params = {images: this.images, ...fields}
+      return params
     }
 
     async handleSubmit () {
       this.mapVisible = false
       if (this.hasEmptyFields) return this.handleSubmitError()
       this.$invoke('fidoloader', 'showLoading', '')
-      // refactor to use destructuring, just leaving out the things I don't want...sHoUlD bE FiEnE
-      const fields = _pick(this.animalInfo,
-        ['name'],
-        ['intro'],
-        ['type'],
-        ['available'],
-        ['gender'],
-        ['fixed'],
-        ['location'],
-        ['vaccinated'],
-        ['dewormed'],
-        ['deflead'],
-        ['microchipped'],
-        ['neighborhood'],
-        ['age'])
-      const images = this.images
-      console.log(fields)
-      const params = {images, ...fields}
+      const params = this.serializeFields()
       try {
         const updatedAnimal = await this.$parent.globalData.user.updateRescue(this.animalId, params)
         this.animalInfo = updatedAnimal
@@ -358,16 +344,6 @@
         this.$apply()
       } catch (err) {
         this.handleSubmitError()
-      }
-    }
-
-    // DELETE THIS IF THE PICKER WORKS
-    async handleMapOuterTap () {
-      await this.$parent.globalData.user.requestLocation()
-      if (_isEmpty(this.animalPoint)) {
-        const {latitude, longitude} = await wepy.getLocation()
-        this.animalPoint = {latitude, longitude}
-        this.$apply()
       }
     }
 
@@ -393,6 +369,26 @@
       this.mapVisible = false
       this.$apply()
       return this.$invoke('errormodal', 'showMessage', params)
+    }
+
+    onPullDownRefresh () {
+      wepy.stopPullDownRefresh()
+    }
+
+    async onLoad ({id, edit}) {
+      this.animalId = id
+      this.isEditing = JSON.parse(edit)
+      if (this.isEditing) {
+        try {
+          this.$invoke('fidoloader', 'showLoading', '')
+          await this.fetchAnimal(id, [], true)
+          this.$invoke('fidoloader', 'hideLoading', '')
+        } catch (err) {
+          console.error(err)
+        }
+      }
+      this.$apply()
+      this.$parent.globalData.user.requestPicture()
     }
   }
 </script>
