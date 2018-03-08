@@ -4,29 +4,184 @@
   <view class="container padbox--default">
     <view class="form--title">{{t.title}}</view>
     <view class="form--subtitle">{{t.subtitle}}</view>
+    <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
+      <tabswiperitem>
+        <view class="padbox--default">
+          <view class="flex--parent__center">
+            <view class="edit-profile--avatar-outer" @tap="switchImage">
+              <image class="avatar__large" src="{{userData.avatarUrl}}" mode="aspectFit"/>
+              <view class="icon">
+                <view class="icon--edit"/>
+              </view>
+            </view>
+          </view>
+          <view class="padbox--topbottom">
+            <view class="form-item--default">
+              <view class="form-item--label">
+                <view class="form-item--label-inner">{{t.nickname}}</view>
+              </view>
+              <input type="text"
+                      class="form-item--input"
+                      value="{{userData.nickName}}"
+                      @blur="handleNickname"
+                      maxlength="70" confirm-type="next" />
+            </view>
+            <view class="form-item--default">
+              <view class="form-item--label">
+                <view class="form-item--label-inner">{{t.place}}</view>
+              </view>
+              <input type="text"
+                      class="form-item--input"
+                      value="{{userData.province}}"
+                      @blur="handleLocation"
+                      maxlength="70" confirm-type="next" />
+            </view>
+            <view class="form-item--default">
+              <view class="form-item--label">
+                <view class="form-item--label-inner">
+                  {{t.wechat}}
+                </view>
+              </view>
+              <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next" value="{{userData.wxUsername}}"/>
+            </view>
+            <view class="form-item--default">
+              <view class="form-item--label">
+                <view class="form-item--label-inner">
+                  {{t.self_intro}}
+                </view>
+              </view>
+              <input type="text" class="form-item--input" @blur="handlePersonal" confirm-type="next" maxlength="200" value="{{userData.personalNote}}" placeholder="{{t.intro_explanation}}" />
+            </view>
+            <view class="form-item--default">
+              <view class="form-item--label">
+                <view class="form-item--label-inner">
+                  {{t.age}}
+                </view>
+              </view>
+              <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next" value="{{userData.age}}"/>
+            </view>
+          </view>
+          <button class="btn--default" @tap="saveProfile">{{t.save_profile}}</button>
+        </view>
+      </tabswiperitem>
+      <tabswiperitem2>WHATS UP GIRL</tabswiperitem2>
+    </tabswiper>
   </view>
+  <errormodal/>
 </template>
 <script>
   import wepy from 'wepy'
   import LocalesMixin from '@/mixins/localesmixin'
-  import FormParent from '@/components/form-parent'
+  import TabSwiper from '@/components/tab-swiper'
+  import TabSwiperItem from '@/components/tab-swiper-item'
+  import ErrorModal from '@/components/error-modal'
+  import {checkSensitive} from '@/utils/regex'
+  import _checkEmptyFields from '@/utils/checkemptyfields'
   export default class EditProfile extends wepy.page {
-    data = {}
+    data = {
+      userData: {},
+      tabs: [],
+      activetab: 'info'
+    }
 
     components = {
-      formparent: FormParent
+      tabswiper: TabSwiper,
+      tabswiperitem: TabSwiperItem,
+      tabswiperitem2: TabSwiperItem,
+      errormodal: ErrorModal
+    }
+
+    watch = {
+      t () {
+        const info = {name: 'info', t: this.t.personal_info}
+        const auth = {name: 'auth', t: this.t.username_password}
+        this.tabs = [info, auth]
+        this.$apply()
+      }
     }
 
     mixins = [LocalesMixin]
 
-    computed = {}
+    methods = {
+      switchImage () {
+        this._switchImage()
+      },
+      handleLocation ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          this.userData.province = ''
+          return this.handleSensitiveWord()
+        }
+        this.userData.province = detail.value
+        this.$apply()
+      },
+      handleNickname ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          this.userData.nickName = ''
+          return this.handleSensitiveWord()
+        }
+        this.userData.nickName = detail.value
+        this.$apply()
+      },
+      handleWx ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          this.userData.wxUsername = ''
+          return this.handleSensitiveWord()
+        }
+        this.userData.wxUsername = detail.value
+        this.$apply()
+      },
+      handlePersonal ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          this.userData.personalNote = ''
+          return this.handleSensitiveWord()
+        }
+        this.userData.personalNote = detail.value
+        this.$apply()
+      },
+      handleAge ({detail}) {
+        this.userData.age = detail.value
+        this.$apply()
+      },
+      saveProfile () {
+        console.log(this.hasEmptyProfileFields)
+      }
+    }
 
-    onLoad () {
-      console.log(this.$parent.globalData.user.data)
+    computed = {
+      hasEmptyProfileFields () {
+        return _checkEmptyFields(this.userData)
+      }
+    }
+
+    async _switchImage () {
+      try {
+        await this.$parent.globalData.user.requestPicture()
+        const {tempFilePaths} = await wepy.chooseImage({count: 1})
+        const {url} = await this.$parent.globalData.user.uploadPicture(tempFilePaths[0])
+        this.userData.avatarUrl = url
+        this.$apply()
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    handleSensitiveWord () {
+      const params = {header: this.t.sensitive_word_header, message: this.t.sensitive_word}
+      return this.$invoke('errormodal', 'showMessage', params)
     }
 
     onPullDownRefresh () {
       wepy.stopPullDownRefresh()
+    }
+
+    onLoad () {
+      this.userData = this.$parent.globalData.user.data
+      this.$apply()
+      console.log(this.userData)
     }
   }
 </script>

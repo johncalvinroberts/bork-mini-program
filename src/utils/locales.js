@@ -49,7 +49,9 @@ export default {
       "error_message": "something bad occured, try reloading the page",
       "success_message": "Congrats 🎊🎊 you're now on fido",
       "submit_error_header": "Oops 🙇‍",
-      "submit_error_message": "Please complete the sign up form, thanks🙏"
+      "submit_error_message": "Please complete the sign up form, thanks🙏",
+      "sensitive_word": "That is a sensitive word!",
+      "sensitive_word_header": "bad dog 💢"
     },
     "adopter-home": {
       "rescuer": "rescuer",
@@ -87,8 +89,7 @@ export default {
       "weeks": "weeks",
       "months": "months",
       "years": "years",
-      "animal_intro": "Intro",
-      "animal_intro_explanation": "description",
+      "intro": "description",
       "basic_info": "Basic info",
       "location": "Location🗺️",
       "dog": "dog 🐕",
@@ -105,14 +106,16 @@ export default {
       "deflead" : "de-flead",
       "fixed":"Fixed✂️",
       "submit_error_header": "Incomplete 💁",
-      "submit_error_message": "Please fill in the form",
+      "submit_error_message": "Missing field: ",
       "save": "Save",
       "success_message": "Nice!! You added a rescue 😁😁😁",
       "edit_success_message": "Updated 👌",
       "delete_animal": "Delete This Rescue",
       "confirm_delete": "Are you sure you want do delete this rescue? Deleted Rescues cannot be recovered.",
       "confirm": "Delete💢",
-      "cancel": "cancel"
+      "cancel": "cancel",
+      "sensitive_word": "That is a sensitive word!",
+      "sensitive_word_header": "bad dog 💢"
     },
     "animal-profile" : {
       "neighborhood": "Neighborhood",
@@ -190,7 +193,18 @@ export default {
     },
     "edit-profile": {
       "title": "Edit profile",
-      "subtitle": "Edit your public information and/or login credentials"
+      "subtitle": "Edit your public information and/or login credentials",
+      "personal_info": "Info",
+      "username_password": "Password, etc.",
+      "nickname": "name",
+      "place": "Place",
+      "wechat": "WeChat👌",
+      "age": "age🍫",
+      "self_intro": "quick bio 📃",
+      "intro_explanation": "Write a bit about yourself.",
+      "save_profile": "Save profile",
+      "sensitive_word": "That is a sensitive word!",
+      "sensitive_word_header": "bad dog 💢"
     }
   },
   "zh_CN": {
@@ -241,7 +255,9 @@ export default {
       "error_message": "刷新页面再试试一遍",
       "success_message": "恭喜你 🎊🎊, 注册成功",
       "submit_error_header": "认证失败 🙇‍",
-      "submit_error_message": "你还没有填完你的信息，我们为了你的安全努力，请填完再提交谢谢🙏"
+      "submit_error_message": "你还没有填完你的信息，我们为了你的安全努力，请填完再提交谢谢🙏",
+      "sensitive_word": "不许输入敏感词谢谢!",
+      "sensitive_word_header": "坏狗狗 💢"
     },
     "adopter-home": {
       "rescuer": "救助者",
@@ -280,8 +296,7 @@ export default {
       "weeks": "周",
       "months": "月",
       "years": "年",
-      "animal_intro": "介绍",
-      "animal_intro_explanation": "一句介绍",
+      "intro": "一句介绍",
       "basic_info": "基本信息",
       "location": "地理位置🗺️",
       "dog": "狗 🐕",
@@ -298,14 +313,16 @@ export default {
       "deflead" : "体外驱虫",
       "fixed":"已绝育✂️",
       "submit_error_header": "信息不全💁",
-      "submit_error_message": "请填全了再提交",
+      "submit_error_message": "请填好了再提交，没填：",
       "save": "保存",
       "success_message": "牛逼！创建了一个小动物😁😁😁",
       "edit_success_message": "更新成功 👌",
       "delete_animal": "删除这个小动物",
       "confirm_delete": "你确定要删除这个小动物吗？一旦删除再也回不来",
       "confirm": "删除💢",
-      "cancel": "取消"
+      "cancel": "取消",
+      "sensitive_word": "不许输入敏感词谢谢!",
+      "sensitive_word_header": "坏狗狗 💢"
     },
     "animal-profile" : {
       "neighborhood": "街道",
@@ -383,7 +400,18 @@ export default {
     },
     "edit-profile": {
       "title": "编辑个人资料",
-      "subtitle": "编辑你的公开个人信息以及你的个人登录名和密码"
+      "subtitle": "编辑你的公开个人信息以及你的个人登录名和密码",
+      "personal_info": "个人信息",
+      "username_password": "密码什么的",
+      "nickname": "名字",
+      "place": "地方",
+      "wechat": "微信👌",
+      "age": "年龄🍫",
+      "self_intro": "自我介绍📃",
+      "intro_explanation": "介绍一下自己，你来这里的目标是什么",
+      "save_profile": "保存个人信息",
+      "sensitive_word": "不许输入敏感词谢谢!",
+      "sensitive_word_header": "坏狗狗 💢"
     }
   }
 }

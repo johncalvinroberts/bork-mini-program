@@ -29,7 +29,7 @@ export default class AnimalMixin extends wepy.mixin {
     animalInfo: {
       name: '',
       intro: '',
-      age: null,
+      age: '',
       type: 'dog',
       gender: 'male',
       location: {},

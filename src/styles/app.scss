@@ -70,6 +70,10 @@ page{
 .padbox--half {
   padding: $default-padding / 2;
 }
+
+.padbox--topbottom {
+  padding: $default-padding 0;
+}
 .container__has-footer {
   padding-bottom: 100px;
 }
@@ -92,13 +96,17 @@ page{
   text-align: center;
   margin-top:-55px;
 }
-.flex--parent__horizontal{
+.flex--parent__horizontal, .flex--parent__center{
   display: flex;
   justify-content: space-between;
   max-width: 600px;
   margin: 0 auto;
+  align-items:center;
 }
 
+.flex--parent__center {
+  justify-content: space-around;
+}
 .flex--item__half{
   flex: 0 0 45%;
 }

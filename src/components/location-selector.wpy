@@ -175,7 +175,9 @@
 
     async _showPicker () {
       try {
+        wepy.showLoading()
         await this.$parent.$parent.globalData.user.requestLocation()
+        wepy.hideLoading()
         const res = await wepy.chooseLocation()
         this.point.latitude = res.latitude
         this.point.longitude = res.longitude

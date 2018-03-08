@@ -89,7 +89,7 @@
       </block>
     </formparent>
   </view>
-  <redirectmodal/>
+  <errormodal />
   <redirectmodal :navBack="navBack"/>
   <fidoloader/>
 </template>
@@ -103,6 +103,7 @@
   import FidoLoader from '@/components/fido-loader'
   import countryChoices from '@/utils/countries'
   import LocalesMixin from '@/mixins/localesmixin'
+  import {checkSensitive} from '@/utils/regex'
   import _isEmpty from 'lodash.isempty'
   import _pick from 'lodash.pick'
 
@@ -180,14 +181,26 @@
 
     methods = {
       handleWx ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          return this.handleSensitiveWord()
+        }
         this.wxUsername = detail.value
         this.$apply()
       },
       handlePersonal ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          return this.handleSensitiveWord()
+        }
         this.personalNote = detail.value
         this.$apply()
       },
       handleAge ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          return this.handleSensitiveWord()
+        }
         this.age = detail.value
         this.$apply()
       },
@@ -196,6 +209,10 @@
         this.$apply()
       },
       handleFullName ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          return this.handleSensitiveWord()
+        }
         this.fullName = detail.value
         this.$apply()
       },
@@ -205,19 +222,6 @@
       },
       reloadPage () {
         this.onLoad()
-      }
-    }
-
-    onLoad ({target}) {
-      this.incomingTarget = target
-      this.isRegistered = this.$parent.globalData.user.isRegistered
-      if (this.isRegistered) {
-        const params = {
-          message: this.t.redirect_message,
-          link: 'edit-profile',
-          linkname: this.t.edit_profile
-        }
-        this.$invoke('redirectmodal', 'toggleModal', params)
       }
     }
 
@@ -284,6 +288,24 @@
         message: this.t.submit_error_message
       }
       return this.$invoke('errormodal', 'showMessage', params)
+    }
+
+    handleSensitiveWord () {
+      const params = {header: this.t.sensitive_word_header, message: this.t.sensitive_word}
+      return this.$invoke('errormodal', 'showMessage', params)
+    }
+
+    onLoad ({target}) {
+      this.incomingTarget = target
+      this.isRegistered = this.$parent.globalData.user.isRegistered
+      if (this.isRegistered) {
+        const params = {
+          message: this.t.redirect_message,
+          link: 'edit-profile',
+          linkname: this.t.edit_profile
+        }
+        this.$invoke('redirectmodal', 'toggleModal', params)
+      }
     }
   }
 </script>

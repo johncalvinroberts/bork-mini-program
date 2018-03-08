@@ -20,7 +20,7 @@
         </view>
         <view class="form-item--default">
           <view class="form-item--label">
-            <view class="form-item--label-inner">{{t.animal_intro_explanation}}</view>
+            <view class="form-item--label-inner">{{t.intro}}</view>
           </view>
           <input type="text" class="form-item--input" @blur="handleIntro" confirm-type="next" maxlength="200" value="{{intro}}"/>
         </view>
@@ -31,7 +31,7 @@
           <view class="form-item--flex-item">
             <input type="number" class="form-item--input__half" @blur="handleAge" confirm-type="next" maxlength="10" value="{{animalAge}}"/>
             <picker mode="selector"
-                  @change="hanldeAgeUnit"
+                  @change="handleAgeUnit"
                   value="{{currentAgeUnit}}"
                   range="{{ageUnits}}"
                   range-key="name"
@@ -105,8 +105,9 @@
   import CoolCheckBox from '@/components/cool-checkbox'
   import _isEmpty from 'lodash.isempty'
   import _pick from 'lodash.pick'
+  import _checkEmptyFields from '@/utils/checkemptyfields'
   import {_getUnit, _unitToDays, _unitAndDaysToNumber} from '@/utils/age-fns'
-  import {alphaNumeric} from '@/utils/regex'
+  import {checkSensitive} from '@/utils/regex'
 
   export default class EditAnimal extends wepy.page {
     config = {
@@ -224,10 +225,8 @@
       },
       animalNeighborhood () {
         if (this.animalNeighborhood && this.animalNeighborhood !== '') {
-          console.log('setting neighborhood')
           this.animalInfo.neighborhood = this.animalNeighborhood
           this.$apply()
-          console.log(this.animalInfo.neighborhood)
         }
       },
       deflead () {
@@ -266,38 +265,39 @@
         return ''
       },
       hasEmptyFields () {
-        const fields = this.serializeFields()
-        const emptyFields = Object.keys(fields).filter(field => {
-          let value = fields[field]
-          if (value === null) return field
-          if (value === '') return field
-          if (_isEmpty(field)) return field
-          if (typeof value === 'object' && Object.keys(value).length === 0) return field
-          if (typeof value === 'string' && !value.match(alphaNumeric)) return field
-        })
-        console.log(emptyFields)
-        return _isEmpty(emptyFields) ? false : emptyFields
+        return _checkEmptyFields(this.serializeFields())
       }
     }
 
     methods = {
       handleIntro ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          this.animalInfo.intro = ''
+          return this.handleSensitiveWord()
+        }
         this.animalInfo.intro = detail.value
         this.$apply()
       },
       handleName ({detail}) {
+        const isSensitive = checkSensitive(detail.value)
+        if (isSensitive) {
+          this.animalInfo.name = ''
+          return this.handleSensitiveWord()
+        }
         this.animalInfo.name = detail.value
         this.$apply()
       },
       handleAge ({detail}) {
         if (detail.value) {
           const age = _unitToDays(this.currentAgeUnit, detail.value)
-          console.log(age)
           this.animalInfo.age = age
-          this.$apply()
+        } else {
+          this.animalInfo.age = null
         }
+        this.$apply()
       },
-      hanldeAgeUnit ({detail}) {
+      handleAgeUnit ({detail}) {
         const index = detail.value
         const targetValue = this.ageUnits[index].value
         this.currentAgeUnit = targetValue
@@ -329,6 +329,11 @@
       return params
     }
 
+    handleSensitiveWord () {
+      const params = {header: this.t.sensitive_word_header, message: this.t.sensitive_word}
+      return this.$invoke('errormodal', 'showMessage', params)
+    }
+
     async handleSubmit () {
       this.mapVisible = false
       if (this.hasEmptyFields) return this.handleSubmitError()
@@ -343,7 +348,7 @@
         this.$invoke('redirectmodal', 'toggleModal', redirectParams)
         this.$apply()
       } catch (err) {
-        this.handleSubmitError()
+        this.handleSubmitError(err)
       }
     }
 
@@ -361,12 +366,17 @@
     }
 
     handleSubmitError () {
+      let message = this.t.submit_error_message
+      if (this.hasEmptyFields && this.hasEmptyFields[0]) {
+        const field = this.hasEmptyFields[0]
+        message = `${this.t.submit_error_message}${this.t[field]}`
+      }
       this.$invoke('fidoloader', 'hideLoading', '')
       const params = {
         header: this.t.submit_error_header,
-        message: this.t.submit_error_message
+        message
       }
-      this.mapVisible = false
+      this.mapVisible = true
       this.$apply()
       return this.$invoke('errormodal', 'showMessage', params)
     }

@@ -417,4 +417,15 @@ export default class UserModel {
       return Promise.reject(new Error(err))
     }
   }
+
+  async uploadPicture (tmpPath) {
+    const name = `${this.objectId}_avatar`
+    const file = new Lean.File(name, {
+      blob: {
+        uri: tmpPath
+      }
+    })
+    const fileRes = await file.save()
+    return fileRes.toJSON()
+  }
 }

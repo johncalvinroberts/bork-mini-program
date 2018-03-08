@@ -97,6 +97,7 @@
         }
       }
     }
+
     onLoad ({tab}) {
       this.userInfo = this.$parent.globalData.user.attributes
       this.activetab = tab
@@ -104,6 +105,7 @@
     }
 
     onShow () {
+      console.log('dis is onshow')
       if (this.activetab === 'requests') return this.fetchRequests()
       if (this.activetab === 'rescues') return this.fetchRescues()
     }
@@ -145,6 +147,7 @@
       this.rescuesLoading = true
       try {
         const animals = await this.$parent.globalData.user.fetchRescues(this.currentRescuePage, true)
+        console.log('fetchin animals')
         this.animals = animals
         this.lastRescueFetched = this.currentRescuePage
         this.rescuesEmpty = animals.length < 1
