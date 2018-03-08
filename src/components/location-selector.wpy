@@ -81,10 +81,6 @@
           markers="{{markers}}"
           controls="{{controls}}"/>
   </view>
-  <cover-view id="map-center"
-              style="top: {{calcTop}}px; left: {{calcLeft}}px;"
-              class="icon--location"
-              wx:if="{{open}}"/>
 </template>
 <script>
   import wepy from 'wepy'
@@ -119,8 +115,6 @@
     }
 
     data = {
-      calcTop: 0,
-      calcLeft: 0,
       open: false,
       chooseText: '点击选择坐标',
       mapCtx: {},
@@ -202,9 +196,6 @@
       if (wepy.T.locale === 'en') {
         this.chooseText = '(tap to choose location)'
       }
-      const {windowHeight, windowWidth} = await wepy.getSystemInfo()
-      this.calcLeft = (windowWidth / 2) - 40
-      this.calcTop = (windowHeight / 2) - 40
       this.$apply()
     }
   }
