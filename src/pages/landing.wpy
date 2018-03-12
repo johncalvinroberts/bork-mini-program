@@ -232,7 +232,7 @@
         wepy.navigateTo({url: `${options.redirect}?${options.paramname}=${options.paramvalue}`})
       }
       // wepy.navigateTo({url: 'edit-animal?id=5aa0b446a22b9d0043d440cb&edit=true'})
-      wepy.navigateTo({url: 'edit-profile'})
+      // wepy.navigateTo({url: 'edit-profile'})
       // wepy.navigateTo({url: 'animal-profile?animal=5a9e588b0b616019f39f3812'})
       // wepy.navigateTo({url: 'adopter-home?tab=likes'})
       // wepy.navigateTo({url: 'rescuer-home?tab=rescues'})

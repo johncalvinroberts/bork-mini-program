@@ -21,7 +21,7 @@ export default {
       "about": "about fido",
       "logout": "log out",
       "confirm_logout": "Confirm logout",
-      "navbar_text": "fido | home"
+      "navbar_text": "bork | home"
     },
     "registration": {
       "title_rescuer": "Become A Rescuer",
@@ -227,7 +227,7 @@ export default {
       "about": "关于fido",
       "logout": "登出",
       "confirm_logout": "确认登出",
-      "navbar_text": "fido | 首页"
+      "navbar_text": "bork | 首页"
     },
     "registration": {
       "title_rescuer": "成为救助者",
