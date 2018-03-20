@@ -16,7 +16,12 @@
           <view class="form-item--label">
             <view class="form-item--label-inner">{{t.name}}</view>
           </view>
-          <input type="text" class="form-item--input" @blur="handleName" maxlength="70" confirm-type="next" value="{{name}}"/>
+          <input type="text" 
+                class="form-item--input" 
+                @blur="handleName" 
+                maxlength="70" 
+                confirm-type="next" 
+                value="{{name}}"/>
         </view>
         <view class="form-item--default">
           <view class="form-item--label">
@@ -184,6 +189,12 @@
           {name: this.t.years, value: 'years'}]
       },
       animalInfo (newVal, oldVal) {
+        /*
+          THIS IS BAD...VERY BAD. THIS FUNCTION GETS CALLED LIKE FUCKING CONSTANTLY
+          AND IS CONSTANTLY CALLING setData ON THIS ENTIRE HUGE OBJECT.
+          FIX THIS JOHNNY.
+          FIX THIS.
+        */
         this.currentGender = newVal.gender
         this.currentType = newVal.type
         this.animalAvailable = this.animalInfo.available
@@ -202,7 +213,7 @@
           this.animalAge = age
         }
         this.preload = false
-        this.$apply()
+        // this.$apply()
       },
       currentType () {
         this.animalInfo.type = this.currentType

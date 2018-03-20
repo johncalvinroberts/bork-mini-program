@@ -64,7 +64,7 @@
 <template>
   <view class="container__flex">
     <view class="flex--item__vertical-center padbox--default">
-      <image class="landing--banner" src="../icons/fido_logo_black.png" mode="aspectFit"></image>
+      <image class="landing--banner" src="../icons/fido_logo_black.jpg" mode="aspectFit"></image>
       <view class="flex--parent__horizontal padbox--default">
         <button class="flex--item__half btn--default__medium" @tap="navToDogs">{{t.view_dogs}}</button>
         <button class="flex--item__half btn--default__medium" @tap="navToCats">{{t.view_cats}}</button>
@@ -231,7 +231,7 @@
       if (options.redirect) {
         wepy.navigateTo({url: `${options.redirect}?${options.paramname}=${options.paramvalue}`})
       }
-      // wepy.navigateTo({url: 'edit-animal?id=5aa0b446a22b9d0043d440cb&edit=true'})
+      wepy.navigateTo({url: 'edit-animal?id=5ab11d7017d00968875dccac&edit=true'})
       // wepy.navigateTo({url: 'edit-profile'})
       // wepy.navigateTo({url: 'animal-profile?animal=5a9e588b0b616019f39f3812'})
       // wepy.navigateTo({url: 'adopter-home?tab=likes'})

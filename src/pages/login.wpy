@@ -48,6 +48,5 @@
     onPullDownRefresh () {
       wepy.stopPullDownRefresh()
     }
-
   }
 </script>

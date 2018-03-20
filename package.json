@@ -16,7 +16,7 @@
     "leancloud-storage": "^3.5.0",
     "lodash.isempty": "^4.4.0",
     "lodash.pick": "^4.4.0",
-    "wepy": "^1.6.0",
+    "wepy": "^1.7.1",
     "wepy-async-function": "^1.4.4",
     "wepy-web": "^1.5.9"
   },
@@ -39,8 +39,9 @@
     "faker": "^4.1.0",
     "wepy-compiler-babel": "^1.5.1",
     "wepy-compiler-less": "^1.3.10",
-    "wepy-compiler-sass": "^1.3.7",
+    "wepy-compiler-sass": "^1.3.12",
     "wepy-eslint": "^1.5.3",
-    "wepy-plugin-autoprefixer": "^1.5.9"
+    "wepy-plugin-autoprefixer": "^1.5.9",
+    "wepy-plugin-uglifyjs": "^1.3.7"
   }
 }

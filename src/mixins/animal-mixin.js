@@ -23,7 +23,7 @@ export default class AnimalMixin extends wepy.mixin {
     }
   }
 
-  computed ={}
+  computed = {}
 
   data = {
     animalInfo: {
@@ -55,6 +55,7 @@ export default class AnimalMixin extends wepy.mixin {
     },
     savePhotoSuccess: '图片已保存到相册📷'
   }
+
   async fetchAnimal (id, selects = [], editPage = false) {
     const query = new Lean.Query('Animal')
       .include(_isEmpty(selects) ? '' : 'user')
