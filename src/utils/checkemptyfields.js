@@ -1,5 +1,5 @@
 import _isEmpty from 'lodash.isempty'
-import {alphaNumeric, cjk} from '@/utils/regex'
+import {alphaNumeric, cjk, empty} from '@/utils/regex'
 
 export default function _checkEmptyFields (fields) {
   const emptyFields = Object.keys(fields).filter(field => {
@@ -8,6 +8,7 @@ export default function _checkEmptyFields (fields) {
     if (value === '') return field
     if (typeof value === 'object' && Object.keys(value).length === 0) return field
     if (typeof value === 'object' && _isEmpty(value)) return field
+    if (typeof value === 'string' && empty.test(value)) return field
     if (typeof value === 'string') {
       // return the field if the value is NOT chinese AND does NOT contain alphanumeric
       if (!value.match(alphaNumeric) && !value.match(cjk)) {

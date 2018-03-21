@@ -197,14 +197,23 @@ export default {
       "personal_info": "Info",
       "username_password": "Password, etc.",
       "nickname": "name",
+      "nickName": "name",
       "place": "Place",
+      "province": "Place",
       "wechat": "WeChat👌",
       "age": "age🍫",
       "self_intro": "quick bio 📃",
       "intro_explanation": "Write a bit about yourself.",
       "save_profile": "Save profile",
       "sensitive_word": "That is a sensitive word!",
-      "sensitive_word_header": "bad dog 💢"
+      "sensitive_word_header": "bad dog 💢",
+      "error_message": "Missing field",
+      "error_header": "oopsies‍‍‍😯",
+      "userpass_explanation": "Your username & password for logging in manually or logging in to Bork web (coming soon)",
+      "username": "Username",
+      "password": "Password",
+      "password_placeholder": "••••••••••",
+      "save_auth_info": "Save"
     }
   },
   "zh_CN": {
@@ -404,14 +413,22 @@ export default {
       "personal_info": "个人信息",
       "username_password": "密码什么的",
       "nickname": "名字",
+      "nickName": "名字",
       "place": "地方",
+      "province": "地方",
       "wechat": "微信👌",
       "age": "年龄🍫",
       "self_intro": "自我介绍📃",
       "intro_explanation": "介绍一下自己，你来这里的目标是什么",
       "save_profile": "保存个人信息",
       "sensitive_word": "不许输入敏感词谢谢!",
-      "sensitive_word_header": "坏狗狗 💢"
+      "sensitive_word_header": "坏狗狗 💢",
+      "error_message": "请输入",
+      "error_header": "哦哟😯",
+      "userpass_explanation": "你的登录名和密码是可以用来手动登录你的账号以及登录Bork网页版（即将落地）",
+      "username": "登录名",
+      "password": "密码",
+      "save_auth_info": "保存"
     }
   }
 }

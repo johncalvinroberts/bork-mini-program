@@ -64,10 +64,26 @@
           <button class="btn--default" @tap="saveProfile">{{t.save_profile}}</button>
         </view>
       </tabswiperitem>
-      <tabswiperitem2>WHATS UP GIRL</tabswiperitem2>
+      <tabswiperitem2>
+        <view class="padbox--default">
+          <view class="text-center">{{t.userpass_explanation}}</view>
+          <view class="padbox--topbottom">
+            <view class="form-item--default">
+              <view class="form-item--label">{{t.username}}</view>
+              <input type="text" class="form-item--input" @blur="handleUsername" confirm-type="next" maxlength="200" value="{{userData.username}}" placeholder="{{t.username}}" />
+            </view>
+            <view class="form-item--default">
+              <view class="form-item--label">{{t.password}}</view>
+              <input type="password" class="form-item--input" @blur="handlePassword" confirm-type="next" maxlength="200" placeholder="{{t.password_placeholder}}" />
+            </view>
+          </view>
+          <button class="btn--default" @tap="saveUsernamePassword">{{t.save_auth_info}}</button>
+        </view>
+      </tabswiperitem2>
     </tabswiper>
   </view>
   <errormodal/>
+  <fidoloader/>
 </template>
 <script>
   import wepy from 'wepy'
@@ -75,20 +91,24 @@
   import TabSwiper from '@/components/tab-swiper'
   import TabSwiperItem from '@/components/tab-swiper-item'
   import ErrorModal from '@/components/error-modal'
+  import FidoLoader from '@/components/fido-loader'
   import {checkSensitive} from '@/utils/regex'
   import _checkEmptyFields from '@/utils/checkemptyfields'
+  import _pick from 'lodash.pick'
   export default class EditProfile extends wepy.page {
     data = {
       userData: {},
       tabs: [],
-      activetab: 'info'
+      activetab: 'info',
+      newPassword: null
     }
 
     components = {
       tabswiper: TabSwiper,
       tabswiperitem: TabSwiperItem,
       tabswiperitem2: TabSwiperItem,
-      errormodal: ErrorModal
+      errormodal: ErrorModal,
+      fidoloader: FidoLoader
     }
 
     watch = {
@@ -146,15 +166,49 @@
         this.userData.age = detail.value
         this.$apply()
       },
-      saveProfile () {
-        console.log(this.hasEmptyProfileFields)
+      handleUsername ({detail}) {
+        this.userData.username = detail.value
+        this.$apply()
+      },
+      handlePassword ({detail}) {
+        this.newPassword = detail.value
+        this.$apply()
       }
     }
 
     computed = {
       hasEmptyProfileFields () {
-        return _checkEmptyFields(this.userData)
+        return _checkEmptyFields(this.serializeData())
       }
+    }
+
+    saveUsernamePassword () {
+      const params = {username: this.userData.username, password: this.newPassword}
+      console.log(params)
+      console.log('heeere')
+    }
+    async saveProfile () {
+      if (this.hasEmptyProfileFields) return this.handleEmptyFields()
+      try {
+        this.$invoke('fidoloader', 'showLoading', null)
+        await this.$parent.globalData.user.updateProfileInfo(this.serializeData())
+        this.$invoke('fidoloader', 'hideLoading', null)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    handleEmptyFields () {
+      let message = this.t.error_message
+      const field = this.hasEmptyProfileFields[0]
+      message = `${message}: ${this.t[field]}`
+      const params = {header: this.t.error_header, message}
+      return this.$invoke('errormodal', 'showMessage', params)
+    }
+  
+    serializeData () {
+      const fields = _pick(this.userData,
+        ['nickName'], ['province'], ['avatarUrl'], ['wxUsername'], ['personalNote'], ['age'])
+      return fields
     }
 
     async _switchImage () {
@@ -181,7 +235,6 @@
     onLoad () {
       this.userData = this.$parent.globalData.user.data
       this.$apply()
-      console.log(this.userData)
     }
   }
 </script>
