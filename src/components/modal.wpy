@@ -1,9 +1,6 @@
 <style lang="scss">
   @import "../styles/variables.scss";
   @import "../styles/mixins.scss";
-  .modal--blur {
-    // transition: all 3s ease;
-  }
   .modal--mask {
     position: fixed;
     top: 0;
