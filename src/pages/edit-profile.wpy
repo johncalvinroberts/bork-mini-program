@@ -92,7 +92,7 @@
   import TabSwiperItem from '@/components/tab-swiper-item'
   import ErrorModal from '@/components/error-modal'
   import FidoLoader from '@/components/fido-loader'
-  import {checkSensitive} from '@/utils/regex'
+  import {checkSensitive, _invalidPassword} from '@/utils/regex'
   import _checkEmptyFields from '@/utils/checkemptyfields'
   import _pick from 'lodash.pick'
   export default class EditProfile extends wepy.page {
@@ -182,11 +182,63 @@
       }
     }
 
-    saveUsernamePassword () {
-      const params = {username: this.userData.username, password: this.newPassword}
-      console.log(params)
-      console.log('heeere')
+    async saveUsernamePassword () {
+      if (this.userData.username && this.newPassword) {
+        this.handleUandP()
+      } else if (!this.userData.username && this.newPassword) {
+        this.handleJustP()
+      } else if (this.userData.username && !this.newPassword) {
+        this.handleJustU()
+      } else if (!this.userData.username && !this.newPassword) {
+        const message = this.t.empty_u_an_p
+        const params = {header: this.error_header, message}
+        return this.$invoke('errormodal', 'showMessage', params)
+      }
     }
+
+    async handleUandP () {
+      if (this.checkEmptyUserPass()) {
+        this.$invoke('fidoloader', 'showLoading', null)
+        try {
+          const userNamePromise = this.$parent.globalData.user.updateProfileInfo(this.userData.username)
+          const passPromise = this.$parent.globalData.user.updateUserPass(this.newPassword)
+          const [passRes, usRes] = await Promise.all([passPromise, userNamePromise])
+          this.$invoke('fidoloader', 'hideLoading', null)
+          console.log(passRes)
+          console.log(usRes)
+        } catch (error) {
+          const params = {header: this.error_header, message: error}
+          return this.$invoke('errormodal', 'showMessage', params)
+        }
+      }
+    }
+
+    async handleJustP () {}
+
+    async handleJustU () {
+      const params = {username: this.userData.username}
+      try {
+        this.$invoke('fidoloader', 'showLoading', null)
+        await this.$parent.globalData.user.updateProfileInfo(params)
+        this.$invoke('fidoloader', 'hideLoading', null)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    checkEmptyUserPass () {
+      const invalid = _invalidPassword(this.newPassword)
+      if (invalid) return this.handleUPError(invalid)
+      if (_checkEmptyFields({field: this.userData.username})) return this.handleUPError(`${this.t.error_message}: ${this.t.username}`)
+      return true
+    }
+
+    handleUPError (error) {
+      let message = error
+      const params = {header: this.error_header, message}
+      return this.$invoke('errormodal', 'showMessage', params)
+    }
+
     async saveProfile () {
       if (this.hasEmptyProfileFields) return this.handleEmptyFields()
       try {
@@ -197,6 +249,7 @@
         console.error(error)
       }
     }
+
     handleEmptyFields () {
       let message = this.t.error_message
       const field = this.hasEmptyProfileFields[0]

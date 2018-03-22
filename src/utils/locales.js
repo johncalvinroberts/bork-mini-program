@@ -213,7 +213,8 @@ export default {
       "username": "Username",
       "password": "Password",
       "password_placeholder": "••••••••••",
-      "save_auth_info": "Save"
+      "save_auth_info": "Save",
+      "empty_u_an_p": "Please enter a username or password to change"
     }
   },
   "zh_CN": {
@@ -428,7 +429,8 @@ export default {
       "userpass_explanation": "你的登录名和密码是可以用来手动登录你的账号以及登录Bork网页版（即将落地）",
       "username": "登录名",
       "password": "密码",
-      "save_auth_info": "保存"
+      "save_auth_info": "保存",
+      "empty_u_an_p": "请输入你的新密码或者登录名"
     }
   }
 }

@@ -92,6 +92,17 @@ export default class UserModel {
     }
   }
 
+  async updateUserPass (password) {
+    console.log('heeeere')
+    console.log(password)
+    try {
+      const res = await Lean.User.current().setPassword(password).save()
+      return res
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
   async logIn () {
     try {
       const loginPromise = Lean.User.loginWithWeapp()

@@ -637,3 +637,15 @@ export function checkSensitive (text) {
   const regexp = new RegExp(sensitiveWords.replace(/\n/g, '|'))
   return regexp.test(text)
 }
+
+export function _invalidPassword (password) {
+  if (password.length < 8) return 'Password too short'
+  var hasUpperCase = /[A-Z]/.test(password)
+  var hasLowerCase = /[a-z]/.test(password)
+  var hasNumbers = /\d/.test(password)
+  var hasNonalphas = /\W/.test(password)
+  if (hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3) {
+    return 'Invalid password'
+  }
+  return false
+}
