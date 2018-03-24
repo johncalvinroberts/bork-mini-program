@@ -16,7 +16,7 @@
     "leancloud-storage": "^3.5.0",
     "lodash.isempty": "^4.4.0",
     "lodash.pick": "^4.4.0",
-    "wepy": "^1.7.1",
+    "wepy": "^1.6.0",
     "wepy-async-function": "^1.4.4",
     "wepy-web": "^1.5.9"
   },

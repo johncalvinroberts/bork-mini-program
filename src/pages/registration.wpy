@@ -164,15 +164,15 @@
     }
 
     watch = {
-      t () {
-        if (this.incomingTarget === 'rescuer') {
+      incomingTarget () {
+        if (this.isRescuer) {
           this.title = this.t.title_rescuer
           this.subTitle = this.t.subtitle_rescuer
-          this.isRescuer = true
         } else {
           this.title = this.t.title
           this.subTitle = this.t.subtitle
         }
+        console.log(this.isRescuer)
         this.idChoices = [{name: this.t.chinese_shenfenzheng, value: 'chinese_id'}, {name: this.t.passport, value: 'passport'}]
         this.countryText = this.t.country
         this.$apply()
@@ -223,10 +223,6 @@
       reloadPage () {
         this.onLoad()
       }
-    }
-
-    onPullDownRefresh () {
-      wepy.stopPullDownRefresh()
     }
 
     async getWeChat () {
@@ -295,9 +291,17 @@
       return this.$invoke('errormodal', 'showMessage', params)
     }
 
+    onPullDownRefresh () {
+      wepy.stopPullDownRefresh()
+    }
+
     onLoad ({target}) {
+      if (target === 'rescuer') {
+        this.isRescuer = true
+      }
       this.incomingTarget = target
       this.isRegistered = this.$parent.globalData.user.isRegistered
+      this.$apply()
       if (this.isRegistered) {
         const params = {
           message: this.t.redirect_message,

@@ -377,14 +377,17 @@
     }
 
     handleSubmitError () {
-      let message = this.t.submit_error_message
+      console.log('here')
+      let header = this.t.submit_error_fail_header
+      let message = this.t.submit_error_fail
       if (this.hasEmptyFields && this.hasEmptyFields[0]) {
         const field = this.hasEmptyFields[0]
         message = `${this.t.submit_error_message}${this.t[field]}`
+        header = this.t.submit_error_header
       }
       this.$invoke('fidoloader', 'hideLoading', '')
       const params = {
-        header: this.t.submit_error_header,
+        header,
         message
       }
       this.mapVisible = true

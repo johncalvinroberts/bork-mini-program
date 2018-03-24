@@ -231,7 +231,7 @@
       if (options.redirect) {
         wepy.navigateTo({url: `${options.redirect}?${options.paramname}=${options.paramvalue}`})
       }
-      // wepy.navigateTo({url: 'edit-animal?id=5ab11d7017d00968875dccac&edit=true'})
+      // wepy.navigateTo({url: 'edit-animal?id=5ab68c189f54541cd83cb830&edit=true'})
       // wepy.navigateTo({url: 'edit-profile'})
       // wepy.navigateTo({url: 'animal-profile?animal=5a9e588b0b616019f39f3812'})
       // wepy.navigateTo({url: 'adopter-home?tab=likes'})
@@ -256,6 +256,7 @@
 
     onHide () {
       this.sideSliderOpen = false
+      this.$invoke('unregisteredmodal', 'closeModal', null)
       this.$apply()
     }
 

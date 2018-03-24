@@ -8,7 +8,7 @@
     </formparent>
   </view>
   <fidoloader/>
-  <redirectmodal/>
+  <redirectmodal :navBack.sync="navBack"/>
   <errormodal/>
 </template>
 <script>
@@ -20,7 +20,9 @@
   import ErrorModal from '@/components/error-modal'
 
   export default class BecomeRescuer extends wepy.page {
-    data = {}
+    data = {
+      navBack: true
+    }
 
     mixins = [LocalesMixin]
 

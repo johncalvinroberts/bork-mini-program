@@ -42,7 +42,13 @@
                   {{t.wechat}}
                 </view>
               </view>
-              <input type="text" placeholder="请输入你的微信号" class="form-item--input" @blur="handleWx" maxlength="70" confirm-type="next" value="{{userData.wxUsername}}"/>
+              <input type="text" 
+                    placeholder="{{t.wechat_placeholder}}" 
+                    class="form-item--input" 
+                    @blur="handleWx"
+                    maxlength="70" 
+                    confirm-type="next" 
+                    value="{{userData.wxUsername}}"/>
             </view>
             <view class="form-item--default">
               <view class="form-item--label">
@@ -50,7 +56,13 @@
                   {{t.self_intro}}
                 </view>
               </view>
-              <input type="text" class="form-item--input" @blur="handlePersonal" confirm-type="next" maxlength="200" value="{{userData.personalNote}}" placeholder="{{t.intro_explanation}}" />
+              <input type="text" 
+                    class="form-item--input" 
+                    @blur="handlePersonal" 
+                    confirm-type="next" 
+                    maxlength="200" 
+                    value="{{userData.personalNote}}" 
+                    placeholder="{{t.intro_explanation}}" />
             </view>
             <view class="form-item--default">
               <view class="form-item--label">
@@ -58,7 +70,13 @@
                   {{t.age}}
                 </view>
               </view>
-              <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next" value="{{userData.age}}"/>
+              <input type="number" 
+                    placeholder="{{t.age_placeholder}}" 
+                    class="form-item--input" 
+                    @blur="handleAge" 
+                    maxlength="3" 
+                    confirm-type="next" 
+                    value="{{userData.age}}"/>
             </view>
           </view>
           <button class="btn--default" @tap="saveProfile">{{t.save_profile}}</button>
@@ -200,28 +218,37 @@
       if (this.checkEmptyUserPass()) {
         this.$invoke('fidoloader', 'showLoading', null)
         try {
-          const userNamePromise = this.$parent.globalData.user.updateProfileInfo(this.userData.username)
+          const userNamePromise = this.$parent.globalData.user.updateUsername(this.userData.username)
           const passPromise = this.$parent.globalData.user.updateUserPass(this.newPassword)
-          const [passRes, usRes] = await Promise.all([passPromise, userNamePromise])
+          await Promise.all([passPromise, userNamePromise])
           this.$invoke('fidoloader', 'hideLoading', null)
-          console.log(passRes)
-          console.log(usRes)
         } catch (error) {
+          this.$invoke('fidoloader', 'hideLoading', null)
           const params = {header: this.error_header, message: error}
           return this.$invoke('errormodal', 'showMessage', params)
         }
       }
     }
 
-    async handleJustP () {}
-
-    async handleJustU () {
-      const params = {username: this.userData.username}
+    async handleJustP () {
       try {
         this.$invoke('fidoloader', 'showLoading', null)
-        await this.$parent.globalData.user.updateProfileInfo(params)
+        await this.$parent.globalData.user.updateUserPass(this.newPassword)
         this.$invoke('fidoloader', 'hideLoading', null)
       } catch (error) {
+        this.$invoke('fidoloader', 'hideLoading', null)
+        const params = {header: this.error_header, message: error}
+        return this.$invoke('errormodal', 'showMessage', params)
+      }
+    }
+
+    async handleJustU () {
+      try {
+        this.$invoke('fidoloader', 'showLoading', null)
+        await this.$parent.globalData.user.updateUsername(this.userData.username)
+        this.$invoke('fidoloader', 'hideLoading', null)
+      } catch (error) {
+        this.$invoke('fidoloader', 'hideLoading', null)
         console.error(error)
       }
     }

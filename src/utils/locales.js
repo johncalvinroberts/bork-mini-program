@@ -107,6 +107,8 @@ export default {
       "fixed":"Fixed✂️",
       "submit_error_header": "Incomplete 💁",
       "submit_error_message": "Missing field: ",
+      "submit_error_fail": "something went horribly wrong.",
+      "submit_error_fail_header": "o shoot.",
       "save": "Save",
       "success_message": "Nice!! You added a rescue 😁😁😁",
       "edit_success_message": "Updated 👌",
@@ -214,7 +216,9 @@ export default {
       "password": "Password",
       "password_placeholder": "••••••••••",
       "save_auth_info": "Save",
-      "empty_u_an_p": "Please enter a username or password to change"
+      "empty_u_an_p": "Please enter a username or password to change",
+      "wechat_placeholder": "Enter your WeChat id",
+      "age_placeholder": "Enter your age"
     }
   },
   "zh_CN": {
@@ -324,6 +328,8 @@ export default {
       "fixed":"已绝育✂️",
       "submit_error_header": "信息不全💁",
       "submit_error_message": "请填好了再提交，没填：",
+      "submit_error_fail": "发生了不幸的事，稍后再试试",
+      "submit_error_fail_header": "哎哟",
       "save": "保存",
       "success_message": "牛逼！创建了一个小动物😁😁😁",
       "edit_success_message": "更新成功 👌",
@@ -429,8 +435,11 @@ export default {
       "userpass_explanation": "你的登录名和密码是可以用来手动登录你的账号以及登录Bork网页版（即将落地）",
       "username": "登录名",
       "password": "密码",
+      "password_placeholder": "••••••••••",
       "save_auth_info": "保存",
-      "empty_u_an_p": "请输入你的新密码或者登录名"
+      "empty_u_an_p": "请输入你的新密码或者登录名",
+      "wechat_placeholder": "请输入你的微信号",
+      "age_placeholder": "请输入你的年龄"
     }
   }
 }

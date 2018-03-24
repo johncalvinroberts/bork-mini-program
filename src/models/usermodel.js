@@ -93,10 +93,18 @@ export default class UserModel {
   }
 
   async updateUserPass (password) {
-    console.log('heeeere')
-    console.log(password)
     try {
       const res = await Lean.User.current().setPassword(password).save()
+      await this.logIn()
+      return res
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async updateUsername (username) {
+    try {
+      const res = await Lean.User.current().setUsername(username).save()
       return res
     } catch (error) {
       return Promise.reject(error)
