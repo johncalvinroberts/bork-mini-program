@@ -334,8 +334,8 @@
         ['vaccinated'],
         ['dewormed'],
         ['deflead'],
-        ['microchipped'],
-        ['neighborhood'])
+        ['neighborhood'],
+        ['microchipped'])
       const params = {images: this.images, ...fields}
       return params
     }
