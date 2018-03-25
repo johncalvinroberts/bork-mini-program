@@ -6,10 +6,14 @@ import {_daysToString} from '@/utils/age-fns'
 
 export default class UserModel {
   constructor () {
-    Lean.init({
-      appId: appId,
-      appKey: appKey
-    })
+    try {
+      Lean.init({
+        appId: appId,
+        appKey: appKey
+      })
+    } catch (error) {
+      console.log('already init\'d')
+    }
     this.data = {}
     this.rescues = []
     this.rescueCount = null
@@ -133,7 +137,10 @@ export default class UserModel {
   }
 
   async logOut () {
-    await wepy.clearStorage()
+    const clearStorage = wepy.clearStorage()
+    const user = Lean.User.current()
+    const logOut = user.logOut()
+    await Promise.all([clearStorage, logOut])
     this.data = {}
   }
 

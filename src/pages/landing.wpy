@@ -133,7 +133,7 @@
       <view class="landing--bottom-box">
         <button wx:if="{{!isRescuer}}" class="btn--blank" @tap="showRescuerForm">{{t.become_rescuer}}</button>
         <button class="btn--blank">{{t.about}}</button>
-        <button class="btn--blank" @tap="handleLogout">{{t.logout}}</button>
+        <!-- <button class="btn--blank" @tap="handleLogout">{{t.logout}}</button> -->
       </view>
     </sideslider>
     <fidoloader/>
