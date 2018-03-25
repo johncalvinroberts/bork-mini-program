@@ -20,7 +20,7 @@ export default class UserModel {
     this.currentUser()
   }
 
-  currentUser () {
+  async currentUser () {
     const current = Lean.User.current()
     if (current) {
       this.id = current.id
@@ -31,7 +31,11 @@ export default class UserModel {
 
   // GETTERS
   get isRegistered () {
-    return !_isEmpty(this.data)
+    return !_isEmpty(this.data) && this.data.verified
+  }
+
+  get isVerified () {
+    return !_isEmpty(this.data) && this.data.verified
   }
 
   get isRescuer () {
@@ -75,10 +79,13 @@ export default class UserModel {
   }
 
   async fetchUpdate () {
-    const current = await Lean.User.current().fetch()
-    console.log(current)
-    this.data = current.toJSON()
-    return this.data
+    const current = Lean.User.current()
+    if (current) {
+      const fetchedUser = await Lean.User.current().fetch()
+      console.log(fetchedUser)
+      this.data = fetchedUser.toJSON()
+      return this.data
+    }
   }
 
   async updateProfileInfo (params) {
@@ -273,7 +280,7 @@ export default class UserModel {
         'applicant.city',
         'applicant.gender',
         'applicant.isRescuer',
-        'applicant.adoptVerified',
+        'applicant.verified',
         'owner.nickName',
         'owner.objectId',
         'owner.avatarUrl',

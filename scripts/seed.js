@@ -66,8 +66,7 @@ class SeedBuilder {
     const userInfo = {
       wxUsername: userName,
       isRescuer: true,
-      rescueVerified: true,
-      adoptVerified: true,
+      verified: true,
       nickName: faker.name.findName(),
       personalNote: faker.lorem.sentence(),
       gender: Math.floor(Math.random() * 2 + 1),

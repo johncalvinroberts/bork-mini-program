@@ -101,7 +101,7 @@
       <view class="detail--applicant__top">
         <profileheader1 :userInfo.sync="applicant"/>
         <view class="checkboxes--outer">
-          <view class="icon--check__round {{applicant.adoptVerified ? 'checked' : ''}}">{{t.id_verified}}</view>
+          <view class="icon--check__round {{applicant.verified ? 'checked' : ''}}">{{t.id_verified}}</view>
         </view>
       </view>
       <view class="detail--message__outer">

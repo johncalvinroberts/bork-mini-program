@@ -261,7 +261,8 @@
           fullName,
           country,
           isRescuer} = this.data
-        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age, idType, idNumber, fullName, country, isRescuer})
+        const verified = true
+        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age, idType, idNumber, fullName, country, isRescuer, verified})
         const params = {message: this.t.success_message}
         this.$invoke('fidoloader', 'hideLoading', '')
         this.handleRescuerSuccess()

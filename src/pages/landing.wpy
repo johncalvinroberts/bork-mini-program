@@ -147,7 +147,7 @@
   import LanguageToggle from '@/components/language-toggle'
   import FidoLoader from '@/components/fido-loader'
   import LocalesMixin from '@/mixins/localesmixin'
-  import isEmpty from 'lodash.isempty'
+  import _isEmpty from 'lodash.isempty'
 
   export default class Index extends wepy.page {
     config = {
@@ -176,7 +176,7 @@
         return this.$parent.globalData.user.attributes
       },
       userRole () {
-        if (!isEmpty(this.t)) {
+        if (!_isEmpty(this.t)) {
           return this.$parent.globalData.user.isRescuer ? this.t.rescuer : this.t.adopter
         }
         return false
@@ -240,18 +240,23 @@
       // wepy.navigateTo({url: 'application-detail?id=5a891186ac502e00329bb8ad'})
     }
 
-    onShow () {
+    async onShow () {
       const title = this.t.navbar_text
       wepy.setNavigationBarTitle({title})
-      this.isRegistered = this.$parent.globalData.user.isRegistered
-      this.isRescuer = this.$parent.globalData.user.isRescuer
-      if (this.isRescuer) {
-        const persistentRescView = wx.getStorageSync('is_rescuer_view')
-        if (persistentRescView) {
-          this.isRescuerView = persistentRescView
+      try {
+        await this.$parent.globalData.user.fetchUpdate()
+        this.isRegistered = this.$parent.globalData.user.isRegistered
+        this.isRescuer = this.$parent.globalData.user.isRescuer
+        if (this.isRescuer) {
+          const persistentRescView = wx.getStorageSync('is_rescuer_view')
+          if (persistentRescView) {
+            this.isRescuerView = persistentRescView
+          }
         }
+        this.$apply()
+      } catch (err) {
+        console.error(err)
       }
-      this.$apply()
     }
 
     onHide () {
