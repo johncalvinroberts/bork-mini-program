@@ -136,6 +136,35 @@ export default class UserModel {
     }
   }
 
+  async signInWithWechat () {
+    try {
+      const loginPromise = Lean.User.loginWithWeapp()
+      const wxPromise = wepy.getUserInfo()
+      const [loginInfo, { userInfo }] = await Promise.all([loginPromise, wxPromise]) // eslint-disable-line no-unused-vars
+      const verified = loginInfo.toJSON().verified
+      if (!verified) {
+        // Promise.reject(new Error('Not a user'))
+        throw new Error('Not a user or not verified')
+      }
+      const updatedUser = await Lean.User.current().set(userInfo).save()
+      this.id = updatedUser.id
+      this.data = updatedUser.toJSON()
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(err)
+    }
+  }
+
+  async manualSignIn ({username, password}) {
+    try {
+      const loginRes = await Lean.User.logIn(username, password)
+      await Lean.User.current().linkWithWeapp()
+      return loginRes
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
   async logOut () {
     const clearStorage = wepy.clearStorage()
     const user = Lean.User.current()

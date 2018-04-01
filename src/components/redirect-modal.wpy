@@ -28,7 +28,8 @@
       },
       navBack: {
         type: Boolean,
-        default: false
+        default: false,
+        twoWay: true
       }
     }
 
@@ -52,6 +53,17 @@
       toggleModal ({message}) {
         this.message = message
         this.isChildOpen = !this.isChildOpen
+        this.$apply()
+      },
+      changeLinkAndToggle ({link, linkName, message}) {
+        this.navBack = false
+        this.link = link
+        this.linkname = linkName
+        this.message = message
+        this.isChildOpen = true
+      },
+      hideModal () {
+        this.isChildOpen = false
         this.$apply()
       }
     }

@@ -54,6 +54,22 @@ export default {
       "sensitive_word_header": "bad dog 💢",
       "already_registered": "You're already registered actually! You are now logged in."
     },
+    "login": {
+      "login": "Login",
+      "login_subtitle": "Welcome back :)",
+      "login_with_wechat": "Login With Wechat",
+      "login_with_credentials": "Login with username & password",
+      "userpass_explanation": "Please enter your username and password from bork web",
+      "username": "Username",
+      "password": "Password",
+      "password_placeholder": "••••••••••",
+      "error_header": "shoot 🤦‍♂️",
+      "error_message": "Something went wrong. Error: ",
+      "success_header": "yay✌️",
+      "success_message": "Login success!",
+      "redirect_reg_title": "Okay",
+      "redirect_reg_message": "Your account is still not verified, please complete registration to verify the account"
+    },
     "adopter-home": {
       "rescuer": "rescuer",
       "adopter": "adopter",
@@ -274,6 +290,22 @@ export default {
       "sensitive_word": "不许输入敏感词谢谢!",
       "sensitive_word_header": "坏狗狗 💢",
       "already_registered": "你之前已经有注册过的。你现在已进入已登陆状态。欢迎您回来👏"
+    },
+    "login": {
+      "login": "登录",
+      "login_subtitle": "bork欢迎nin回来👏",
+      "login_with_wechat": "使用微信登录",
+      "login_with_credentials": "用户名密码登录",
+      "userpass_explanation": "请输入你在borkweb端用的用户名和密码",
+      "username": "用户名",
+      "password": "密码",
+      "password_placeholder": "••••••••••",
+      "error_header": "哎哟诶🤦‍♂️",
+      "error_message": "发生了重大的失误。错误：",
+      "success_header": "耶✌️",
+      "success_message": "登录成功～",
+      "redirect_reg_title": "好的",
+      "redirect_reg_message": "你的账号还没验证，请前往注册页面完成验证"
     },
     "adopter-home": {
       "rescuer": "救助者",

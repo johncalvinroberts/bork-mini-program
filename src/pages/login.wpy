@@ -1,50 +1,145 @@
-<style lang="scss">
-  @import '../styles/mixins.scss';
-
-  .login--title {
-    @include titletext;
-  }
-  .login--subtitle{
-    @include subtitletext;
-  }
+<style lang="scss" src="../styles/_forms.scss">
 </style>
 <template>
-  <view class="container padbox--default">
-    <view class="login--title">登录</view>
-    <view class="login--subtitle">fido欢迎nin回来👏</view>
+  <view class="container padbox--default login">
+    <view class="form--title">{{t.login}}</view>
+    <view class="form--subtitle">{{t.login_subtitle}}</view>
     <formparent>
-      <view class="">stuff here</view>
+      <button class="btn--default__dark topbottom-margin" disabled="{{wechatDisabled}}" @tap="getWeChat">
+        <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>
+        {{t.login_with_wechat}}
+      </button>
+      <button class="btn--default__dark topbottom-margin" @tap="toggleForm">
+        {{t.login_with_credentials}}
+      </button>  
+      <view class="form--group" wx:if="{{formOpen}}">
+        <view class="padbox--default">
+          <view class="text-center">{{t.userpass_explanation}}</view>
+          <view class="padbox--topbottom">
+            <view class="form-item--default">
+              <view class="form-item--label">{{t.username}}</view>
+              <input type="text" class="form-item--input" @blur="handleUsername" confirm-type="next" maxlength="200" placeholder="{{t.username}}" />
+            </view>
+            <view class="form-item--default">
+              <view class="form-item--label">{{t.password}}</view>
+              <input type="password" class="form-item--input" @blur="handlePassword" confirm-type="next" maxlength="200" placeholder="{{t.password_placeholder}}" />
+            </view>
+          </view>
+          <button class="btn--default" @tap="submitSignIn">{{t.login}}</button>
+        </view>
+      </view>    
     </formparent>
   </view>
-  <view wx:if="{{isRegistered}}">
-    <redirectmodal :message="message"/>
-  </view>
+  <redirectmodal :navBack="navBack"/>
+  <errormodal/>
+  <fidoloader/>
 </template>
 <script>
   import wepy from 'wepy'
   import RedirectModal from '@/components/redirect-modal'
   import FormParent from '@/components/form-parent'
+  import FidoLoader from '@/components/fido-loader'
+  import ErrorModal from '@/components/error-modal'
+  import LocalesMixin from '@/mixins/localesmixin'
 
   export default class Login extends wepy.page {
     config = {
-      navigationBarTitleText: '登录'
+      navigationBarTitleText: 'loading...'
     }
-
+    mixins = [LocalesMixin]
     data = {
       message: '你已经登录了',
-      isRegistered: false
+      isRegistered: false,
+      navBack: true,
+      wechatDisabled: false,
+      formOpen: false,
+      username: '',
+      password: ''
     }
 
     components = {
       formparent: FormParent,
-      redirectmodal: RedirectModal
+      redirectmodal: RedirectModal,
+      errormodal: ErrorModal,
+      fidoloader: FidoLoader
+    }
+    watch = {
+      t () {
+        wepy.setNavigationBarTitle({title: this.t.login})
+      }
     }
     computed = {}
+  
+    methods = {
+      toggleForm () {
+        this.formOpen = !this.formOpen
+        this.wechatDisabled = this.formOpen
+        this.$apply()
+      },
+      handleUsername ({detail}) {
+        this.username = detail.value
+        this.$apply()
+      },
+      handlePassword ({detail}) {
+        this.password = detail.value
+        this.$apply()
+      }
+    }
+    async submitSignIn () {
+      try {
+        this.$invoke('fidoloader', 'showLoading', '')
+        const params = {username: this.username, password: this.password}
+        const loginRes = await this.$parent.globalData.user.manualSignIn(params)
+        if (loginRes.attributes.verified) {
+          return this.handleLoginSuccess()
+        } else {
+          this.$invoke('fidoloader', 'hideLoading', '')
+          const params = {linkName: this.t.redirect_reg_title, link: `registration?editing=true`, message: this.t.redirect_reg_message}
+          return this.$invoke('redirectmodal', 'changeLinkAndToggle', params)
+        }
+      } catch (err) {
+        this.$invoke('fidoloader', 'hideLoading', '')
+        console.error(err)
+        this.handleLoginError(err)
+      }
+    }
+
+    async getWeChat () {
+      this.$invoke('fidoloader', 'showLoading', '')
+      try {
+        await this.$parent.globalData.user.signInWithWechat()
+        this.authData = this.$parent.globalData.user.attributes
+        this.$apply()
+        this.handleLoginSuccess()
+      } catch (err) {
+        this.$invoke('fidoloader', 'hideLoading', '')
+        console.error(err)
+        this.handleLoginError(err)
+      }
+    }
+    handleLoginSuccess () {
+      this.$invoke('fidoloader', 'hideLoading', '')
+      const params = {
+        header: this.t.success_header,
+        message: this.t.success_message
+      }
+      return this.$invoke('redirectmodal', 'toggleModal', params)
+    }
+    handleLoginError (err, refresh = false) {
+      const params = {
+        header: this.t.error_header,
+        message: `${this.t.error_message} ${err.message}`,
+        refresh: refresh
+      }
+      this.$invoke('errormodal', 'showMessage', params)
+    }
 
     onShow () {
       this.isRegistered = this.$parent.globalData.user.isRegistered
     }
-
+    onHide () {
+      this.$invoke('redirectmodal', 'hideModal', null)
+    }
     onPullDownRefresh () {
       wepy.stopPullDownRefresh()
     }

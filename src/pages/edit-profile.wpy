@@ -209,7 +209,7 @@
         this.handleJustU()
       } else if (!this.userData.username && !this.newPassword) {
         const message = this.t.empty_u_an_p
-        const params = {header: this.error_header, message}
+        const params = {header: this.t.error_header, message}
         return this.$invoke('errormodal', 'showMessage', params)
       }
     }
@@ -224,7 +224,7 @@
           this.$invoke('fidoloader', 'hideLoading', null)
         } catch (error) {
           this.$invoke('fidoloader', 'hideLoading', null)
-          const params = {header: this.error_header, message: error}
+          const params = {header: this.t.error_header, message: error}
           return this.$invoke('errormodal', 'showMessage', params)
         }
       }
@@ -237,7 +237,7 @@
         this.$invoke('fidoloader', 'hideLoading', null)
       } catch (error) {
         this.$invoke('fidoloader', 'hideLoading', null)
-        const params = {header: this.error_header, message: error}
+        const params = {header: this.t.error_header, message: error}
         return this.$invoke('errormodal', 'showMessage', params)
       }
     }
@@ -262,7 +262,7 @@
 
     handleUPError (error) {
       let message = error
-      const params = {header: this.error_header, message}
+      const params = {header: this.t.error_header, message}
       return this.$invoke('errormodal', 'showMessage', params)
     }
 
