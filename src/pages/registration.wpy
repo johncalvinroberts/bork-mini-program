@@ -232,8 +232,14 @@
         this.authData = this.$parent.globalData.user.attributes
         this.$apply()
         this.$invoke('fidoloader', 'hideLoading', '')
+        if (this.authData.verified) {
+          const params = {
+            header: this.t.submit_error_header,
+            message: this.t.already_registered
+          }
+          return this.$invoke('redirectmodal', 'toggleModal', params)
+        }
       } catch (err) {
-        // actually deal with the error maybe lol
         this.$invoke('fidoloader', 'hideLoading', '')
         console.error(err)
         this.handleFetchError()

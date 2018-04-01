@@ -51,7 +51,8 @@ export default {
       "submit_error_header": "Oops 🙇‍",
       "submit_error_message": "Please complete the sign up form, thanks🙏",
       "sensitive_word": "That is a sensitive word!",
-      "sensitive_word_header": "bad dog 💢"
+      "sensitive_word_header": "bad dog 💢",
+      "already_registered": "You're already registered actually! You are now logged in."
     },
     "adopter-home": {
       "rescuer": "rescuer",
@@ -271,7 +272,8 @@ export default {
       "submit_error_header": "认证失败 🙇‍",
       "submit_error_message": "你还没有填完你的信息，我们为了你的安全努力，请填完再提交谢谢🙏",
       "sensitive_word": "不许输入敏感词谢谢!",
-      "sensitive_word_header": "坏狗狗 💢"
+      "sensitive_word_header": "坏狗狗 💢",
+      "already_registered": "你之前已经有注册过的。你现在已进入已登陆状态。欢迎您回来👏"
     },
     "adopter-home": {
       "rescuer": "救助者",
