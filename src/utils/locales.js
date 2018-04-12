@@ -18,7 +18,7 @@ export default {
       "my_likes": "my likes",
       "add_animal": "add a rescue",
       "become_rescuer": "become a rescuer",
-      "about": "about fido",
+      "about": "about bork",
       "logout": "log out",
       "confirm_logout": "Confirm logout",
       "navbar_text": "bork | home"
@@ -26,8 +26,8 @@ export default {
     "registration": {
       "title_rescuer": "Become A Rescuer",
       "subtitle_rescuer": "Are you a compassionate person? Do you come close to tears at the thought of a poor dog being neglected, abused, abandoned or even eaten? Do you collect stray dogs and/or cats and have more of them than you can handle? If so, become a rescuer and find a new home for your little bundles of love.",
-      "title": "Join Fido",
-      "subtitle": "Welcome to Fido. Sign up as an adopter so you can reach out to rescuers of stray dogs & cats.",
+      "title": "Join bork",
+      "subtitle": "Welcome to bork. Sign up as an adopter so you can reach out to rescuers of stray dogs & cats.",
       "login_with_wechat": "Sign up With Wechat",
       "basic_info": "Basic info",
       "name": "Name",
@@ -47,7 +47,7 @@ export default {
       "edit_profile": "edit",
       "error_header": "uh-oh😯",
       "error_message": "something bad occured, try reloading the page",
-      "success_message": "Congrats 🎊🎊 you're now on fido",
+      "success_message": "Congrats 🎊🎊 you're now on bork",
       "submit_error_header": "Oops 🙇‍",
       "submit_error_message": "Please complete the sign up form, thanks🙏",
       "sensitive_word": "That is a sensitive word!",
@@ -89,9 +89,9 @@ export default {
     },
     "become-rescuer": {
       "title": "Become a rescuer",
-      "subtitle": "Did you pick up a dog off the street? Have a stray cat hanging around? After becoming a rescuer, you can still adopt animals on Fido by switching between rescuer view and adopter view.",
+      "subtitle": "Did you pick up a dog off the street? Have a stray cat hanging around? After becoming a rescuer, you can still adopt animals on bork by switching between rescuer view and adopter view.",
       "confirm": "Confirm",
-      "success_message": "Congrats, you can now list rescue animals on fido :)",
+      "success_message": "Congrats, you can now list rescue animals on bork :)",
       "error_header": "uh-oh😯",
       "error_message": "something bad occured, try reloading the page"
     },
@@ -208,7 +208,7 @@ export default {
       "age_range_maximum": "Maximum age👴",
       "no_limit": "No limit",
       "no_results": "Currently no animals that fit your search🙇‍",
-      "navbar_text": "fido | Rescues nearby"
+      "navbar_text": "bork | Rescues nearby"
     },
     "edit-profile": {
       "title": "Edit profile",
@@ -255,7 +255,7 @@ export default {
       "my_likes": "我的点赞",
       "add_animal": "添加小动物",
       "become_rescuer": "成为救助者",
-      "about": "关于fido",
+      "about": "关于bork",
       "logout": "登出",
       "confirm_logout": "确认登出",
       "navbar_text": "bork | 首页"
@@ -264,7 +264,7 @@ export default {
       "title_rescuer": "成为救助者",
       "subtitle_rescuer": "你是救猫救狗的人吗？当你看到痛苦的小动物的时候你变的也很痛苦吗？你会收留很多流浪猫或者流浪狗吗？吃素吗？你在小区门口捡了一只走丢的小狗想帮它找新主人？注册成为rescuer吧！",
       "title": "加入我们",
-      "subtitle": "欢迎你注册fido，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想",
+      "subtitle": "欢迎你注册bork，在这里找的你想领养的狗或者猫。不要再寂寞下去，实现你的成为家长的好梦想",
       "login_with_wechat": "使用微信登录",
       "basic_info": "基本信息",
       "name": "名字",
@@ -327,7 +327,7 @@ export default {
     },
     "become-rescuer":{
       "title": "成为救助者",
-      "subtitle": "你可能在街上领养了小动物，想帮它找永久的主人。成为了救助者以后你还可以切换领养者版的fido。",
+      "subtitle": "你可能在街上领养了小动物，想帮它找永久的主人。成为了救助者以后你还可以切换领养者版的bork。",
       "confirm": "确认开通救助者版",
       "success_message": "恭喜恭喜成为了救助者，你现在有权限上传你救助的小动物",
       "error_header": "哎哟出错了😯",
@@ -446,7 +446,7 @@ export default {
       "age_range_maximum": "最大年龄👴",
       "no_limit": "无限制",
       "no_results": "暂时没有符合这些条件的小动物🙇‍",
-      "navbar_text": "fido | 你附近的小动物"
+      "navbar_text": "bork | 你附近的小动物"
     },
     "edit-profile": {
       "title": "编辑个人资料",

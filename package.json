@@ -42,6 +42,7 @@
     "wepy-compiler-sass": "^1.3.12",
     "wepy-eslint": "^1.5.3",
     "wepy-plugin-autoprefixer": "^1.5.9",
+    "wepy-plugin-axios": "^0.1.8",
     "wepy-plugin-uglifyjs": "^1.3.7"
   }
 }
