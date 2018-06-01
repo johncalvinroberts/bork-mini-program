@@ -67,9 +67,11 @@ export default class extends wepy.app {
       console.error(err)
     }
   }
-
+  onReady () {
+    // console.log('its readyyyyy')
+  }
   onLaunch () {
-    console.log('app launchhy')
+    // console.log('app launchhy')
     this.globalData.user = new UserModel()
     this.registerLocales()
   }

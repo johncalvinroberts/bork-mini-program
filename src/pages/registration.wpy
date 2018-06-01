@@ -51,7 +51,7 @@
             <input type="number" placeholder="输入你的年龄请" class="form-item--input" @blur="handleAge" maxlength="3" confirm-type="next" value="{{age || ''}}"/>
           </view>
         </view>
-        <view class="form--group">
+        <!-- <view class="form--group">
           <view class="form--group__title">{{t.id_validation}}</view>
           <view class="form-item--default">
             <radiolist :choices.sync="idChoices" :currentchoice.sync="idType" :fullwidth="fullWidthButton"/>
@@ -87,7 +87,7 @@
                 <input type="number" placeholder="请输入护照号" class="form-item--input" @blur="handleId" maxlength="50" confirm-type="next" value="{{idNumber || ''}}"/>
               </view>
           </block>
-        </view>
+        </view> -->
         <button class="btn--default" @tap="handleSubmit">{{t.save}}</button>
       </block>
     </formparent>
@@ -150,12 +150,12 @@
         return this.idType === 'chinese_id'
       },
       hasEmptyFields () {
-        const fields = _pick(this.data, ['age'], ['wxUsername'], ['personalNote'], ['idNumber'])
+        const fields = _pick(this.data, ['age'], ['wxUsername'], ['personalNote'])
 
-        if (this.idType === 'passport') {
-          fields.country = this.country
-          fields.fullName = this.fullName
-        }
+        // if (this.idType === 'passport') {
+        //   fields.country = this.country
+        //   fields.fullName = this.fullName
+        // }
         const emptyFields = Object.keys(fields).filter(field => {
           let value = fields[field]
           if (value === '' || value === ' ' || value === null) {
@@ -264,13 +264,13 @@
         const {wxUsername,
           personalNote,
           age,
-          idType,
-          idNumber,
+          // idType,
+          // idNumber,
           fullName,
           country,
           isRescuer} = this.data
         const verified = true
-        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age, idType, idNumber, fullName, country, isRescuer, verified})
+        await this.$parent.globalData.user.updateProfileInfo({wxUsername, personalNote, age, fullName, country, isRescuer, verified})
         const params = {message: this.t.success_message}
         this.$invoke('fidoloader', 'hideLoading', '')
         this.handleRescuerSuccess()

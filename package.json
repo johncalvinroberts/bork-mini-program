@@ -5,6 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "dev": "wepy build --watch",
+    "dev:web": "wepy build --output=web --watch",
     "build": "cross-env NODE_ENV=production wepy build --no-cache",
     "build:web": "cross-env NODE_ENV=production wepy --output=web build --no-cache",
     "test": "echo \"Error: no test specified\" && exit 1",

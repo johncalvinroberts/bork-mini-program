@@ -1,4 +1,6 @@
 import wepy from 'wepy'
+import locales from '@/utils/locales'
+import T from '@/utils/weapp-i18n'
 
 export default class LocalesMixin extends wepy.mixin {
   constructor () {
@@ -40,9 +42,14 @@ export default class LocalesMixin extends wepy.mixin {
 
   handleWebLocales () {
     this.currentPage = window.location.hash.split('#!/pages/')[1]
-    console.log(this.currentPage)
-    const _ = wepy.T._
+    T.registerLocale(locales)
+    T.setLocale('en')
+    console.log(T)
+    const _ = T._
     const pageLocales = _(this.currentPage)
     this.data.t = Object.assign({}, pageLocales)
+  }
+
+  _registerLocales () {
   }
 }
