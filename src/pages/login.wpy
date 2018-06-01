@@ -5,7 +5,10 @@
     <view class="form--title">{{t.login}}</view>
     <view class="form--subtitle">{{t.login_subtitle}}</view>
     <formparent>
-      <button class="btn--default__dark topbottom-margin" disabled="{{wechatDisabled}}" @tap="getWeChat">
+      <button class="btn--default__dark topbottom-margin" 
+              disabled="{{wechatDisabled}}" 
+              open-type="getUserInfo"
+              @getuserinfo="loginWithWechat">
         <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>
         {{t.login_with_wechat}}
       </button>
@@ -104,7 +107,7 @@
       }
     }
 
-    async getWeChat () {
+    async loginWithWechat () {
       this.$invoke('fidoloader', 'showLoading', '')
       try {
         await this.$parent.globalData.user.signInWithWechat()

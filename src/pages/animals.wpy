@@ -115,9 +115,11 @@
 
   export default class Animals extends wepy.page {
     mixins = [LocalesMixin, AnimalMixin]
+  
     config = {
       navigationBarTitleText: 'loading...'
     }
+
     components = {
       animalsearchitem: AnimalSearchItem,
       locationselector: LocationSelector,
@@ -165,41 +167,38 @@
         if (!_isEmpty(oldVal)) {
           this.params.currentCoordinates = this.defaultCoordinates
           this.resetParamsAndFetch()
-          this.$apply()
         }
       },
       params (newVal, oldVal) {
         this.defaultCoordinates = this.params.currentCoordinates
         this.currentGender = this.params.gender
         this.currentType = this.params.type
-        this.$apply()
       },
       currentGender (newVal, oldVal) {
         if (newVal !== oldVal && !this.preload) {
           this.params.gender = this.currentGender
           this.resetParamsAndFetch()
-          this.$apply()
         }
       },
       currentType (newVal, oldVal) {
         if (newVal !== oldVal && !this.preload) {
           this.params.type = this.currentType
           this.resetParamsAndFetch()
-          this.$apply()
         }
       },
       rawAnimals (newVal, oldVal) {
-        this.animalMarkers = this.rawAnimals.map(animal => {
-          return {
-            iconPath: '../icons/crown.png',
-            latitude: animal.location.latitude,
-            longitude: animal.location.longitude,
-            id: animal.objectId,
-            width: 30,
-            height: 30
-          }
-        })
-        this.$apply()
+        if (this.rawAnimals.length > 0) {
+          this.animalMarkers = this.rawAnimals.map(animal => {
+            return {
+              iconPath: '../icons/crown.png',
+              latitude: animal.location.latitude,
+              longitude: animal.location.longitude,
+              id: animal.objectId,
+              width: 30,
+              height: 30
+            }
+          })
+        }
       }
     }
 
@@ -316,22 +315,46 @@
       wepy.setNavigationBarTitle({title})
     }
 
-    async onLoad ({type}) {
-      this.params.type = type
-      const screenHeight = wx.getSystemInfoSync().windowHeight
-      this.calcHeight = screenHeight - 50
+    async _fetchAnimals () {
       try {
-        await this.$parent.globalData.user.requestLocation()
-        const {latitude, longitude} = await wepy.getLocation()
-        this.params.currentCoordinates = {latitude, longitude}
         await this.fetchAnimals()
-        const title = this.t.navbar_text
-        wepy.setNavigationBarTitle({title})
         this.preload = false
         this.$apply()
       } catch (err) {
+        setTimeout(() => this._fetchAnimals(), 1000)
         console.error(err)
       }
+    }
+  
+    _getCoordinates () {
+      return new Promise(async (resolve, reject) => {
+        try {
+          await this.$parent.globalData.user.requestLocation()
+          const {latitude, longitude} = await wepy.getLocation()
+          this.params.currentCoordinates = {latitude, longitude}
+          console.log('got coordinatessss')
+          resolve()
+        } catch (error) {
+          reject(error)
+        }
+      })
+    }
+  
+    async _getSystemStuff () {
+      try {
+        const {windowHeight} = await wepy.getSystemInfo()
+        this.calcHeight = windowHeight - 50
+        this.$apply()
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    async onLoad ({type}) {
+      this.params.type = type
+      this._getSystemStuff()
+      await this._getCoordinates()
+      this._fetchAnimals()
     }
   }
 </script>

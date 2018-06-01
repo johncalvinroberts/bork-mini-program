@@ -43,6 +43,7 @@ export default class extends wepy.app {
   }
 
   registerLocales () {
+    console.log('heeeere in registering locales')
     T.registerLocale(locales)
     const lang = wx.getStorageSync('lang')
     if (lang) {

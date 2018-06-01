@@ -4,7 +4,10 @@
     <view class="form--title">{{title}}</view>
     <view class="form--subtitle">{{subTitle}}</view>
     <formparent>
-      <button class="btn--default__dark" disabled="{{wechatDisabled}}" @tap="getWeChat">
+      <button class="btn--default__dark" 
+              disabled="{{wechatDisabled}}" 
+              open-type="getUserInfo"
+              @getuserinfo="loginWithWechat">
         <image class="icon--inline" src="../icons/wechat_white.svg" mode="aspectFit"></image>
         {{t.login_with_wechat}}
       </button>
@@ -225,13 +228,13 @@
       }
     }
 
-    async getWeChat () {
-      this.$invoke('fidoloader', 'showLoading', '')
+    async loginWithWechat () {
       try {
-        await this.$parent.globalData.user.authorize()
+        this.$invoke('fidoloader', 'showLoading', '')
+        await this.$parent.globalData.user.logIn()
         this.authData = this.$parent.globalData.user.attributes
-        this.$apply()
         this.$invoke('fidoloader', 'hideLoading', '')
+        this.$apply()
         if (this.authData.verified) {
           const params = {
             header: this.t.submit_error_header,
@@ -239,13 +242,12 @@
           }
           return this.$invoke('redirectmodal', 'toggleModal', params)
         }
-      } catch (err) {
+      } catch (error) {
         this.$invoke('fidoloader', 'hideLoading', '')
-        console.error(err)
+        console.error(error)
         this.handleFetchError()
       }
     }
-
     handleFetchError () {
       const params = {
         header: this.t.error_header,

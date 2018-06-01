@@ -1,6 +1,5 @@
 import wepy from 'wepy'
-import Lean from 'leancloud-storage'
-import { appId, appKey } from '@/secret_keys'
+import Lean from '@/utils/lean'
 import _isEmpty from 'lodash.isempty'
 import {_daysToString} from '@/utils/age-fns'
 
@@ -10,18 +9,6 @@ export default class AnimalMixin extends wepy.mixin {
     for fetching data when the user is not logged in
     and/or just fetching animal stuff.
   */
-
-  constructor () {
-    super()
-    try {
-      Lean.init({
-        appId: appId,
-        appKey: appKey
-      })
-    } catch (err) {
-      console.log('it already dun initd')
-    }
-  }
 
   computed = {}
 
@@ -90,6 +77,7 @@ export default class AnimalMixin extends wepy.mixin {
     if (this.params.type !== 'all') query.equalTo('type', this.params.type)
     if (this.params.gender !== 'all') query.equalTo('gender', this.params.gender)
     const animalsRes = await query.find()
+    console.log('got animals')
     if (_isEmpty(animalsRes)) {
       this.lastPage = true
     }
@@ -102,6 +90,11 @@ export default class AnimalMixin extends wepy.mixin {
       this.rawAnimals.push(animalObj)
     })
     this.animalsLoading = false
+    this.$apply()
+  }
+
+  clearAnimals () {
+    this.rawAnimals = []
     this.$apply()
   }
 

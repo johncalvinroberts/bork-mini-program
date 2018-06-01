@@ -73,9 +73,11 @@
         this.$apply()
       },
       hideLoading () {
-        this.visible = false
-        this.isopen = false
-        this.$apply()
+        setTimeout(() => {
+          this.visible = false
+          this.isopen = false
+          this.$apply()
+        }, 300)
       }
     }
 

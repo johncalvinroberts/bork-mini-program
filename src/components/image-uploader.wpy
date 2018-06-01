@@ -82,7 +82,7 @@
 </template>
 <script>
   import wepy from 'wepy'
-  import Lean from '@/utils/av-weapp-min'
+  import Lean from '@/utils/lean'
 
   export default class ImageUploader extends wepy.component {
     props = {

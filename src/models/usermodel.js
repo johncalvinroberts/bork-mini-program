@@ -1,19 +1,10 @@
-import Lean from '@/utils/av-weapp-min'
-import { appId, appKey } from '@/secret_keys'
+import Lean from '@/utils/lean'
 import wepy from 'wepy'
 import _isEmpty from 'lodash.isempty'
 import {_daysToString} from '@/utils/age-fns'
 
 export default class UserModel {
   constructor () {
-    try {
-      Lean.init({
-        appId: appId,
-        appKey: appKey
-      })
-    } catch (error) {
-      console.log('already init\'d')
-    }
     this.data = {}
     this.rescues = []
     this.rescueCount = null
@@ -143,7 +134,6 @@ export default class UserModel {
       const [loginInfo, { userInfo }] = await Promise.all([loginPromise, wxPromise]) // eslint-disable-line no-unused-vars
       const verified = loginInfo.toJSON().verified
       if (!verified) {
-        // Promise.reject(new Error('Not a user'))
         throw new Error('Not a user or not verified')
       }
       const updatedUser = await Lean.User.current().set(userInfo).save()
