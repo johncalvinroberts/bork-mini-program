@@ -98,7 +98,7 @@
   }
 </style>
 <template>
-  <view class="container__has-tabbar {{loading ? 'loading-blur' : ''}}"
+  <view class="container__has-tabbar {{loading ? 'loading-blur' : ''}} {{darkMode ? 'darkMode' : ''}}"
         bindscroll="handleScroll"
         scroll-y="{{true}}"
         style="padding-top:{{calcHeight}}px;">
@@ -204,6 +204,12 @@
   import UnregisteredModal from '@/components/unregistered-modal'
   import FidoLoader from '@/components/fido-loader'
   import _isEmpty from 'lodash.isempty'
+  import { connect } from 'wepy-redux'
+  @connect({
+    darkMode (state) {
+      return state.darkMode
+    }
+  })
 
   export default class AnimalProfile extends wepy.page {
     config = {

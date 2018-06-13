@@ -1,0 +1,57 @@
+.darkMode {
+  background-color: #000000!important;
+  transition: all 0.3s ease-in-out;
+  color: #ffffff;
+  .form--title, .form-item--label, .animal-filter--close, .slider--label, .slider--amount, .name, .btn--blank__little, .app--animal__name, .app__status--text, .message--body, .icon--check__round, .detail--info-box, .detail--options, .longpress-reminder {
+    color: #ffffff!important;
+  }
+  .animal--text{
+    color: #333333!important;
+  }
+  .form-item--input, .form-item--input__half {
+    background-color: #333333!important;
+  }
+  .checkbox--outer {
+    background-color:#000;
+    color:#fff;
+    border:1px solid #333;
+    &:first-child{
+      border:1px solid #333;
+    }
+  }
+  .checkbox--outer.checked{
+    background-color:#000;
+  }
+  .animal--body {
+    background-color: #000000!important;
+    .animal--big-name, .neighborhood , .icon--check__round, .icon--check__round.checked, .animal--quotation, .owner--inner{
+      color:#ffffff!important;
+    }
+  }
+  .sideslider--sheet {
+    background-color:#000!important;
+    .btn--change-view{
+      background-color: #000000;
+      color: #ffffff!important; 
+    }
+  }
+  .loader-outer {
+    background-color:#000!important;
+  }
+  .animals--loading {
+    background-color:#000!important;
+  }
+  .copy-btn {
+    color:#fff;
+    background-color:purple;
+  }
+  .animal-filter--top {
+    background-color:#000!important;
+    .slot--outer{
+      background-color:#000!important;
+      .animals--filter-label {
+        color:#ffffff!important;
+      }
+    }
+  }
+}

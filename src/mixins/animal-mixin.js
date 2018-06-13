@@ -63,6 +63,7 @@ export default class AnimalMixin extends wepy.mixin {
 
   async fetchAnimals () {
     this.animalsLoading = true
+    console.log('getting animaaals')
     this.$apply()
     const skipAmt = (this.page * 10) - 10
     const query = new Lean.Query('Animal')
@@ -81,6 +82,7 @@ export default class AnimalMixin extends wepy.mixin {
     if (_isEmpty(animalsRes)) {
       this.lastPage = true
     }
+    // let newAnimals = []
     animalsRes.map(animal => {
       const animalObj = animal.toJSON()
       animalObj.age = _daysToString(animalObj.age)

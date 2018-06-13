@@ -94,3 +94,9 @@
 .bottom-bar-btn[disabled], .bottom-bar-btn__small[disabled]{
   color: $black;
 }
+
+.darkmode-toggle {
+  position: absolute;
+  top:40rpx;
+  right:90px;
+}

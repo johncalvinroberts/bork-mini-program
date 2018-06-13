@@ -62,7 +62,7 @@
         @tap="handleIconTap"/>
   <scroll-view class="animal-filter--top {{isOpen ? 'shadow' : ''}}" style="height: {{isOpen ? '250px': '50px'}};">
     <view class="animal-filter--close" @tap="handleIconTap" wx:if="{{isOpen}}">{{closeText}}</view>
-    <view class="icon--filter" @tap="handleIconTap" wx:if="{{!isOpen}}"/>
+    <view class="{{darkMode ? 'icon--filter__white' : 'icon--filter'}}" @tap="handleIconTap" wx:if="{{!isOpen}}"/>
     <view class="slot--outer" style="height: {{isOpen ? 'auto': '0'}}; opacity: {{isOpen ? '1' : '0'}};">
       <slot></slot>
     </view>
@@ -70,6 +70,14 @@
 </template>
 <script>
   import wepy from 'wepy'
+  
+  import { connect } from 'wepy-redux'
+  @connect({
+    darkMode (state) {
+      return state.darkMode
+    }
+  })
+
   export default class AnimalFilter extends wepy.component {
     props = {
       isOpen: {

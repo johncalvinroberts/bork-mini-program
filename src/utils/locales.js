@@ -21,7 +21,10 @@ export default {
       "about": "about bork",
       "logout": "log out",
       "confirm_logout": "Confirm logout",
-      "navbar_text": "bork | home"
+      "navbar_text": "bork | home",
+      "successful_share": "Shared 👍",
+      "toggle_dark": "dark mode",
+      "toggle_light": "light mode"
     },
     "registration": {
       "title_rescuer": "Become A Rescuer",
@@ -258,7 +261,10 @@ export default {
       "about": "关于bork",
       "logout": "登出",
       "confirm_logout": "确认登出",
-      "navbar_text": "bork | 首页"
+      "navbar_text": "bork | 首页",
+      "successful_share": "转发成功 👍",
+      "toggle_dark": "暗夜模式",
+      "toggle_light": "白天模式"      
     },
     "registration": {
       "title_rescuer": "成为救助者",

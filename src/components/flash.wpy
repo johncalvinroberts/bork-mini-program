@@ -14,15 +14,26 @@
     transition: all 0.3s ease;
     z-index:99;
   }
+  .flash--sheet.darkMode{
+    background-color: #000!important;
+    color:#fff!important;
+  }
 </style>
 <template>
-  <view class="flash--sheet"
+  <view class="flash--sheet {{darkMode ? 'darkMode' : ''}}"
         style="transform:{{isOpen ? 'translate3d(0, 0, 0)' : 'translate3d(0, -200%, 0)'}};">
     {{currentMessage}}
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+
+  import { connect } from 'wepy-redux'
+  @connect({
+    darkMode (state) {
+      return state.darkMode
+    }
+  })
   export default class Flash extends wepy.component {
     data = {
       currentMessage: '',

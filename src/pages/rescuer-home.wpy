@@ -1,5 +1,5 @@
 <template>
-  <view class="container__no-overflow">
+  <view class="container__no-overflow {{darkMode ? 'darkMode' : ''}}">
     <profileheader :userInfo.sync="userInfo"/>
     <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
       <tabswiperitem @scrollBottom.user="appendRequests">
@@ -37,6 +37,12 @@
   import AnimalListItem from '@/components/animal-list-item'
   import ApplicationListItem from '@/components/application-list-item'
   import FidoLoader from '@/components/fido-loader'
+  import { connect } from 'wepy-redux'
+  @connect({
+    darkMode (state) {
+      return state.darkMode
+    }
+  })
 
   export default class RescuerHome extends wepy.page {
     data = {
@@ -95,6 +101,9 @@
           this.currentRescuePage++
           this.fetchRescues()
         }
+      },
+      createRescue () {
+        this._createRescue()
       }
     }
 
@@ -128,7 +137,7 @@
       }
     }
 
-    async createRescue () {
+    async _createRescue () {
       this.$invoke('fidoloader', 'showLoading', '')
       const animal = await this.$parent.globalData.user.createRescue()
       wepy.navigateTo({url: `edit-animal?id=${animal.id}&edit=false`})

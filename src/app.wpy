@@ -2,9 +2,15 @@
 <script>
 import wepy from 'wepy'
 import locales from '@/utils/locales'
+import { setStore } from 'wepy-redux'
+import configStore from './store'
 import T from '@/utils/weapp-i18n'
 import 'wepy-async-function'
 import UserModel from '@/models/usermodel'
+import handleDarkMode from '@/utils/handle-dark-mode'
+
+const store = configStore()
+setStore(store)
 
 export default class extends wepy.app {
   config = {
@@ -20,13 +26,14 @@ export default class extends wepy.app {
       'pages/edit-profile',
       'pages/edit-animal',
       'pages/animals',
-      'pages/application-detail'
+      'pages/application-detail',
+      'pages/about-bork'
     ],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#FFFFFF',
-      navigationBarTitleText: 'fido',
       navigationBarTextStyle: 'black',
+      navigationBarTitleText: 'fido',
       enablePullDownRefresh: true
     }
   }
@@ -67,11 +74,9 @@ export default class extends wepy.app {
       console.error(err)
     }
   }
-  onReady () {
-    // console.log('its readyyyyy')
-  }
+
   onLaunch () {
-    // console.log('app launchhy')
+    wx.onAppRoute(handleDarkMode)
     this.globalData.user = new UserModel()
     this.registerLocales()
   }

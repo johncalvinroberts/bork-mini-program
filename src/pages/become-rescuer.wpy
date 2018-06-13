@@ -1,6 +1,6 @@
 <style lang="scss" src="../styles/_forms.scss"></style>
 <template>
-  <view class="container padbox--default">
+  <view class="container padbox--default {{darkMode ? 'darkMode' : ''}}">
     <view class="form--title">{{t.title}}</view>
     <view class="form--subtitle">{{t.subtitle}}</view>
     <formparent>
@@ -18,6 +18,12 @@
   import FidoLoader from '@/components/fido-loader'
   import RedirectModal from '@/components/redirect-modal'
   import ErrorModal from '@/components/error-modal'
+  import { connect } from 'wepy-redux'
+  @connect({
+    darkMode (state) {
+      return state.darkMode
+    }
+  })
 
   export default class BecomeRescuer extends wepy.page {
     data = {

@@ -62,9 +62,10 @@
 }
 </style>
 <template>
-  <view class="container__flex">
+  <view class="container__flex {{darkMode ? 'darkMode' : ''}}">
     <view class="flex--item__vertical-center padbox--default">
-      <image class="landing--banner" src="../icons/fido_logo_black.jpg" mode="aspectFit"></image>
+      <image class="landing--banner" src="../icons/fido_logo_black.jpg" mode="aspectFit" wx:if={{!darkMode}}></image>
+      <image class="landing--banner" src="../icons/fido_logo_white.jpg" mode="aspectFit" wx:else></image>
       <view class="flex--parent__horizontal padbox--default">
         <button class="flex--item__half btn--default__medium" @tap="navToDogs">{{t.view_dogs}}</button>
         <button class="flex--item__half btn--default__medium" @tap="navToCats">{{t.view_cats}}</button>
@@ -73,81 +74,97 @@
         <button class="btn--default" @tap="handleProfileBtn">{{t.cta_register}}</button>
       </view>
     </view>
-    <image class="icon--default landing--profile" @tap="handleProfileBtn" src="../icons/burger.svg" mode="aspectFit"/>
+    <image class="icon--default landing--profile" @tap="handleProfileBtn" 
+            src="{{darkMode ? '../icons/burger_white.svg' : '../icons/burger.svg'}}" 
+            mode="aspectFit"/>
+    <button class="btn--default__dark darkmode-toggle" @tap="toggleDark">{{darkMode ? t.toggle_dark : t.toggle_light}}</button>
     <languagetoggle />
-  </view>
-  <unregisteredmodal/>
-  <block wx:if="{{isRegistered}}">
-    <sideslider :isopen.sync="sideSliderOpen" @tapsheet.user="toggleSlider">
-      <view class="sideslider--profile-info" @tap="navToProfile">
-        <image class="avatar__small" src="{{userAttributes.avatarUrl}}" mode="aspectFit"></image>
-        <view class="profile--box">
-          <view class="name">{{userAttributes.nickName}}</view>
-          <view class="role {{isRescuer ? 'role-rescuer' : ''}}">{{userRole}}</view>
+    <unregisteredmodal/>
+    <block wx:if="{{isRegistered}}">
+      <sideslider :isopen.sync="sideSliderOpen" @tapsheet.user="toggleSlider">
+        <view class="sideslider--profile-info" @tap="navToProfile">
+          <image class="avatar__small" src="{{userAttributes.avatarUrl}}" mode="aspectFit"></image>
+          <view class="profile--box">
+            <view class="name">{{userAttributes.nickName}}</view>
+            <view class="role {{isRescuer ? 'role-rescuer' : ''}}">{{userRole}}</view>
+          </view>
         </view>
-      </view>
-      <block wx:if="{{isRescuerView}}">
-        <button class="btn--change-view" @tap="changeView">
-          <image class="icon--xs" src="../icons/switch.svg" mode="aspectFit"/>
-          {{t.change_adopter_view}}
-        </button>
-        <view class="container sideslider--box">
-            <button class="btn--blank sideslider-item" @tap="navToRescuer" id="requests">
-              <image class="icon--xs" src="../icons/inbox.svg" mode="aspectFit"/>
-              {{t.requests}}
-            </button>
-            <button class="btn--blank sideslider-item" @tap="navToRescuer" id="rescues">
-              <image class="icon--xs" src="../icons/crown.svg" mode="aspectFit"/>
-              {{t.my_rescues}}
-            </button>
-            <button class="btn--blank sideslider-item" @tap="createAnimal">
-              <image class="icon--xs" src="../icons/hospital.svg" mode="aspectFit"/>
-              {{t.add_animal}}
-            </button>
-          <button class="btn--blank sideslider-item" @tap="handleEdit">
-            <view class="icon--edit"/>
-            {{t.edit_profile}}
+        <block wx:if="{{isRescuerView}}">
+          <button class="btn--change-view" @tap="changeView">
+            <image class="icon--xs" src="../icons/switch.svg" mode="aspectFit"/>
+            {{t.change_adopter_view}}
           </button>
-        </view>
-      </block>
-      <block wx:else>
-        <button class="btn--change-view" @tap="changeView" wx:if="{{isRescuer}}">
-          <image class="icon--xs" src="../icons/switch.svg" mode="aspectFit"/>
-          {{t.change_rescuer_view}}
-        </button>
-        <view class="container sideslider--box">
-            <button class="btn--blank sideslider-item" @tap="navToAdopter" id="applications">
-              <image class="icon--xs" src="../icons/send.svg" mode="aspectFit"/>
-              {{t.my_applications}}
-            </button>
-            <button class="btn--blank sideslider-item" @tap="navToAdopter" id="likes">
-              <image class="icon--xs" src="../icons/star.svg" mode="aspectFit"/>
-              {{t.my_likes}}
-            </button>
+          <view class="container sideslider--box">
+              <button class="btn--blank sideslider-item" @tap="navToRescuer" id="requests">
+                <image class="icon--xs" src="../icons/inbox.svg" mode="aspectFit"/>
+                {{t.requests}}
+              </button>
+              <button class="btn--blank sideslider-item" @tap="navToRescuer" id="rescues">
+                <image class="icon--xs" src="../icons/crown.svg" mode="aspectFit"/>
+                {{t.my_rescues}}
+              </button>
+              <button class="btn--blank sideslider-item" @tap="createAnimal">
+                <image class="icon--xs" src="../icons/hospital.svg" mode="aspectFit"/>
+                {{t.add_animal}}
+              </button>
             <button class="btn--blank sideslider-item" @tap="handleEdit">
               <view class="icon--edit"/>
               {{t.edit_profile}}
             </button>
+          </view>
+        </block>
+        <block wx:else>
+          <button class="btn--change-view" @tap="changeView" wx:if="{{isRescuer}}">
+            <image class="icon--xs" src="../icons/switch.svg" mode="aspectFit"/>
+            {{t.change_rescuer_view}}
+          </button>
+          <view class="container sideslider--box">
+              <button class="btn--blank sideslider-item" @tap="navToAdopter" id="applications">
+                <image class="icon--xs" src="../icons/send.svg" mode="aspectFit"/>
+                {{t.my_applications}}
+              </button>
+              <button class="btn--blank sideslider-item" @tap="navToAdopter" id="likes">
+                <image class="icon--xs" src="../icons/star.svg" mode="aspectFit"/>
+                {{t.my_likes}}
+              </button>
+              <button class="btn--blank sideslider-item" @tap="handleEdit">
+                <view class="icon--edit"/>
+                {{t.edit_profile}}
+              </button>
+          </view>
+        </block>
+        <view class="landing--bottom-box">
+          <button wx:if="{{!isRescuer}}" class="btn--blank" @tap="showRescuerForm">{{t.become_rescuer}}</button>
+          <button class="btn--blank btn--blank__little" @tap="navToAbout">{{t.about}}</button>
+          <!-- <button class="btn--blank" @tap="handleLogout">{{t.logout}}</button> -->
         </view>
-      </block>
-      <view class="landing--bottom-box">
-        <button wx:if="{{!isRescuer}}" class="btn--blank" @tap="showRescuerForm">{{t.become_rescuer}}</button>
-        <button class="btn--blank">{{t.about}}</button>
-        <!-- <button class="btn--blank" @tap="handleLogout">{{t.logout}}</button> -->
-      </view>
-    </sideslider>
-    <fidoloader/>
-  </block>
+      </sideslider>
+      <fidoloader/>
+      <flash/>
+    </block>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
   import UnregisteredModal from '@/components/unregistered-modal'
+  import Flash from '@/components/flash'
   import SideSlider from '@/components/sideslider'
   import LanguageToggle from '@/components/language-toggle'
   import FidoLoader from '@/components/fido-loader'
   import LocalesMixin from '@/mixins/localesmixin'
   import _isEmpty from 'lodash.isempty'
+
+  import { connect } from 'wepy-redux'
+  import { toggleDark } from '@/store/actions'
+  
+  @connect({
+    darkMode (state) {
+      return state.darkMode
+    }
+  }, {
+    toggleDark
+  })
 
   export default class Index extends wepy.page {
     config = {
@@ -160,7 +177,8 @@
       unregisteredmodal: UnregisteredModal,
       sideslider: SideSlider,
       languagetoggle: LanguageToggle,
-      fidoloader: FidoLoader
+      fidoloader: FidoLoader,
+      flash: Flash
     }
 
     data = {
@@ -180,6 +198,20 @@
           return this.$parent.globalData.user.isRescuer ? this.t.rescuer : this.t.adopter
         }
         return false
+      }
+    }
+
+    watch = {
+      darkMode (newVal, oldVal) {
+        wx.setNavigationBarColor({
+          frontColor: newVal ? '#ffffff' : '#000000',
+          backgroundColor: newVal ? '#000000' : '#ffffff',
+          animation: {
+            duration: 300,
+            timingFunc: 'easeInOut'
+          }
+        })
+        wepy.setStorageSync('darkMode', newVal)
       }
     }
 
@@ -224,6 +256,12 @@
       },
       showRescuerForm () {
         wepy.navigateTo({url: 'become-rescuer'})
+      },
+      createAnimal () {
+        return this._createAnimal()
+      },
+      navToAbout () {
+        wepy.navigateTo({url: 'about-bork'})
       }
     }
 
@@ -231,10 +269,11 @@
       if (options.redirect) {
         return wepy.navigateTo({url: `${options.redirect}?${options.paramname}=${options.paramvalue}`})
       }
-      // wepy.navigateTo({url: 'login'})
+      this.checkForDarkMode()
+      // wepy.navigateTo({url: 'registration?target=adopter'})
       // wepy.navigateTo({url: 'edit-animal?id=5ab68c189f54541cd83cb830&edit=true'})
       // wepy.navigateTo({url: 'edit-profile'})
-      // wepy.navigateTo({url: 'animal-profile?animal=5a9e588b0b616019f39f3812'})
+      // wepy.navigateTo({url: 'animal-profile?animal=5b10f37e2f301e0038caead3'})
       // wepy.navigateTo({url: 'adopter-home?tab=likes'})
       // wepy.navigateTo({url: 'rescuer-home?tab=rescues'})
       // wepy.navigateTo({url: 'application-detail?id=5a86b14417d0090035385b14'})
@@ -274,7 +313,7 @@
       wepy.stopPullDownRefresh()
     }
 
-    async createAnimal () {
+    async _createAnimal () {
       this.sideSliderOpen = false
       this.$invoke('fidoloader', 'showLoading', '')
       const animal = await this.$parent.globalData.user.createRescue()
@@ -287,6 +326,25 @@
       if (result.confirm) {
         await this.$parent.globalData.user.logOut()
         wepy.reLaunch({url: 'landing'})
+      }
+    }
+    async checkForDarkMode () {
+      try {
+        const darkMode = wepy.getStorageSync('darkMode')
+        if (darkMode) this.methods.toggleDark()
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    onShareAppMessage (res) {
+      const self = this
+      const path = `/pages/landing`
+      return {
+        title: 'BORK流浪动物救助平台',
+        path,
+        success () {
+          self.$invoke('flash', 'showMessage', self.t.successful_share)
+        }
       }
     }
   }

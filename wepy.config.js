@@ -43,10 +43,6 @@ module.exports = {
       config: {
         browsers: ['last 11 iOS versions']
       }
-    },
-    'uglifyjs': {
-      filter: /\.js$/,
-      config: {}
     }
   },
   appConfig: {

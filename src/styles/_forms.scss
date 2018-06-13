@@ -42,12 +42,13 @@
   .form-item--input, .form-item--input__half {
     display: inline-block;
     vertical-align:middle;
-    line-height:1.4rem;
-    height:auto;
     border-bottom: $section-border;
     background-color: $white;
     transition: all 0.3s ease;
     flex:3;
+    padding-left: 10rpx;
+    height:35px;
+    line-height:35px;
   }
   .form-item--input__half{
     width:35%;

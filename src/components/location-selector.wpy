@@ -26,10 +26,11 @@
     background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
     color: $black;
     text-align: center;
-    width: 100%;
+    width: 103%;
     height: 80rpx;
     display:inline-block;
     vertical-align:middle;
+    margin-left:-10rpx;
   }
   .map-location {
     border-radius: 50%;

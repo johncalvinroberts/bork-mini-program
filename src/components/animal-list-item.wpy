@@ -20,6 +20,9 @@
         // margin-left: 0;
       }
     }
+    .icon--edit, .icon--edit__white {
+      padding: 12px;
+    }
   }
 </style>
 <template>
@@ -31,13 +34,19 @@
       <view class="icon--female" wx:if="{{animalObj.gender === 'female'}}"/>
       <view class="icon--male" wx:if="{{animalObj.gender === 'male'}}"/>
     </view>
-    <view class="icon--edit"
+    <view class="{{darkMode ? 'icon--edit__white' : 'icon--edit'}}"
           data-type="edit"
           wx:if="{{isOwner}}"/>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  @connect({
+    darkMode (state) {
+      return state.darkMode
+    }
+  })
   export default class AnimalListItem extends wepy.component {
     props = {
       animalObj: {

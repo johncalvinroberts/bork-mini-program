@@ -1,5 +1,5 @@
 <template>
-  <view class="container__no-overflow">
+  <view class="container__no-overflow {{darkMode ? 'darkMode' : ''}}">
     <profileheader :userInfo.sync="userInfo" />
     <tabswiper :tabs.sync="tabs" :activetab.sync="activetab">
       <tabswiperitem1 @scrollBottom.user="appendLikes">
@@ -30,6 +30,13 @@
   import InlineLoading from '@/components/inline-loading'
   import ApplicationListItem from '@/components/application-list-item'
   import AnimalListItem from '@/components/animal-list-item'
+
+  import { connect } from 'wepy-redux'
+  @connect({
+    darkMode (state) {
+      return state.darkMode
+    }
+  })
 
   export default class AdopterHome extends wepy.page {
     data = {

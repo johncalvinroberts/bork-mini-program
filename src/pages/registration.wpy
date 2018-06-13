@@ -1,6 +1,6 @@
 <style lang="scss" src="../styles/_forms.scss"></style>
 <template>
-  <view class="container padbox--default">
+  <view class="container padbox--default {{darkMode ? 'darkMode' : ''}}">
     <view class="form--title">{{title}}</view>
     <view class="form--subtitle">{{subTitle}}</view>
     <formparent>
@@ -109,6 +109,13 @@
   import {checkSensitive} from '@/utils/regex'
   import _isEmpty from 'lodash.isempty'
   import _pick from 'lodash.pick'
+
+  import { connect } from 'wepy-redux'
+  @connect({
+    darkMode (state) {
+      return state.darkMode
+    }
+  })
 
   export default class Registration extends wepy.page {
     data = {
@@ -225,10 +232,16 @@
       },
       reloadPage () {
         this.onLoad()
+      },
+      loginWithWechat () {
+        return this._loginWithWechat()
+      },
+      handleSubmit () {
+        return this._handleSubmit()
       }
     }
 
-    async loginWithWechat () {
+    async _loginWithWechat () {
       try {
         this.$invoke('fidoloader', 'showLoading', '')
         await this.$parent.globalData.user.logIn()
@@ -257,7 +270,7 @@
       this.$invoke('errormodal', 'showMessage', params)
     }
 
-    async handleSubmit () {
+    async _handleSubmit () {
       if (this.hasEmptyFields) return this.handleSubmitError()
       this.$invoke('fidoloader', 'showLoading', '')
       try {
