@@ -33,7 +33,7 @@ export default class extends wepy.app {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#FFFFFF',
       navigationBarTextStyle: 'black',
-      navigationBarTitleText: 'fido',
+      navigationBarTitleText: 'bork',
       enablePullDownRefresh: true
     }
   }
