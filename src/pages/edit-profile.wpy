@@ -199,26 +199,28 @@
       handlePassword ({detail}) {
         this.newPassword = detail.value
         this.$apply()
+      },
+      saveProfile () {
+        return this._saveProfile()
+      },
+      saveUsernamePassword () {
+        if (this.userData.username && this.newPassword) {
+          this.handleUandP()
+        } else if (!this.userData.username && this.newPassword) {
+          this.handleJustP()
+        } else if (this.userData.username && !this.newPassword) {
+          this.handleJustU()
+        } else if (!this.userData.username && !this.newPassword) {
+          const message = this.t.empty_u_an_p
+          const params = {header: this.t.error_header, message}
+          return this.$invoke('errormodal', 'showMessage', params)
+        }
       }
     }
 
     computed = {
       hasEmptyProfileFields () {
         return _checkEmptyFields(this.serializeData())
-      }
-    }
-
-    async saveUsernamePassword () {
-      if (this.userData.username && this.newPassword) {
-        this.handleUandP()
-      } else if (!this.userData.username && this.newPassword) {
-        this.handleJustP()
-      } else if (this.userData.username && !this.newPassword) {
-        this.handleJustU()
-      } else if (!this.userData.username && !this.newPassword) {
-        const message = this.t.empty_u_an_p
-        const params = {header: this.t.error_header, message}
-        return this.$invoke('errormodal', 'showMessage', params)
       }
     }
 
@@ -274,7 +276,7 @@
       return this.$invoke('errormodal', 'showMessage', params)
     }
 
-    async saveProfile () {
+    async _saveProfile () {
       if (this.hasEmptyProfileFields) return this.handleEmptyFields()
       try {
         this.$invoke('fidoloader', 'showLoading', null)
